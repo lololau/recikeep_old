@@ -1,23 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { FunctionComponent }  from "react";
+import { Counter } from "./features/counter/counter";
+import "./App.css";
+import { useSelector } from "react-redux";
+import { selectLastError } from "./features/counter/counterSlice";
+import Alert, { AlertProps } from '@material-ui/lab/Alert';
+
+const RenderAlert: FunctionComponent<AlertProps> = (props) => {
+  return <Alert severity={props.severity}>{props.children}</Alert>;
+}
 
 function App() {
+  const lastError = useSelector(selectLastError);
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <p>Counter</p>
+        <Counter />
       </header>
     </div>
   );
