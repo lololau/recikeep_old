@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from "react";
-import { Counter } from "./features/counter/counter";
+import { Counter } from "./containers/counter";
 import "./App.css";
 import { useSelector } from "react-redux";
-import { selectLastError } from "./features/counter/counterSlice";
+import { selectLastError } from "./slice/counterSlice";
 import Alert, { AlertProps } from '@material-ui/lab/Alert';
 import i18n from './i18n'
 import { useTranslation } from 'react-i18next';

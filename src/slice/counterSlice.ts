@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { RootState, AppDispatch } from '../../app/store'
+import { RootState, AppDispatch } from '../app/store'
 
 
 interface State {

@@ -6,10 +6,10 @@ import {
   incrementByAmount,
   incrementAsync,
   selectCount,
-} from './counterSlice';
+} from '../slice/counterSlice';
 import styles from './Counter.module.css';
 import { useTranslation } from 'react-i18next';
-import '../../i18n';
+import '../i18n';
 
 export function Counter() {
   const count = useSelector(selectCount);
