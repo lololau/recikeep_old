@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import '../../i18n';
+import { Link } from 'react-router-dom'; 
 
 
 const MyRecipe = () => {
@@ -37,10 +38,18 @@ const MyRecipe = () => {
 
             <div className="ToolsBar">
                 <ul>
+                    <Link to="/">
                     <li>Recipes</li>
+                    </Link>
+                    <Link to="/grocerylist">
                     <li>GroceryList</li>
-                    <li>Group</li>
+                    </Link>
+                    <Link to='/groups'>
+                    <li>Groups</li>
+                    </Link>
+                    <Link to='/profil'>
                     <li>Profil</li>
+                    </Link>
                 </ul>
             </div>
 
