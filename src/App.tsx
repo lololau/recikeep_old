@@ -1,11 +1,12 @@
 import React, { FunctionComponent } from "react";
-import { Counter } from "./containers/counter";
+import { Counter } from "./containers/counter/counter";
 import "./App.css";
 import { useSelector } from "react-redux";
 import { selectLastError } from "./slice/counterSlice";
 import Alert, { AlertProps } from '@material-ui/lab/Alert';
 import i18n from './i18n'
 import { useTranslation } from 'react-i18next';
+import MyRecipe from "./containers/recipe/recipe";
 
 const RenderAlert: FunctionComponent<AlertProps> = (props) => {
   return <Alert severity={props.severity}>{props.children}</Alert>;
@@ -22,10 +23,11 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>{t('counter.title')}</p>
+        {/* <p>{t('counter.title')}</p>
         <button onClick={() => changeLanguage('en')}>English</button>
         <button onClick={() => changeLanguage('fr')}>Français</button>
-        <Counter />
+        <Counter /> */}
+        <MyRecipe />
       </header>
     </div>
   );
