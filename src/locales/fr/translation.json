@@ -1,0 +1,7 @@
+{
+  "counter": {
+    "title": "Compteur",
+    "add": "Ajout Montant",
+    "addAsync": "Ajout Montant Async"
+  }
+}

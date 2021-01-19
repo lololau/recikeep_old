@@ -1,0 +1,7 @@
+{
+  "counter": {
+    "title": "Counter",
+    "add": "AddAmount",
+    "addAsync": "AddAsync"
+  }
+}
