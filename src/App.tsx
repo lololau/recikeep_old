@@ -8,6 +8,7 @@ import i18n from './i18n'
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Profile from "./containers/profil/profil";
 import HomeRecipes from "./containers/recipes/recipes";
+import MyRecipe from "./containers/recipe/recipe";
 
 /* const RenderAlert: FunctionComponent<AlertProps> = (props) => {
   return <Alert severity={props.severity}>{props.children}</Alert>;
@@ -31,6 +32,7 @@ function App() {
         
           <Route path="/" exact component={HomeRecipes}/>
           <Route path="/profile" component={Profile}/>
+          <Route path={"/recipes/"} component={MyRecipe}/>
           {/* <Route path="/groups" component={Groups}/>
           <Route path="/groceryList" component={GroceryList}/> */}
 

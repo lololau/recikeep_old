@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next/*';
+import { useTranslation } from 'react-i18next/';
 import '../../i18n';
 import ToolsBar from '../toolsbar/toolsbar';
 

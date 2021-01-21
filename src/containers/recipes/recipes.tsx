@@ -1,5 +1,5 @@
 import '../../i18n';
-//import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import ToolsBar from '../toolsbar/toolsbar'
 // import MyRecipe from '../recipe/recipe';
@@ -94,21 +94,23 @@ const RecipesList: FunctionComponent<RecipesListProps> = (props) => {
                     <ListItem
                         divider={true}
                         key={index}>
-                        <ListItemText
-                            primary={recipe.title}
-                            id={index.toString()} />
+                        <Link to={'/recipes/' + index} >
+                            <ListItemText
+                                primary={recipe.title}
+                                id={index.toString()} />
+                        </Link>
                         <ListItemSecondaryAction >
                             <IconButton >
-                                <FavoriteIcon style={{ fontSize: 15 }} color="primary"/>
+                                <FavoriteIcon style={{ fontSize: 15 }} color="primary" />
                             </IconButton>
                             <IconButton >
-                                <EditIcon style={{ fontSize: 15 }} color="primary"/>
+                                <EditIcon style={{ fontSize: 15 }} color="primary" />
                             </IconButton>
                             <IconButton >
-                                <PresentToAllIcon style={{ fontSize: 15 }} color="primary"/>
+                                <PresentToAllIcon style={{ fontSize: 15 }} color="primary" />
                             </IconButton>
                             <IconButton edge="end" >
-                                <DeleteIcon style={{ fontSize: 15 }} color="primary"/>
+                                <DeleteIcon style={{ fontSize: 15 }} color="primary" />
                             </IconButton>
 
                         </ListItemSecondaryAction>
@@ -126,10 +128,10 @@ const HomeRecipes = () => {
         <div className="recipes">
             <h1>{t('recipes.title')}</h1>
             <IconButton >
-                <AddCircleOutlineOutlinedIcon color="primary"/>
+                <AddCircleOutlineOutlinedIcon color="primary" />
             </IconButton>
             <InputBase
-              placeholder={t('recipe.searchBar')}
+                placeholder={t('recipe.searchBar')}
             />
             <TagsComboBox />
             <TypeComboBox />
