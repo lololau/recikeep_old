@@ -1,9 +1,9 @@
 import '../../i18n';
-import { Link } from 'react-router-dom';
+import ToolsBar from '../toolsbar/toolsbar'
 
-const Profil = () => {
+const Profile = () => {
     return (
-        <div>
+        <div className="profile">
             <h1>My Profil</h1>
 
             <div className="recipes_list">
@@ -14,25 +14,10 @@ const Profil = () => {
                 <h3>Laulau Lapin</h3>
             </div>
 
-            <div className="ToolsBar">
-                <ul>
-                    <Link to="/">
-                        <li>Recipes</li>
-                    </Link>
-                    <Link to="/grocerylist">
-                        <li>GroceryList</li>
-                    </Link>
-                    <Link to='/groups'>
-                        <li>Groups</li>
-                    </Link>
-                    <Link to='/profil'>
-                        <li>Profil</li>
-                    </Link>
-                </ul>
-            </div>
+            <ToolsBar />
 
         </div>
     )
 }
 
-export default Profil;
+export default Profile;

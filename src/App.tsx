@@ -1,22 +1,20 @@
-import React, { FunctionComponent } from "react";
+import React from "react";
 //import { Counter } from "./containers/counter/counter";
 import "./App.css";
-import { useSelector } from "react-redux";
-import { selectLastError } from "./slice/counterSlice";
-import Alert, { AlertProps } from '@material-ui/lab/Alert';
+//import { useSelector } from "react-redux";
+//import { selectLastError } from "./slice/counterSlice";
+//import Alert, { AlertProps } from '@material-ui/lab/Alert';
 import i18n from './i18n'
-import { useTranslation } from 'react-i18next';
-import MyRecipe from "./containers/recipe/recipe";
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Profil from "./containers/profil/profil";
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Profile from "./containers/profil/profil";
+import HomeRecipes from "./containers/recipes/recipes";
 
-const RenderAlert: FunctionComponent<AlertProps> = (props) => {
+/* const RenderAlert: FunctionComponent<AlertProps> = (props) => {
   return <Alert severity={props.severity}>{props.children}</Alert>;
-}
+} */
 
 function App() {
-  const { t } = useTranslation();
-  const lastError = useSelector(selectLastError);
+  //const lastError = useSelector(selectLastError);
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
@@ -24,14 +22,17 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
+      <div className="App" style={{ width: 400 }}>
+        
         <header className="App-header">
-          {/* <p>{t('counter.title')}</p>
+          
         <button onClick={() => changeLanguage('en')}>English</button>
         <button onClick={() => changeLanguage('fr')}>Français</button>
-        <Counter /> */}
-          <Route path="/" exact component={MyRecipe}/>
-          <Route path="/profil" component={Profil}/>
+        
+          <Route path="/" exact component={HomeRecipes}/>
+          <Route path="/profile" component={Profile}/>
+          {/* <Route path="/groups" component={Groups}/>
+          <Route path="/groceryList" component={GroceryList}/> */}
 
         </header>
       </div>

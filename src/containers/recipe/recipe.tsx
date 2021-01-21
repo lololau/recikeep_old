@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next/*';
 import '../../i18n';
-import { Link } from 'react-router-dom'; 
+import ToolsBar from '../toolsbar/toolsbar';
 
 
 const MyRecipe = () => {
+    const { t } = useTranslation();
+
     return (
         <div>
-            <h1>Pate Carbonara</h1>
+            <h1>{t('recipe.title')}</h1>
             <div className="image_and_time_table">
                 <img alt="pate_carbonara" src="https://img.static-rmg.be/a/food/image/q75/w1280/h720/1086366/spaghetti-carbonara.jpg" />
                 <div className="time_and_parts_table">
@@ -36,22 +36,7 @@ const MyRecipe = () => {
                 <img alt="pates_carbonara_instructions" src="../../../public/Capture d’écran 2021-01-14 à 16.37.29.png" />
             </div>
 
-            <div className="ToolsBar">
-                <ul>
-                    <Link to="/">
-                    <li>Recipes</li>
-                    </Link>
-                    <Link to="/grocerylist">
-                    <li>GroceryList</li>
-                    </Link>
-                    <Link to='/groups'>
-                    <li>Groups</li>
-                    </Link>
-                    <Link to='/profil'>
-                    <li>Profil</li>
-                    </Link>
-                </ul>
-            </div>
+            <ToolsBar />
 
         </div>
     );
