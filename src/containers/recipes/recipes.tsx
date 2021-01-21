@@ -57,7 +57,7 @@ const TypeComboBox = () => {
             options={typeList}
             getOptionLabel={(option) => option.type}
             style={{ width: 200 }}
-            renderInput={(params) => <TextField {...params} label="Type" variant="outlined" />}
+            renderInput={(params) => <TextField {...params} label={t('recipe.type')} variant="outlined" />}
         />
     );
 }
@@ -79,7 +79,7 @@ const TagsComboBox = () => {
             options={tagList}
             getOptionLabel={(option) => option.tag}
             style={{ width: 200 }}
-            renderInput={(params) => <TextField {...params} label="Tags" variant="standard" />}
+            renderInput={(params) => <TextField {...params} label={t('recipe.tag')} variant="standard" />}
         />
     );
 }
@@ -129,7 +129,7 @@ const HomeRecipes = () => {
                 <AddCircleOutlineOutlinedIcon color="primary"/>
             </IconButton>
             <InputBase
-              placeholder="Search…"
+              placeholder={t('recipe.searchBar')}
             />
             <TagsComboBox />
             <TypeComboBox />

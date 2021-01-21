@@ -18,7 +18,10 @@
     "selectRecipes": "Select Recipes"
   },
   "recipe": {
-    "title": "Pate Carbonara"
+    "title": "Pate Carbonara",
+    "searchBar": "Search...",
+    "tag": "Tag(s)",
+    "type": "Type"
   },
   "types": {
     "appetizer": "Appetizer",

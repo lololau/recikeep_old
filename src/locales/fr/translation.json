@@ -18,7 +18,10 @@
     "selectRecipes": "Selection de Recettes"
   }, 
   "recipe": {
-    "title": "Pate Carbonara"
+    "title": "Pate Carbonara",
+    "searchBar": "Recherche...",
+    "tag": "Balise(s)",
+    "type": "Type"
   },
   "types": {
     "appetizer": "Apéritif",
