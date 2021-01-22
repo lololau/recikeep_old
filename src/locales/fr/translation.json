@@ -36,5 +36,8 @@
     "meat": "Viande",
     "fish": "Poisson",
     "fruits": "Fruits"
+  },
+  "selectionRecipes": {
+    "button":"Go!"
   }
 }

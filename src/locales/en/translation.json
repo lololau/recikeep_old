@@ -36,6 +36,9 @@
     "meat": "Meat",
     "fish": "Fish",
     "fruits": "Fruits"
+  },
+  "selectionRecipes": {
+    "button":"Go!"
   }
 
 }

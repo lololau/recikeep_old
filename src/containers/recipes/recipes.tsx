@@ -2,12 +2,10 @@ import '../../i18n';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import ToolsBar from '../toolsbar/toolsbar'
-// import MyRecipe from '../recipe/recipe';
 import React, { FunctionComponent } from "react";
 import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-//import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import TextField from '@material-ui/core/TextField';
@@ -17,10 +15,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import EditIcon from '@material-ui/icons/Edit';
 import PresentToAllIcon from '@material-ui/icons/PresentToAll';
-
 import InputBase from '@material-ui/core/InputBase';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
-//import SearchIcon from '@material-ui/icons/Search';
 
 
 type recipe = {
@@ -29,17 +25,17 @@ type recipe = {
 
 type recipes = recipe[];
 
-type RecipesListProps = {
+export type RecipesListProps = {
     recipes: recipe[]
 }
 
-const myRecipes: recipes = [
+export const myRecipes: recipes = [
     { title: "Pates Carbonara" },
     { title: "Poulet cury" }
 ];
 
 
-const TypeComboBox = () => {
+export const TypeComboBox = () => {
     const { t } = useTranslation();
 
     const typeList = [
@@ -62,7 +58,7 @@ const TypeComboBox = () => {
     );
 }
 
-const TagsComboBox = () => {
+export const TagsComboBox = () => {
     const { t } = useTranslation();
 
     const tagList = [
@@ -84,8 +80,16 @@ const TagsComboBox = () => {
     );
 }
 
+// Component which contains all recipes register on the profil account connected. 
+//
+// It is possible to : 
+// - See the recipe by clicking on the title;
+// - Add as favorite recipe by clicking on the heart icon;
+// - Edit by clicking on the pen icon;
+// - Share into a group by clicking on the arrow icon;
+// - Delete the recipe by clicking on the trush icon.
+
 const RecipesList: FunctionComponent<RecipesListProps> = (props) => {
-    //const dispatch = useDispatch();
 
     return (
         <List style={{ width: 300 }}>
@@ -94,7 +98,7 @@ const RecipesList: FunctionComponent<RecipesListProps> = (props) => {
                     <ListItem
                         divider={true}
                         key={index}>
-                        <Link to={'/recipes/' + index} >
+                        <Link to={'/recipe/' + index} >
                             <ListItemText
                                 primary={recipe.title}
                                 id={index.toString()} />
@@ -135,7 +139,9 @@ const HomeRecipes = () => {
             />
             <TagsComboBox />
             <TypeComboBox />
-            <Button color="primary">{t('recipes.selectRecipes')}</Button>
+            <Link to="/recipes/selection_part/1">
+                <Button color="primary">{t('recipes.selectRecipes')}</Button>
+            </Link>
 
             <div className="RecipesList">
                 <RecipesList recipes={myRecipes} />
