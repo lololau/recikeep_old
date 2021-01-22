@@ -37,7 +37,7 @@
     "fish": "Poisson",
     "fruits": "Fruits"
   },
-  "selectionRecipes": {
-    "button":"Go!"
+  "parts": {
+    "comboBox": "Nombre de personne(s)"
   }
 }

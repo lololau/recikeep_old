@@ -6,7 +6,7 @@
   },
   "toolsbar": {
     "recipes": "Recipes",
-    "groceryList": "GroceryList",
+    "groceryList": "Grocery List",
     "groups": "Groups",
     "profile": "Profile"
   },
@@ -37,8 +37,8 @@
     "fish": "Fish",
     "fruits": "Fruits"
   },
-  "selectionRecipes": {
-    "button":"Go!"
+  "parts": {
+    "comboBox": "Part(s)"
   }
 
 }

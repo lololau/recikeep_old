@@ -10,6 +10,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from "@material-ui/core/ListItemText";
+import { Link } from 'react-router-dom';
 
 
 const SelectionRecipesList: FunctionComponent<RecipesListProps> = (props) => {
@@ -57,7 +58,9 @@ const SelectionRecipes = () => {
                 <SelectionRecipesList recipes={myRecipes} />
             </div>
             <IconButton>
-                <NavigateNextIcon />
+                <Link to="/recipes/selection_part/2">
+                    <NavigateNextIcon />
+                </Link>
             </IconButton>
             <ToolsBar />
         </div>
