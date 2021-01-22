@@ -3,5 +3,39 @@
     "title": "Counter",
     "add": "AddAmount",
     "addAsync": "AddAsync"
+  },
+  "toolsbar": {
+    "recipes": "Recipes",
+    "groceryList": "GroceryList",
+    "groups": "Groups",
+    "profile": "Profile"
+  },
+  "recipes": {
+    "title": "Recipes",
+    "search": "Search...",
+    "tagList": "Tags",
+    "types": "Types",
+    "selectRecipes": "Select Recipes"
+  },
+  "recipe": {
+    "title": "Pate Carbonara",
+    "searchBar": "Search...",
+    "tag": "Tag(s)",
+    "type": "Type"
+  },
+  "types": {
+    "appetizer": "Appetizer",
+    "starter": "Starter",
+    "lunch": "Lunch Meal",
+    "dinner": "Dinner",
+    "dessert": "Dessert",
+    "sides": "Sides"
+  },
+  "tags": {
+    "vegetables": "Vegetables",
+    "meat": "Meat",
+    "fish": "Fish",
+    "fruits": "Fruits"
   }
+
 }

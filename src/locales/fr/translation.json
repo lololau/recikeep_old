@@ -3,5 +3,38 @@
     "title": "Compteur",
     "add": "Ajout Montant",
     "addAsync": "Ajout Montant Async"
+  },
+  "toolsbar": {
+    "recipes": "Recettes",
+    "groceryList": "Liste de courses",
+    "groups": "Groupes",
+    "profile": "Profil"
+  },
+  "recipes": {
+    "title": "Recettes",
+    "search": "Recheche...",
+    "tagList": "Balises",
+    "types": "Types",
+    "selectRecipes": "Selection de Recettes"
+  }, 
+  "recipe": {
+    "title": "Pate Carbonara",
+    "searchBar": "Recherche...",
+    "tag": "Balise(s)",
+    "type": "Type"
+  },
+  "types": {
+    "appetizer": "Apéritif",
+    "starter": "Entrée",
+    "lunch": "Déjeuner",
+    "dinner": "Diner",
+    "dessert": "Dessert",
+    "sides": "Accompagnement"
+  },
+  "tags": {
+    "vegetables": "Légumes",
+    "meat": "Viande",
+    "fish": "Poisson",
+    "fruits": "Fruits"
   }
 }
