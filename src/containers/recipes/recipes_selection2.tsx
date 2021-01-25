@@ -1,23 +1,44 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import { RecipesListProps, myRecipes } from './recipes';
 import { FunctionComponent } from 'react';
 import { useTranslation } from 'react-i18next';
 import InputBase from '@material-ui/core/InputBase';
 import ToolsBar from '../toolsbar/toolsbar';
-import List from "@material-ui/core/List";
+import List from '@material-ui/core/List';
 import TextField from '@material-ui/core/TextField';
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Button from "@material-ui/core/Button";
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Button from '@material-ui/core/Button';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import React from 'react';
 
 const PartsComboBox = () => {
     const { t } = useTranslation();
 
-    const options: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20']
+    const options: string[] = [
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7',
+        '8',
+        '9',
+        '10',
+        '11',
+        '12',
+        '13',
+        '14',
+        '15',
+        '16',
+        '17',
+        '18',
+        '19',
+        '20',
+    ];
 
     const [part, setPart] = useState(options[1]);
-
 
     return (
         <div>
@@ -30,39 +51,34 @@ const PartsComboBox = () => {
             />
         </div>
     );
-}
+};
 
 const SelectionPartsRecipes: FunctionComponent<RecipesListProps> = (props) => {
     return (
         <List style={{ width: 300 }}>
             {props.recipes.map((recipe, index) => {
                 return (
-                    <ListItem
-                        divider={true}
-                        key={index}>
-                        <ListItemText
-                            primary={recipe.title}
-                            id={index.toString()} />
+                    <ListItem divider={true} key={index}>
+                        <ListItemText primary={recipe.title} id={index.toString()} />
 
                         <PartsComboBox />
                     </ListItem>
-                )
+                );
             })}
         </List>
-    )
-}
+    );
+};
 
-const SelectionParts = () => {
+type FunctionReturnJSX = () => JSX.Element;
+
+const SelectionParts: FunctionReturnJSX = () => {
     const { t } = useTranslation();
 
     return (
         <div className="recipes">
             <h1>{t('recipes.title')}</h1>
 
-
-            <InputBase
-                placeholder={t('recipe.searchBar')}
-            />
+            <InputBase placeholder={t('recipe.searchBar')} />
 
             <div className="SelectionRecipesList">
                 <SelectionPartsRecipes recipes={myRecipes} />
@@ -70,8 +86,7 @@ const SelectionParts = () => {
             <Button color="primary">{t('toolsbar.groceryList')}</Button>
             <ToolsBar />
         </div>
-    )
-
-}
+    );
+};
 
 export default SelectionParts;

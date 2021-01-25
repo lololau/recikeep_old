@@ -1,41 +1,38 @@
 import '../../i18n';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import ToolsBar from '../toolsbar/toolsbar'
-import React, { FunctionComponent } from "react";
-import Button from "@material-ui/core/Button";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import ListItemText from "@material-ui/core/ListItemText";
+import ToolsBar from '../toolsbar/toolsbar';
+import React, { FunctionComponent } from 'react';
+import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import IconButton from "@material-ui/core/IconButton";
-import DeleteIcon from "@material-ui/icons/Delete";
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import EditIcon from '@material-ui/icons/Edit';
 import PresentToAllIcon from '@material-ui/icons/PresentToAll';
 import InputBase from '@material-ui/core/InputBase';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 
-
 type recipe = {
-    title: string,
+    title: string;
 };
 
 type recipes = recipe[];
 
 export type RecipesListProps = {
-    recipes: recipe[]
-}
+    recipes: recipe[];
+};
 
-export const myRecipes: recipes = [
-    { title: "Pates Carbonara" },
-    { title: "Poulet cury" }
-];
+type FunctionReturnJSX = () => JSX.Element;
 
+export const myRecipes: recipes = [{ title: 'Pates Carbonara' }, { title: 'Poulet cury' }];
 
-export const TypeComboBox = () => {
+export const TypeComboBox: FunctionReturnJSX = () => {
     const { t } = useTranslation();
 
     const typeList = [
@@ -44,8 +41,8 @@ export const TypeComboBox = () => {
         { type: t('types.lunch') },
         { type: t('types.dinner') },
         { type: t('types.dessert') },
-        { type: t('types.sides') }
-    ]
+        { type: t('types.sides') },
+    ];
 
     return (
         <Autocomplete
@@ -56,17 +53,17 @@ export const TypeComboBox = () => {
             renderInput={(params) => <TextField {...params} label={t('recipe.type')} variant="outlined" />}
         />
     );
-}
+};
 
-export const TagsComboBox = () => {
+export const TagsComboBox: FunctionReturnJSX = () => {
     const { t } = useTranslation();
 
     const tagList = [
         { tag: t('tags.vegetables') },
         { tag: t('tags.meat') },
         { tag: t('tags.fish') },
-        { tag: t('tags.fruits') }
-    ]
+        { tag: t('tags.fruits') },
+    ];
 
     return (
         <Autocomplete
@@ -78,11 +75,11 @@ export const TagsComboBox = () => {
             renderInput={(params) => <TextField {...params} label={t('recipe.tag')} variant="standard" />}
         />
     );
-}
+};
 
-// Component which contains all recipes register on the profil account connected. 
+// Component which contains all recipes register on the profil account connected.
 //
-// It is possible to : 
+// It is possible to :
 // - See the recipe by clicking on the title;
 // - Add as favorite recipe by clicking on the heart icon;
 // - Edit by clicking on the pen icon;
@@ -90,53 +87,45 @@ export const TagsComboBox = () => {
 // - Delete the recipe by clicking on the trush icon.
 
 const RecipesList: FunctionComponent<RecipesListProps> = (props) => {
-
     return (
         <List style={{ width: 300 }}>
             {props.recipes.map((recipe, index) => {
                 return (
-                    <ListItem
-                        divider={true}
-                        key={index}>
-                        <Link to={'/recipe/' + index} >
-                            <ListItemText
-                                primary={recipe.title}
-                                id={index.toString()} />
+                    <ListItem divider={true} key={index}>
+                        <Link to={'/recipe/' + index}>
+                            <ListItemText primary={recipe.title} id={index.toString()} />
                         </Link>
-                        <ListItemSecondaryAction >
-                            <IconButton >
+                        <ListItemSecondaryAction>
+                            <IconButton>
                                 <FavoriteIcon style={{ fontSize: 15 }} color="primary" />
                             </IconButton>
-                            <IconButton >
+                            <IconButton>
                                 <EditIcon style={{ fontSize: 15 }} color="primary" />
                             </IconButton>
-                            <IconButton >
+                            <IconButton>
                                 <PresentToAllIcon style={{ fontSize: 15 }} color="primary" />
                             </IconButton>
-                            <IconButton edge="end" >
+                            <IconButton edge="end">
                                 <DeleteIcon style={{ fontSize: 15 }} color="primary" />
                             </IconButton>
-
                         </ListItemSecondaryAction>
                     </ListItem>
-                )
+                );
             })}
         </List>
-    )
-}
+    );
+};
 
-const HomeRecipes = () => {
+const HomeRecipes: FunctionReturnJSX = () => {
     const { t } = useTranslation();
 
     return (
         <div className="recipes">
             <h1>{t('recipes.title')}</h1>
-            <IconButton >
+            <IconButton>
                 <AddCircleOutlineOutlinedIcon color="primary" />
             </IconButton>
-            <InputBase
-                placeholder={t('recipe.searchBar')}
-            />
+            <InputBase placeholder={t('recipe.searchBar')} />
             <TagsComboBox />
             <TypeComboBox />
             <Link to="/recipes/selection_part/1">
@@ -147,10 +136,9 @@ const HomeRecipes = () => {
                 <RecipesList recipes={myRecipes} />
             </div>
 
-
             <ToolsBar />
         </div>
     );
-}
+};
 
 export default HomeRecipes;
