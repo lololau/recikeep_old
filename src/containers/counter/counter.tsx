@@ -6,9 +6,7 @@ import { useTranslation } from 'react-i18next';
 import '../../i18n';
 import React from 'react';
 
-type FunctionNoReturn = () => void;
-
-export const Counter: FunctionNoReturn = () => {
+export const Counter = (): JSX.Element => {
     const count = useSelector(selectCount);
     const dispatch = useDispatch();
     const [incrementAmount, setIncrementAmount] = useState('2');

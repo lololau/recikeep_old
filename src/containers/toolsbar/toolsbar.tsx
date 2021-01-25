@@ -3,9 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import React from 'react';
 
-type FunctionReturnJSX = () => JSX.Element;
-
-const ToolsBar: FunctionReturnJSX = () => {
+const ToolsBar = (): JSX.Element => {
     const { t } = useTranslation();
 
     return (

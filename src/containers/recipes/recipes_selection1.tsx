@@ -30,9 +30,7 @@ const SelectionRecipesList: FunctionComponent<RecipesListProps> = (props) => {
     );
 };
 
-type FunctionReturnJSX = () => JSX.Element;
-
-const SelectionRecipes: FunctionReturnJSX = () => {
+const SelectionRecipes = (): JSX.Element => {
     const { t } = useTranslation();
 
     return (
