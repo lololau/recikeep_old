@@ -38,7 +38,7 @@ const PartsComboBox = () => {
         '20',
     ];
 
-    const [part, setPart] = useState(options[1]);
+    const [part] = useState(options[1]);
 
     return (
         <div>
