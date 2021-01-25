@@ -3,7 +3,9 @@ import '../../i18n';
 import ToolsBar from '../toolsbar/toolsbar';
 import React from 'react';
 
-const MyRecipe = () => {
+type FunctionReturnJSX = () => JSX.Element;
+
+const MyRecipe: FunctionReturnJSX = () => {
     const { t } = useTranslation();
 
     return (

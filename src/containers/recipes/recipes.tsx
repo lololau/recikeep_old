@@ -28,11 +28,11 @@ export type RecipesListProps = {
     recipes: recipe[];
 };
 
+type FunctionReturnJSX = () => JSX.Element;
+
 export const myRecipes: recipes = [{ title: 'Pates Carbonara' }, { title: 'Poulet cury' }];
 
-const myRecipes: recipes = [{ title: 'Pates Carbonara' }, { title: 'Poulet cury' }];
-
-export const TypeComboBox = () => {
+export const TypeComboBox: FunctionReturnJSX = () => {
     const { t } = useTranslation();
 
     const typeList = [
@@ -55,7 +55,7 @@ export const TypeComboBox = () => {
     );
 };
 
-export const TagsComboBox = () => {
+export const TagsComboBox: FunctionReturnJSX = () => {
     const { t } = useTranslation();
 
     const tagList = [
@@ -116,7 +116,7 @@ const RecipesList: FunctionComponent<RecipesListProps> = (props) => {
     );
 };
 
-const HomeRecipes = () => {
+const HomeRecipes: FunctionReturnJSX = () => {
     const { t } = useTranslation();
 
     return (

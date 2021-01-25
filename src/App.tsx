@@ -7,8 +7,11 @@ import MyRecipe from './containers/recipe/recipe';
 import SelectionRecipes from './containers/recipes/recipes_selection1';
 import SelectionParts from './containers/recipes/recipes_selection2';
 import Button from '@material-ui/core/Button';
+import React from 'react';
 
-function App() {
+type FunctionNoReturn = () => void;
+
+const App: FunctionNoReturn = () => {
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng);
     };
@@ -41,6 +44,6 @@ function App() {
             </div>
         </Router>
     );
-}
+};
 
 export default App;
