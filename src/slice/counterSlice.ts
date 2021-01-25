@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState, AppDispatch } from '../app/store';
 
