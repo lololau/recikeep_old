@@ -2,9 +2,7 @@ import '../../i18n';
 import ToolsBar from '../toolsbar/toolsbar';
 import React from 'react';
 
-type FunctionReturnJSX = () => JSX.Element;
-
-const Profile: FunctionReturnJSX = () => {
+const Profile = (): JSX.Element => {
     return (
         <div className="profile">
             <h1>My Profil</h1>

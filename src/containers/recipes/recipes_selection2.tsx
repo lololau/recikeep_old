@@ -69,9 +69,7 @@ const SelectionPartsRecipes: FunctionComponent<RecipesListProps> = (props) => {
     );
 };
 
-type FunctionReturnJSX = () => JSX.Element;
-
-const SelectionParts: FunctionReturnJSX = () => {
+const SelectionParts = (): JSX.Element => {
     const { t } = useTranslation();
 
     return (

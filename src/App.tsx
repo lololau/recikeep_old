@@ -9,9 +9,7 @@ import SelectionParts from './containers/recipes/recipes_selection2';
 import Button from '@material-ui/core/Button';
 import React from 'react';
 
-type FunctionNoReturn = () => void;
-
-const App: FunctionNoReturn = () => {
+const App = (): JSX.Element => {
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng);
     };
