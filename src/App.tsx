@@ -6,8 +6,22 @@ import HomeRecipes from './containers/recipes/recipes';
 import MyRecipe from './containers/recipe/recipe';
 import SelectionRecipes from './containers/recipes/recipes_selection1';
 import SelectionParts from './containers/recipes/recipes_selection2';
+import NewRecipe from './containers/new recipe/new_recipe';
 import Button from '@material-ui/core/Button';
 import React from 'react';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: '#ff5722',
+        },
+        secondary: {
+            main: '#0d47a1',
+        },
+    },
+});
 
 const App = (): JSX.Element => {
     const changeLanguage = (lng: string) => {
@@ -15,16 +29,11 @@ const App = (): JSX.Element => {
     };
 
     return (
-        <Router>
-            <div className="App" style={{ width: 400 }}>
-                <header className="App-header">
-                    <Button onClick={() => changeLanguage('en')} color="primary">
-                        English
-                    </Button>
-                    <Button onClick={() => changeLanguage('fr')} color="primary">
-                        Français
-                    </Button>
-
+        <ThemeProvider theme={theme}>
+            <Router>
+                <div className="App">
+                    <Button onClick={() => changeLanguage('en')}>English</Button>
+                    <Button onClick={() => changeLanguage('fr')}>Français</Button>
                     <Route path="/" exact component={HomeRecipes} />
                     <Route path="/profile" component={Profile} />
                     <Route path={'/recipe/:index'} component={MyRecipe} />
@@ -32,15 +41,10 @@ const App = (): JSX.Element => {
                     <Route path={'/recipes/selection_part/2'} component={SelectionParts} />
                     {/* <Route path="/groups" component={Groups}/>
           <Route path="/groceryList" component={GroceryList}/> */}
-
-                    <Route path="/" exact component={HomeRecipes} />
-                    <Route path="/profile" component={Profile} />
-                    <Route path={'/recipes/'} component={MyRecipe} />
-                    {/* <Route path="/groups" component={Groups}/>
-          <Route path="/groceryList" component={GroceryList}/> */}
-                </header>
-            </div>
-        </Router>
+                    <Route path={'/new_recipe'} component={NewRecipe} />
+                </div>
+            </Router>
+        </ThemeProvider>
     );
 };
 

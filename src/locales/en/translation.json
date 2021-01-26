@@ -39,6 +39,28 @@
   },
   "parts": {
     "comboBox": "Part(s)"
+  },
+  "new_recipe": {
+    "title-page": "New Recipe",
+    "title": "Title",
+    "add-title": "Add a title",
+    "image": "Image",
+    "add-image": "Add an image",
+    "presentation": "Presentation",
+    "add-presentation": "Add a recipe presentation",
+    "description": "Description",
+    "add-description": "Add a recipe description",
+    "tag": "Tag(s)",
+    "type": "Type",
+    "parts": "Number of part(s)",
+    "preparation-time": "Preparation time",
+    "add-time": "0",
+    "minute": "min",
+    "cooking-time": "Baking time",
+    "ingredients": "Ingredients",
+    "add-ingredient": "Add an ingredient",
+    "unitsBox": "Unit",
+    "unitsBox-quantity": "Quantity"
   }
 
 }

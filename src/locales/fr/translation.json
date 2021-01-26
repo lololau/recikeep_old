@@ -39,5 +39,27 @@
   },
   "parts": {
     "comboBox": "Nombre de personne(s)"
+  },
+  "new_recipe": {
+    "title-page": "Nouvelle Recette",
+    "title": "Titre de la recette",
+    "add-title": "Ajouter un titre",
+    "image": "Image",
+    "add-image": "Ajouter une image",
+    "presentation": "Présentation",
+    "add-presentation": "Ajouter une présentation de la recette",
+    "description": "Description",
+    "add-description": "Ajouter une description de la recette",
+    "tag": "Balise(s)",
+    "type": "Type",
+    "parts": "Nombre de personne(s)",
+    "preparation-time": "Temps de préparation",
+    "add-time": "0",
+    "minute": "min",
+    "cooking-time": "Temps de cuisson",
+    "ingredients": "Ingrédients",
+    "add-ingredient": "Ajouter un ingrédient",
+    "unitsBox-unit": "Unité",
+    "unitsBox-quantity": "Quantité"
   }
 }

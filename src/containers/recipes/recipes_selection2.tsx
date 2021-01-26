@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import React from 'react';
 
-const PartsComboBox = () => {
+export const PartsComboBox = (): JSX.Element => {
     const { t } = useTranslation();
 
     const options: string[] = [
@@ -46,7 +46,6 @@ const PartsComboBox = () => {
                 value={part}
                 id="controllable-states-demo"
                 options={options}
-                style={{ width: 120 }}
                 renderInput={(params) => <TextField {...params} label={t('parts.comboBox')} variant="outlined" />}
             />
         </div>
@@ -55,7 +54,7 @@ const PartsComboBox = () => {
 
 const SelectionPartsRecipes: FunctionComponent<RecipesListProps> = (props) => {
     return (
-        <List style={{ width: 300 }}>
+        <List>
             {props.recipes.map((recipe, index) => {
                 return (
                     <ListItem divider={true} key={index}>

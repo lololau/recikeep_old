@@ -15,6 +15,7 @@ ReactDOM.render(
             <App />
         </Provider>
     </React.StrictMode>,
+    // eslint-disable-next-line prettier/prettier
     document.getElementById('root'),
 );
 
