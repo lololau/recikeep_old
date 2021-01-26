@@ -17,6 +17,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import PresentToAllIcon from '@material-ui/icons/PresentToAll';
 import InputBase from '@material-ui/core/InputBase';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
+import Container from '@material-ui/core/Container';
+import Box from '@material-ui/core/Box';
 
 type recipe = {
     title: string;
@@ -47,7 +49,6 @@ export const TypeComboBox = (): JSX.Element => {
             id="combo-box-demo"
             options={typeList}
             getOptionLabel={(option) => option.type}
-            style={{ width: 200 }}
             renderInput={(params) => <TextField {...params} label={t('recipe.type')} variant="outlined" />}
         />
     );
@@ -69,7 +70,6 @@ export const TagsComboBox = (): JSX.Element => {
             id="tags-standard"
             options={tagList}
             getOptionLabel={(option) => option.tag}
-            style={{ width: 200 }}
             renderInput={(params) => <TextField {...params} label={t('recipe.tag')} variant="standard" />}
         />
     );
@@ -86,7 +86,7 @@ export const TagsComboBox = (): JSX.Element => {
 
 const RecipesList: FunctionComponent<RecipesListProps> = (props) => {
     return (
-        <List style={{ width: 300 }}>
+        <List>
             {props.recipes.map((recipe, index) => {
                 return (
                     <ListItem divider={true} key={index}>
@@ -118,24 +118,29 @@ const HomeRecipes = (): JSX.Element => {
     const { t } = useTranslation();
 
     return (
-        <div className="recipes">
-            <h1>{t('recipes.title')}</h1>
-            <IconButton>
-                <AddCircleOutlineOutlinedIcon color="primary" />
-            </IconButton>
-            <InputBase placeholder={t('recipe.searchBar')} />
-            <TagsComboBox />
-            <TypeComboBox />
-            <Link to="/recipes/selection_part/1">
-                <Button color="primary">{t('recipes.selectRecipes')}</Button>
-            </Link>
-
+        <Container>
+            <div className="recipes">
+                <h1>{t('recipes.title')}</h1>
+                <InputBase placeholder={t('recipe.searchBar')} />
+                <Box>
+                    <TagsComboBox />
+                    <TypeComboBox />
+                    <Link to="/recipes/selection_part/1">
+                        <Button color="primary">{t('recipes.selectRecipes')}</Button>
+                    </Link>
+                </Box>
+            </div>
             <div className="RecipesList">
                 <RecipesList recipes={myRecipes} />
             </div>
+            <IconButton>
+                <Link to="/new_recipe">
+                    <AddCircleOutlineOutlinedIcon color="primary" />
+                </Link>
+            </IconButton>
 
             <ToolsBar />
-        </div>
+        </Container>
     );
 };
 
