@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
 import TextField from '@material-ui/core/TextField';
@@ -8,6 +8,49 @@ import { PartsComboBox } from '../recipes/recipes_selection2';
 import Box from '@material-ui/core/Box';
 import ToolsBar from '../toolsbar/toolsbar';
 import Grid from '@material-ui/core/Grid';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+
+const UnitsComboBox = (): JSX.Element => {
+    const { t } = useTranslation();
+
+    const units: string[] = ['ml', 'dl', 'cl', 'l', 'mg', 'g', 'kg'];
+
+    const [unit] = useState('');
+
+    return (
+        <div>
+            <Autocomplete
+                value={unit}
+                id="controllable-states-demo"
+                options={units}
+                renderInput={(params) => (
+                    <TextField {...params} placeholder={t('new_recipe.unitsBox-unit')} variant="outlined" />
+                )}
+            />
+        </div>
+    );
+};
+
+const QuantityComboBox = (): JSX.Element => {
+    const { t } = useTranslation();
+
+    const quantities: string[] = ['1', '2', '3', '4', '5', '100', '2000'];
+
+    const [quantity] = useState('');
+
+    return (
+        <div>
+            <Autocomplete
+                value={quantity}
+                id="controllable-states-demo"
+                options={quantities}
+                renderInput={(params) => (
+                    <TextField {...params} placeholder={t('new_recipe.unitsBox-quantity')} variant="outlined" />
+                )}
+            />
+        </div>
+    );
+};
 
 const NewRecipe = (): JSX.Element => {
     const { t } = useTranslation();
@@ -58,6 +101,20 @@ const NewRecipe = (): JSX.Element => {
                     </Box>
                 </Grid>
             </Grid>
+            <Box>
+                <p>{t('new_recipe.ingredients')}</p>
+                <Grid container spacing={3}>
+                    <Grid item xs={3}>
+                        <TextField placeholder={t('new_recipe.add-ingredient')} variant="outlined" />
+                    </Grid>
+                    <Grid item xs={3}>
+                        <UnitsComboBox />
+                    </Grid>
+                    <Grid item xs={3}>
+                        <QuantityComboBox />
+                    </Grid>
+                </Grid>
+            </Box>
             <ToolsBar />
         </Container>
     );

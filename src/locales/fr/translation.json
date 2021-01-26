@@ -56,6 +56,10 @@
     "preparation-time": "Temps de préparation",
     "add-time": "0",
     "minute": "min",
-    "cooking-time": "Temps de cuisson"
+    "cooking-time": "Temps de cuisson",
+    "ingredients": "Ingrédients",
+    "add-ingredient": "Ajouter un ingrédient",
+    "unitsBox-unit": "Unité",
+    "unitsBox-quantity": "Quantité"
   }
 }
