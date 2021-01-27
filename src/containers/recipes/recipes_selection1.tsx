@@ -11,6 +11,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import { Link } from 'react-router-dom';
 import React from 'react';
+import Container from '@material-ui/core/Container';
 
 const SelectionRecipesList: FC<RecipesListProps> = (props) => {
     return (
@@ -33,7 +34,7 @@ const SelectionRecipes = (): JSX.Element => {
     const { t } = useTranslation();
 
     return (
-        <div className="recipes">
+        <Container>
             <h1>{t('recipes.title')}</h1>
 
             <InputBase placeholder={t('recipe.searchBar')} />
@@ -48,7 +49,7 @@ const SelectionRecipes = (): JSX.Element => {
                     <NavigateNextIcon />
                 </Link>
             </IconButton>
-        </div>
+        </Container>
     );
 };
 

@@ -84,7 +84,7 @@ export const TagsComboBox = (): JSX.Element => {
 // - Share into a group by clicking on the arrow icon;
 // - Delete the recipe by clicking on the trush icon.
 
-const RecipesList: FC<RecipesListProps> = (props) => {
+export const RecipesList: FC<RecipesListProps> = (props) => {
     return (
         <List>
             {props.recipes.map((recipe, index) => {
@@ -121,15 +121,28 @@ const HomeRecipes = (): JSX.Element => {
         <Container>
             <div className="recipes">
                 <h1>{t('recipes.title')}</h1>
+                <br />
                 <InputBase placeholder={t('recipe.searchBar')} />
+                <br />
+                <br />
                 <Box>
-                    <TagsComboBox />
-                    <TypeComboBox />
-                    <Link to="/recipes/selection_part/1">
-                        <Button color="primary">{t('recipes.selectRecipes')}</Button>
-                    </Link>
+                    <Grid container spacing={3}>
+                        <Grid item xs={3}>
+                            <TagsComboBox />
+                        </Grid>
+                        <Grid item xs={3}>
+                            <TypeComboBox />
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Link to="/recipes/selection_part/1">
+                                <Button color="primary">{t('recipes.selectRecipes')}</Button>
+                            </Link>
+                        </Grid>
+                    </Grid>
                 </Box>
             </div>
+            <br />
+            <br />
             <div className="RecipesList">
                 <RecipesList recipes={myRecipes} />
             </div>
