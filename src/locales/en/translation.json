@@ -70,5 +70,12 @@
   "myIngredients": {
     "title-page": "My Ingredients",
     "add-ingredient": "Ingredient"
+  },
+  "profile": {
+    "title-page": "My Profile",
+    "username": "Username",
+    "update-image": "Update Image",
+    "name": "Laulau",
+    "favorite": "Favorite Recipes"
   }
 }
