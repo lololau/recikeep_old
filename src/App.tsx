@@ -11,14 +11,15 @@ import Button from '@material-ui/core/Button';
 import React from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
+import ToolsBar from './containers/toolsbar/toolsbar';
 
 const theme = createMuiTheme({
     palette: {
         primary: {
-            main: '#ff5722',
+            main: '#0d47a1',
         },
         secondary: {
-            main: '#0d47a1',
+            main: '#ff5722',
         },
     },
 });
@@ -30,10 +31,10 @@ const App = (): JSX.Element => {
 
     return (
         <ThemeProvider theme={theme}>
+            <Button onClick={() => changeLanguage('en')}>English</Button>
+            <Button onClick={() => changeLanguage('fr')}>Français</Button>
             <Router>
                 <div className="App">
-                    <Button onClick={() => changeLanguage('en')}>English</Button>
-                    <Button onClick={() => changeLanguage('fr')}>Français</Button>
                     <Route path="/" exact component={HomeRecipes} />
                     <Route path="/profile" component={Profile} />
                     <Route path={'/recipe/:index'} component={MyRecipe} />
@@ -43,6 +44,7 @@ const App = (): JSX.Element => {
           <Route path="/groceryList" component={GroceryList}/> */}
                     <Route path={'/new_recipe'} component={NewRecipe} />
                 </div>
+                <ToolsBar style={{ position: 'fixed', bottom: 0, width: '100%' }} />
             </Router>
         </ThemeProvider>
     );

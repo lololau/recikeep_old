@@ -3,7 +3,6 @@ import { RecipesListProps, myRecipes } from './recipes';
 import { FunctionComponent } from 'react';
 import { useTranslation } from 'react-i18next';
 import InputBase from '@material-ui/core/InputBase';
-import ToolsBar from '../toolsbar/toolsbar';
 import List from '@material-ui/core/List';
 import TextField from '@material-ui/core/TextField';
 import ListItem from '@material-ui/core/ListItem';
@@ -81,7 +80,6 @@ const SelectionParts = (): JSX.Element => {
                 <SelectionPartsRecipes recipes={myRecipes} />
             </div>
             <Button color="primary">{t('toolsbar.groceryList')}</Button>
-            <ToolsBar />
         </div>
     );
 };

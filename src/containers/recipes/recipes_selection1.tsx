@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import ToolsBar from '../toolsbar/toolsbar';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -49,7 +48,6 @@ const SelectionRecipes = (): JSX.Element => {
                     <NavigateNextIcon />
                 </Link>
             </IconButton>
-            <ToolsBar />
         </div>
     );
 };
