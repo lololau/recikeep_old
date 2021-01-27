@@ -1,5 +1,5 @@
 import { RecipesListProps, TagsComboBox, TypeComboBox, myRecipes } from './recipes';
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
@@ -12,9 +12,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { Link } from 'react-router-dom';
 import React from 'react';
 
-const SelectionRecipesList: FunctionComponent<RecipesListProps> = (props) => {
+const SelectionRecipesList: FC<RecipesListProps> = (props) => {
     return (
-        <List style={{ width: 300 }}>
+        <List>
             {props.recipes.map((recipe, index) => {
                 return (
                     <ListItem divider={true} key={index}>

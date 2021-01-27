@@ -6,7 +6,7 @@
   },
   "toolsbar": {
     "recipes": "Recettes",
-    "groceryList": "Liste de courses",
+    "groceryList": "Courses",
     "groups": "Groupes",
     "profile": "Profil"
   },
@@ -15,7 +15,8 @@
     "search": "Recheche...",
     "tagList": "Balises",
     "types": "Types",
-    "selectRecipes": "Selection de Recettes"
+    "selectRecipes": "Selection de Recettes",
+    "add-recipe": "Recette"
   }, 
   "recipe": {
     "title": "Pate Carbonara",
@@ -61,5 +62,9 @@
     "add-ingredient": "Ajouter un ingrédient",
     "unitsBox-unit": "Unité",
     "unitsBox-quantity": "Quantité"
+  },
+  "groceryList": {
+    "title-page": "Liste de courses",
+    "add-ingredient": "Ingrédient"
   }
 }

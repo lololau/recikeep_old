@@ -18,6 +18,7 @@ import InputBase from '@material-ui/core/InputBase';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
 
 type recipe = {
     title: string;
@@ -132,10 +133,13 @@ const HomeRecipes = (): JSX.Element => {
             <div className="RecipesList">
                 <RecipesList recipes={myRecipes} />
             </div>
-            <IconButton>
-                <Link to="/new_recipe">
-                    <AddCircleOutlineOutlinedIcon color="primary" />
-                </Link>
+            <IconButton style={{ width: '100%' }}>
+                <Grid container direction="column" alignItems="center" spacing={1}>
+                    <Link to="/new_recipe">
+                        <AddCircleOutlineOutlinedIcon style={{ fontSize: 30 }} />
+                        <p style={{ fontSize: 11 }}>{t('recipes.add-recipe')}</p>
+                    </Link>
+                </Grid>
             </IconButton>
         </Container>
     );
