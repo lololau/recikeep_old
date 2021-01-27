@@ -1,7 +1,7 @@
 import '../../i18n';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -84,7 +84,7 @@ export const TagsComboBox = (): JSX.Element => {
 // - Share into a group by clicking on the arrow icon;
 // - Delete the recipe by clicking on the trush icon.
 
-const RecipesList: FunctionComponent<RecipesListProps> = (props) => {
+const RecipesList: FC<RecipesListProps> = (props) => {
     return (
         <List>
             {props.recipes.map((recipe, index) => {
