@@ -66,6 +66,9 @@
   "groceryList": {
     "title-page": "Grocery List",
     "add-ingredient": "Ingredient"
+  },
+  "myIngredients": {
+    "title-page": "My Ingredients",
+    "add-ingredient": "Ingredient"
   }
-
 }

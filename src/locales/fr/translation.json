@@ -64,7 +64,11 @@
     "unitsBox-quantity": "Quantité"
   },
   "groceryList": {
-    "title-page": "Liste de courses",
+    "title-page": "Liste de Courses",
+    "add-ingredient": "Ingrédient"
+  },
+  "myIngredients": {
+    "title-page": "Mes Ingrédients",
     "add-ingredient": "Ingrédient"
   }
 }

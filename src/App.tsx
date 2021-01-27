@@ -13,6 +13,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import ToolsBar from './containers/toolsbar/toolsbar';
 import GroceryList from './containers/grocery list/grocery_list';
+import MyIngredients from './containers/my-ingredients/my_ingredients';
 
 const theme = createMuiTheme({
     palette: {
@@ -41,6 +42,7 @@ const App = (): JSX.Element => {
                     <Route path={'/recipe/:index'} component={MyRecipe} />
                     <Route path={'/recipes/selection_part/1'} component={SelectionRecipes} />
                     <Route path={'/recipes/selection_part/2'} component={SelectionParts} />
+                    <Route path={'/my_ingredients'} component={MyIngredients} />
                     {/* <Route path="/groups" component={Groups}/> */}
                     <Route path={'/groceryList'} component={GroceryList} />
                     <Route path={'/new_recipe'} component={NewRecipe} />
