@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next/';
 import '../../i18n';
-import ToolsBar from '../toolsbar/toolsbar';
 import React from 'react';
 
 const MyRecipe = (): JSX.Element => {
@@ -41,8 +40,6 @@ const MyRecipe = (): JSX.Element => {
                     src="../../../public/Capture d’écran 2021-01-14 à 16.37.29.png"
                 />
             </div>
-
-            <ToolsBar />
         </div>
     );
 };

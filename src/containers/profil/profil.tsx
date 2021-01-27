@@ -1,5 +1,4 @@
 import '../../i18n';
-import ToolsBar from '../toolsbar/toolsbar';
 import React from 'react';
 
 const Profile = (): JSX.Element => {
@@ -17,8 +16,6 @@ const Profile = (): JSX.Element => {
                 <h2>Username</h2>
                 <h3>Laulau Lapin</h3>
             </div>
-
-            <ToolsBar />
         </div>
     );
 };

@@ -6,7 +6,6 @@ import Button from '@material-ui/core/Button';
 import { TagsComboBox, TypeComboBox } from '../recipes/recipes';
 import { PartsComboBox } from '../recipes/recipes_selection2';
 import Box from '@material-ui/core/Box';
-import ToolsBar from '../toolsbar/toolsbar';
 import Grid from '@material-ui/core/Grid';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
@@ -115,7 +114,6 @@ const NewRecipe = (): JSX.Element => {
                     </Grid>
                 </Grid>
             </Box>
-            <ToolsBar />
         </Container>
     );
 };

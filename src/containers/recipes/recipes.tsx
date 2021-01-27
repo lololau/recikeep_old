@@ -1,7 +1,6 @@
 import '../../i18n';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import ToolsBar from '../toolsbar/toolsbar';
 import React, { FunctionComponent } from 'react';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
@@ -138,8 +137,6 @@ const HomeRecipes = (): JSX.Element => {
                     <AddCircleOutlineOutlinedIcon color="primary" />
                 </Link>
             </IconButton>
-
-            <ToolsBar />
         </Container>
     );
 };
