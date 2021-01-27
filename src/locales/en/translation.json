@@ -15,7 +15,8 @@
     "search": "Search...",
     "tagList": "Tags",
     "types": "Types",
-    "selectRecipes": "Select Recipes"
+    "selectRecipes": "Select Recipes",
+    "add-recipe": "Recipe"
   },
   "recipe": {
     "title": "Pate Carbonara",
@@ -61,6 +62,10 @@
     "add-ingredient": "Add an ingredient",
     "unitsBox": "Unit",
     "unitsBox-quantity": "Quantity"
+  },
+  "groceryList": {
+    "title-page": "Grocery List",
+    "add-ingredient": "Ingredient"
   }
 
 }

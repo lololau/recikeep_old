@@ -12,7 +12,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 const UnitsComboBox = (): JSX.Element => {
     const { t } = useTranslation();
 
-    const units: string[] = ['ml', 'dl', 'cl', 'l', 'mg', 'g', 'kg'];
+    const units: string[] = ['ml', 'dl', 'cl', 'l', 'mg', 'g', 'kg', '', 'filets'];
 
     const [unit] = useState('');
 

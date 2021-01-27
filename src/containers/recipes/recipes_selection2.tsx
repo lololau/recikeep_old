@@ -10,6 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export const PartsComboBox = (): JSX.Element => {
     const { t } = useTranslation();
@@ -79,7 +80,9 @@ const SelectionParts = (): JSX.Element => {
             <div className="SelectionRecipesList">
                 <SelectionPartsRecipes recipes={myRecipes} />
             </div>
-            <Button color="primary">{t('toolsbar.groceryList')}</Button>
+            <Link to="/groceryList">
+                <Button color="primary">{t('toolsbar.groceryList')}</Button>
+            </Link>
         </div>
     );
 };
