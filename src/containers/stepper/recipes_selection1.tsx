@@ -1,17 +1,15 @@
-import { RecipesListProps, TagsComboBox, TypeComboBox, myRecipes } from './recipes';
+import { RecipesListProps, TagsComboBox, TypeComboBox, myRecipes } from '../recipes/recipes';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import InputBase from '@material-ui/core/InputBase';
-import IconButton from '@material-ui/core/IconButton';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Link } from 'react-router-dom';
+import InputBase from '@material-ui/core/InputBase';
 import React from 'react';
 import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 
 const SelectionRecipesList: FC<RecipesListProps> = (props) => {
     return (
@@ -35,20 +33,28 @@ const SelectionRecipes = (): JSX.Element => {
 
     return (
         <Container>
-            <h1>{t('recipes.title')}</h1>
-
-            <InputBase placeholder={t('recipe.searchBar')} />
-            <TagsComboBox />
-            <TypeComboBox />
-
+            <h1>{t('stepper.title-selection')}</h1>
+            <Grid
+                container
+                spacing={3}
+                style={{
+                    textAlign: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <Grid item xs={4}>
+                    <InputBase placeholder={t('recipe.searchBar')} />
+                </Grid>
+                <Grid item xs={4}>
+                    <TagsComboBox />
+                </Grid>
+                <Grid item xs={4}>
+                    <TypeComboBox />
+                </Grid>
+            </Grid>
             <div className="SelectionRecipesList">
                 <SelectionRecipesList recipes={myRecipes} />
             </div>
-            <IconButton>
-                <Link to="/recipes/selection_part/2">
-                    <NavigateNextIcon />
-                </Link>
-            </IconButton>
         </Container>
     );
 };
