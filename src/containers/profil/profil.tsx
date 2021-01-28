@@ -1,4 +1,5 @@
 import '../../i18n';
+import i18n from '../../i18n';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '@material-ui/core/Button';
@@ -14,10 +15,21 @@ import { RecipesList } from '../recipes/recipes';
 const myFavoriteRecipes = [{ title: 'Poulet cury' }];
 
 const Profile = (): JSX.Element => {
+    const changeLanguage = (lng: string) => {
+        i18n.changeLanguage(lng);
+    };
     const { t } = useTranslation();
     return (
         <Container>
-            <h1>{t('profile.title-page')}</h1>
+            <Grid container spacing={4}>
+                <Grid item xs={6}>
+                    <h1>{t('profile.title-page')}</h1>
+                </Grid>
+                <Grid item xs={6} style={{ textAlign: 'right' }}>
+                    <Button onClick={() => changeLanguage('en')}>English</Button>
+                    <Button onClick={() => changeLanguage('fr')}>Français</Button>
+                </Grid>
+            </Grid>
             <br />
             <Box style={{ alignItems: 'column' }}>
                 <Avatar

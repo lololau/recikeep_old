@@ -19,10 +19,14 @@
     "add-recipe": "Recette"
   }, 
   "recipe": {
-    "title": "Pate Carbonara",
+    "title": "Pâtes Carbonara",
     "searchBar": "Recherche...",
     "tag": "Balise(s)",
-    "type": "Type"
+    "type": "Type",
+    "preparation-time": "Préparation",
+    "cooking-time": "Cuisson",
+    "ingredients-list": "Ingrédients",
+    "cooking-instructions": "Description de la Recette"
   },
   "types": {
     "appetizer": "Apéritif",

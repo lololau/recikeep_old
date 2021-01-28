@@ -19,10 +19,14 @@
     "add-recipe": "Recipe"
   },
   "recipe": {
-    "title": "Pate Carbonara",
+    "title": "Carbonara Pasta",
     "searchBar": "Search...",
     "tag": "Tag(s)",
-    "type": "Type"
+    "type": "Type",
+    "preparation-time": "Preparation",
+    "cooking-time": "Baking",
+    "ingredients-list": "Ingredients List",
+    "cooking-instructions": "Cooking Instructions"
   },
   "types": {
     "appetizer": "Appetizer",

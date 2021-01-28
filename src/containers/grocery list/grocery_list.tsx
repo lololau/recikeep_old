@@ -10,6 +10,7 @@ import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOut
 import { IconButton } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+import { Link } from 'react-router-dom';
 
 type IngredientListProps = {
     ingredients: ingredient[];
@@ -59,8 +60,10 @@ const GroceryList = (): JSX.Element => {
             <Box>
                 <IconButton style={{ width: '100%' }}>
                     <Grid container direction="column" alignItems="center" spacing={1}>
-                        <AddCircleOutlineOutlinedIcon style={{ fontSize: 30 }} />
-                        <p style={{ fontSize: 11 }}>{t('groceryList.add-ingredient')}</p>
+                        <Link to="/groceryList">
+                            <AddCircleOutlineOutlinedIcon style={{ fontSize: 30 }} />
+                            <p style={{ fontSize: 11 }}>{t('groceryList.add-ingredient')}</p>
+                        </Link>
                     </Grid>
                 </IconButton>
             </Box>
