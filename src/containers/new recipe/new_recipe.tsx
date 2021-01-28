@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { TagsComboBox, TypeComboBox } from '../recipes/recipes';
-import { PartsComboBox } from '../recipes/recipes_selection2';
+import { PartsComboBox } from '../stepper/recipes_selection2';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Autocomplete from '@material-ui/lab/Autocomplete';

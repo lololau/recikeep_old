@@ -134,7 +134,7 @@ const HomeRecipes = (): JSX.Element => {
                             <TypeComboBox />
                         </Grid>
                         <Grid item xs={3}>
-                            <Link to="/recipes/selection_part/1">
+                            <Link to="/recipes/selection">
                                 <Button color="primary">{t('recipes.selectRecipes')}</Button>
                             </Link>
                         </Grid>

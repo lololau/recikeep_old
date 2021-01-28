@@ -81,5 +81,9 @@
     "update-image": "Update Image",
     "name": "Laulau",
     "favorite": "Favorite Recipes"
+  },
+  "stepper": {
+    "title-selection": "Which recipes do you want to cook ?",
+    "title-part": "For how many peoples ?"
   }
 }
