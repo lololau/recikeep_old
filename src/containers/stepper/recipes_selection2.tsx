@@ -9,7 +9,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import React from 'react';
 import Container from '@material-ui/core/Container';
-import { Box } from '@material-ui/core';
 
 export const PartsComboBox = (): JSX.Element => {
     const { t } = useTranslation();
