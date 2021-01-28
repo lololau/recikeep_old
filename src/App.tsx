@@ -11,15 +11,17 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import ToolsBar from './containers/toolsbar/toolsbar';
 import GroceryList from './containers/grocery list/grocery_list';
+//import Box from '@material-ui/core/Box';
 import MyIngredients from './containers/my-ingredients/my_ingredients';
+import Paper from '@material-ui/core/Paper';
 
 const theme = createMuiTheme({
     palette: {
         primary: {
-            main: '#0d47a1',
+            main: '#ff5722',
         },
         secondary: {
-            main: '#ff5722',
+            main: '#0d47a1',
         },
     },
 });
@@ -39,7 +41,17 @@ const App = (): JSX.Element => {
                     <Route path={'/groceryList'} component={GroceryList} />
                     <Route path={'/new_recipe'} component={NewRecipe} />
                 </div>
-                <ToolsBar style={{ position: 'fixed', bottom: 0, width: '100%' }} />
+                <Paper elevation={1}>
+                    <ToolsBar
+                        style={{
+                            position: 'fixed',
+                            bottom: 0,
+                            width: '100%',
+                            borderTop: 'thin solid',
+                            background: 'grey',
+                        }}
+                    />
+                </Paper>
             </Router>
         </ThemeProvider>
     );
