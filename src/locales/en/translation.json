@@ -88,5 +88,9 @@
   "stepper": {
     "title-selection": "Which recipes do you want to cook ?",
     "title-part": "For how many peoples ?"
+  },
+  "groups": {
+    "title-page": "Groups",
+    "searchBar": "Search..."
   }
 }
