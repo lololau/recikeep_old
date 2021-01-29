@@ -73,7 +73,10 @@
   },
   "myIngredients": {
     "title-page": "My Ingredients",
-    "add-ingredient": "Ingredient"
+    "add-ingredient": "New Ingredient",
+    "textField": "Ingredient...",
+    "modal-add": "Add",
+    "modal-close": "Close"
   },
   "profile": {
     "title-page": "My Profile",
