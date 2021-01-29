@@ -7,7 +7,9 @@ import { TagsComboBox, TypeComboBox } from '../recipes/recipes';
 import { PartsComboBox } from '../stepper/recipes_selection2';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 
 export const UnitsComboBox = (): JSX.Element => {
     const { t } = useTranslation();
@@ -56,43 +58,55 @@ const NewRecipe = (): JSX.Element => {
     return (
         <Container>
             <h1>{t('new_recipe.title-page')}</h1>
+            <br />
             <Box className="title">
                 <p>{t('new_recipe.title')}</p>
                 <TextField placeholder={t('new_recipe.add-title')} />
             </Box>
+            <br />
+            <br />
             <Box className="image">
                 <p>{t('new_recipe.image')}</p>
                 <Button variant="contained">{t('new_recipe.add-image')}</Button>
             </Box>
+            <br />
+            <br />
             <Box>
                 <p>{t('new_recipe.presentation')}</p>
                 <TextField fullWidth placeholder={t('new_recipe.add-presentation')} />
             </Box>
+            <br />
+            <br />
             <Box className="image">
                 <p>{t('new_recipe.description')}</p>
                 <Button variant="contained">{t('new_recipe.add-description')}</Button>
             </Box>
+            <br />
+            <br />
             <Box>
-                <p>{t('new_recipe.tag')}</p>
                 <TagsComboBox />
             </Box>
+            <br />
+            <br />
             <Box>
-                <p>{t('new_recipe.type')}</p>
                 <TypeComboBox />
             </Box>
+            <br />
+            <br />
             <Box>
-                <p>{t('new_recipe.parts')}</p>
                 <PartsComboBox />
             </Box>
-            <Grid container spacing={4}>
-                <Grid item xs={4} className="preparation-time" style={{ display: 'block' }}>
+            <br />
+            <br />
+            <Grid container spacing={9}>
+                <Grid item xs={5} className="preparation-time" style={{ display: 'block' }}>
                     <p>{t('new_recipe.preparation-time')}</p>
                     <Box style={{ display: 'flex' }}>
                         <TextField fullWidth placeholder={t('new_recipe.add-time')} margin="normal" />
                         <p>{t('new_recipe.minute')}</p>
                     </Box>
                 </Grid>
-                <Grid item xs={4} className="cooking-time" style={{ display: 'block' }}>
+                <Grid item xs={5} className="cooking-time" style={{ display: 'block' }}>
                     <p>{t('new_recipe.cooking-time')}</p>
                     <Box style={{ display: 'flex' }}>
                         <TextField fullWidth placeholder={t('new_recipe.add-time')} margin="normal" />
@@ -100,9 +114,11 @@ const NewRecipe = (): JSX.Element => {
                     </Box>
                 </Grid>
             </Grid>
-            <Box>
+            <br />
+            <br />
+            <Box style={{ marginBottom: 70 }}>
                 <p>{t('new_recipe.ingredients')}</p>
-                <Grid container spacing={3}>
+                <Grid container spacing={3} style={{ marginBottom: 20 }}>
                     <Grid item xs={3}>
                         <TextField placeholder={t('new_recipe.add-ingredient')} variant="outlined" />
                     </Grid>
@@ -113,6 +129,11 @@ const NewRecipe = (): JSX.Element => {
                         <QuantityComboBox />
                     </Grid>
                 </Grid>
+                <Box style={{ width: '100%' }}>
+                    <IconButton>
+                        <LibraryAddIcon style={{ fontSize: 25, marginLeft: 'auto', marginRight: 'auto' }} />
+                    </IconButton>
+                </Box>
             </Box>
         </Container>
     );

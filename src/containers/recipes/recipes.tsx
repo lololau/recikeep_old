@@ -14,7 +14,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import EditIcon from '@material-ui/icons/Edit';
 import PresentToAllIcon from '@material-ui/icons/PresentToAll';
-import InputBase from '@material-ui/core/InputBase';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
@@ -122,18 +121,18 @@ const HomeRecipes = (): JSX.Element => {
             <div className="recipes">
                 <h1>{t('recipes.title')}</h1>
                 <br />
-                <InputBase placeholder={t('recipe.searchBar')} />
+                <TextField label={t('recipe.searchBar')} variant="outlined" style={{ width: '33%' }} />
                 <br />
                 <br />
                 <Box>
-                    <Grid container spacing={3}>
-                        <Grid item xs={3}>
+                    <Grid container spacing={3} style={{ alignItems: 'center' }}>
+                        <Grid item xs={4}>
                             <TagsComboBox />
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={4}>
                             <TypeComboBox />
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={4}>
                             <Link to="/recipes/selection">
                                 <Button color="primary">{t('recipes.selectRecipes')}</Button>
                             </Link>
@@ -146,13 +145,11 @@ const HomeRecipes = (): JSX.Element => {
             <div className="RecipesList">
                 <RecipesList recipes={myRecipes} />
             </div>
-            <IconButton style={{ width: '100%' }}>
-                <Grid container direction="column" alignItems="center" spacing={1}>
-                    <Link to="/new_recipe">
-                        <AddCircleOutlineOutlinedIcon style={{ fontSize: 30 }} />
-                        <p style={{ fontSize: 11 }}>{t('recipes.add-recipe')}</p>
-                    </Link>
-                </Grid>
+            <br />
+            <IconButton>
+                <Link to="/new_recipe">
+                    <AddCircleOutlineOutlinedIcon style={{ fontSize: 30 }} />
+                </Link>
             </IconButton>
         </Container>
     );

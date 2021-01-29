@@ -57,12 +57,12 @@ const GroceryList = (): JSX.Element => {
         <Container>
             <h1>{t('groceryList.title-page')}</h1>
             <CheckIngredientsList ingredients={myIngredients} />
+            <br />
             <Box>
-                <IconButton style={{ width: '100%' }}>
+                <IconButton>
                     <Grid container direction="column" alignItems="center" spacing={1}>
                         <Link to="/groceryList">
                             <AddCircleOutlineOutlinedIcon style={{ fontSize: 30 }} />
-                            <p style={{ fontSize: 11 }}>{t('groceryList.add-ingredient')}</p>
                         </Link>
                     </Grid>
                 </IconButton>
