@@ -65,7 +65,8 @@
     "ingredients": "Ingredients",
     "add-ingredient": "Add an ingredient",
     "unitsBox": "Unit",
-    "unitsBox-quantity": "Quantity"
+    "unitsBox-quantity": "Quantity",
+    "add": "Add"
   },
   "groceryList": {
     "title-page": "Grocery List",

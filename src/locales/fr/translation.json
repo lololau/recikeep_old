@@ -65,7 +65,8 @@
     "ingredients": "Ingrédients",
     "add-ingredient": "Ajouter un ingrédient",
     "unitsBox": "Unité",
-    "unitsBox-quantity": "Quantité"
+    "unitsBox-quantity": "Quantité",
+    "add": "Ajouter"
   },
   "groceryList": {
     "title-page": "Liste de Courses",
