@@ -9,7 +9,7 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
-const UnitsComboBox = (): JSX.Element => {
+export const UnitsComboBox = (): JSX.Element => {
     const { t } = useTranslation();
 
     const units: string[] = ['ml', 'dl', 'cl', 'l', 'mg', 'g', 'kg', '', 'filets'];
@@ -23,7 +23,7 @@ const UnitsComboBox = (): JSX.Element => {
                 id="controllable-states-demo"
                 options={units}
                 renderInput={(params) => (
-                    <TextField {...params} placeholder={t('new_recipe.unitsBox-unit')} variant="outlined" />
+                    <TextField {...params} placeholder={t('new_recipe.unitsBox')} variant="outlined" />
                 )}
             />
         </div>
