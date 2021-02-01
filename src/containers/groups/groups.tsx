@@ -1,24 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
 import Grid from '@material-ui/core/Grid';
-import { IconButton, TextField } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import DeleteIcon from '@material-ui/icons/Delete';
+import SearchBar from '../../components/search_bar';
 
 type GroupsProps = {
     groups: group[];
 };
 type group = {
     name: string;
+    id: string;
 };
 type groups = group[];
 
-const myGroups: groups = [{ name: 'Famille Verhille' }, { name: 'Beeboo recipes' }, { name: 'Baguera Pot' }];
+const myGroups: groups = [
+    { name: 'Famille Verhille', id: '0' },
+    { name: 'Beeboo recipes', id: '1' },
+    { name: 'Baguera Pot', id: '2' },
+];
 
 const GroupsList = (props: GroupsProps): JSX.Element => {
     return (
@@ -39,8 +45,25 @@ const GroupsList = (props: GroupsProps): JSX.Element => {
     );
 };
 
+const filter = (groups: groups, filter: string[]): groups => {
+    return groups.filter((group) => {
+        return filter.includes(group.id);
+    });
+};
+
 const Groups = (): JSX.Element => {
     const { t } = useTranslation();
+
+    const [groupsDisplay, setGroups] = useState(myGroups);
+
+    const onchange = (ids: string[]) => {
+        const groups = filter(myGroups, ids);
+        setGroups(groups);
+        console.log(groups);
+    };
+
+    //const filteredGroups = filter(myGroups, TestSearchBar);
+
     return (
         <Container>
             <Grid container style={{ alignItems: 'center' }}>
@@ -54,10 +77,10 @@ const Groups = (): JSX.Element => {
                 </Grid>
             </Grid>
             <Grid>
-                <TextField label={t('groups.searchBar')} variant="outlined" style={{ width: '50%' }} />
+                <SearchBar width="50%" onchange={onchange} elements={myGroups} />
             </Grid>
             <br />
-            <GroupsList groups={myGroups} />
+            <GroupsList groups={groupsDisplay} />
         </Container>
     );
 };

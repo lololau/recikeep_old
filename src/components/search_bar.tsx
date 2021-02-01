@@ -7,9 +7,10 @@ type Element = {
     id: string;
 };
 
-type onChange = (elems: Element[]) => void;
+type onChange = (ids: string[]) => void;
 
 type SearchBarProps = {
+    width?: string;
     onchange: onChange;
     elements: Element[];
 };
@@ -18,16 +19,21 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
     const { t } = useTranslation();
     const [searchTerm, setSearchTerm] = useState('');
 
-    const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(event.currentTarget.value);
-        props.elements.filter((item) => {
-            if (searchTerm === '') {
-                return item;
-            }
-            if (item.name.toLowerCase().includes(searchTerm.toLowerCase())) {
-                return item.name;
-            }
-        });
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const newValue = event.currentTarget.value;
+        setSearchTerm(newValue);
+        const idList = props.elements
+            .filter((item) => {
+                if (newValue === '') {
+                    return true;
+                }
+                return item.name.toLowerCase().includes(newValue.toLowerCase());
+            })
+            .map((elt) => {
+                return elt.id;
+            });
+
+        props.onchange(idList);
     };
 
     return (
@@ -36,8 +42,8 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
                 value={searchTerm}
                 label={t('groups.searchBar')}
                 variant="outlined"
-                style={{ width: '50%' }}
-                onChange={onChange}
+                style={{ width: props.width }}
+                onChange={handleChange}
             />
         </Box>
     );
