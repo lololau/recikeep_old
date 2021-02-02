@@ -15,6 +15,12 @@ type SearchBarProps = {
     elements: Element[];
 };
 
+export const filterSearchBar = (groups: Element[], filter: string[]): Element[] => {
+    return groups.filter((group) => {
+        return filter.includes(group.id);
+    });
+};
+
 const SearchBar = (props: SearchBarProps): JSX.Element => {
     const { t } = useTranslation();
     const [searchTerm, setSearchTerm] = useState('');

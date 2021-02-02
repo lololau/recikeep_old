@@ -12,7 +12,7 @@ import Grid from '@material-ui/core/Grid';
 import { IconButton } from '@material-ui/core';
 import { RecipesList } from '../recipes/recipes';
 
-const myFavoriteRecipes = [{ title: 'Poulet cury' }];
+const myFavoriteRecipes = [{ name: 'Poulet cury', id: '0' }];
 
 const Profile = (): JSX.Element => {
     const changeLanguage = (lng: string) => {
@@ -57,7 +57,7 @@ const Profile = (): JSX.Element => {
             </Grid>
             <RecipesList recipes={myFavoriteRecipes} />
             <br />
-            <Link to="/my_ingredients">
+            <Link to="/profile/my_ingredients">
                 <p>{t('myIngredients.title-page')}</p>
             </Link>
         </Container>

@@ -10,16 +10,22 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import Grid from '@material-ui/core/Grid';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
+import SearchBar, { filterSearchBar } from '../../components/search_bar';
 
 type IngredientsProps = {
     ingredients: ingredient[];
 };
 type ingredient = {
     name: string;
+    id: string;
 };
 type ingredients = ingredient[];
 
-const myIngredients: ingredients = [{ name: 'Patate' }, { name: 'Ananas' }, { name: 'Banane' }];
+const myIngredients: ingredients = [
+    { name: 'Patate', id: '0' },
+    { name: 'Ananas', id: '1' },
+    { name: 'Banane', id: '2' },
+];
 
 const IngredientsList = (props: IngredientsProps): JSX.Element => {
     return (
@@ -43,6 +49,13 @@ const IngredientsList = (props: IngredientsProps): JSX.Element => {
 const MyIngredients = (): JSX.Element => {
     const { t } = useTranslation();
     const [modalOpen, setModalOpen] = useState(false);
+    const [ingredientsDisplay, setIngredientsDisplay] = useState(myIngredients);
+
+    const onChange = (ids: string[]) => {
+        const ingredients = filterSearchBar(myIngredients, ids);
+        setIngredientsDisplay(ingredients);
+    };
+
     return (
         <Container>
             <Grid container style={{ alignItems: 'center' }}>
@@ -55,7 +68,8 @@ const MyIngredients = (): JSX.Element => {
                     </IconButton>
                 </Grid>
             </Grid>
-            <IngredientsList ingredients={myIngredients} />
+            <SearchBar elements={myIngredients} onchange={onChange} width={'50%'} />
+            <IngredientsList ingredients={ingredientsDisplay} />
 
             <Dialog open={modalOpen} style={{}}>
                 <Container>

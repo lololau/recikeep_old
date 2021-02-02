@@ -30,14 +30,14 @@ const App = (): JSX.Element => {
         <ThemeProvider theme={theme}>
             <Router>
                 <div className="App">
-                    <Route path="/" exact component={HomeRecipes} />
-                    <Route path="/profile" component={Profile} />
+                    <Route path="/recipes" exact component={HomeRecipes} />
+                    <Route path="/profile" exact component={Profile} />
                     <Route path={'/recipe/:index'} component={MyRecipe} />
-                    <Route path={'/recipes/selection'} component={RecipesSelectionStepper} />
-                    <Route path={'/my_ingredients'} component={MyIngredients} />
+                    <Route path={'/recipes/selection'} exact component={RecipesSelectionStepper} />
+                    <Route path={'/profile/my_ingredients'} component={MyIngredients} />
                     <Route path="/groups" component={Groups} />
                     <Route path={'/groceryList'} component={GroceryList} />
-                    <Route path={'/new_recipe'} component={NewRecipe} />
+                    <Route path={'/recipes/new_recipe'} exact component={NewRecipe} />
                 </div>
                 <Paper elevation={1}>
                     <ToolsBar

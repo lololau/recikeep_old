@@ -56,7 +56,7 @@ const SelectionPartsRecipes: FunctionComponent<RecipesListProps> = (props) => {
             {props.recipes.map((recipe, index) => {
                 return (
                     <ListItem divider={true} key={index}>
-                        <ListItemText primary={recipe.title} id={index.toString()} />
+                        <ListItemText primary={recipe.name} id={index.toString()} />
 
                         <PartsComboBox />
                     </ListItem>

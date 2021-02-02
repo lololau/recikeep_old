@@ -1,12 +1,13 @@
 import '../../i18n';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
+import SearchBar, { filterSearchBar } from '../../components/search_bar';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import IconButton from '@material-ui/core/IconButton';
@@ -20,7 +21,8 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 
 type recipe = {
-    title: string;
+    name: string;
+    id: string;
 };
 
 type recipes = recipe[];
@@ -29,7 +31,10 @@ export type RecipesListProps = {
     recipes: recipe[];
 };
 
-export const myRecipes: recipes = [{ title: 'Pates Carbonara' }, { title: 'Poulet cury' }];
+export const myRecipes: recipes = [
+    { name: 'Pates Carbonara', id: '0' },
+    { name: 'Poulet cury', id: '1' },
+];
 
 export const TypeComboBox = (): JSX.Element => {
     const { t } = useTranslation();
@@ -90,7 +95,7 @@ export const RecipesList: FC<RecipesListProps> = (props) => {
                 return (
                     <ListItem divider={true} key={index}>
                         <Link to={'/recipe/' + index}>
-                            <ListItemText primary={recipe.title} id={index.toString()} />
+                            <ListItemText primary={recipe.name} id={index.toString()} />
                         </Link>
                         <ListItemSecondaryAction>
                             <IconButton>
@@ -116,12 +121,19 @@ export const RecipesList: FC<RecipesListProps> = (props) => {
 const HomeRecipes = (): JSX.Element => {
     const { t } = useTranslation();
 
+    const [recipesDisplay, setRecipesDisplay] = useState(myRecipes);
+
+    const onChange = (ids: string[]) => {
+        const recipes = filterSearchBar(myRecipes, ids);
+        setRecipesDisplay(recipes);
+    };
+
     return (
         <Container>
             <div className="recipes">
                 <h1>{t('recipes.title')}</h1>
                 <br />
-                <TextField label={t('recipe.searchBar')} variant="outlined" style={{ width: '33%' }} />
+                <SearchBar elements={myRecipes} onchange={onChange} width="33%" />
                 <br />
                 <br />
                 <Box>
@@ -143,11 +155,11 @@ const HomeRecipes = (): JSX.Element => {
             <br />
             <br />
             <div className="RecipesList">
-                <RecipesList recipes={myRecipes} />
+                <RecipesList recipes={recipesDisplay} />
             </div>
             <br />
             <IconButton>
-                <Link to="/new_recipe">
+                <Link to="/recipes/new_recipe">
                     <AddCircleOutlineOutlinedIcon style={{ fontSize: 30 }} />
                 </Link>
             </IconButton>
