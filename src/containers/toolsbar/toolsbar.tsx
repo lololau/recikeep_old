@@ -26,7 +26,12 @@ const ToolsBar = (props: ToolbarProps): JSX.Element => {
             showLabels
             style={props.style}
         >
-            <BottomNavigationAction icon={<HomeIcon />} label={t('toolsbar.recipes')} to={'/'} component={Link} />
+            <BottomNavigationAction
+                icon={<HomeIcon />}
+                label={t('toolsbar.recipes')}
+                to={'/recipes'}
+                component={Link}
+            />
             <BottomNavigationAction
                 icon={<ListIcon />}
                 label={t('toolsbar.groceryList')}

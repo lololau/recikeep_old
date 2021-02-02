@@ -9,7 +9,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import DeleteIcon from '@material-ui/icons/Delete';
-import SearchBar from '../../components/search_bar';
+import SearchBar, { filterSearchBar } from '../../components/search_bar';
 
 type GroupsProps = {
     groups: group[];
@@ -45,20 +45,14 @@ const GroupsList = (props: GroupsProps): JSX.Element => {
     );
 };
 
-const filter = (groups: groups, filter: string[]): groups => {
-    return groups.filter((group) => {
-        return filter.includes(group.id);
-    });
-};
-
 const Groups = (): JSX.Element => {
     const { t } = useTranslation();
 
-    const [groupsDisplay, setGroups] = useState(myGroups);
+    const [groupsDisplay, setGroupsDisplay] = useState(myGroups);
 
     const onchange = (ids: string[]) => {
-        const groups = filter(myGroups, ids);
-        setGroups(groups);
+        const groups = filterSearchBar(myGroups, ids);
+        setGroupsDisplay(groups);
         console.log(groups);
     };
 

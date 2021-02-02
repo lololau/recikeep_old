@@ -20,7 +20,7 @@ const SelectionRecipesList: FC<RecipesListProps> = (props) => {
                         <ListItemIcon>
                             <Checkbox edge="start" checked={false} tabIndex={-1} disableRipple />
                         </ListItemIcon>
-                        <ListItemText primary={recipe.title} id={index.toString()} />
+                        <ListItemText primary={recipe.name} id={index.toString()} />
                     </ListItem>
                 );
             })}
