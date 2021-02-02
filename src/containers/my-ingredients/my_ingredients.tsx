@@ -1,20 +1,13 @@
 import React, { useState } from 'react';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import { Button, IconButton, TextField } from '@material-ui/core';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import Grid from '@material-ui/core/Grid';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import SearchBar, { filterSearchBar } from '../../components/search_bar';
+import ListComponent from '../../components/list';
 
-type IngredientsProps = {
-    ingredients: ingredient[];
-};
 type ingredient = {
     name: string;
     id: string;
@@ -26,25 +19,6 @@ const myIngredients: ingredients = [
     { name: 'Ananas', id: '1' },
     { name: 'Banane', id: '2' },
 ];
-
-const IngredientsList = (props: IngredientsProps): JSX.Element => {
-    return (
-        <List>
-            {props.ingredients.map((ingredient, index) => {
-                return (
-                    <ListItem divider={true} key={index}>
-                        <ListItemText primary={ingredient.name} id={index.toString()} />
-                        <ListItemSecondaryAction>
-                            <IconButton edge="end">
-                                <DeleteIcon style={{ fontSize: 15 }} color="primary" />
-                            </IconButton>
-                        </ListItemSecondaryAction>
-                    </ListItem>
-                );
-            })}
-        </List>
-    );
-};
 
 const MyIngredients = (): JSX.Element => {
     const { t } = useTranslation();
@@ -69,8 +43,7 @@ const MyIngredients = (): JSX.Element => {
                 </Grid>
             </Grid>
             <SearchBar elements={myIngredients} onchange={onChange} width={'50%'} />
-            <IngredientsList ingredients={ingredientsDisplay} />
-
+            <ListComponent listElements={ingredientsDisplay} />
             <Dialog open={modalOpen} style={{}}>
                 <Container>
                     <DialogTitle>
