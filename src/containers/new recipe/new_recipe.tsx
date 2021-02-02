@@ -118,7 +118,7 @@ const NewRecipe = (): JSX.Element => {
             <br />
             <Box style={{ marginBottom: 70 }}>
                 <p>{t('new_recipe.ingredients')}</p>
-                <Grid container spacing={3} style={{ marginBottom: 20 }}>
+                <Grid container spacing={4} style={{ marginBottom: 20, alignItems: 'center' }}>
                     <Grid item xs={3}>
                         <TextField placeholder={t('new_recipe.add-ingredient')} variant="outlined" />
                     </Grid>
@@ -127,6 +127,9 @@ const NewRecipe = (): JSX.Element => {
                     </Grid>
                     <Grid item xs={3}>
                         <QuantityComboBox />
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button>{t('new_recipe.add')}</Button>
                     </Grid>
                 </Grid>
                 <Box style={{ width: '100%' }}>
