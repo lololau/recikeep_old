@@ -4,16 +4,9 @@ import { useTranslation } from 'react-i18next';
 import Grid from '@material-ui/core/Grid';
 import { IconButton } from '@material-ui/core';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import DeleteIcon from '@material-ui/icons/Delete';
 import SearchBar, { filterSearchBar } from '../../components/search_bar';
+import ListComponent from '../../components/list';
 
-type GroupsProps = {
-    groups: group[];
-};
 type group = {
     name: string;
     id: string;
@@ -26,25 +19,6 @@ const myGroups: groups = [
     { name: 'Baguera Pot', id: '2' },
 ];
 
-const GroupsList = (props: GroupsProps): JSX.Element => {
-    return (
-        <List>
-            {props.groups.map((group, index) => {
-                return (
-                    <ListItem divider={true} key={index} style={{ height: 70 }}>
-                        <ListItemText primary={group.name} id={index.toString()} />
-                        <ListItemSecondaryAction>
-                            <IconButton edge="end">
-                                <DeleteIcon style={{ fontSize: 15 }} color="primary" />
-                            </IconButton>
-                        </ListItemSecondaryAction>
-                    </ListItem>
-                );
-            })}
-        </List>
-    );
-};
-
 const Groups = (): JSX.Element => {
     const { t } = useTranslation();
 
@@ -55,8 +29,6 @@ const Groups = (): JSX.Element => {
         setGroupsDisplay(groups);
         console.log(groups);
     };
-
-    //const filteredGroups = filter(myGroups, TestSearchBar);
 
     return (
         <Container>
@@ -74,7 +46,7 @@ const Groups = (): JSX.Element => {
                 <SearchBar width="50%" onchange={onchange} elements={myGroups} />
             </Grid>
             <br />
-            <GroupsList groups={groupsDisplay} />
+            <ListComponent listElements={groupsDisplay} />
         </Container>
     );
 };

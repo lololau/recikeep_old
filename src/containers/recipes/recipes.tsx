@@ -79,15 +79,6 @@ export const TagsComboBox = (): JSX.Element => {
     );
 };
 
-// Component which contains all recipes register on the profil account connected.
-//
-// It is possible to :
-// - See the recipe by clicking on the title;
-// - Add as favorite recipe by clicking on the heart icon;
-// - Edit by clicking on the pen icon;
-// - Share into a group by clicking on the arrow icon;
-// - Delete the recipe by clicking on the trush icon.
-
 export const RecipesList: FC<RecipesListProps> = (props) => {
     return (
         <List>
@@ -117,6 +108,15 @@ export const RecipesList: FC<RecipesListProps> = (props) => {
         </List>
     );
 };
+
+// Component which contains all recipes register on the profil account connected.
+//
+// It is possible to :
+// - See the recipe by clicking on the title;
+// - Add as favorite recipe by clicking on the heart icon;
+// - Edit by clicking on the pen icon;
+// - Share into a group by clicking on the arrow icon;
+// - Delete the recipe by clicking on the trush icon.
 
 const HomeRecipes = (): JSX.Element => {
     const { t } = useTranslation();
