@@ -22,25 +22,22 @@
     "title": "Carbonara Pasta",
     "searchBar": "Search...",
     "tag": "Tag(s)",
-    "type": "Type",
     "preparation-time": "Preparation",
     "cooking-time": "Baking",
     "ingredients-list": "Ingredients List",
     "cooking-instructions": "Cooking Instructions"
   },
-  "types": {
+  "tags": {
+    "vegetables": "Vegetables",
+    "meat": "Meat",
+    "fish": "Fish",
+    "fruits": "Fruits",
     "appetizer": "Appetizer",
     "starter": "Starter",
     "lunch": "Lunch Meal",
     "dinner": "Dinner",
     "dessert": "Dessert",
     "sides": "Sides"
-  },
-  "tags": {
-    "vegetables": "Vegetables",
-    "meat": "Meat",
-    "fish": "Fish",
-    "fruits": "Fruits"
   },
   "parts": {
     "comboBox": "Part(s)"

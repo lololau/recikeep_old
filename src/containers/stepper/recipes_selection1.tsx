@@ -1,15 +1,16 @@
-import { RecipesListProps, TagsComboBox, TypeComboBox, myRecipes } from '../recipes/recipes';
-import { FC } from 'react';
+import { RecipesListProps, myRecipes } from '../recipes/recipes';
+import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import TagsBox from '../../components/tags';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
-import InputBase from '@material-ui/core/InputBase';
 import React from 'react';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import SearchBar, { filterSearchBar } from '../../components/search_bar';
 
 const SelectionRecipesList: FC<RecipesListProps> = (props) => {
     return (
@@ -30,30 +31,31 @@ const SelectionRecipesList: FC<RecipesListProps> = (props) => {
 
 const SelectionRecipes = (): JSX.Element => {
     const { t } = useTranslation();
+    const [recipesDisplay, setRecipesDisplay] = useState(myRecipes);
+    const onChange = (ids: string[]) => {
+        const recipes = filterSearchBar(myRecipes, ids);
+        setRecipesDisplay(recipes);
+    };
 
     return (
         <Container>
             <h1>{t('stepper.title-selection')}</h1>
             <Grid
                 container
-                spacing={3}
+                spacing={2}
                 style={{
-                    textAlign: 'center',
-                    alignItems: 'center',
+                    textAlign: 'left',
                 }}
             >
-                <Grid item xs={4}>
-                    <InputBase placeholder={t('recipe.searchBar')} />
+                <Grid item xs={6}>
+                    <SearchBar onchange={onChange} elements={myRecipes} width="100%" />
                 </Grid>
-                <Grid item xs={4}>
-                    <TagsComboBox />
-                </Grid>
-                <Grid item xs={4}>
-                    <TypeComboBox />
+                <Grid item xs={6}>
+                    <TagsBox />
                 </Grid>
             </Grid>
             <div className="SelectionRecipesList">
-                <SelectionRecipesList recipes={myRecipes} />
+                <SelectionRecipesList recipes={recipesDisplay} />
             </div>
         </Container>
     );

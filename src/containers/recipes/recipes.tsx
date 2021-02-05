@@ -8,8 +8,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import SearchBar, { filterSearchBar } from '../../components/search_bar';
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import TagBox from '../../components/tags';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -35,49 +34,6 @@ export const myRecipes: recipes = [
     { name: 'Pates Carbonara', id: '0' },
     { name: 'Poulet cury', id: '1' },
 ];
-
-export const TypeComboBox = (): JSX.Element => {
-    const { t } = useTranslation();
-
-    const typeList = [
-        { type: t('types.appetizer') },
-        { type: t('types.starter') },
-        { type: t('types.lunch') },
-        { type: t('types.dinner') },
-        { type: t('types.dessert') },
-        { type: t('types.sides') },
-    ];
-
-    return (
-        <Autocomplete
-            id="combo-box-demo"
-            options={typeList}
-            getOptionLabel={(option) => option.type}
-            renderInput={(params) => <TextField {...params} label={t('recipe.type')} variant="outlined" />}
-        />
-    );
-};
-
-export const TagsComboBox = (): JSX.Element => {
-    const { t } = useTranslation();
-
-    const tagList = [
-        { tag: t('tags.vegetables') },
-        { tag: t('tags.meat') },
-        { tag: t('tags.fish') },
-        { tag: t('tags.fruits') },
-    ];
-
-    return (
-        <Autocomplete
-            multiple
-            id="tags-standard"
-            options={tagList}
-            getOptionLabel={(option) => option.tag}
-            renderInput={(params) => <TextField {...params} label={t('recipe.tag')} variant="standard" />}
-        />
-    );
-};
 
 export const RecipesList: FC<RecipesListProps> = (props) => {
     return (
@@ -138,13 +94,10 @@ const HomeRecipes = (): JSX.Element => {
                 <br />
                 <Box>
                     <Grid container spacing={3} style={{ alignItems: 'center' }}>
-                        <Grid item xs={4}>
-                            <TagsComboBox />
+                        <Grid item xs={6}>
+                            <TagBox />
                         </Grid>
-                        <Grid item xs={4}>
-                            <TypeComboBox />
-                        </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={6}>
                             <Link to="/recipes/selection">
                                 <Button color="primary">{t('recipes.selectRecipes')}</Button>
                             </Link>

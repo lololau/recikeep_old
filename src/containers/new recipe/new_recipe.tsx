@@ -3,7 +3,7 @@ import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { TagsComboBox, TypeComboBox } from '../recipes/recipes';
+import TagsBox from '../../components/tags';
 import { PartsComboBox } from '../stepper/recipes_selection2';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
@@ -84,12 +84,7 @@ const NewRecipe = (): JSX.Element => {
             <br />
             <br />
             <Box>
-                <TagsComboBox />
-            </Box>
-            <br />
-            <br />
-            <Box>
-                <TypeComboBox />
+                <TagsBox />
             </Box>
             <br />
             <br />
