@@ -13,34 +13,30 @@
   "recipes": {
     "title": "Recettes",
     "search": "Recheche...",
-    "tagList": "Balises",
-    "types": "Types",
+    "tagList": "Tag(s)",
     "selectRecipes": "Selection de Recettes",
     "add-recipe": "Recette"
   }, 
   "recipe": {
     "title": "Pâtes Carbonara",
     "searchBar": "Recherche...",
-    "tag": "Balise(s)",
-    "type": "Type",
+    "tag": "Tag(s)",
     "preparation-time": "Préparation",
     "cooking-time": "Cuisson",
     "ingredients-list": "Ingrédients",
     "cooking-instructions": "Description de la Recette"
   },
-  "types": {
+  "tags": {
+    "vegetables": "Légumes",
+    "meat": "Viande",
+    "fish": "Poisson",
+    "fruits": "Fruits",
     "appetizer": "Apéritif",
     "starter": "Entrée",
     "lunch": "Déjeuner",
     "dinner": "Diner",
     "dessert": "Dessert",
     "sides": "Accompagnement"
-  },
-  "tags": {
-    "vegetables": "Légumes",
-    "meat": "Viande",
-    "fish": "Poisson",
-    "fruits": "Fruits"
   },
   "parts": {
     "comboBox": "Nombre de personne(s)"
