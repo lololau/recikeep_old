@@ -7,8 +7,8 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import SearchBar, { filterSearchBar } from '../../components/search_bar';
-import TagBox from '../../components/tags';
+import SearchBar, { filterSearchBar } from '../../components/SearchBar';
+import TagBox from '../../components/Tags';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -40,7 +40,7 @@ export const RecipesList: FC<RecipesListProps> = (props) => {
         <List>
             {props.recipes.map((recipe, index) => {
                 return (
-                    <ListItem divider={true} key={index}>
+                    <ListItem divider={true} key={'RecipesList' + index}>
                         <Link to={'/recipe/' + index}>
                             <ListItemText primary={recipe.name} id={index.toString()} />
                         </Link>

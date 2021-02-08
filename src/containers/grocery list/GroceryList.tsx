@@ -35,7 +35,7 @@ const CheckIngredientsList: FC<IngredientListProps> = (props) => {
         <List>
             {props.ingredients.map((ingredient, index) => {
                 return (
-                    <ListItem divider={true} key={index}>
+                    <ListItem divider={true} key={'CheckIngredientsList' + index}>
                         <ListItemIcon>
                             <Checkbox edge="start" checked={false} tabIndex={-1} disableRipple />
                         </ListItemIcon>

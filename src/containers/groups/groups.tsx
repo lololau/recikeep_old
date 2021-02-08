@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import Grid from '@material-ui/core/Grid';
 import { IconButton } from '@material-ui/core';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
-import SearchBar, { filterSearchBar } from '../../components/search_bar';
-import ListComponent from '../../components/list';
+import SearchBar, { filterSearchBar } from '../../components/SearchBar';
+import ListComponent from '../../components/List';
 
 type group = {
     name: string;

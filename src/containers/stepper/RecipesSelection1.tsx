@@ -1,16 +1,16 @@
-import { RecipesListProps, myRecipes } from '../recipes/recipes';
+import { RecipesListProps, myRecipes } from '../recipes/Recipes';
 import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import TagsBox from '../../components/tags';
+import TagsBox from '../../components/Tags';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import React from 'react';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import SearchBar, { filterSearchBar } from '../../components/search_bar';
+import SearchBar, { filterSearchBar } from '../../components/SearchBar';
 
 const SelectionRecipesList: FC<RecipesListProps> = (props) => {
     return (

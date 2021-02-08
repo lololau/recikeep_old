@@ -1,18 +1,18 @@
 import './App.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Profile from './containers/profil/profil';
-import HomeRecipes from './containers/recipes/recipes';
-import MyRecipe from './containers/recipe/recipe';
-import NewRecipe from './containers/new recipe/new_recipe';
+import Profile from './containers/profil/Profil';
+import HomeRecipes from './containers/recipes/Recipes';
+import MyRecipe from './containers/recipe/Recipe';
+import NewRecipe from './containers/new recipe/NewRecipe';
 import React from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
-import ToolsBar from './containers/toolsbar/toolsbar';
-import GroceryList from './containers/grocery list/grocery_list';
-import MyIngredients from './containers/my-ingredients/my_ingredients';
+import ToolsBar from './containers/toolsbar/Toolsbar';
+import GroceryList from './containers/grocery list/GroceryList';
+import MyIngredients from './containers/my-ingredients/MyIngredients';
 import Paper from '@material-ui/core/Paper';
-import RecipesSelectionStepper from './containers/stepper/recipes_selection';
-import Groups from './containers/groups/groups';
+import RecipesSelectionStepper from './containers/stepper/RecipesSelection';
+import Groups from './containers/groups/Groups';
 
 const theme = createMuiTheme({
     palette: {

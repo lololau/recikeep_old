@@ -5,8 +5,8 @@ import { Button, IconButton, TextField } from '@material-ui/core';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import Grid from '@material-ui/core/Grid';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
-import SearchBar, { filterSearchBar } from '../../components/search_bar';
-import ListComponent from '../../components/list';
+import SearchBar, { filterSearchBar } from '../../components/SearchBar';
+import ListComponent from '../../components/List';
 
 type ingredient = {
     name: string;

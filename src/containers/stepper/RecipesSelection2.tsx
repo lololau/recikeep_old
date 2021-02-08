@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { RecipesListProps, myRecipes } from '../recipes/recipes';
+import { RecipesListProps, myRecipes } from '../recipes/Recipes';
 import { FunctionComponent } from 'react';
 import { useTranslation } from 'react-i18next';
 import List from '@material-ui/core/List';
@@ -55,7 +55,7 @@ const SelectionPartsRecipes: FunctionComponent<RecipesListProps> = (props) => {
         <List>
             {props.recipes.map((recipe, index) => {
                 return (
-                    <ListItem divider={true} key={index}>
+                    <ListItem divider={true} key={'SelectionPartsRecipes' + index}>
                         <ListItemText primary={recipe.name} id={index.toString()} />
 
                         <PartsComboBox />

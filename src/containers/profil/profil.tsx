@@ -10,7 +10,7 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import { IconButton } from '@material-ui/core';
-import { RecipesList } from '../recipes/recipes';
+import { RecipesList } from '../recipes/Recipes';
 
 const myFavoriteRecipes = [{ name: 'Poulet cury', id: '0' }];
 
