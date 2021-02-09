@@ -1,5 +1,5 @@
-import { RecipesListProps, myRecipes } from '../recipes/Recipes';
-import { FC, useState } from 'react';
+import { RecipesListProps } from '../recipes/Recipes';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -10,9 +10,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import React from 'react';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import SearchBar, { filterSearchBar } from '../../components/SearchBar';
+import SearchBar from '../../components/SearchBar';
+import { selectRecipes, Recipe } from '../../slice/recipeSlice';
+import { useSelector } from 'react-redux';
 
-const SelectionRecipesList: FC<RecipesListProps> = (props) => {
+const SelectionRecipesList = (props: RecipesListProps) => {
     return (
         <List>
             {props.recipes.map((recipe, index) => {
@@ -31,10 +33,21 @@ const SelectionRecipesList: FC<RecipesListProps> = (props) => {
 
 const SelectionRecipes = (): JSX.Element => {
     const { t } = useTranslation();
-    const [recipesDisplay, setRecipesDisplay] = useState(myRecipes);
+    const recipes = useSelector(selectRecipes);
+
+    const [recipesDisplay, setRecipesDisplay] = useState(recipes);
+
     const onChange = (ids: string[]) => {
-        const recipes = filterSearchBar(myRecipes, ids);
-        setRecipesDisplay(recipes);
+        const newRecipes: Recipe[] = recipes.filter((recipe) => {
+            let resultat = false;
+            for (let i = 0; i < ids.length; i++) {
+                if (recipe.id.toString() === ids[i]) {
+                    resultat = true;
+                }
+            }
+            return resultat;
+        });
+        setRecipesDisplay(newRecipes);
     };
 
     return (
@@ -48,7 +61,7 @@ const SelectionRecipes = (): JSX.Element => {
                 }}
             >
                 <Grid item xs={6}>
-                    <SearchBar onchange={onChange} elements={myRecipes} width="100%" />
+                    <SearchBar onchange={onChange} elements={recipes} width="100%" />
                 </Grid>
                 <Grid item xs={6}>
                     <TagsBox />

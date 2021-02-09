@@ -2,10 +2,10 @@ import React, { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TextField, Box } from '@material-ui/core';
 
-type Element = {
+interface Element {
     name: string;
-    id: string;
-};
+    id: number;
+}
 
 type onChange = (ids: string[]) => void;
 
@@ -17,7 +17,7 @@ type SearchBarProps = {
 
 export const filterSearchBar = (groups: Element[], filter: string[]): Element[] => {
     return groups.filter((group) => {
-        return filter.includes(group.id);
+        return filter.includes(group.id.toString());
     });
 };
 
@@ -36,10 +36,12 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
                 return item.name.toLowerCase().includes(newValue.toLowerCase());
             })
             .map((elt) => {
-                return elt.id;
+                return elt.id.toString();
             });
-
-        props.onchange(idList);
+        const recipesFiltered = filterSearchBar(props.elements, idList).map((elt) => {
+            return elt.id.toString();
+        });
+        props.onchange(recipesFiltered);
     };
 
     return (

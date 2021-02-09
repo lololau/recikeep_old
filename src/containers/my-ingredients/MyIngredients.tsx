@@ -10,14 +10,14 @@ import ListComponent from '../../components/List';
 
 type ingredient = {
     name: string;
-    id: string;
+    id: number;
 };
 type ingredients = ingredient[];
 
 const myIngredients: ingredients = [
-    { name: 'Patate', id: '0' },
-    { name: 'Ananas', id: '1' },
-    { name: 'Banane', id: '2' },
+    { name: 'Patate', id: 0 },
+    { name: 'Ananas', id: 1 },
+    { name: 'Banane', id: 2 },
 ];
 
 const MyIngredients = (): JSX.Element => {
@@ -43,7 +43,7 @@ const MyIngredients = (): JSX.Element => {
                 </Grid>
             </Grid>
             <SearchBar elements={myIngredients} onchange={onChange} width={'50%'} />
-            <ListComponent listElements={ingredientsDisplay} />
+            {/* <ListComponent listElements={ingredientsDisplay} /> */}
             <Dialog open={modalOpen} style={{}}>
                 <Container>
                     <DialogTitle>
