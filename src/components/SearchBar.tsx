@@ -38,10 +38,8 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
             .map((elt) => {
                 return elt.id.toString();
             });
-        const recipesFiltered = filterSearchBar(props.elements, idList).map((elt) => {
-            return elt.id.toString();
-        });
-        props.onchange(recipesFiltered);
+
+        props.onchange(idList);
     };
 
     return (

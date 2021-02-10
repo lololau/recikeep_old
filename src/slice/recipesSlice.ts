@@ -29,7 +29,7 @@ const PateCarbo: Recipe = {
 };
 
 const PateSaumon: Recipe = {
-    id: 0,
+    id: 1,
     name: 'Pâtes au saumon',
     user_id: 'lolo',
     number_parts: 2,
