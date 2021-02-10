@@ -10,9 +10,6 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import { IconButton } from '@material-ui/core';
-import { RecipesList } from '../recipes/Recipes';
-
-const myFavoriteRecipes = [{ name: 'Poulet cury', id: 0 }];
 
 const Profile = (): JSX.Element => {
     const changeLanguage = (lng: string) => {
@@ -49,13 +46,6 @@ const Profile = (): JSX.Element => {
             </Grid>
             <p>{t('profile.name')}</p>
             <br />
-            <Grid container spacing={2} style={{ alignItems: 'center' }}>
-                <p>{t('profile.favorite')}</p>
-                <IconButton>
-                    <EditIcon style={{ fontSize: 15 }} color="primary" />
-                </IconButton>
-            </Grid>
-            {/* <RecipesList recipes={myFavoriteRecipes} /> */}
             <br />
             <Link to="/profile/my_ingredients">
                 <p>{t('myIngredients.title-page')}</p>
