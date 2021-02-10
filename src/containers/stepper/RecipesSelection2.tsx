@@ -9,7 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import React from 'react';
 import Container from '@material-ui/core/Container';
-import { selectRecipes } from '../../slice/recipeSlice';
+import { selectRecipes } from '../../slice/recipesSlice';
 import { useSelector } from 'react-redux';
 
 export const PartsComboBox = (): JSX.Element => {
