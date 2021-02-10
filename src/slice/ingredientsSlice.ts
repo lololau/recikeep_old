@@ -17,6 +17,7 @@ const initialState: IngredientsList = {
         { name: 'Patate', id: 0, date_creation: new Date(2021, 2, 10), date_update: new Date(2021, 2, 10) },
         { name: 'Ananas', id: 1, date_creation: new Date(2021, 2, 10), date_update: new Date(2021, 2, 10) },
         { name: 'Banane', id: 2, date_creation: new Date(2021, 2, 10), date_update: new Date(2021, 2, 10) },
+        { name: 'Garry', id: 3, date_creation: new Date(2021, 2, 10), date_update: new Date(2021, 2, 10) },
     ],
 };
 
