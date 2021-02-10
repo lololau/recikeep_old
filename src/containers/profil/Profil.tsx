@@ -10,7 +10,7 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import { IconButton } from '@material-ui/core';
-import { selectUser, User } from '../../slice/userSlice';
+import { selectUser } from '../../slice/userSlice';
 import { useSelector } from 'react-redux';
 
 const Profile = (): JSX.Element => {

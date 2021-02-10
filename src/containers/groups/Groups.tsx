@@ -4,30 +4,29 @@ import { useTranslation } from 'react-i18next';
 import Grid from '@material-ui/core/Grid';
 import { IconButton } from '@material-ui/core';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
-import SearchBar, { filterSearchBar } from '../../components/SearchBar';
-
-type group = {
-    name: string;
-    id: number;
-};
-type groups = group[];
-
-const myGroups: groups = [
-    { name: 'Famille Verhille', id: 0 },
-    { name: 'Beeboo recipes', id: 1 },
-    { name: 'Baguera Pot', id: 2 },
-];
+import SearchBar from '../../components/SearchBar';
+import ListComponent from '../../components/List';
+import { selectGroups, Group } from '../../slice/groupsSlice';
+import { useSelector } from 'react-redux';
 
 const Groups = (): JSX.Element => {
+    const groups = useSelector(selectGroups);
+
     const { t } = useTranslation();
 
-    const [groupsDisplay, setGroupsDisplay] = useState(myGroups);
+    const [groupsDisplay, setGroupsDisplay] = useState(groups);
 
-    console.log(groupsDisplay);
     const onchange = (ids: string[]) => {
-        const groups = filterSearchBar(myGroups, ids);
-        setGroupsDisplay(groups);
-        console.log(groups);
+        const newGroups: Group[] = groups.filter((group) => {
+            let resultat = false;
+            for (let i = 0; i < ids.length; i++) {
+                if (group.id.toString() === ids[i]) {
+                    resultat = true;
+                }
+            }
+            return resultat;
+        });
+        setGroupsDisplay(newGroups);
     };
 
     return (
@@ -43,10 +42,10 @@ const Groups = (): JSX.Element => {
                 </Grid>
             </Grid>
             <Grid>
-                <SearchBar width="50%" onchange={onchange} elements={myGroups} />
+                <SearchBar width="50%" onchange={onchange} elements={groups} />
             </Grid>
             <br />
-            {/* <ListComponent listElements={groupsDisplay} /> */}
+            <ListComponent listElements={groupsDisplay} />
         </Container>
     );
 };
