@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { RecipesListProps, myRecipes } from '../recipes/recipes';
+import { RecipesListProps } from '../recipes/Recipes';
 import { FunctionComponent } from 'react';
 import { useTranslation } from 'react-i18next';
 import List from '@material-ui/core/List';
@@ -9,6 +9,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import React from 'react';
 import Container from '@material-ui/core/Container';
+import { selectRecipes } from '../../slice/recipesSlice';
+import { useSelector } from 'react-redux';
 
 export const PartsComboBox = (): JSX.Element => {
     const { t } = useTranslation();
@@ -55,7 +57,7 @@ const SelectionPartsRecipes: FunctionComponent<RecipesListProps> = (props) => {
         <List>
             {props.recipes.map((recipe, index) => {
                 return (
-                    <ListItem divider={true} key={index}>
+                    <ListItem divider={true} key={'SelectionPartsRecipes' + index}>
                         <ListItemText primary={recipe.name} id={index.toString()} />
 
                         <PartsComboBox />
@@ -67,6 +69,7 @@ const SelectionPartsRecipes: FunctionComponent<RecipesListProps> = (props) => {
 };
 
 const SelectionParts = (): JSX.Element => {
+    const recipes = useSelector(selectRecipes);
     const { t } = useTranslation();
 
     return (
@@ -74,7 +77,7 @@ const SelectionParts = (): JSX.Element => {
             <h1>{t('stepper.title-part')}</h1>
 
             <div className="SelectionRecipesList">
-                <SelectionPartsRecipes recipes={myRecipes} />
+                <SelectionPartsRecipes recipes={recipes} />
             </div>
         </Container>
     );

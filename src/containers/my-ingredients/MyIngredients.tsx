@@ -5,19 +5,18 @@ import { Button, IconButton, TextField } from '@material-ui/core';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import Grid from '@material-ui/core/Grid';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
-import SearchBar, { filterSearchBar } from '../../components/search_bar';
-import ListComponent from '../../components/list';
+import SearchBar, { filterSearchBar } from '../../components/SearchBar';
 
 type ingredient = {
     name: string;
-    id: string;
+    id: number;
 };
 type ingredients = ingredient[];
 
 const myIngredients: ingredients = [
-    { name: 'Patate', id: '0' },
-    { name: 'Ananas', id: '1' },
-    { name: 'Banane', id: '2' },
+    { name: 'Patate', id: 0 },
+    { name: 'Ananas', id: 1 },
+    { name: 'Banane', id: 2 },
 ];
 
 const MyIngredients = (): JSX.Element => {
@@ -25,6 +24,7 @@ const MyIngredients = (): JSX.Element => {
     const [modalOpen, setModalOpen] = useState(false);
     const [ingredientsDisplay, setIngredientsDisplay] = useState(myIngredients);
 
+    console.log(ingredientsDisplay);
     const onChange = (ids: string[]) => {
         const ingredients = filterSearchBar(myIngredients, ids);
         setIngredientsDisplay(ingredients);
@@ -43,7 +43,7 @@ const MyIngredients = (): JSX.Element => {
                 </Grid>
             </Grid>
             <SearchBar elements={myIngredients} onchange={onChange} width={'50%'} />
-            <ListComponent listElements={ingredientsDisplay} />
+            {/* <ListComponent listElements={ingredientsDisplay} /> */}
             <Dialog open={modalOpen} style={{}}>
                 <Container>
                     <DialogTitle>

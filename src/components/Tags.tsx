@@ -34,7 +34,7 @@ const TagBox = (): JSX.Element => {
             freeSolo
             renderTags={(value: string[], getTagProps) =>
                 value.map((option: string, index: number) => (
-                    <Chip variant="outlined" label={option} {...getTagProps({ index })} key={option} />
+                    <Chip variant="outlined" label={option} {...getTagProps({ index })} key={'TagBox' + index} />
                 ))
             }
             renderInput={(params) => <TextField {...params} variant="filled" label="Tags" />}

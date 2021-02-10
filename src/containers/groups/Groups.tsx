@@ -4,19 +4,18 @@ import { useTranslation } from 'react-i18next';
 import Grid from '@material-ui/core/Grid';
 import { IconButton } from '@material-ui/core';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
-import SearchBar, { filterSearchBar } from '../../components/search_bar';
-import ListComponent from '../../components/list';
+import SearchBar, { filterSearchBar } from '../../components/SearchBar';
 
 type group = {
     name: string;
-    id: string;
+    id: number;
 };
 type groups = group[];
 
 const myGroups: groups = [
-    { name: 'Famille Verhille', id: '0' },
-    { name: 'Beeboo recipes', id: '1' },
-    { name: 'Baguera Pot', id: '2' },
+    { name: 'Famille Verhille', id: 0 },
+    { name: 'Beeboo recipes', id: 1 },
+    { name: 'Baguera Pot', id: 2 },
 ];
 
 const Groups = (): JSX.Element => {
@@ -24,6 +23,7 @@ const Groups = (): JSX.Element => {
 
     const [groupsDisplay, setGroupsDisplay] = useState(myGroups);
 
+    console.log(groupsDisplay);
     const onchange = (ids: string[]) => {
         const groups = filterSearchBar(myGroups, ids);
         setGroupsDisplay(groups);
@@ -46,7 +46,7 @@ const Groups = (): JSX.Element => {
                 <SearchBar width="50%" onchange={onchange} elements={myGroups} />
             </Grid>
             <br />
-            <ListComponent listElements={groupsDisplay} />
+            {/* <ListComponent listElements={groupsDisplay} /> */}
         </Container>
     );
 };
