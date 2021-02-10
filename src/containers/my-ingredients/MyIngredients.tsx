@@ -5,29 +5,30 @@ import { Button, IconButton, TextField } from '@material-ui/core';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import Grid from '@material-ui/core/Grid';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
-import SearchBar, { filterSearchBar } from '../../components/SearchBar';
-
-type ingredient = {
-    name: string;
-    id: number;
-};
-type ingredients = ingredient[];
-
-const myIngredients: ingredients = [
-    { name: 'Patate', id: 0 },
-    { name: 'Ananas', id: 1 },
-    { name: 'Banane', id: 2 },
-];
+import SearchBar from '../../components/SearchBar';
+import ListComponent from '../../components/List';
+import { selectIngredients, Ingredient } from '../../slice/ingredientsSlice';
+import { useSelector } from 'react-redux';
 
 const MyIngredients = (): JSX.Element => {
+    const ingredients = useSelector(selectIngredients);
     const { t } = useTranslation();
-    const [modalOpen, setModalOpen] = useState(false);
-    const [ingredientsDisplay, setIngredientsDisplay] = useState(myIngredients);
 
-    console.log(ingredientsDisplay);
+    const [modalOpen, setModalOpen] = useState(false);
+
+    const [ingredientsDisplay, setIngredientsDisplay] = useState(ingredients);
+
     const onChange = (ids: string[]) => {
-        const ingredients = filterSearchBar(myIngredients, ids);
-        setIngredientsDisplay(ingredients);
+        const newIngredients: Ingredient[] = ingredients.filter((ingredient) => {
+            let resultat = false;
+            for (let i = 0; i < ids.length; i++) {
+                if (ingredient.id.toString() === ids[i]) {
+                    resultat = true;
+                }
+            }
+            return resultat;
+        });
+        setIngredientsDisplay(newIngredients);
     };
 
     return (
@@ -42,8 +43,8 @@ const MyIngredients = (): JSX.Element => {
                     </IconButton>
                 </Grid>
             </Grid>
-            <SearchBar elements={myIngredients} onchange={onChange} width={'50%'} />
-            {/* <ListComponent listElements={ingredientsDisplay} /> */}
+            <SearchBar elements={ingredients} onchange={onChange} width={'50%'} />
+            <ListComponent listElements={ingredientsDisplay} />
             <Dialog open={modalOpen} style={{}}>
                 <Container>
                     <DialogTitle>

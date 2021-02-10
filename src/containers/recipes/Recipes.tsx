@@ -25,11 +25,6 @@ export type RecipesListProps = {
     recipes: Recipe[];
 };
 
-export const myRecipes = [
-    { name: 'Pates Carbonara', id: 0 },
-    { name: 'Poulet cury', id: 1 },
-];
-
 export const RecipesList = (props: RecipesListProps): JSX.Element => {
     return (
         <List>
