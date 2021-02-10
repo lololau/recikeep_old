@@ -24,6 +24,7 @@ const MyIngredients = (): JSX.Element => {
     const [modalOpen, setModalOpen] = useState(false);
     const [ingredientsDisplay, setIngredientsDisplay] = useState(myIngredients);
 
+    console.log(ingredientsDisplay);
     const onChange = (ids: string[]) => {
         const ingredients = filterSearchBar(myIngredients, ids);
         setIngredientsDisplay(ingredients);
