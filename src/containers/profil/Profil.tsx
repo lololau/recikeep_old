@@ -10,12 +10,17 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import { IconButton } from '@material-ui/core';
+import { selectUser, User } from '../../slice/userSlice';
+import { useSelector } from 'react-redux';
 
 const Profile = (): JSX.Element => {
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng);
     };
     const { t } = useTranslation();
+
+    const user = useSelector(selectUser);
+
     return (
         <Container>
             <Grid container spacing={4}>
@@ -39,12 +44,20 @@ const Profile = (): JSX.Element => {
             <br />
             <br />
             <Grid container spacing={2} style={{ alignItems: 'center' }}>
-                <p>{t('profile.username')}</p>
+                <p>{user.name}</p>
+
                 <IconButton>
                     <EditIcon style={{ fontSize: 15 }} color="primary" />
                 </IconButton>
             </Grid>
-            <p>{t('profile.name')}</p>
+            <Grid container spacing={2} style={{ alignItems: 'center' }}>
+                <p>{user.email}</p>
+
+                <IconButton>
+                    <EditIcon style={{ fontSize: 15 }} color="primary" />
+                </IconButton>
+            </Grid>
+
             <br />
             <br />
             <Link to="/profile/my_ingredients">
