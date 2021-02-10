@@ -9,7 +9,7 @@ type ListProps = {
 
 type Element = {
     name: string;
-    id: string;
+    id: number;
 };
 
 const ListComponent = (props: ListProps): JSX.Element => {

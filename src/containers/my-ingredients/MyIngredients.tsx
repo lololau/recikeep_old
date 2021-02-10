@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
@@ -19,7 +18,6 @@ const MyIngredients = (): JSX.Element => {
 
     const [ingredientsDisplay, setIngredientsDisplay] = useState(ingredients);
 
-    console.log(ingredientsDisplay);
     const onChange = (ids: string[]) => {
         const newIngredients: Ingredient[] = ingredients.filter((ingredient) => {
             let resultat = false;
@@ -46,7 +44,7 @@ const MyIngredients = (): JSX.Element => {
                 </Grid>
             </Grid>
             <SearchBar elements={ingredients} onchange={onChange} width={'50%'} />
-            <ListComponent listElements={ingredientsDisplay} /> */}
+            <ListComponent listElements={ingredientsDisplay} />
             <Dialog open={modalOpen} style={{}}>
                 <Container>
                     <DialogTitle>
