@@ -3,13 +3,12 @@ import React, { ChangeEvent, useState } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
-import { FirebaseAuthProvider, FirebaseAuthConsumer, IfFirebaseAuthedAnd } from '@react-firebase/auth';
-import config from './config';
 import { Button, TextField, Grid } from '@material-ui/core';
 
 const Firebase = (): JSX.Element => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
     const onChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
     };
@@ -17,10 +16,42 @@ const Firebase = (): JSX.Element => {
         setEmail(event.target.value);
     };
 
-    console.log(email);
-    console.log(password);
+    const onSignUp = () => {
+        signUpWithEmailPassword(email, password)
+            .then((userCredential) => {
+                // Signed in
+                const { user } = userCredential;
+                if (user) {
+                    firebaseId = user.uid;
+                }
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log('Error: signUpWithEmailPassword, errorCode: ', errorCode);
+                console.log('Error: signUpWithEmailPassword, errorMessage: ', errorMessage);
+            });
+    };
+
+    const onSignIn = () => {
+        signInWithEmailPassword(email, password)
+            .then((userCredential) => {
+                // Signed in
+                const { user } = userCredential;
+                if (user) {
+                    firebaseId = user.uid;
+                }
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log('Error: signInWithEmailPassword, errorCode: ', errorCode);
+                console.log('Error: signInWithEmailPassword, errorMessage: ', errorMessage);
+            });
+    };
+
     return (
-        <FirebaseAuthProvider {...config} firebase={firebase}>
+        <>
             <Grid container spacing={6} style={{ alignItems: 'center' }}>
                 <Grid item xs>
                     <TextField type="text" onChange={onChangeEmail} placeholder="Enter your email" />
@@ -29,78 +60,22 @@ const Firebase = (): JSX.Element => {
                     <TextField type="password" onChange={onChangePassword} placeholder="Enter your password" />
                 </Grid>
                 <Grid item xs>
-                    <Button
-                        data-testid="signin-anon"
-                        onClick={() => {
-                            firebase
-                                .auth()
-                                .signInWithEmailAndPassword(email, password)
-                                .then(function (result) {
-                                    // result.user.tenantId should be ‘TENANT_PROJECT_ID’.
-                                    console.log(result);
-                                })
-                                .catch(function (error) {
-                                    console.log(error);
-                                    // Handle error.
-                                });
-                        }}
-                    >
-                        Sign In
-                    </Button>
+                    <Button onClick={onSignIn}>Sign In</Button>
                 </Grid>
             </Grid>
-            <Button
-                data-testid="signin-anon"
-                onClick={() => {
-                    firebase
-                        .auth()
-                        .createUserWithEmailAndPassword(email, password)
-                        .catch(function (error) {
-                            // Handle Errors here.
-                            const errorCode = error.code;
-                            const errorMessage = error.message;
-                            if (errorCode == 'auth/weak-password') {
-                                alert('The password is too weak.');
-                            } else {
-                                alert(errorMessage);
-                            }
-                            console.log(error);
-                        });
-                }}
-            >
-                Create an account
-            </Button>
-            <Button
-                onClick={() => {
-                    firebase.auth().signOut();
-                }}
-            >
-                Sign Out
-            </Button>
-            <FirebaseAuthConsumer>
-                {({ isSignedIn, user, providerId }) => {
-                    if (user !== null) {
-                        const firebaseId = user.uid;
-                        console.log(firebaseId);
-                        const email = user.email;
-                        console.log(email);
-                        const accessToken = user.za;
-                        console.log(accessToken);
-                    }
-                    return (
-                        <pre style={{ height: 300, overflow: 'auto' }}>
-                            {JSON.stringify({ isSignedIn, user, providerId }, null, 2)}
-                        </pre>
-                    );
-                }}
-            </FirebaseAuthConsumer>
-            <IfFirebaseAuthedAnd filter={({ providerId }) => providerId !== 'anonymous'}>
-                {({ providerId }) => {
-                    return <div>You are authenticated with {providerId}</div>;
-                }}
-            </IfFirebaseAuthedAnd>
-        </FirebaseAuthProvider>
+            <Button onClick={onSignUp}>Create an account</Button>
+        </>
     );
+};
+
+export let firebaseId: string;
+
+const signUpWithEmailPassword = (email: string, password: string) => {
+    return firebase.auth().createUserWithEmailAndPassword(email, password);
+};
+
+const signInWithEmailPassword = (email: string, password: string) => {
+    return firebase.auth().signInWithEmailAndPassword(email, password);
 };
 
 export default Firebase;

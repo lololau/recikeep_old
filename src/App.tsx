@@ -4,7 +4,7 @@ import Profile from './containers/profil/Profil';
 import HomeRecipes from './containers/recipes/Recipes';
 import MyRecipe from './containers/recipe/Recipe';
 import NewRecipe from './containers/new recipe/NewRecipe';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -17,8 +17,9 @@ import RecipesSelectionStepper from './containers/stepper/RecipesSelection';
 import Groups from './containers/groups/Groups';
 import Modal from '@material-ui/core/Modal';
 import Firebase from './Firebase';
-import { useSelector } from 'react-redux';
-import { isLogged } from './slice/userSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { isLogged, updateFirebaseId } from './slice/userSlice';
+import firebase from 'firebase/app';
 
 const theme = createMuiTheme({
     palette: {
@@ -32,6 +33,8 @@ const theme = createMuiTheme({
 });
 
 const App = (): JSX.Element => {
+    const dispatch = useDispatch();
+
     const [open, setOpen] = React.useState(false);
     const logged = useSelector(isLogged);
     console.log(logged);
@@ -44,9 +47,31 @@ const App = (): JSX.Element => {
         setOpen(false);
     };
 
-    return (
-        <ThemeProvider theme={theme}>
+    const onAuthStateChanged = (user: firebase.User | null) => {
+        console.log('User: ', user);
+        if (user) {
+            dispatch(updateFirebaseId(user.uid));
+        }
+    };
+
+    useEffect(() => {
+        const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
+        return subscriber; // unsubscribe on unmount
+    }, []);
+
+    const logIn = () => {
+        return (
             <div>
+                <Box style={{ textAlign: 'right' }}>
+                    <Button
+                        onClick={() => {
+                            firebase.auth().signOut();
+                            dispatch(updateFirebaseId(''));
+                        }}
+                    >
+                        Sign Out
+                    </Button>
+                </Box>
                 <Router>
                     <div className="App">
                         <Route path="/recipes" exact component={HomeRecipes} />
@@ -71,8 +96,13 @@ const App = (): JSX.Element => {
                     </Paper>
                 </Router>
             </div>
+        );
+    };
+
+    const logOut = () => {
+        return (
             <div>
-                <Box style={{ textAlign: 'right' }}>
+                <Box style={{ textAlign: 'center' }}>
                     <Button className="logged-in" onClick={handleOpen}>
                         Login
                     </Button>
@@ -89,6 +119,12 @@ const App = (): JSX.Element => {
                     </Paper>
                 </Modal>
             </div>
+        );
+    };
+
+    return (
+        <ThemeProvider theme={theme}>
+            <div>{logged ? logIn() : logOut()}</div>
         </ThemeProvider>
     );
 };

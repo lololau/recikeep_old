@@ -4,8 +4,6 @@ import { RootState } from '../app/store';
 export interface Ingredient {
     id: number;
     name: string;
-    date_creation: Date;
-    date_update: Date;
 }
 
 type IngredientsList = {
@@ -14,10 +12,10 @@ type IngredientsList = {
 
 const initialState: IngredientsList = {
     ingredients: [
-        { name: 'Patate', id: 0, date_creation: new Date(2021, 2, 10), date_update: new Date(2021, 2, 10) },
-        { name: 'Ananas', id: 1, date_creation: new Date(2021, 2, 10), date_update: new Date(2021, 2, 10) },
-        { name: 'Banane', id: 2, date_creation: new Date(2021, 2, 10), date_update: new Date(2021, 2, 10) },
-        { name: 'Garry', id: 3, date_creation: new Date(2021, 2, 10), date_update: new Date(2021, 2, 10) },
+        { name: 'Patate', id: 0 },
+        { name: 'Ananas', id: 1 },
+        { name: 'Banane', id: 2 },
+        { name: 'Garry', id: 3 },
     ],
 };
 

@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './i18n';
+import './config';
 
 // REDUX
 import { Provider } from 'react-redux';

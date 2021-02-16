@@ -44,7 +44,7 @@ const Profile = (): JSX.Element => {
             <br />
             <br />
             <Grid container spacing={2} style={{ alignItems: 'center' }}>
-                <p>{user.name}</p>
+                <p>{user.username}</p>
 
                 <IconButton>
                     <EditIcon style={{ fontSize: 15 }} color="primary" />
