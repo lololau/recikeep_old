@@ -11,8 +11,6 @@ export interface Recipe {
     number_parts: number;
     time_presentation?: string;
     time_cooking?: string;
-    date_creation: Date;
-    date_update: Date;
 }
 
 type RecipeList = {
@@ -24,8 +22,6 @@ const PateCarbo: Recipe = {
     name: 'Pâtes Carbonnara',
     user_id: 'lolo',
     number_parts: 2,
-    date_creation: new Date(2021, 2, 8),
-    date_update: new Date(2021, 2, 8),
 };
 
 const PateSaumon: Recipe = {
@@ -33,8 +29,6 @@ const PateSaumon: Recipe = {
     name: 'Pâtes au saumon',
     user_id: 'lolo',
     number_parts: 2,
-    date_creation: new Date(2021, 2, 8),
-    date_update: new Date(2021, 2, 8),
 };
 
 const initialState: RecipeList = {
