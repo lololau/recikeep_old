@@ -1,22 +1,30 @@
 {
   "name": "recikeep-server",
   "version": "1.0.0",
+  "dependencies": {
+    "@types/node": "^14.14.28",
+    "@types/sqlite3": "^3.1.7",
+    "@typescript-eslint/eslint-plugin": "^4.13.0",
+    "@typescript-eslint/parser": "^4.13.0",
+    "eslint": "^7.20.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "prettier": "^2.2.1",
+    "sqlite3": "^5.0.2",
+    "typescript": "^4.1.5"
+  },
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "npm run build && node build/index.js",
     "start:dev": "nodemon",
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint 'src/**/*.{js,ts,tsx}'",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier '.*.js' 'src/**/*.{js,ts,tsx}' -w"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@types/node": "^14.14.28",
-    "@types/sqlite3": "^3.1.7",
-    "sqlite3": "^5.0.2",
-    "typescript": "^4.1.5"
-  },
   "devDependencies": {
     "nodemon": "^2.0.7",
     "ts-node": "^9.1.1"
