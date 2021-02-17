@@ -1,11 +1,9 @@
-import sqlite3 from "sqlite3";
-const db = new sqlite3.Database(
-  process.env.TEST_DATABASE || "./database.sqlite"
-);
+import sqlite3 from 'sqlite3';
+const db = new sqlite3.Database(process.env.TEST_DATABASE || './database.sqlite');
 
 db.serialize(() => {
-  db.run("DROP TABLE IF EXISTS Recipe");
-  db.run(`CREATE TABLE Recipe (
+    db.run('DROP TABLE IF EXISTS Recipe');
+    db.run(`CREATE TABLE Recipe (
         id INTEGER,
         name TEXT UNIQUE NOT NULL,
         presentation TEXT,
@@ -22,8 +20,8 @@ db.serialize(() => {
         FOREIGN KEY(recipe_photo_id) REFERENCES Recipe_photo(id),
         FOREIGN KEY(recipe_description_id) REFERENCES Recipe_description(id)
     )`);
-  db.run("DROP TABLE IF EXISTS User");
-  db.run(`CREATE TABLE User (
+    db.run('DROP TABLE IF EXISTS User');
+    db.run(`CREATE TABLE User (
         id INTEGER,
         username TEXT UNIQUE,
         firebaseId TEXT UNIQUE,
@@ -32,43 +30,43 @@ db.serialize(() => {
         date_update DATE,
         PRIMARY KEY("id" AUTOINCREMENT)
     )`);
-  db.run("DROP TABLE IF EXISTS Recipe_photo");
-  db.run(`CREATE TABLE Recipe_photo (
+    db.run('DROP TABLE IF EXISTS Recipe_photo');
+    db.run(`CREATE TABLE Recipe_photo (
         id INTEGER,
         image BLOB,
         PRIMARY KEY("id" AUTOINCREMENT)
     )`);
-  db.run("DROP TABLE IF EXISTS Recipe_description");
-  db.run(`CREATE TABLE Recipe_description (
+    db.run('DROP TABLE IF EXISTS Recipe_description');
+    db.run(`CREATE TABLE Recipe_description (
         id INTEGER,
         image BLOB,
         PRIMARY KEY("id" AUTOINCREMENT)
     )`);
-  db.run("DROP TABLE IF EXISTS Groups");
-  db.run(`CREATE TABLE Groups (
+    db.run('DROP TABLE IF EXISTS Groups');
+    db.run(`CREATE TABLE Groups (
           id INTEGER,
           name TEXT NOT NULL,
           date_creation DATE,
           date_update DATE,
           PRIMARY KEY("id" AUTOINCREMENT)
       )`);
-  db.run("DROP TABLE IF EXISTS Recipe_group");
-  db.run(`CREATE TABLE Recipe_group (
+    db.run('DROP TABLE IF EXISTS Recipe_group');
+    db.run(`CREATE TABLE Recipe_group (
         group_id INTEGER,
         recipe_id INTEGER,
         FOREIGN KEY(group_id) REFERENCES Groups(id),
         FOREIGN KEY(recipe_id) REFERENCES Recipe(id)
     )`);
-  db.run("DROP TABLE IF EXISTS Ingredient");
-  db.run(`CREATE TABLE Ingredient (
+    db.run('DROP TABLE IF EXISTS Ingredient');
+    db.run(`CREATE TABLE Ingredient (
         id INTEGER,
         name TEXT NOT NULL,
         date_creation DATE,
         date_update DATE,
         PRIMARY KEY("id" AUTOINCREMENT)
     )`);
-  db.run("DROP TABLE IF EXISTS Recipe_ingredient");
-  db.run(`CREATE TABLE Recipe_ingredient (
+    db.run('DROP TABLE IF EXISTS Recipe_ingredient');
+    db.run(`CREATE TABLE Recipe_ingredient (
         ingredient_id INTEGER,
         recipe_id INTEGER,
         quantity INTEGER NOT NULL,
@@ -76,14 +74,14 @@ db.serialize(() => {
         FOREIGN KEY(ingredient_id) REFERENCES Ingredient(id),
         FOREIGN KEY(recipe_id) REFERENCES Recipe(id)
     )`);
-  db.run("DROP TABLE IF EXISTS Tag");
-  db.run(`CREATE TABLE Tag (
+    db.run('DROP TABLE IF EXISTS Tag');
+    db.run(`CREATE TABLE Tag (
         id INTEGER,
         name TEXT NOT NULL,
         PRIMARY KEY("id" AUTOINCREMENT)
     )`);
-  db.run("DROP TABLE IF EXISTS Recipe_tag");
-  db.run(`CREATE TABLE Recipe_tag (
+    db.run('DROP TABLE IF EXISTS Recipe_tag');
+    db.run(`CREATE TABLE Recipe_tag (
         recipe_id INTEGER,
         tag_id INTEGER,
         FOREIGN KEY(recipe_id) REFERENCES Recipe(id),
