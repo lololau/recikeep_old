@@ -7,7 +7,9 @@
     "start": "npm run build && node build/index.js",
     "start:dev": "nodemon",
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint 'src/**/*.{js,ts,tsx}'",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier '.*.js' 'src/**/*.{js,ts,tsx}' -w"
   },
   "author": "",
   "license": "ISC",
