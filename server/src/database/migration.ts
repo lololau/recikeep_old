@@ -4,14 +4,14 @@ const db = new sqlite3.Database(process.env.TEST_DATABASE || './database.sqlite'
 db.serialize(() => {
     db.run('DROP TABLE IF EXISTS Recipe');
     db.run(`CREATE TABLE Recipe (
-        id INTEGER,
+        id INTEGER UNIQUE,
         name TEXT UNIQUE NOT NULL,
         presentation TEXT,
-        number_parts INTEGER,
+        number_parts INTEGER NOT NULL,
         time_presentation TEXT,
         time_cooking TEXT,
-        date_creation DATE,
-        date_update DATE,
+        date_creation DATE NOT NULL,
+        date_update DATE NOT NULL,
         user_id INTEGER,
         recipe_photo_id INTEGER,
         recipe_description_id INTEGER,
@@ -22,7 +22,7 @@ db.serialize(() => {
     )`);
     db.run('DROP TABLE IF EXISTS User');
     db.run(`CREATE TABLE User (
-        id INTEGER,
+        id INTEGER UNIQUE,
         username TEXT UNIQUE,
         firebaseId TEXT UNIQUE,
         image BLOB,
@@ -32,19 +32,19 @@ db.serialize(() => {
     )`);
     db.run('DROP TABLE IF EXISTS Recipe_photo');
     db.run(`CREATE TABLE Recipe_photo (
-        id INTEGER,
+        id INTEGER UNIQUE,
         image BLOB,
         PRIMARY KEY("id" AUTOINCREMENT)
     )`);
     db.run('DROP TABLE IF EXISTS Recipe_description');
     db.run(`CREATE TABLE Recipe_description (
-        id INTEGER,
+        id INTEGER UNIQUE,
         image BLOB,
         PRIMARY KEY("id" AUTOINCREMENT)
     )`);
     db.run('DROP TABLE IF EXISTS Groups');
     db.run(`CREATE TABLE Groups (
-          id INTEGER,
+          id INTEGER UNIQUE,
           name TEXT NOT NULL,
           date_creation DATE,
           date_update DATE,
@@ -59,7 +59,7 @@ db.serialize(() => {
     )`);
     db.run('DROP TABLE IF EXISTS Ingredient');
     db.run(`CREATE TABLE Ingredient (
-        id INTEGER,
+        id INTEGER UNIQUE,
         name TEXT NOT NULL,
         date_creation DATE,
         date_update DATE,
@@ -76,7 +76,7 @@ db.serialize(() => {
     )`);
     db.run('DROP TABLE IF EXISTS Tag');
     db.run(`CREATE TABLE Tag (
-        id INTEGER,
+        id INTEGER UNIQUE,
         name TEXT NOT NULL,
         PRIMARY KEY("id" AUTOINCREMENT)
     )`);

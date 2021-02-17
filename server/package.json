@@ -21,7 +21,8 @@
     "build": "tsc",
     "lint": "eslint 'src/**/*.{js,ts,tsx}'",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "format": "prettier '.*.js' 'src/**/*.{js,ts,tsx}' -w"
+    "format": "prettier '.*.js' 'src/**/*.{js,ts,tsx}' -w",
+    "migration": "node build/database/migration.js"
   },
   "author": "",
   "license": "ISC",
