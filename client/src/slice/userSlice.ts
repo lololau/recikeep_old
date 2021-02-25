@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
-import firebase from 'firebase/app';
 
 export interface User {
     id: number;

@@ -71,22 +71,6 @@ const App = (): JSX.Element => {
         }
     };
 
-    const onAuthStateChangedAsync = async (user: firebase.User | null) => {
-        console.log('User: ', user);
-        if (user) {
-            dispatch(updateFirebaseId(user.uid));
-            try {
-                const idToken = await user.getIdToken();
-                dispatch(updateIdToken(idToken));
-            } catch (err) {
-                console.error(err);
-                throw err;
-            }
-
-            throw new Error('prout');
-        }
-    };
-
     useEffect(() => {
         const subscriber = firebase.auth().onIdTokenChanged(onAuthStateChanged);
         return subscriber; // unsubscribe on unmount
