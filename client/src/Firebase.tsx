@@ -4,10 +4,16 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import { Button, TextField, Grid } from '@material-ui/core';
+import { token, updateFirstName } from './slice/userSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 const Firebase = (): JSX.Element => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const idToken = useSelector(token);
+
+    const dispatch = useDispatch();
 
     const onChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
@@ -29,10 +35,26 @@ const Firebase = (): JSX.Element => {
             });
     };
 
+    const fetchGetUser = () => {
+        const myHeaders = new Headers({
+            Authorization: idToken,
+        });
+        fetch('http://localhost:3000/api/user/getUser', { headers: myHeaders }).then((response) => {
+            if (response.status === 404) {
+                return;
+            }
+            return response.json().then((jsonResponse) => {
+                return jsonResponse.user;
+                const firstName = jsonResponse.user.firstName;
+                dispatch(updateFirstName(firstName));
+            });
+        });
+    };
+
     const onSignIn = () => {
         signInWithEmailPassword(email, password)
             .then((userCredential) => {
-                // Signed in
+                fetchGetUser();
                 console.log(userCredential);
             })
             .catch((error) => {
@@ -45,17 +67,15 @@ const Firebase = (): JSX.Element => {
 
     return (
         <>
-            <Grid container spacing={6} style={{ alignItems: 'center' }}>
+            <Grid container spacing={6} style={{ alignItems: 'left' }}>
                 <Grid item xs>
                     <TextField type="text" onChange={onChangeEmail} placeholder="Enter your email" />
                 </Grid>
                 <Grid item xs>
                     <TextField type="password" onChange={onChangePassword} placeholder="Enter your password" />
                 </Grid>
-                <Grid item xs>
-                    <Button onClick={onSignIn}>Sign In</Button>
-                </Grid>
             </Grid>
+            <Button onClick={onSignIn}>Sign In</Button>
             <Button onClick={onSignUp}>Create an account</Button>
         </>
     );
