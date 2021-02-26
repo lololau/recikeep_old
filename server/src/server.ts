@@ -1,9 +1,13 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import errorHandler from 'errorhandler';
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import api from './router';
+import './app-config/firebase-config';
 
 // Server creation
 const app = express();

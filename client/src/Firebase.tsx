@@ -19,11 +19,7 @@ const Firebase = (): JSX.Element => {
     const onSignUp = () => {
         signUpWithEmailPassword(email, password)
             .then((userCredential) => {
-                // Signed in
-                const { user } = userCredential;
-                if (user) {
-                    firebaseId = user.uid;
-                }
+                console.log(userCredential);
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -37,10 +33,7 @@ const Firebase = (): JSX.Element => {
         signInWithEmailPassword(email, password)
             .then((userCredential) => {
                 // Signed in
-                const { user } = userCredential;
-                if (user) {
-                    firebaseId = user.uid;
-                }
+                console.log(userCredential);
             })
             .catch((error) => {
                 const errorCode = error.code;

@@ -18,7 +18,7 @@ import Groups from './containers/groups/Groups';
 import Modal from '@material-ui/core/Modal';
 import Firebase from './Firebase';
 import { useSelector, useDispatch } from 'react-redux';
-import { isLogged, updateFirebaseId } from './slice/userSlice';
+import { isLogged, updateFirebaseId, updateIdToken, token } from './slice/userSlice';
 import firebase from 'firebase/app';
 
 const theme = createMuiTheme({
@@ -39,6 +39,8 @@ const App = (): JSX.Element => {
     const logged = useSelector(isLogged);
     console.log(logged);
 
+    const idToken = useSelector(token);
+
     const handleOpen = () => {
         setOpen(true);
     };
@@ -47,15 +49,30 @@ const App = (): JSX.Element => {
         setOpen(false);
     };
 
+    const fetchTest = () => {
+        const myHeaders = new Headers({
+            Authorization: idToken,
+        });
+        fetch('http://localhost:3000/api/test/get', { headers: myHeaders })
+            .then((response) => response.text())
+            .then((text) => console.log(text));
+    };
+
     const onAuthStateChanged = (user: firebase.User | null) => {
         console.log('User: ', user);
         if (user) {
             dispatch(updateFirebaseId(user.uid));
+
+            user.getIdToken()
+                .then((idToken) => {
+                    dispatch(updateIdToken(idToken));
+                })
+                .catch((error) => console.log(error));
         }
     };
 
     useEffect(() => {
-        const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
+        const subscriber = firebase.auth().onIdTokenChanged(onAuthStateChanged);
         return subscriber; // unsubscribe on unmount
     }, []);
 
@@ -70,6 +87,9 @@ const App = (): JSX.Element => {
                         }}
                     >
                         Sign Out
+                    </Button>
+                    <Button className="test" onClick={fetchTest}>
+                        Test
                     </Button>
                 </Box>
                 <Router>

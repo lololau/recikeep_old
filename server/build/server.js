@@ -3,12 +3,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 var errorhandler_1 = __importDefault(require("errorhandler"));
 var express_1 = __importDefault(require("express"));
 var morgan_1 = __importDefault(require("morgan"));
 var cors_1 = __importDefault(require("cors"));
 var body_parser_1 = __importDefault(require("body-parser"));
 var router_1 = __importDefault(require("./router"));
+require("./app-config/firebase-config");
 // Server creation
 var app = express_1.default();
 var PORT = process.env.PORT || 3000;

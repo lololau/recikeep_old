@@ -1,11 +1,13 @@
 import express from 'express';
+import { verifyToken } from '../app-config/firebase-config';
 
 // Router and mounting
 const test = express.Router();
 
 //GET
-test.get('/get', (req, res) => {
-    res.send('Hello Word');
+test.get('/get', verifyToken, (req, res) => {
+    console.log(res.locals.decodedToken);
+    res.send(`It works!`);
 });
 
 //POST

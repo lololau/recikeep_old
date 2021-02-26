@@ -4,6 +4,7 @@ import { RootState } from '../app/store';
 export interface User {
     id: number;
     firebaseId: string;
+    idToken: string;
     username: string;
     email: string;
     image_profile?: Blob;
@@ -12,6 +13,7 @@ export interface User {
 const initialState: User = {
     id: 0,
     firebaseId: '',
+    idToken: '',
     username: 'laulau',
     email: 'verhille.lauriane@gmail.com',
 };
@@ -23,12 +25,16 @@ const userReducer = createSlice({
         updateFirebaseId: (state, action) => {
             state.firebaseId = action.payload;
         },
+        updateIdToken: (state, action) => {
+            state.idToken = action.payload;
+        },
     },
 });
 
-export const { updateFirebaseId } = userReducer.actions;
+export const { updateFirebaseId, updateIdToken } = userReducer.actions;
 
 export const selectUser = (state: RootState): User => state.user;
 export const isLogged = (state: RootState): boolean => state.user.firebaseId !== '';
+export const token = (state: RootState): string => state.user.idToken;
 
 export default userReducer.reducer;
