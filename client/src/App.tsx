@@ -3,23 +3,23 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Profile from './containers/profil/Profil';
 import HomeRecipes from './containers/recipes/Recipes';
 import MyRecipe from './containers/recipe/Recipe';
-import NewRecipe from './containers/new recipe/NewRecipe';
+import NewRecipe from './containers/new-recipe/NewRecipe';
 import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import ToolsBar from './containers/toolsbar/Toolsbar';
-import GroceryList from './containers/grocery list/GroceryList';
+import GroceryList from './containers/grocery-list/GroceryList';
 import MyIngredients from './containers/my-ingredients/MyIngredients';
 import Paper from '@material-ui/core/Paper';
 import RecipesSelectionStepper from './containers/stepper/RecipesSelection';
 import Groups from './containers/groups/Groups';
-import Modal from '@material-ui/core/Modal';
 import Firebase from './Firebase';
 import { useSelector, useDispatch } from 'react-redux';
-import { isLogged, updateFirebaseId, updateIdToken, token } from './slice/userSlice';
+import { isLogged, isCreated, updateFirebaseId, updateIdToken, token, updateFirstName } from './slice/userSlice';
 import firebase from 'firebase/app';
+import SignUp from './containers/log-in/CreateUser';
 
 const theme = createMuiTheme({
     palette: {
@@ -35,19 +35,12 @@ const theme = createMuiTheme({
 const App = (): JSX.Element => {
     const dispatch = useDispatch();
 
-    const [open, setOpen] = React.useState(false);
     const logged = useSelector(isLogged);
     console.log(logged);
 
+    const created = useSelector(isCreated);
+
     const idToken = useSelector(token);
-
-    const handleOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     const fetchTest = () => {
         const myHeaders = new Headers({
@@ -58,6 +51,22 @@ const App = (): JSX.Element => {
             .then((text) => console.log(text));
     };
 
+    const fetchGetUser = (idToken: string) => {
+        const myHeaders = new Headers({
+            Authorization: idToken,
+        });
+        fetch('http://localhost:3000/api/user/getUser', { headers: myHeaders }).then((response) => {
+            if (response.status === 404) {
+                return;
+            }
+            return response.json().then((jsonResponse) => {
+                const firstName = jsonResponse.firstName;
+                dispatch(updateFirstName(firstName));
+                return jsonResponse.user;
+            });
+        });
+    };
+
     const onAuthStateChanged = (user: firebase.User | null) => {
         console.log('User: ', user);
         if (user) {
@@ -66,6 +75,10 @@ const App = (): JSX.Element => {
             user.getIdToken()
                 .then((idToken) => {
                     dispatch(updateIdToken(idToken));
+                    return idToken;
+                })
+                .then((idToken) => {
+                    fetchGetUser(idToken);
                 })
                 .catch((error) => console.log(error));
         }
@@ -121,30 +134,32 @@ const App = (): JSX.Element => {
 
     const logOut = () => {
         return (
-            <div>
-                <Box style={{ textAlign: 'center' }}>
-                    <Button className="logged-in" onClick={handleOpen}>
-                        Login
-                    </Button>
-                    <Button className="logged-in">Sign Up</Button>
-                </Box>
-                <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="simple-modal-title"
-                    aria-describedby="simple-modal-description"
-                >
-                    <Paper>
-                        <Firebase />
-                    </Paper>
-                </Modal>
-            </div>
+            <>
+                <Firebase />
+            </>
         );
     };
 
+    const createUser = () => {
+        return (
+            <>
+                <SignUp />
+            </>
+        );
+    };
+
+    let composant;
+    if (!logged) {
+        composant = logOut();
+    } else if (logged && created) {
+        composant = logIn();
+    } else if (logged && !created) {
+        composant = createUser();
+    }
+
     return (
         <ThemeProvider theme={theme}>
-            <div>{logged ? logIn() : logOut()}</div>
+            <div>{composant}</div>
         </ThemeProvider>
     );
 };

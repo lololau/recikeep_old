@@ -3,7 +3,7 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import SelectionRecipes from './RecipesSelection1';
 import SelectionParts from './RecipesSelection2';
-import GroceryList from '../grocery list/GroceryList';
+import GroceryList from '../grocery-list/GroceryList';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 

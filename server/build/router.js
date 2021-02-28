@@ -6,8 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var test_1 = __importDefault(require("./api/test"));
 var recipe_1 = __importDefault(require("./api/recipe"));
+var user_1 = __importDefault(require("./api/user"));
 // Router and mounting
 var api = express_1.default.Router();
 api.use('/test', test_1.default);
 api.use('/recipe', recipe_1.default);
+api.use('/user', user_1.default);
 exports.default = api;

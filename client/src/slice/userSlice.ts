@@ -4,6 +4,8 @@ import { RootState } from '../app/store';
 export interface User {
     id: number;
     firebaseId: string;
+    firstName: string;
+    lastName?: string;
     idToken: string;
     username: string;
     email: string;
@@ -13,6 +15,7 @@ export interface User {
 const initialState: User = {
     id: 0,
     firebaseId: '',
+    firstName: '',
     idToken: '',
     username: 'laulau',
     email: 'verhille.lauriane@gmail.com',
@@ -28,13 +31,17 @@ const userReducer = createSlice({
         updateIdToken: (state, action) => {
             state.idToken = action.payload;
         },
+        updateFirstName: (state, action) => {
+            state.firstName = action.payload;
+        },
     },
 });
 
-export const { updateFirebaseId, updateIdToken } = userReducer.actions;
+export const { updateFirebaseId, updateIdToken, updateFirstName } = userReducer.actions;
 
 export const selectUser = (state: RootState): User => state.user;
 export const isLogged = (state: RootState): boolean => state.user.firebaseId !== '';
+export const isCreated = (state: RootState): boolean => state.user.firstName !== '';
 export const token = (state: RootState): string => state.user.idToken;
 
 export default userReducer.reducer;

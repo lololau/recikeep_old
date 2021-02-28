@@ -32,7 +32,6 @@ const Firebase = (): JSX.Element => {
     const onSignIn = () => {
         signInWithEmailPassword(email, password)
             .then((userCredential) => {
-                // Signed in
                 console.log(userCredential);
             })
             .catch((error) => {
@@ -45,17 +44,15 @@ const Firebase = (): JSX.Element => {
 
     return (
         <>
-            <Grid container spacing={6} style={{ alignItems: 'center' }}>
+            <Grid container spacing={6} style={{ alignItems: 'left' }}>
                 <Grid item xs>
                     <TextField type="text" onChange={onChangeEmail} placeholder="Enter your email" />
                 </Grid>
                 <Grid item xs>
                     <TextField type="password" onChange={onChangePassword} placeholder="Enter your password" />
                 </Grid>
-                <Grid item xs>
-                    <Button onClick={onSignIn}>Sign In</Button>
-                </Grid>
             </Grid>
+            <Button onClick={onSignIn}>Sign In</Button>
             <Button onClick={onSignUp}>Create an account</Button>
         </>
     );

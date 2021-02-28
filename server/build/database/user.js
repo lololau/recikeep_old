@@ -1,23 +1,4 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -54,36 +35,52 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyToken = void 0;
-var admin = __importStar(require("firebase-admin"));
-admin.initializeApp();
-//Verify token
-var verifyToken = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var token, decodedToken, e_1;
+exports.createUser = exports.findUserByFirebaseID = void 0;
+var db_1 = __importDefault(require("./db"));
+var findUserByFirebaseID = function (fbid) { return __awaiter(void 0, void 0, void 0, function () {
+    var db, ret, user;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                console.log(req.body);
-                token = req.headers.authorization;
-                if (!token || token === '') {
-                    return [2 /*return*/, res.status(404).send('No token provided')];
-                }
-                _a.label = 1;
+            case 0: return [4 /*yield*/, db_1.default()];
             case 1:
-                _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, admin.auth().verifyIdToken(token)];
+                db = _a.sent();
+                return [4 /*yield*/, db.get("SELECT * FROM User WHERE firebaseId = $firebaseId", {
+                        $firebaseId: fbid,
+                    })];
             case 2:
-                decodedToken = _a.sent();
-                res.locals.decodedToken = decodedToken;
-                return [3 /*break*/, 4];
-            case 3:
-                e_1 = _a.sent();
-                return [2 /*return*/, res.status(401).send("invalid token: " + e_1)];
-            case 4:
-                next();
-                return [2 /*return*/];
+                ret = _a.sent();
+                user = {
+                    id: ret.id,
+                    firebaseId: fbid,
+                    firstName: ret.firstName,
+                    lastName: ret.lastName,
+                };
+                return [2 /*return*/, user];
         }
     });
 }); };
-exports.verifyToken = verifyToken;
+exports.findUserByFirebaseID = findUserByFirebaseID;
+var createUser = function (fbid, firstN, lastN) { return __awaiter(void 0, void 0, void 0, function () {
+    var db, user;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, db_1.default()];
+            case 1:
+                db = _a.sent();
+                return [4 /*yield*/, db.run("INSERT INTO User (firebaseId, firstName, lastName) VALUES ($firebaseId, $firstName, $lastName)", {
+                        $firebaseId: fbid,
+                        $firstName: firstN,
+                        $lastName: lastN,
+                    })];
+            case 2:
+                _a.sent();
+                user = exports.findUserByFirebaseID(fbid);
+                return [2 /*return*/, user];
+        }
+    });
+}); };
+exports.createUser = createUser;

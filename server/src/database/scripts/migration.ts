@@ -5,7 +5,8 @@ db.serialize(() => {
     db.run('DROP TABLE IF EXISTS User');
     db.run(`CREATE TABLE User (
         id INTEGER UNIQUE,
-        username TEXT UNIQUE,
+        firstName TEXT,
+        lastName TEXT,
         firebaseId TEXT UNIQUE,
         image BLOB,
         date_creation DATE,
