@@ -64,6 +64,7 @@ var verifyToken = function (req, res, next) { return __awaiter(void 0, void 0, v
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                console.log(req.body);
                 token = req.headers.authorization;
                 if (!token || token === '') {
                     return [2 /*return*/, res.status(404).send('No token provided')];

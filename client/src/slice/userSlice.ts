@@ -5,6 +5,7 @@ export interface User {
     id: number;
     firebaseId: string;
     firstName: string;
+    lastName?: string;
     idToken: string;
     username: string;
     email: string;

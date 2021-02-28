@@ -7,6 +7,7 @@ type MiddlewareFn = (req: Request, res: Response, next: NextFunction) => void;
 
 //Verify token
 export const verifyToken: MiddlewareFn = async (req, res, next) => {
+    console.log(req.body);
     const token = req.headers.authorization;
     if (!token || token === '') {
         return res.status(404).send('No token provided');

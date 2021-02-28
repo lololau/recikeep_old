@@ -5,10 +5,11 @@ sqlite3.verbose();
 
 // from https://github.com/kriasoft/node-sqlite#usage
 
-const openDb = async () =>
-    open({
-        filename: process.env.TEST_DATABASE || './database.sqlite',
-        driver: sqlite3.Database,
-    });
+const db = open({
+    filename: process.env.TEST_DATABASE || './database.sqlite',
+    driver: sqlite3.Database,
+});
+
+const openDb = async () => db;
 
 export default openDb;

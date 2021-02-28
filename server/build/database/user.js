@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findUserByFirebaseID = void 0;
+exports.createUser = exports.findUserByFirebaseID = void 0;
 var db_1 = __importDefault(require("./db"));
 var findUserByFirebaseID = function (fbid) { return __awaiter(void 0, void 0, void 0, function () {
     var db, ret, user;
@@ -64,3 +64,23 @@ var findUserByFirebaseID = function (fbid) { return __awaiter(void 0, void 0, vo
     });
 }); };
 exports.findUserByFirebaseID = findUserByFirebaseID;
+var createUser = function (fbid, firstN, lastN) { return __awaiter(void 0, void 0, void 0, function () {
+    var db, user;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, db_1.default()];
+            case 1:
+                db = _a.sent();
+                return [4 /*yield*/, db.run("INSERT INTO User (firebaseId, firstName, lastName) VALUES ($firebaseId, $firstName, $lastName)", {
+                        $firebaseId: fbid,
+                        $firstName: firstN,
+                        $lastName: lastN,
+                    })];
+            case 2:
+                _a.sent();
+                user = exports.findUserByFirebaseID(fbid);
+                return [2 /*return*/, user];
+        }
+    });
+}); };
+exports.createUser = createUser;

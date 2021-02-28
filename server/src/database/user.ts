@@ -22,3 +22,16 @@ export const findUserByFirebaseID = async (fbid: string): Promise<User> => {
 
     return user;
 };
+
+export const createUser = async (fbid: string, firstN: string, lastN: string): Promise<User> => {
+    const db = await openDb();
+
+    await db.run(`INSERT INTO User (firebaseId, firstName, lastName) VALUES ($firebaseId, $firstName, $lastName)`, {
+        $firebaseId: fbid,
+        $firstName: firstN,
+        $lastName: lastN,
+    });
+
+    const user = findUserByFirebaseID(fbid);
+    return user;
+};

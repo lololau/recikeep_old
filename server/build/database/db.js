@@ -43,12 +43,11 @@ var sqlite3_1 = __importDefault(require("sqlite3"));
 var sqlite_1 = require("sqlite");
 sqlite3_1.default.verbose();
 // from https://github.com/kriasoft/node-sqlite#usage
-var openDb = function () { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        return [2 /*return*/, sqlite_1.open({
-                filename: process.env.TEST_DATABASE || './database.sqlite',
-                driver: sqlite3_1.default.Database,
-            })];
-    });
-}); };
+var db = sqlite_1.open({
+    filename: process.env.TEST_DATABASE || './database.sqlite',
+    driver: sqlite3_1.default.Database,
+});
+var openDb = function () { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
+    return [2 /*return*/, db];
+}); }); };
 exports.default = openDb;

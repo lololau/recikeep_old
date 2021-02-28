@@ -17,7 +17,7 @@ import RecipesSelectionStepper from './containers/stepper/RecipesSelection';
 import Groups from './containers/groups/Groups';
 import Firebase from './Firebase';
 import { useSelector, useDispatch } from 'react-redux';
-import { isLogged, isCreated, updateFirebaseId, updateIdToken, token } from './slice/userSlice';
+import { isLogged, isCreated, updateFirebaseId, updateIdToken, token, updateFirstName } from './slice/userSlice';
 import firebase from 'firebase/app';
 import SignUp from './containers/log-in/CreateUser';
 
@@ -51,6 +51,22 @@ const App = (): JSX.Element => {
             .then((text) => console.log(text));
     };
 
+    const fetchGetUser = (idToken: string) => {
+        const myHeaders = new Headers({
+            Authorization: idToken,
+        });
+        fetch('http://localhost:3000/api/user/getUser', { headers: myHeaders }).then((response) => {
+            if (response.status === 404) {
+                return;
+            }
+            return response.json().then((jsonResponse) => {
+                const firstName = jsonResponse.firstName;
+                dispatch(updateFirstName(firstName));
+                return jsonResponse.user;
+            });
+        });
+    };
+
     const onAuthStateChanged = (user: firebase.User | null) => {
         console.log('User: ', user);
         if (user) {
@@ -59,6 +75,10 @@ const App = (): JSX.Element => {
             user.getIdToken()
                 .then((idToken) => {
                     dispatch(updateIdToken(idToken));
+                    return idToken;
+                })
+                .then((idToken) => {
+                    fetchGetUser(idToken);
                 })
                 .catch((error) => console.log(error));
         }

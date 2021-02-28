@@ -46,6 +46,7 @@ var user_1 = require("../database/user");
 // const db = new sqlite3.Database(process.env.TEST_DATABASE || './database.sqlite');
 // Router and mounting
 var user = express_1.default.Router();
+// GET - /api/user/getUser - get a user by firebaseId
 user.get('/getUser', firebase_config_1.verifyToken, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var firebaseid, user_2, e_1;
     return __generator(this, function (_a) {
@@ -67,22 +68,30 @@ user.get('/getUser', firebase_config_1.verifyToken, function (req, res) { return
         }
     });
 }); });
-/* user.get('/', verifyToken, (req, res, next) => {
-    db.get(
-        `SELECT * FROM User WHERE firebaseId = $firebaseId`,
-        {
-            $firebaseId: res.locals.decodedToken.uid,
-        },
-        (err, user) => {
-
-            if (err) {
-                next(err);
-            } else if (user) {
-                res.locals.user = user;
-            } else {
-                res.status(404).send('User not created in database');
-            }
-        },
-    );
-}); */
+// POST - /api/user/createUser - create a user and select it
+user.post('/createUser', firebase_config_1.verifyToken, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var firebaseId, firstName, lastName, user_3, e_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                firebaseId = res.locals.decodedToken.uid;
+                firstName = req.body.firstName;
+                lastName = req.body.lastName;
+                if (!(!firstName || !lastName)) return [3 /*break*/, 1];
+                return [2 /*return*/, res.status(400).send('Missing property for user')];
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, user_1.createUser(firebaseId, firstName, lastName)];
+            case 2:
+                user_3 = _a.sent();
+                res.status(200).json({ user: user_3 });
+                return [3 /*break*/, 4];
+            case 3:
+                e_2 = _a.sent();
+                console.error(e_2);
+                return [2 /*return*/, res.status(404).send('Unable to create user')];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
 exports.default = user;

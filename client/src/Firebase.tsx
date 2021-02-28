@@ -4,16 +4,10 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import { Button, TextField, Grid } from '@material-ui/core';
-import { token, updateFirstName } from './slice/userSlice';
-import { useSelector, useDispatch } from 'react-redux';
 
 const Firebase = (): JSX.Element => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
-    const idToken = useSelector(token);
-
-    const dispatch = useDispatch();
 
     const onChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
@@ -35,26 +29,9 @@ const Firebase = (): JSX.Element => {
             });
     };
 
-    const fetchGetUser = () => {
-        const myHeaders = new Headers({
-            Authorization: idToken,
-        });
-        fetch('http://localhost:3000/api/user/getUser', { headers: myHeaders }).then((response) => {
-            if (response.status === 404) {
-                return;
-            }
-            return response.json().then((jsonResponse) => {
-                return jsonResponse.user;
-                const firstName = jsonResponse.user.firstName;
-                dispatch(updateFirstName(firstName));
-            });
-        });
-    };
-
     const onSignIn = () => {
         signInWithEmailPassword(email, password)
             .then((userCredential) => {
-                fetchGetUser();
                 console.log(userCredential);
             })
             .catch((error) => {

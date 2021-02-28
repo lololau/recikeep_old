@@ -1,12 +1,13 @@
 import express from 'express';
 // import sqlite3 from 'sqlite3';
 import { verifyToken } from '../app-config/firebase-config';
-import { findUserByFirebaseID } from '../database/user';
+import { findUserByFirebaseID, createUser } from '../database/user';
 // const db = new sqlite3.Database(process.env.TEST_DATABASE || './database.sqlite');
 
 // Router and mounting
 const user = express.Router();
 
+// GET - /api/user/getUser - get a user by firebaseId
 user.get('/getUser', verifyToken, async (req, res) => {
     const firebaseid = res.locals.decodedToken.uid;
     try {
@@ -17,23 +18,22 @@ user.get('/getUser', verifyToken, async (req, res) => {
     }
 });
 
-/* user.get('/', verifyToken, (req, res, next) => {
-    db.get(
-        `SELECT * FROM User WHERE firebaseId = $firebaseId`,
-        {
-            $firebaseId: res.locals.decodedToken.uid,
-        },
-        (err, user) => {
-
-            if (err) {
-                next(err);
-            } else if (user) {
-                res.locals.user = user;
-            } else {
-                res.status(404).send('User not created in database');
-            }
-        },
-    );
-}); */
+// POST - /api/user/createUser - create a user and select it
+user.post('/createUser', verifyToken, async (req, res) => {
+    const firebaseId = res.locals.decodedToken.uid;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    if (!firstName || !lastName) {
+        return res.status(400).send('Missing property for user');
+    } else {
+        try {
+            const user = await createUser(firebaseId, firstName, lastName);
+            res.status(200).json({ user: user });
+        } catch (e) {
+            console.error(e);
+            return res.status(404).send('Unable to create user');
+        }
+    }
+});
 
 export default user;
