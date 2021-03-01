@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
 
 export interface User {
@@ -21,10 +21,10 @@ const initialState: User = {
     email: 'verhille.lauriane@gmail.com',
 };
 
-const fetchUserById = createAsyncThunk('/api/user/getUser', async (userId, thunkAPI) => {
+/* const fetchUserById = createAsyncThunk('/api/user/getUser', async (userId, thunkAPI) => {
     const response = await userAPI.fetchById(userId);
     return response.data;
-});
+}); */
 
 const userReducer = createSlice({
     name: 'user',
