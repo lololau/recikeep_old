@@ -19,7 +19,7 @@ import Firebase from './Firebase';
 import { useSelector, useDispatch } from 'react-redux';
 import { isLogged, isCreated, updateFirebaseId, updateIdToken, token, updateFirstName } from './slice/userSlice';
 import firebase from 'firebase/app';
-import SignUp from './containers/log-in/CreateUser';
+import SignUp from './containers/create-user/CreateUser';
 
 const theme = createMuiTheme({
     palette: {
