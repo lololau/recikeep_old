@@ -39,68 +39,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserIdByFirebaseID = exports.createUser = exports.findUserByFirebaseID = void 0;
+exports.getRecipesByUserId = void 0;
 var db_1 = __importDefault(require("./db"));
-// Get all property from User by firebaseId
-var findUserByFirebaseID = function (fbid) { return __awaiter(void 0, void 0, void 0, function () {
-    var db, ret, user;
+var getRecipesByUserId = function (userId) { return __awaiter(void 0, void 0, void 0, function () {
+    var db, ret, recipes;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, db_1.default()];
             case 1:
                 db = _a.sent();
-                return [4 /*yield*/, db.get("SELECT * FROM User WHERE firebase_id = $firebaseId", {
-                        $firebaseId: fbid,
+                return [4 /*yield*/, db.all("SELECT * FROM Recipe WHERE user_id = $user_id", {
+                        $user_id: userId,
                     })];
             case 2:
                 ret = _a.sent();
-                user = {
-                    id: ret.id,
-                    firebase_id: fbid,
-                    first_name: ret.first_name,
-                    last_name: ret.last_name,
-                };
-                return [2 /*return*/, user];
+                recipes = ret.map(function (recipe) {
+                    return recipe.name;
+                });
+                return [2 /*return*/, recipes];
         }
     });
 }); };
-exports.findUserByFirebaseID = findUserByFirebaseID;
-// Create User by firebaseId, firstName and lastName.
-var createUser = function (fbid, firstN, lastN) { return __awaiter(void 0, void 0, void 0, function () {
-    var db, user;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, db_1.default()];
-            case 1:
-                db = _a.sent();
-                return [4 /*yield*/, db.run("INSERT INTO User (firebase_id, first_name, last_name) VALUES ($firebaseId, $firstName, $lastName)", {
-                        $firebaseId: fbid,
-                        $firstName: firstN,
-                        $lastName: lastN,
-                    })];
-            case 2:
-                _a.sent();
-                user = exports.findUserByFirebaseID(fbid);
-                return [2 /*return*/, user];
-        }
-    });
-}); };
-exports.createUser = createUser;
-// Get UserId by firebaseId
-var getUserIdByFirebaseID = function (fbid) { return __awaiter(void 0, void 0, void 0, function () {
-    var db, ret;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, db_1.default()];
-            case 1:
-                db = _a.sent();
-                return [4 /*yield*/, db.get("SELECT id FROM User WHERE firebase_id = $firebaseId", {
-                        $firebaseId: fbid,
-                    })];
-            case 2:
-                ret = _a.sent();
-                return [2 /*return*/, ret.id];
-        }
-    });
-}); };
-exports.getUserIdByFirebaseID = getUserIdByFirebaseID;
+exports.getRecipesByUserId = getRecipesByUserId;

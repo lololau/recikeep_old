@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import counterReducer from '../slice/counterSlice';
 import recipesReducer from '../slice/recipesSlice';
 import ingredientsReducer from '../slice/ingredientsSlice';
-import userReducer from '../slice/userSlice';
+import userReducer from '../slice/user/userSlice';
 import groupsReducer from '../slice/groupsSlice';
 
 const store = configureStore({

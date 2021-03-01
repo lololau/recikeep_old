@@ -10,7 +10,7 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import { IconButton } from '@material-ui/core';
-import { selectUser } from '../../slice/userSlice';
+import { selectUser } from '../../slice/user/userSlice';
 import { useSelector } from 'react-redux';
 
 const Profile = (): JSX.Element => {
@@ -44,7 +44,7 @@ const Profile = (): JSX.Element => {
             <br />
             <br />
             <Grid container spacing={2} style={{ alignItems: 'center' }}>
-                <p>{user.username}</p>
+                <p>{user.firstName}</p>
 
                 <IconButton>
                     <EditIcon style={{ fontSize: 15 }} color="primary" />
