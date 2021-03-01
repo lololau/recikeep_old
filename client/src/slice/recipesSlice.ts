@@ -4,7 +4,7 @@ import { RootState } from '../app/store';
 export interface Recipe {
     id: number;
     name: string;
-    user_id: string;
+    user_id: number;
     recipe_photo?: number;
     presentation?: string;
     recipe_description?: number;
@@ -20,14 +20,14 @@ type RecipeList = {
 const PateCarbo: Recipe = {
     id: 0,
     name: 'Pâtes Carbonnara',
-    user_id: 'lolo',
+    user_id: 1,
     number_parts: 2,
 };
 
 const PateSaumon: Recipe = {
     id: 1,
     name: 'Pâtes au saumon',
-    user_id: 'lolo',
+    user_id: 2,
     number_parts: 2,
 };
 

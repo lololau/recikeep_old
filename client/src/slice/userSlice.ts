@@ -21,6 +21,11 @@ const initialState: User = {
     email: 'verhille.lauriane@gmail.com',
 };
 
+/* const fetchUserById = createAsyncThunk('/api/user/getUser', async (userId, thunkAPI) => {
+    const response = await userAPI.fetchById(userId);
+    return response.data;
+}); */
+
 const userReducer = createSlice({
     name: 'user',
     initialState: initialState,
