@@ -39,10 +39,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserIdByFirebaseID = exports.createUser = exports.findUserByFirebaseID = void 0;
+exports.updateUser = exports.getUserIdByFirebaseID = exports.createUser = exports.getUserByFirebaseID = void 0;
 var db_1 = __importDefault(require("./db"));
 // Get all property from User by firebaseId
-var findUserByFirebaseID = function (fbid) { return __awaiter(void 0, void 0, void 0, function () {
+var getUserByFirebaseID = function (fbid) { return __awaiter(void 0, void 0, void 0, function () {
     var db, ret, user;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -57,30 +57,28 @@ var findUserByFirebaseID = function (fbid) { return __awaiter(void 0, void 0, vo
                 user = {
                     id: ret.id,
                     firebase_id: fbid,
-                    first_name: ret.first_name,
-                    last_name: ret.last_name,
+                    full_name: ret.full_name,
                 };
                 return [2 /*return*/, user];
         }
     });
 }); };
-exports.findUserByFirebaseID = findUserByFirebaseID;
+exports.getUserByFirebaseID = getUserByFirebaseID;
 // Create User by firebaseId, firstName and lastName.
-var createUser = function (fbid, firstN, lastN) { return __awaiter(void 0, void 0, void 0, function () {
+var createUser = function (fbid, fullN) { return __awaiter(void 0, void 0, void 0, function () {
     var db, user;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, db_1.default()];
             case 1:
                 db = _a.sent();
-                return [4 /*yield*/, db.run("INSERT INTO User (firebase_id, first_name, last_name) VALUES ($firebaseId, $firstName, $lastName)", {
+                return [4 /*yield*/, db.run("INSERT INTO User (firebase_id, full_name) VALUES ($firebaseId, $fullName)", {
                         $firebaseId: fbid,
-                        $firstName: firstN,
-                        $lastName: lastN,
+                        $fullName: fullN,
                     })];
             case 2:
                 _a.sent();
-                user = exports.findUserByFirebaseID(fbid);
+                user = exports.getUserByFirebaseID(fbid);
                 return [2 /*return*/, user];
         }
     });
@@ -104,3 +102,26 @@ var getUserIdByFirebaseID = function (fbid) { return __awaiter(void 0, void 0, v
     });
 }); };
 exports.getUserIdByFirebaseID = getUserIdByFirebaseID;
+// Create User by firebaseId, firstName and lastName.
+var updateUser = function (fbid, fullN) { return __awaiter(void 0, void 0, void 0, function () {
+    var db, user_id, user;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, db_1.default()];
+            case 1:
+                db = _a.sent();
+                return [4 /*yield*/, exports.getUserIdByFirebaseID(fbid)];
+            case 2:
+                user_id = _a.sent();
+                return [4 /*yield*/, db.run("UPDATE User SET full_name=$fullName WHERE id = $userId", {
+                        $fullName: fullN,
+                        $userId: user_id,
+                    })];
+            case 3:
+                _a.sent();
+                user = exports.getUserByFirebaseID(fbid);
+                return [2 /*return*/, user];
+        }
+    });
+}); };
+exports.updateUser = updateUser;

@@ -3,12 +3,11 @@ import openDb from './db';
 type User = {
     id: number;
     firebase_id: string;
-    first_name: string;
-    last_name: string;
+    full_name: string;
 };
 
 // Get all property from User by firebaseId
-export const findUserByFirebaseID = async (fbid: string): Promise<User> => {
+export const getUserByFirebaseID = async (fbid: string): Promise<User> => {
     const db = await openDb();
     const ret = await db.get(`SELECT * FROM User WHERE firebase_id = $firebaseId`, {
         $firebaseId: fbid,
@@ -17,24 +16,22 @@ export const findUserByFirebaseID = async (fbid: string): Promise<User> => {
     const user = {
         id: ret.id,
         firebase_id: fbid,
-        first_name: ret.first_name,
-        last_name: ret.last_name,
+        full_name: ret.full_name,
     };
 
     return user;
 };
 
 // Create User by firebaseId, firstName and lastName.
-export const createUser = async (fbid: string, firstN: string, lastN: string): Promise<User> => {
+export const createUser = async (fbid: string, fullN: string): Promise<User> => {
     const db = await openDb();
 
-    await db.run(`INSERT INTO User (firebase_id, first_name, last_name) VALUES ($firebaseId, $firstName, $lastName)`, {
+    await db.run(`INSERT INTO User (firebase_id, full_name) VALUES ($firebaseId, $fullName)`, {
         $firebaseId: fbid,
-        $firstName: firstN,
-        $lastName: lastN,
+        $fullName: fullN,
     });
 
-    const user = findUserByFirebaseID(fbid);
+    const user = getUserByFirebaseID(fbid);
     return user;
 };
 
@@ -47,4 +44,19 @@ export const getUserIdByFirebaseID = async (fbid: string): Promise<number> => {
     });
 
     return ret.id;
+};
+
+// Create User by firebaseId, firstName and lastName.
+export const updateUser = async (fbid: string, fullN: string): Promise<User> => {
+    const db = await openDb();
+
+    const user_id = await getUserIdByFirebaseID(fbid);
+
+    await db.run(`UPDATE User SET full_name=$fullName WHERE id = $userId`, {
+        $fullName: fullN,
+        $userId: user_id,
+    });
+
+    const user = getUserByFirebaseID(fbid);
+    return user;
 };

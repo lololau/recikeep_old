@@ -54,7 +54,7 @@ user.get('/getUser', firebase_config_1.verifyToken, function (req, res) { return
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, user_1.findUserByFirebaseID(firebaseId)];
+                return [4 /*yield*/, user_1.getUserByFirebaseID(firebaseId)];
             case 2:
                 user_2 = _a.sent();
                 res.status(200).json({ user: user_2 });
@@ -68,18 +68,17 @@ user.get('/getUser', firebase_config_1.verifyToken, function (req, res) { return
 }); });
 // POST - /api/user/createUser - create a user and select it
 user.post('/createUser', firebase_config_1.verifyToken, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var firebaseId, firstName, lastName, user_3, e_2;
+    var firebaseId, fullName, user_3, e_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 firebaseId = res.locals.decodedToken.uid;
-                firstName = req.body.firstName;
-                lastName = req.body.lastName;
-                if (!(!firstName || !lastName)) return [3 /*break*/, 1];
+                fullName = req.body.fullName;
+                if (!!fullName) return [3 /*break*/, 1];
                 return [2 /*return*/, res.status(400).send('Missing property for user')];
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, user_1.createUser(firebaseId, firstName, lastName)];
+                return [4 /*yield*/, user_1.createUser(firebaseId, fullName)];
             case 2:
                 user_3 = _a.sent();
                 res.status(200).json({ user: user_3 });
@@ -88,6 +87,30 @@ user.post('/createUser', firebase_config_1.verifyToken, function (req, res) { re
                 e_2 = _a.sent();
                 console.error(e_2);
                 return [2 /*return*/, res.status(404).send('Unable to create user')];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
+// PUT - /api/user/updateUser - update a user by userId
+user.put('/updateUser', firebase_config_1.verifyToken, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var firebaseId, fullName, user_4, e_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                firebaseId = res.locals.decodedToken.uid;
+                fullName = req.body.fullName;
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, user_1.updateUser(firebaseId, fullName)];
+            case 2:
+                user_4 = _a.sent();
+                res.status(200).json({ user: user_4 });
+                return [3 /*break*/, 4];
+            case 3:
+                e_3 = _a.sent();
+                console.error(e_3);
+                return [2 /*return*/, res.status(404).send('Unable to update user fullname')];
             case 4: return [2 /*return*/];
         }
     });

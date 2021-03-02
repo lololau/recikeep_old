@@ -5,32 +5,25 @@ import { useDispatch } from 'react-redux';
 import firebase from 'firebase/app';
 
 const SignUp = (): JSX.Element => {
-    const [firstN, setFirstName] = useState('');
-    const [lastN, setLastName] = useState('');
+    const [fullN, setFullName] = useState('');
 
     const dispatch = useDispatch();
 
-    const onChangeFirstName = (event: ChangeEvent<HTMLInputElement>) => {
-        setFirstName(event.currentTarget.value);
-    };
-
-    const onChangeLastName = (event: ChangeEvent<HTMLInputElement>) => {
-        setLastName(event.currentTarget.value);
+    const onChangeFullName = (event: ChangeEvent<HTMLInputElement>) => {
+        setFullName(event.currentTarget.value);
     };
 
     return (
         <>
             <Box style={{ alignItems: 'left' }}>
-                <TextField type="text" onChange={onChangeFirstName} placeholder="Enter your first name" />
-                <TextField type="text" onChange={onChangeLastName} placeholder="Enter your last name" />
+                <TextField type="text" onChange={onChangeFullName} placeholder="Enter your name" />
             </Box>
 
             <Button
                 onClick={() =>
                     dispatch(
                         fetchCreateUser({
-                            firstName: firstN,
-                            lastName: lastN,
+                            fullName: fullN,
                         }),
                     )
                 }

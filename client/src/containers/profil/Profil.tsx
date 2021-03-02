@@ -1,17 +1,19 @@
 import '../../i18n';
 import i18n from '../../i18n';
-import React from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import Avatar from '@material-ui/core/Avatar';
 import Container from '@material-ui/core/Container';
+import CheckIcon from '@material-ui/icons/Check';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import { IconButton } from '@material-ui/core';
-import { selectUser } from '../../slice/user/userSlice';
-import { useSelector } from 'react-redux';
+import { selectUser, fetchUpdateUser } from '../../slice/user/userSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import TextField from '@material-ui/core/TextField';
 
 const Profile = (): JSX.Element => {
     const changeLanguage = (lng: string) => {
@@ -20,6 +22,49 @@ const Profile = (): JSX.Element => {
     const { t } = useTranslation();
 
     const user = useSelector(selectUser);
+    const dispatch = useDispatch();
+
+    const [newName, setNewName] = useState(user.fullName);
+    const [canUpdate, setCanUpdate] = useState(true);
+
+    const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setNewName(event.currentTarget.value);
+    };
+
+    const notUpdateName = () => {
+        return (
+            <IconButton
+                onClick={() => {
+                    setCanUpdate(false);
+                }}
+            >
+                <EditIcon style={{ fontSize: 15 }} color="primary" />
+            </IconButton>
+        );
+    };
+
+    const updateName = () => {
+        return (
+            <>
+                <IconButton
+                    onClick={() => {
+                        dispatch(fetchUpdateUser({ fullName: newName }));
+                        setCanUpdate(false);
+                    }}
+                >
+                    <CheckIcon />
+                </IconButton>
+                <Button
+                    onClick={() => {
+                        setNewName(user.fullName);
+                        setCanUpdate(true);
+                    }}
+                >
+                    Cancel
+                </Button>
+            </>
+        );
+    };
 
     return (
         <Container>
@@ -44,18 +89,12 @@ const Profile = (): JSX.Element => {
             <br />
             <br />
             <Grid container spacing={2} style={{ alignItems: 'center' }}>
-                <p>{user.firstName}</p>
-
-                <IconButton>
-                    <EditIcon style={{ fontSize: 15 }} color="primary" />
-                </IconButton>
+                <TextField type="text" onChange={onNameChange} value={newName} disabled={canUpdate} />
+                {!canUpdate && updateName()}
+                {canUpdate && notUpdateName()}
             </Grid>
             <Grid container spacing={2} style={{ alignItems: 'center' }}>
                 <p>{user.email}</p>
-
-                <IconButton>
-                    <EditIcon style={{ fontSize: 15 }} color="primary" />
-                </IconButton>
             </Grid>
 
             <br />
