@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from 'react';
 import { Button, TextField, Box } from '@material-ui/core';
-import { fetchCreateUser, updateFirebaseId } from '../../slice/user/userSlice';
+import { fetchCreateUser, updateFirebaseUser } from '../../slice/user/userSlice';
 import { useDispatch } from 'react-redux';
 import firebase from 'firebase/app';
 
@@ -40,7 +40,7 @@ const SignUp = (): JSX.Element => {
             <Button
                 onClick={() => {
                     firebase.auth().signOut();
-                    dispatch(updateFirebaseId(''));
+                    dispatch(updateFirebaseUser(''));
                 }}
             >
                 Sign Out

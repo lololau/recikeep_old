@@ -37,14 +37,12 @@ const userReducer = createSlice({
     name: 'user',
     initialState: initialState,
     reducers: {
-        updateFirebaseId: (state, action) => {
-            state.firebaseId = action.payload;
-        },
         updateIdToken: (state, action) => {
             state.idToken = action.payload;
         },
-        updateFirstName: (state, action) => {
-            state.firstName = action.payload;
+        updateFirebaseUser: (state, action) => {
+            state.firebaseId = action.payload.firebaseId;
+            state.email = action.payload.email;
         },
     },
     extraReducers: (builder) => {
@@ -78,7 +76,7 @@ const userReducer = createSlice({
     },
 });
 
-export const { updateFirebaseId, updateIdToken, updateFirstName } = userReducer.actions;
+export const { updateIdToken, updateFirebaseUser } = userReducer.actions;
 
 export const selectUser = (state: RootState): User => state.user;
 export const isLogged = (state: RootState): boolean => state.user.firebaseId !== '';

@@ -17,7 +17,7 @@ import RecipesSelectionStepper from './containers/stepper/RecipesSelection';
 import Groups from './containers/groups/Groups';
 import Firebase from './containers/firebase/Firebase';
 import { useSelector, useDispatch } from 'react-redux';
-import { isLogged, isCreated, updateFirebaseId, updateIdToken, token, fetchGetUser } from './slice/user/userSlice';
+import { isLogged, isCreated, updateIdToken, fetchGetUser, updateFirebaseUser } from './slice/user/userSlice';
 import firebase from 'firebase/app';
 import SignUp from './containers/create-user/CreateUser';
 
@@ -36,25 +36,14 @@ const App = (): JSX.Element => {
     const dispatch = useDispatch();
 
     const logged = useSelector(isLogged);
-    console.log(logged);
-
     const created = useSelector(isCreated);
-
-    const idToken = useSelector(token);
-
-    const fetchTest = () => {
-        const myHeaders = new Headers({
-            Authorization: idToken,
-        });
-        fetch('http://localhost:3000/api/test/get', { headers: myHeaders })
-            .then((response) => response.text())
-            .then((text) => console.log(text));
-    };
 
     const onAuthStateChanged = (user: firebase.User | null) => {
         console.log('User: ', user);
         if (user) {
-            dispatch(updateFirebaseId(user.uid));
+            const newUser = { firebaseId: user.uid, email: user.email };
+            console.log(user);
+            dispatch(updateFirebaseUser(newUser));
 
             user.getIdToken()
                 .then((idToken) => {
@@ -80,13 +69,10 @@ const App = (): JSX.Element => {
                     <Button
                         onClick={() => {
                             firebase.auth().signOut();
-                            dispatch(updateFirebaseId(''));
+                            dispatch(updateFirebaseUser(''));
                         }}
                     >
                         Sign Out
-                    </Button>
-                    <Button className="test" onClick={fetchTest}>
-                        Test
                     </Button>
                 </Box>
                 <Router>
