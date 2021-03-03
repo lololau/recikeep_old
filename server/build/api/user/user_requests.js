@@ -39,89 +39,80 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUser = exports.getUserIdByFirebaseID = exports.createUser = exports.getUserByFirebaseID = void 0;
-var db_1 = __importDefault(require("./db"));
-// Get all property from User by firebaseId
-var getUserByFirebaseID = function (fbid) { return __awaiter(void 0, void 0, void 0, function () {
-    var db, ret, user;
+var express_1 = __importDefault(require("express"));
+var firebase_config_1 = require("../../app-config/firebase-config");
+var user_1 = require("../../database/user");
+// Router and mounting
+var user = express_1.default.Router();
+// GET - /api/user/getUser - get a user by firebaseId
+user.get('/getUser', firebase_config_1.verifyToken, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var firebaseId, user_2, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, db_1.default()];
+            case 0:
+                firebaseId = res.locals.decodedToken.uid;
+                _a.label = 1;
             case 1:
-                db = _a.sent();
-                return [4 /*yield*/, db.get("SELECT * FROM User WHERE firebase_id = $firebaseId", {
-                        $firebaseId: fbid,
-                    })];
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, user_1.getUserByFirebaseID(firebaseId)];
             case 2:
-                ret = _a.sent();
-                user = {
-                    id: ret.id,
-                    firebase_id: fbid,
-                    full_name: ret.full_name,
-                };
-                return [2 /*return*/, user];
-        }
-    });
-}); };
-exports.getUserByFirebaseID = getUserByFirebaseID;
-// Create User by firebaseId, firstName and lastName.
-var createUser = function (fbid, fullN) { return __awaiter(void 0, void 0, void 0, function () {
-    var db, user;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, db_1.default()];
-            case 1:
-                db = _a.sent();
-                return [4 /*yield*/, db.run("INSERT INTO User (firebase_id, full_name) VALUES ($firebaseId, $fullName)", {
-                        $firebaseId: fbid,
-                        $fullName: fullN,
-                    })];
-            case 2:
-                _a.sent();
-                user = exports.getUserByFirebaseID(fbid);
-                return [2 /*return*/, user];
-        }
-    });
-}); };
-exports.createUser = createUser;
-// Get UserId by firebaseId
-var getUserIdByFirebaseID = function (fbid) { return __awaiter(void 0, void 0, void 0, function () {
-    var db, ret;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, db_1.default()];
-            case 1:
-                db = _a.sent();
-                return [4 /*yield*/, db.get("SELECT id FROM User WHERE firebase_id = $firebaseId", {
-                        $firebaseId: fbid,
-                    })];
-            case 2:
-                ret = _a.sent();
-                return [2 /*return*/, ret.id];
-        }
-    });
-}); };
-exports.getUserIdByFirebaseID = getUserIdByFirebaseID;
-// Create User by firebaseId, firstName and lastName.
-var updateUser = function (fbid, fullN) { return __awaiter(void 0, void 0, void 0, function () {
-    var db, user_id, user;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, db_1.default()];
-            case 1:
-                db = _a.sent();
-                return [4 /*yield*/, exports.getUserIdByFirebaseID(fbid)];
-            case 2:
-                user_id = _a.sent();
-                return [4 /*yield*/, db.run("UPDATE User SET full_name=$fullName WHERE id = $userId", {
-                        $fullName: fullN,
-                        $userId: user_id,
-                    })];
+                user_2 = _a.sent();
+                res.status(200).json({ user: user_2 });
+                return [3 /*break*/, 4];
             case 3:
-                _a.sent();
-                user = exports.getUserByFirebaseID(fbid);
-                return [2 /*return*/, user];
+                e_1 = _a.sent();
+                return [2 /*return*/, res.status(404).send('User not found')];
+            case 4: return [2 /*return*/];
         }
     });
-}); };
-exports.updateUser = updateUser;
+}); });
+// POST - /api/user/createUser - create a user and select it
+user.post('/createUser', firebase_config_1.verifyToken, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var firebaseId, fullName, user_3, e_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                firebaseId = res.locals.decodedToken.uid;
+                fullName = req.body.fullName;
+                if (!!fullName) return [3 /*break*/, 1];
+                return [2 /*return*/, res.status(400).send('Missing property for user')];
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, user_1.createUser(firebaseId, fullName)];
+            case 2:
+                user_3 = _a.sent();
+                res.status(200).json({ user: user_3 });
+                return [3 /*break*/, 4];
+            case 3:
+                e_2 = _a.sent();
+                console.error(e_2);
+                return [2 /*return*/, res.status(404).send('Unable to create user')];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
+// PUT - /api/user/updateUser - update a user by userId
+user.put('/updateUser', firebase_config_1.verifyToken, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var firebaseId, fullName, user_4, e_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                firebaseId = res.locals.decodedToken.uid;
+                fullName = req.body.fullName;
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, user_1.updateUser(firebaseId, fullName)];
+            case 2:
+                user_4 = _a.sent();
+                res.status(200).json({ user: user_4 });
+                return [3 /*break*/, 4];
+            case 3:
+                e_3 = _a.sent();
+                console.error(e_3);
+                return [2 /*return*/, res.status(404).send('Unable to update user fullname')];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
+exports.default = user;

@@ -1,6 +1,6 @@
 import express from 'express';
-import { getRecipesByUserId } from '../database/recipe';
-import { verifyToken, verifyUser } from '../app-config/firebase-config';
+import { getRecipesByUserId } from '../../database/recipe';
+import { verifyToken, verifyUser } from '../../app-config/firebase-config';
 
 // Router and mounting
 const recipe = express.Router();

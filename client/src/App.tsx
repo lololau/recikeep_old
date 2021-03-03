@@ -15,9 +15,9 @@ import MyIngredients from './containers/my-ingredients/MyIngredients';
 import Paper from '@material-ui/core/Paper';
 import RecipesSelectionStepper from './containers/stepper/RecipesSelection';
 import Groups from './containers/groups/Groups';
-import Firebase from './Firebase';
+import Firebase from './containers/firebase/Firebase';
 import { useSelector, useDispatch } from 'react-redux';
-import { isLogged, isCreated, updateFirebaseId, updateIdToken, token, updateFirstName } from './slice/userSlice';
+import { isLogged, isCreated, updateIdToken, fetchGetUser, updateFirebaseUser } from './slice/user/userSlice';
 import firebase from 'firebase/app';
 import SignUp from './containers/create-user/CreateUser';
 
@@ -36,41 +36,14 @@ const App = (): JSX.Element => {
     const dispatch = useDispatch();
 
     const logged = useSelector(isLogged);
-    console.log(logged);
-
     const created = useSelector(isCreated);
-
-    const idToken = useSelector(token);
-
-    const fetchTest = () => {
-        const myHeaders = new Headers({
-            Authorization: idToken,
-        });
-        fetch('http://localhost:3000/api/test/get', { headers: myHeaders })
-            .then((response) => response.text())
-            .then((text) => console.log(text));
-    };
-
-    const fetchGetUser = (idToken: string) => {
-        const myHeaders = new Headers({
-            Authorization: idToken,
-        });
-        fetch('http://localhost:3000/api/user/getUser', { headers: myHeaders }).then((response) => {
-            if (response.status === 404) {
-                return;
-            }
-            return response.json().then((jsonResponse) => {
-                const firstName = jsonResponse.firstName;
-                dispatch(updateFirstName(firstName));
-                return jsonResponse.user;
-            });
-        });
-    };
 
     const onAuthStateChanged = (user: firebase.User | null) => {
         console.log('User: ', user);
         if (user) {
-            dispatch(updateFirebaseId(user.uid));
+            const newUser = { firebaseId: user.uid, email: user.email };
+            console.log(user);
+            dispatch(updateFirebaseUser(newUser));
 
             user.getIdToken()
                 .then((idToken) => {
@@ -78,7 +51,7 @@ const App = (): JSX.Element => {
                     return idToken;
                 })
                 .then((idToken) => {
-                    fetchGetUser(idToken);
+                    dispatch(fetchGetUser(idToken));
                 })
                 .catch((error) => console.log(error));
         }
@@ -96,13 +69,10 @@ const App = (): JSX.Element => {
                     <Button
                         onClick={() => {
                             firebase.auth().signOut();
-                            dispatch(updateFirebaseId(''));
+                            dispatch(updateFirebaseUser(''));
                         }}
                     >
                         Sign Out
-                    </Button>
-                    <Button className="test" onClick={fetchTest}>
-                        Test
                     </Button>
                 </Box>
                 <Router>
