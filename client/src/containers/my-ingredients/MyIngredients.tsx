@@ -7,7 +7,8 @@ import Grid from '@material-ui/core/Grid';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import SearchBar from '../../components/SearchBar';
 import ListComponent from '../../components/List';
-import { selectIngredients, Ingredient } from '../../slice/ingredientsSlice';
+import { Ingredient } from '../../slice/ingredients/ingredientsFetch';
+import { selectIngredients } from '../../slice/ingredients/ingredientsSlice';
 import { useSelector } from 'react-redux';
 
 const MyIngredients = (): JSX.Element => {
