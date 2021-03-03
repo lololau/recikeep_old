@@ -1,10 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
-
-export interface Ingredient {
-    id: number;
-    name: string;
-}
+import { Ingredient, GetAllIngredients } from './ingredientsFetch';
 
 type IngredientsList = {
     ingredients: Ingredient[];
@@ -24,6 +20,14 @@ const ingredientsReducer = createSlice({
     initialState: initialState,
     reducers: {},
 });
+
+export const fetchGetAllIngredients = createAsyncThunk(
+    '/api/ingredients/getAllIngredients',
+    async (idToken: string) => {
+        const user = await GetAllIngredients(idToken);
+        return user;
+    },
+);
 
 export const selectIngredients = (state: RootState): Ingredient[] => state.ingredients.ingredients;
 export const selectIngredient = (state: RootState, index: number): Ingredient => state.ingredients.ingredients[index];
