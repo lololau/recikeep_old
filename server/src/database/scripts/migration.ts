@@ -1,9 +1,20 @@
 import sqlite3 from 'sqlite3';
-const db = new sqlite3.Database(process.env.TEST_DATABASE || './database.sqlite');
+import foodEn from '../ingredient/food-en';
+import foodFr from '../ingredient/food-fr';
+import { open } from 'sqlite';
 
-db.serialize(() => {
-    db.run('DROP TABLE IF EXISTS User');
-    db.run(`CREATE TABLE User (
+foodFr.forEach((food) => {
+    console.log(food);
+});
+
+(async () => {
+    const db = await open({
+        filename: process.env.TEST_DATABASE || './database.sqlite',
+        driver: sqlite3.Database,
+    });
+
+    await db.run('DROP TABLE IF EXISTS User');
+    await db.run(`CREATE TABLE User (
         id INTEGER UNIQUE,
         full_name TEXT,
         firebase_id TEXT UNIQUE,
@@ -12,8 +23,8 @@ db.serialize(() => {
         date_update DATE,
         PRIMARY KEY("id" AUTOINCREMENT)
     )`);
-    db.run('DROP TABLE IF EXISTS Recipe');
-    db.run(`CREATE TABLE Recipe (
+    await db.run('DROP TABLE IF EXISTS Recipe');
+    await db.run(`CREATE TABLE Recipe (
         id INTEGER UNIQUE,
         name TEXT UNIQUE NOT NULL,
         presentation TEXT,
@@ -30,61 +41,88 @@ db.serialize(() => {
         FOREIGN KEY(recipe_photo_id) REFERENCES Recipe_photo(id),
         FOREIGN KEY(recipe_description_id) REFERENCES Recipe_description(id)
     )`);
-    db.run('DROP TABLE IF EXISTS Recipe_photo');
-    db.run(`CREATE TABLE Recipe_photo (
+
+    await db.run('DROP TABLE IF EXISTS Recipe_photo');
+    await db.run(`CREATE TABLE Recipe_photo (
         id INTEGER UNIQUE,
         image BLOB,
         PRIMARY KEY("id" AUTOINCREMENT)
     )`);
-    db.run('DROP TABLE IF EXISTS Recipe_description');
-    db.run(`CREATE TABLE Recipe_description (
+
+    await db.run('DROP TABLE IF EXISTS Recipe_description');
+    await db.run(`CREATE TABLE Recipe_description (
         id INTEGER UNIQUE,
         image BLOB,
         PRIMARY KEY("id" AUTOINCREMENT)
     )`);
-    db.run('DROP TABLE IF EXISTS Groups');
-    db.run(`CREATE TABLE Groups (
+    await db.run('DROP TABLE IF EXISTS Groups');
+    await db.run(`CREATE TABLE Groups (
           id INTEGER UNIQUE,
           name TEXT NOT NULL,
           date_creation DATE,
           date_update DATE,
           PRIMARY KEY("id" AUTOINCREMENT)
       )`);
-    db.run('DROP TABLE IF EXISTS Recipe_group');
-    db.run(`CREATE TABLE Recipe_group (
+
+    await db.run('DROP TABLE IF EXISTS Recipe_group');
+    await db.run(`CREATE TABLE Recipe_group (
         group_id INTEGER,
         recipe_id INTEGER,
         FOREIGN KEY(group_id) REFERENCES Groups(id),
         FOREIGN KEY(recipe_id) REFERENCES Recipe(id)
     )`);
-    db.run('DROP TABLE IF EXISTS Ingredient');
-    db.run(`CREATE TABLE Ingredient (
+
+    await db.run('DROP TABLE IF EXISTS Ingredient');
+    await db.run(`CREATE TABLE Ingredient (
         id INTEGER UNIQUE,
         name TEXT NOT NULL,
+        language TEXT NOT NULL,
+        custom BOOL NOT NULL,
+        user_id INTEGER,
         date_creation DATE,
         date_update DATE,
         PRIMARY KEY("id" AUTOINCREMENT)
     )`);
-    db.run('DROP TABLE IF EXISTS Recipe_ingredient');
-    db.run(`CREATE TABLE Recipe_ingredient (
+
+    await db.run('DROP TABLE IF EXISTS Recipe_ingredient');
+    await db.run(`CREATE TABLE Recipe_ingredient (
         ingredient_id INTEGER,
         recipe_id INTEGER,
         quantity INTEGER NOT NULL,
         unity INTEGER NOT NULL,
-        FOREIGN KEY(ingredient_id) REFERENCES Ingredient(id),
+        FOREIGN KEY(ingredient_id) REFERENCES Ingredient_base(id),
         FOREIGN KEY(recipe_id) REFERENCES Recipe(id)
     )`);
-    db.run('DROP TABLE IF EXISTS Tag');
-    db.run(`CREATE TABLE Tag (
+
+    await db.run('DROP TABLE IF EXISTS Tag');
+    await db.run(`CREATE TABLE Tag (
         id INTEGER UNIQUE,
         name TEXT NOT NULL,
         PRIMARY KEY("id" AUTOINCREMENT)
     )`);
-    db.run('DROP TABLE IF EXISTS Recipe_tag');
-    db.run(`CREATE TABLE Recipe_tag (
+
+    await db.run('DROP TABLE IF EXISTS Recipe_tag');
+    await db.run(`CREATE TABLE Recipe_tag (
         recipe_id INTEGER,
         tag_id INTEGER,
         FOREIGN KEY(recipe_id) REFERENCES Recipe(id),
         FOREIGN KEY(tag_id) REFERENCES Tag(id)
     )`);
-});
+
+    foodFr.forEach(async (food) => {
+        console.log(food);
+        await db.run(`INSERT INTO Ingredient (name, language, custom) VALUES ($name, $language, $custom)`, {
+            $name: food,
+            $language: 'fr',
+            $custom: false,
+        });
+    });
+
+    foodEn.forEach(async (food) => {
+        await db.run(`INSERT INTO Ingredient (name, language, custom) VALUES ($name, $language, $custom)`, {
+            $name: food,
+            $language: 'en',
+            $custom: false,
+        });
+    });
+})();
