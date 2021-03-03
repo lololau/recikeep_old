@@ -12,4 +12,15 @@ const db = open({
 
 const openDb = async () => db;
 
+export const closeDb = async () => {
+    try {
+        const db = await openDb();
+        await db.close();
+    } catch (err) {
+        console.warn('unable to close db', err);
+    }
+
+    return;
+};
+
 export default openDb;
