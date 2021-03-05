@@ -1,3 +1,4 @@
+import user from '../../api/user/user_requests';
 import openDb from '../db';
 
 type Ingredient = {
@@ -5,18 +6,21 @@ type Ingredient = {
     name: string;
 };
 
-export const getAllIngredients = async (): Promise<string[]> => {
+// Get all ingredients by userId and ingredients base when userId is NULL
+export const getAllIngredients = async (userId: number, searchTerm: string): Promise<string[]> => {
     const db = await openDb();
 
-    const ret: Ingredient[] = await db.all(`SELECT * FROM Ingredient`);
-
-    const ingredients = ret.map((ingredient) => {
-        return ingredient.name;
-    });
+    const ingredients: string[] = await db.all(
+        `SELECT name FROM Ingredient WHERE name LIKE '%${searchTerm}%' AND (user_id IS NULL OR user_id=$userId)`,
+        {
+            $userId: userId,
+        },
+    );
 
     return ingredients;
 };
 
+// Get an ingredient by IngredientId
 export const getIngredientById = async (ingredientId: number): Promise<string> => {
     const db = await openDb();
 

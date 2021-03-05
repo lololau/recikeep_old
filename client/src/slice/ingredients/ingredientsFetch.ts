@@ -3,14 +3,14 @@ export interface Ingredient {
     name: string;
 }
 
-export const GetAllIngredients = async (idToken: string): Promise<Ingredient[]> => {
+export const fetchSearchIngredients = async (idToken: string, searchTerm: string): Promise<string[]> => {
     const myHeaders = new Headers({
         Authorization: idToken,
     });
-    const response = await fetch('http://localhost:3000/api/ingredients/getAllIngredients', { headers: myHeaders });
+    const response = await fetch(`http://localhost:3000/api/ingredients/search/${searchTerm}`, { headers: myHeaders });
     if (response.status === 404) {
         throw new Error('User not found');
     }
     const jsonResponse = await response.json();
-    return jsonResponse.user;
+    return jsonResponse.ingredients.forEach((ingredient: Ingredient) => ingredient.name);
 };

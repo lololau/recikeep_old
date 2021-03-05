@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { Ingredient, GetAllIngredients } from './ingredientsFetch';
+import { Ingredient } from './ingredientsFetch';
 
 type IngredientsList = {
     ingredients: Ingredient[];
@@ -15,19 +15,21 @@ const initialState: IngredientsList = {
     ],
 };
 
+/* export const fetchSearchIngredients = createAsyncThunk(
+    '/api/ingredients/search/:searchTerm',
+    async (searchTerm: string, thunkAPI) => {
+        const state = thunkAPI.getState() as RootState;
+        const ingredients = await SearchIngredients(state.user.idToken, searchTerm);
+        console.log(ingredients);
+        return ingredients;
+    },
+); */
+
 const ingredientsReducer = createSlice({
     name: 'ingredients',
     initialState: initialState,
     reducers: {},
 });
-
-export const fetchGetAllIngredients = createAsyncThunk(
-    '/api/ingredients/getAllIngredients',
-    async (idToken: string) => {
-        const user = await GetAllIngredients(idToken);
-        return user;
-    },
-);
 
 export const selectIngredients = (state: RootState): Ingredient[] => state.ingredients.ingredients;
 export const selectIngredient = (state: RootState, index: number): Ingredient => state.ingredients.ingredients[index];

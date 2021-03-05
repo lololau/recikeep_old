@@ -3,10 +3,6 @@ import foodEn from '../ingredient/food-en';
 import foodFr from '../ingredient/food-fr';
 import { open } from 'sqlite';
 
-foodFr.forEach((food) => {
-    console.log(food);
-});
-
 (async () => {
     const db = await open({
         filename: process.env.TEST_DATABASE || './database.sqlite',
@@ -110,7 +106,6 @@ foodFr.forEach((food) => {
     )`);
 
     foodFr.forEach(async (food) => {
-        console.log(food);
         await db.run(`INSERT INTO Ingredient (name, language, custom) VALUES ($name, $language, $custom)`, {
             $name: food,
             $language: 'fr',
