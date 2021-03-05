@@ -1,10 +1,4 @@
-import user from '../../api/user/user_requests';
 import openDb from '../db';
-
-type Ingredient = {
-    id: number;
-    name: string;
-};
 
 // Get all ingredients by userId and ingredients base when userId is NULL
 export const getAllIngredients = async (userId: number, searchTerm: string): Promise<string[]> => {

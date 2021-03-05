@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React from 'react';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
 import TextField from '@material-ui/core/TextField';
@@ -20,24 +20,19 @@ interface IngredientType {
     id: number;
 }
 
-const options: IngredientType[] = [
+export const options: IngredientType[] = [
     { id: 0, name: 'fraise' },
     { id: 1, name: 'prout' },
     { id: 2, name: 'caca' },
     { id: 3, name: 'vagin' },
 ];
-const units: string[] = ['ml', 'dl', 'cl', 'l', 'mg', 'g', 'kg', 'unit', 'filets'];
+export const units: string[] = ['ml', 'dl', 'cl', 'l', 'mg', 'g', 'kg', 'unit', 'filets'];
 
 const NewRecipe = (): JSX.Element => {
     const { t } = useTranslation();
 
     const idToken = useSelector(token);
-
-    const defaultValue = {
-        id: -1,
-        name: '',
-    };
-    const [searchTerm, setSearchTerm] = useState<IngredientType>(defaultValue);
+    console.log(idToken);
 
     return (
         <Container>
@@ -113,7 +108,6 @@ const NewRecipe = (): JSX.Element => {
                             onAdd={(option) => console.log('added', option)}
                             options={top100Films}
                         />
-                        {/*     <UnitsComboBox /> */}
                     </Grid>
                     <Grid item xs={3}>
                         <TextField placeholder="Quantity" variant="outlined" />
