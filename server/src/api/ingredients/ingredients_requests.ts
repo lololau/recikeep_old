@@ -1,6 +1,6 @@
 import express from 'express';
 import { verifyToken, verifyUser } from '../../app-config/firebase-config';
-import { getAllIngredients, searchIngredients } from '../../database/ingredient/ingredients';
+import { getAllIngredients, searchIngredients, addIngredient } from '../../database/ingredient/ingredients';
 
 // Router and mounting
 const ingredients = express.Router();
@@ -14,6 +14,19 @@ ingredients.get('/getAll', verifyToken, verifyUser, async (req, res) => {
     } catch (e) {
         console.error(e);
         return res.status(404).send('Unable to get the ingredients');
+    }
+});
+
+//POST - /api/ingredients/add - add an ingredient into user database;
+ingredients.post('/add', verifyToken, verifyUser, async (req, res) => {
+    const userId = res.locals.userId;
+    const ingredientName = req.body.name;
+    try {
+        const ingredient = await addIngredient(userId, ingredientName);
+        res.status(200).json({ ingredient: ingredient });
+    } catch (e) {
+        console.error(e);
+        return res.status(404).send('Unable to add ingredient');
     }
 });
 

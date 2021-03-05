@@ -11,9 +11,9 @@ import IconButton from '@material-ui/core/IconButton';
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 //mport { fetchSearchIngredients } from '../../slice/ingredients/ingredientsFetch';
 import Autosuggestion from '../../components/Autocomplete';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { token } from '../../slice/user/userSlice';
-import { ingredients } from '../../slice/ingredients/ingredientsSlice';
+import { ingredients, fetchAddIngredient } from '../../slice/ingredients/ingredientsSlice';
 
 interface IngredientType {
     inputValue?: string;
@@ -31,6 +31,8 @@ export const units: string[] = ['ml', 'dl', 'cl', 'l', 'mg', 'g', 'kg', 'unit', 
 
 const NewRecipe = (): JSX.Element => {
     const { t } = useTranslation();
+
+    const dispatch = useDispatch();
 
     const idToken = useSelector(token);
     console.log(idToken);
@@ -100,7 +102,7 @@ const NewRecipe = (): JSX.Element => {
                         <Autosuggestion
                             label="add ingredient"
                             onSelect={(option) => console.log('selected', option)}
-                            onAdd={(option) => console.log('added', option)}
+                            onAdd={(option) => dispatch(fetchAddIngredient(option))}
                             options={ingredientsList}
                         />
                     </Grid>

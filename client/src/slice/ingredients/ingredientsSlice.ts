@@ -1,6 +1,20 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { Ingredient, getIngredients } from './ingredientsFetch';
+import { Ingredient, RequestAddIngredient, getIngredients, addIngredient } from './ingredientsFetch';
+
+export const fetchGetIngredients = createAsyncThunk('/api/ingredients/search/getAll', async (idToken: string) => {
+    const ingredients = await getIngredients(idToken);
+    return ingredients;
+});
+
+export const fetchAddIngredient = createAsyncThunk(
+    '/api/ingredients/add',
+    async (req: RequestAddIngredient, thunkAPI) => {
+        const state = thunkAPI.getState() as RootState;
+        const ingredient = await addIngredient(state.user.idToken, req);
+        return ingredient;
+    },
+);
 
 type IngredientsList = {
     ingredients: Ingredient[];
@@ -9,11 +23,6 @@ type IngredientsList = {
 const initialState: IngredientsList = {
     ingredients: [],
 };
-
-export const fetchGetIngredients = createAsyncThunk('/api/ingredients/search/getAll', async (idToken: string) => {
-    const ingredients = await getIngredients(idToken);
-    return ingredients;
-});
 
 const ingredientsReducer = createSlice({
     name: 'ingredients',
@@ -26,6 +35,10 @@ const ingredientsReducer = createSlice({
         });
         builder.addCase(fetchGetIngredients.rejected, (state) => {
             state.ingredients = [];
+        });
+        // fetchAddIngredient
+        builder.addCase(fetchAddIngredient.fulfilled, (state, action) => {
+            state.ingredients.push(action.payload);
         });
     },
 });

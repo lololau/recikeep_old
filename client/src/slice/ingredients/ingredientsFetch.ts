@@ -3,6 +3,7 @@ export interface Ingredient {
     name: string;
 }
 
+// Charge all ingredients in redux when a user is connected
 export const getIngredients = async (idToken: string): Promise<Ingredient[]> => {
     const myHeaders = new Headers({
         Authorization: idToken,
@@ -13,6 +14,29 @@ export const getIngredients = async (idToken: string): Promise<Ingredient[]> => 
     }
     const jsonResponse = await response.json();
     return jsonResponse.ingredients;
+};
+
+export type RequestAddIngredient = {
+    name: string;
+};
+
+// Add an ingredient into db when a user is creating a recipe
+export const addIngredient = async (idToken: string, request: RequestAddIngredient): Promise<Ingredient> => {
+    const myHeaders = new Headers({
+        Authorization: idToken,
+        'content-type': 'application/json',
+    });
+    const response = await fetch(`http://localhost:3000/api/ingredients/add/`, {
+        method: 'POST',
+        body: JSON.stringify(request),
+        headers: myHeaders,
+    });
+    if (response.status < 200 || response.status >= 300) {
+        const err = await response.text();
+        throw new Error('Ingredient not added: ' + err);
+    }
+    const ingredient = await response.json();
+    return ingredient;
 };
 
 export const fetchSearchIngredients = async (idToken: string, searchTerm: string): Promise<string[]> => {

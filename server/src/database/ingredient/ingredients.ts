@@ -1,7 +1,7 @@
 import openDb from '../db';
 
 export interface Ingredient {
-    id: number;
+    id?: number;
     name: string;
 }
 
@@ -20,6 +20,27 @@ export const getAllIngredients = async (userId: number): Promise<Ingredient[]> =
     return ingredients;
 };
 
+//Add an ingredient into user database;
+export const addIngredient = async (userId: number, ingredientName: string): Promise<Ingredient> => {
+    const db = await openDb();
+
+    const result = await db.run(
+        `INSERT INTO Ingredient (user_id, name, language, custom) VALUES ($userId, $name, $language, $custom)`,
+        {
+            $userId: userId,
+            $name: ingredientName,
+            $language: 'fr',
+            $custom: true,
+        },
+    );
+
+    const ingredientId = result.lastID;
+
+    const ingredient = await db.get(`SELECT * FROM Ingredient WHERE id=$id`, { $id: ingredientId });
+
+    return ingredient;
+};
+
 // Search ingredients by searchTerm
 export const searchIngredients = async (userId: number, searchTerm: string): Promise<string[]> => {
     const db = await openDb();
@@ -35,12 +56,10 @@ export const searchIngredients = async (userId: number, searchTerm: string): Pro
 };
 
 // Get an ingredient by IngredientId
-export const getIngredientById = async (ingredientId: number): Promise<string> => {
+export const getIngredientById = async (ingredientId: number): Promise<Ingredient> => {
     const db = await openDb();
 
-    const ret = await db.get(`SELECT * FROM Ingredient WHERE id=$id`, { $id: ingredientId });
-
-    const ingredient = ret.name;
+    const ingredient = await db.get(`SELECT * FROM Ingredient WHERE id=$id`, { $id: ingredientId });
 
     return ingredient;
 };
