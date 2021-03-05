@@ -1,34 +1,34 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { Ingredient } from './ingredientsFetch';
+import { Ingredient, getIngredients } from './ingredientsFetch';
 
 type IngredientsList = {
     ingredients: Ingredient[];
 };
 
 const initialState: IngredientsList = {
-    ingredients: [
-        { name: 'Patate', id: 0 },
-        { name: 'Ananas', id: 1 },
-        { name: 'Banane', id: 2 },
-        { name: 'Garry', id: 3 },
-    ],
+    ingredients: [],
 };
 
-/* export const fetchSearchIngredients = createAsyncThunk(
-    '/api/ingredients/search/:searchTerm',
-    async (searchTerm: string, thunkAPI) => {
-        const state = thunkAPI.getState() as RootState;
-        const ingredients = await SearchIngredients(state.user.idToken, searchTerm);
-        console.log(ingredients);
-        return ingredients;
-    },
-); */
+export const fetchGetIngredients = createAsyncThunk('/api/ingredients/search/getAll', async (idToken: string) => {
+    const ingredients = await getIngredients(idToken);
+    return ingredients;
+});
 
 const ingredientsReducer = createSlice({
     name: 'ingredients',
     initialState: initialState,
     reducers: {},
+    extraReducers: (builder) => {
+        // fetchGetIngredients
+        builder.addCase(fetchGetIngredients.fulfilled, (state, action) => {
+            console.log(action.payload);
+            state.ingredients = action.payload;
+        });
+        builder.addCase(fetchGetIngredients.rejected, (state) => {
+            state.ingredients = [];
+        });
+    },
 });
 
 export const selectIngredients = (state: RootState): Ingredient[] => state.ingredients.ingredients;

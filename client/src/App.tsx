@@ -17,6 +17,7 @@ import RecipesSelectionStepper from './containers/stepper/RecipesSelection';
 import Groups from './containers/groups/Groups';
 import Firebase from './containers/firebase/Firebase';
 import { useSelector, useDispatch } from 'react-redux';
+import { fetchGetIngredients } from './slice/ingredients/ingredientsSlice';
 import { isLogged, isCreated, updateIdToken, fetchGetUser, updateFirebaseUser } from './slice/user/userSlice';
 import firebase from 'firebase/app';
 import SignUp from './containers/create-user/CreateUser';
@@ -52,6 +53,7 @@ const App = (): JSX.Element => {
                 })
                 .then((idToken) => {
                     dispatch(fetchGetUser(idToken));
+                    dispatch(fetchGetIngredients(idToken));
                 })
                 .catch((error) => console.log(error));
         }
