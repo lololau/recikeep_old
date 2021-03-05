@@ -13,6 +13,7 @@ import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import Autosuggestion from '../../components/Autocomplete';
 import { useSelector } from 'react-redux';
 import { token } from '../../slice/user/userSlice';
+import { ingredients } from '../../slice/ingredients/ingredientsSlice';
 
 interface IngredientType {
     inputValue?: string;
@@ -33,6 +34,8 @@ const NewRecipe = (): JSX.Element => {
 
     const idToken = useSelector(token);
     console.log(idToken);
+
+    const ingredientsList = useSelector(ingredients);
 
     return (
         <Container>
@@ -98,7 +101,7 @@ const NewRecipe = (): JSX.Element => {
                             label="add ingredient"
                             onSelect={(option) => console.log('selected', option)}
                             onAdd={(option) => console.log('added', option)}
-                            options={top100Films}
+                            options={ingredientsList}
                         />
                     </Grid>
                     <Grid item xs={3}>

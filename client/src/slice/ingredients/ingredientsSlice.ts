@@ -22,7 +22,6 @@ const ingredientsReducer = createSlice({
     extraReducers: (builder) => {
         // fetchGetIngredients
         builder.addCase(fetchGetIngredients.fulfilled, (state, action) => {
-            console.log(action.payload);
             state.ingredients = action.payload;
         });
         builder.addCase(fetchGetIngredients.rejected, (state) => {
@@ -31,7 +30,7 @@ const ingredientsReducer = createSlice({
     },
 });
 
-export const selectIngredients = (state: RootState): Ingredient[] => state.ingredients.ingredients;
+export const ingredients = (state: RootState): Ingredient[] => state.ingredients.ingredients;
 export const selectIngredient = (state: RootState, index: number): Ingredient => state.ingredients.ingredients[index];
 
 export default ingredientsReducer.reducer;
