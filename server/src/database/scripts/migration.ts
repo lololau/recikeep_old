@@ -2,6 +2,7 @@ import sqlite3 from 'sqlite3';
 import foodEn from '../ingredient/food-en';
 import foodFr from '../ingredient/food-fr';
 import { open } from 'sqlite';
+import units from '../unity/unity-db';
 
 (async () => {
     const db = await open({
@@ -80,14 +81,22 @@ import { open } from 'sqlite';
         PRIMARY KEY("id" AUTOINCREMENT)
     )`);
 
+    await db.run('DROP TABLE IF EXISTS Unity');
+    await db.run(`CREATE TABLE Unity (
+        id INTEGER UNIQUE,
+        name TEXT NOT NULL,
+        PRIMARY KEY("id" AUTOINCREMENT)
+    )`);
+
     await db.run('DROP TABLE IF EXISTS Recipe_ingredient');
     await db.run(`CREATE TABLE Recipe_ingredient (
         ingredient_id INTEGER,
         recipe_id INTEGER,
+        unity_id INTEGER,
         quantity INTEGER NOT NULL,
-        unity INTEGER NOT NULL,
         FOREIGN KEY(ingredient_id) REFERENCES Ingredient_base(id),
-        FOREIGN KEY(recipe_id) REFERENCES Recipe(id)
+        FOREIGN KEY(recipe_id) REFERENCES Recipe(id),
+        FOREIGN KEY(unity_id) REFERENCES Unity(id)
     )`);
 
     await db.run('DROP TABLE IF EXISTS Tag');
@@ -118,6 +127,12 @@ import { open } from 'sqlite';
             $name: food,
             $language: 'en',
             $custom: false,
+        });
+    });
+
+    units.forEach(async (unity) => {
+        await db.run(`INSERT INTO Unity (name) VALUES ($name)`, {
+            $name: unity,
         });
     });
 })();
