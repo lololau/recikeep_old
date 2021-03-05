@@ -7,19 +7,20 @@ import Grid from '@material-ui/core/Grid';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import SearchBar from '../../components/SearchBar';
 import ListComponent from '../../components/List';
-import { selectIngredients, Ingredient } from '../../slice/ingredientsSlice';
+import { Ingredient } from '../../slice/ingredients/ingredientsFetch';
+import { ingredients } from '../../slice/ingredients/ingredientsSlice';
 import { useSelector } from 'react-redux';
 
 const MyIngredients = (): JSX.Element => {
-    const ingredients = useSelector(selectIngredients);
+    const ingredientsList = useSelector(ingredients);
     const { t } = useTranslation();
 
     const [modalOpen, setModalOpen] = useState(false);
 
-    const [ingredientsDisplay, setIngredientsDisplay] = useState(ingredients);
+    const [ingredientsDisplay, setIngredientsDisplay] = useState(ingredientsList);
 
     const onChange = (ids: string[]) => {
-        const newIngredients: Ingredient[] = ingredients.filter((ingredient) => {
+        const newIngredients: Ingredient[] = ingredientsList.filter((ingredient) => {
             let resultat = false;
             for (let i = 0; i < ids.length; i++) {
                 if (ingredient.id.toString() === ids[i]) {
@@ -43,7 +44,7 @@ const MyIngredients = (): JSX.Element => {
                     </IconButton>
                 </Grid>
             </Grid>
-            <SearchBar elements={ingredients} onchange={onChange} width={'50%'} />
+            <SearchBar elements={ingredientsList} onchange={onChange} width={'50%'} />
             <ListComponent listElements={ingredientsDisplay} />
             <Dialog open={modalOpen} style={{}}>
                 <Container>

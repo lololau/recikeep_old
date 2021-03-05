@@ -29,13 +29,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build && node build/index.js",
+    "start": "ts-node ./src/server.ts",
     "start:dev": "nodemon",
     "build": "tsc",
     "lint": "eslint 'src/**/*.{js,ts,tsx}'",
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier '.*.js' 'src/**/*.{js,ts,tsx}' -w",
-    "db:migration": "node build/database/scripts/migration.js",
+    "db:migration": "ts-node src/database/scripts/migration.ts",
     "server": "tsc && node build/server.js"
   },
   "author": "",

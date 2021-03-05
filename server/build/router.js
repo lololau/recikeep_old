@@ -7,9 +7,11 @@ var express_1 = __importDefault(require("express"));
 var test_1 = __importDefault(require("./api/test"));
 var recipe_requests_1 = __importDefault(require("./api/recipe/recipe_requests"));
 var user_requests_1 = __importDefault(require("./api/user/user_requests"));
+var ingredients_requests_1 = __importDefault(require("./api/ingredients/ingredients_requests"));
 // Router and mounting
 var api = express_1.default.Router();
 api.use('/test', test_1.default);
 api.use('/recipe', recipe_requests_1.default);
 api.use('/user', user_requests_1.default);
+api.use('/ingredients', ingredients_requests_1.default);
 exports.default = api;

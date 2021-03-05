@@ -39,38 +39,40 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.closeDb = void 0;
-var sqlite3_1 = __importDefault(require("sqlite3"));
-var sqlite_1 = require("sqlite");
-sqlite3_1.default.verbose();
-// from https://github.com/kriasoft/node-sqlite#usage
-var db = sqlite_1.open({
-    filename: process.env.TEST_DATABASE || './database.sqlite',
-    driver: sqlite3_1.default.Database,
-});
-var openDb = function () { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
-    return [2 /*return*/, db];
-}); }); };
-var closeDb = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var db_1, err_1;
+exports.getIngredientById = exports.getAllIngredients = void 0;
+var db_1 = __importDefault(require("../db"));
+// Get all ingredients by userId and ingredients base when userId is NULL
+var getAllIngredients = function (userId, searchTerm) { return __awaiter(void 0, void 0, void 0, function () {
+    var db, ingredients;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 3, , 4]);
-                return [4 /*yield*/, openDb()];
+            case 0: return [4 /*yield*/, db_1.default()];
             case 1:
-                db_1 = _a.sent();
-                return [4 /*yield*/, db_1.close()];
+                db = _a.sent();
+                return [4 /*yield*/, db.all("SELECT name FROM Ingredient WHERE name LIKE '%" + searchTerm + "%' AND (user_id IS NULL OR user_id=$userId)", {
+                        $userId: userId,
+                    })];
             case 2:
-                _a.sent();
-                return [3 /*break*/, 4];
-            case 3:
-                err_1 = _a.sent();
-                console.warn('unable to close db', err_1);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+                ingredients = _a.sent();
+                return [2 /*return*/, ingredients];
         }
     });
 }); };
-exports.closeDb = closeDb;
-exports.default = openDb;
+exports.getAllIngredients = getAllIngredients;
+// Get an ingredient by IngredientId
+var getIngredientById = function (ingredientId) { return __awaiter(void 0, void 0, void 0, function () {
+    var db, ret, ingredient;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, db_1.default()];
+            case 1:
+                db = _a.sent();
+                return [4 /*yield*/, db.get("SELECT * FROM Ingredient WHERE id=$id", { $id: ingredientId })];
+            case 2:
+                ret = _a.sent();
+                ingredient = ret.name;
+                return [2 /*return*/, ingredient];
+        }
+    });
+}); };
+exports.getIngredientById = getIngredientById;

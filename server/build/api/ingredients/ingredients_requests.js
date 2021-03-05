@@ -39,38 +39,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.closeDb = void 0;
-var sqlite3_1 = __importDefault(require("sqlite3"));
-var sqlite_1 = require("sqlite");
-sqlite3_1.default.verbose();
-// from https://github.com/kriasoft/node-sqlite#usage
-var db = sqlite_1.open({
-    filename: process.env.TEST_DATABASE || './database.sqlite',
-    driver: sqlite3_1.default.Database,
-});
-var openDb = function () { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
-    return [2 /*return*/, db];
-}); }); };
-var closeDb = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var db_1, err_1;
+var express_1 = __importDefault(require("express"));
+var firebase_config_1 = require("../../app-config/firebase-config");
+var ingredients_1 = require("../../database/ingredient/ingredients");
+// Router and mounting
+var ingredients = express_1.default.Router();
+//GET - /api/recipe/getAllIngredients - get all ingredients by userID with searchTerm;
+ingredients.get('/search/:searchTerm', firebase_config_1.verifyToken, firebase_config_1.verifyUser, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var userId, searchTerm, ingredients_2, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 3, , 4]);
-                return [4 /*yield*/, openDb()];
+                userId = res.locals.userId;
+                searchTerm = req.params.searchTerm;
+                _a.label = 1;
             case 1:
-                db_1 = _a.sent();
-                return [4 /*yield*/, db_1.close()];
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, ingredients_1.getAllIngredients(userId, searchTerm)];
             case 2:
-                _a.sent();
+                ingredients_2 = _a.sent();
+                res.status(200).json({ ingredients: ingredients_2 });
                 return [3 /*break*/, 4];
             case 3:
-                err_1 = _a.sent();
-                console.warn('unable to close db', err_1);
-                return [3 /*break*/, 4];
+                e_1 = _a.sent();
+                console.error(e_1);
+                return [2 /*return*/, res.status(404).send('Unable to get the ingredients')];
             case 4: return [2 /*return*/];
         }
     });
-}); };
-exports.closeDb = closeDb;
-exports.default = openDb;
+}); });
+exports.default = ingredients;

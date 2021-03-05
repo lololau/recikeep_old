@@ -1,5 +1,5 @@
-import sqlite3, { Database } from 'sqlite3';
-import { open } from 'sqlite';
+import sqlite3 from 'sqlite3';
+import { Database, open } from 'sqlite';
 
 sqlite3.verbose();
 
@@ -10,6 +10,16 @@ const db = open({
     driver: sqlite3.Database,
 });
 
-const openDb = async () => db;
+const openDb = async (): Promise<Database> => db;
+
+export const closeDb = async (): Promise<void> => {
+    try {
+        const db = await openDb();
+        await db.close();
+    } catch (err) {
+        console.warn('unable to close db', err);
+    }
+    return;
+};
 
 export default openDb;
