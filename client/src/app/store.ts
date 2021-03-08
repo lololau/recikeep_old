@@ -1,15 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from '../slice/counterSlice';
 import recipesReducer from '../slice/recipesSlice';
 import ingredientsReducer from '../slice/ingredients/ingredientsSlice';
 import userReducer from '../slice/user/userSlice';
 import groupsReducer from '../slice/groupsSlice';
+import unitiesReducer from '../slice/unity/unitySlice';
 
 const store = configureStore({
     reducer: {
-        counter: counterReducer,
         recipes: recipesReducer,
         ingredients: ingredientsReducer,
+        unities: unitiesReducer,
         user: userReducer,
         groups: groupsReducer,
     },

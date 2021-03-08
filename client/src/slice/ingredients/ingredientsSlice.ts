@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { Ingredient, RequestAddIngredient, getIngredients, addIngredient } from './ingredientsFetch';
 
-export const fetchGetIngredients = createAsyncThunk('/api/ingredients/search/getAll', async (idToken: string) => {
+export const fetchGetIngredients = createAsyncThunk('/api/ingredients/getAll', async (idToken: string) => {
     const ingredients = await getIngredients(idToken);
     return ingredients;
 });

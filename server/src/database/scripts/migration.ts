@@ -78,14 +78,17 @@ import units from '../unity/unity-db';
         user_id INTEGER,
         date_creation DATE,
         date_update DATE,
-        PRIMARY KEY("id" AUTOINCREMENT)
+        PRIMARY KEY("id" AUTOINCREMENT),
+        FOREIGN KEY(user_id) REFERENCES User(id)
     )`);
 
     await db.run('DROP TABLE IF EXISTS Unity');
     await db.run(`CREATE TABLE Unity (
         id INTEGER UNIQUE,
         name TEXT NOT NULL,
-        PRIMARY KEY("id" AUTOINCREMENT)
+        user_id INTEGER,
+        PRIMARY KEY("id" AUTOINCREMENT),
+        FOREIGN KEY(user_id) REFERENCES User(id)
     )`);
 
     await db.run('DROP TABLE IF EXISTS Recipe_ingredient');
