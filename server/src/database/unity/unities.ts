@@ -15,3 +15,19 @@ export const getAllUnities = async (userId: number): Promise<Unity[]> => {
 
     return unities;
 };
+
+//Get all base ingredients and by userId
+export const addUnity = async (userId: number, unityName: string): Promise<Unity> => {
+    const db = await openDb();
+
+    const ret = await db.run(`INSERT INTO Unity (name, user_id) VALUES ($name, $userId)`, {
+        $userId: userId,
+        $name: unityName,
+    });
+
+    const unityId = ret.lastID;
+
+    const unity = await db.get(`SELECT * FROM Unity WHERE id=$id`, { $id: unityId });
+
+    return unity;
+};

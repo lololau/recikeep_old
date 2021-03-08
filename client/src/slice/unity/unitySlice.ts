@@ -1,11 +1,17 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { Unity, getUnities } from './unityFetch';
+import { Unity, getUnities, addUnity, RequestAddUnity } from './unityFetch';
 
 // Get all unities from initial state and by user
 export const fetchGetUnities = createAsyncThunk('/api/unities/getAll', async (idToken: string) => {
     const unities = await getUnities(idToken);
     return unities;
+});
+
+export const fetchAddUnity = createAsyncThunk('/api/unities/add', async (request: RequestAddUnity, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
+    const unity = await addUnity(state.user.idToken, request);
+    return unity;
 });
 
 type UnitiesList = {
@@ -27,6 +33,9 @@ const unitiesReducer = createSlice({
         });
         builder.addCase(fetchGetUnities.rejected, (state) => {
             state.unities = [];
+        });
+        builder.addCase(fetchAddUnity.fulfilled, (state, action) => {
+            state.unities.push(action.payload);
         });
     },
 });

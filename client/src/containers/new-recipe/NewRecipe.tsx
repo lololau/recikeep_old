@@ -9,34 +9,15 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
-//mport { fetchSearchIngredients } from '../../slice/ingredients/ingredientsFetch';
 import Autosuggestion from '../../components/Autocomplete';
 import { useSelector, useDispatch } from 'react-redux';
-import { token } from '../../slice/user/userSlice';
 import { ingredients, fetchAddIngredient } from '../../slice/ingredients/ingredientsSlice';
-import { unities } from '../../slice/unity/unitySlice';
-
-interface IngredientType {
-    inputValue?: string;
-    name: string;
-    id: number;
-}
-
-export const options: IngredientType[] = [
-    { id: 0, name: 'fraise' },
-    { id: 1, name: 'prout' },
-    { id: 2, name: 'caca' },
-    { id: 3, name: 'vagin' },
-];
-export const units: string[] = ['ml', 'dl', 'cl', 'l', 'mg', 'g', 'kg', 'unit', 'filets'];
+import { unities, fetchAddUnity } from '../../slice/unity/unitySlice';
 
 const NewRecipe = (): JSX.Element => {
     const { t } = useTranslation();
 
     const dispatch = useDispatch();
-
-    const idToken = useSelector(token);
-    console.log(idToken);
 
     const ingredientsList = useSelector(ingredients);
     const unitiesList = useSelector(unities);
@@ -112,7 +93,7 @@ const NewRecipe = (): JSX.Element => {
                         <Autosuggestion
                             label="add unit"
                             onSelect={(option) => console.log('selected', option)}
-                            onAdd={(option) => console.log('added', option)}
+                            onAdd={(option) => dispatch(fetchAddUnity(option))}
                             options={unitiesList}
                         />
                     </Grid>
