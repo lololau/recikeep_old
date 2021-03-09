@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
 import SearchBar from '../../components/SearchBar';
-import ListComponent from '../../components/List';
+import ListComponent, { Element } from '../../components/List';
 import { Unity } from '../../slice/unity/unityFetch';
-import { unities } from '../../slice/unity/unitySlice';
-import { useSelector } from 'react-redux';
+import { unities, fetchDeleteUnity } from '../../slice/unity/unitySlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 const MyUnities = (): JSX.Element => {
     const unitiesList = useSelector(unities);
     const { t } = useTranslation();
+
+    const dispatch = useDispatch();
 
     const [unitiesCustomDisplay, setUnitiesCustomDisplay] = useState(unitiesList);
 
@@ -17,6 +19,10 @@ const MyUnities = (): JSX.Element => {
         unitiesElements.filter((unity) => {
             return unity.user_id !== null;
         });
+
+    const deleteUnity = (unity: Element) => {
+        dispatch(fetchDeleteUnity(unity.id));
+    };
 
     const onChange = (ids: string[]) => {
         const newUnities: Unity[] = unitiesList.filter((unity) => {
@@ -35,7 +41,7 @@ const MyUnities = (): JSX.Element => {
         <Container>
             <h1>{t('myUnities.title-page')}</h1>
             <SearchBar elements={unitiesList} onchange={onChange} width={'50%'} />
-            <ListComponent listElements={selectUnitiesCustom(unitiesCustomDisplay)} />
+            <ListComponent onRemoveElement={deleteUnity} listElements={selectUnitiesCustom(unitiesCustomDisplay)} />
         </Container>
     );
 };

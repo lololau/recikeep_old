@@ -35,6 +35,25 @@ export const addUnity = async (idToken: string, request: RequestAddUnity): Promi
         const err = await response.text();
         throw new Error('Unity not added: ' + err);
     }
-    const unity = await response.json();
-    return unity;
+    const jsonResponse = await response.json();
+    return jsonResponse.unity;
+};
+
+export type RequestDeleteUnity = {
+    id: number;
+};
+
+export const deleteUnity = async (idToken: string, unityId: number): Promise<void> => {
+    const myHeaders = new Headers({
+        Authorization: idToken,
+        'content-type': 'application/json',
+    });
+    const response = await fetch(`http://localhost:3000/api/unities/delete/${unityId}`, {
+        headers: myHeaders,
+        method: 'DELETE',
+    });
+    if (response.status < 200 || response.status >= 300) {
+        const err = await response.text();
+        throw new Error('Unity not added: ' + err);
+    }
 };

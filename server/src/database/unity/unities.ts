@@ -35,3 +35,16 @@ export const addUnity = async (userId: number, unityName: string): Promise<Unity
 
     return unity;
 };
+
+//Get all base unities and by userId
+export const deleteUnity = async (userId: number, unityId: number): Promise<Unity[]> => {
+    const db = await openDb();
+
+    await db.run(`DELETE FROM Unity WHERE id=$id AND user_id=$userId`, {
+        $id: unityId,
+        $userId: userId,
+    });
+
+    const unities = getAllUnities(userId);
+    return unities;
+};

@@ -9,11 +9,14 @@ import SearchBar from '../../components/SearchBar';
 import ListComponent from '../../components/List';
 import { Ingredient } from '../../slice/ingredients/ingredientsFetch';
 import { ingredients } from '../../slice/ingredients/ingredientsSlice';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchDeleteUnity } from '../../slice/unity/unitySlice';
 
 const MyIngredients = (): JSX.Element => {
     const ingredientsList = useSelector(ingredients);
     const { t } = useTranslation();
+
+    const dispatch = useDispatch();
 
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -21,6 +24,10 @@ const MyIngredients = (): JSX.Element => {
         ingredientsElements.filter((ingredient) => {
             return ingredient.user_id !== null;
         });
+
+    /* const deleteIngredient = (ingredient: Ingredient) => {
+        dispatch(fetchDeleteUnity(ingredient.id));
+    }; */
 
     const [ingredientsDisplay, setIngredientsDisplay] = useState(ingredientsList);
 

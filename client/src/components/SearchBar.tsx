@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TextField, Box } from '@material-ui/core';
 
@@ -22,18 +22,17 @@ export const filterSearchBar = (groups: Element[], filter: string[]): Element[] 
 };
 
 const SearchBar = (props: SearchBarProps): JSX.Element => {
+    const { elements } = props;
     const { t } = useTranslation();
     const [searchTerm, setSearchTerm] = useState('');
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const newValue = event.currentTarget.value;
-        setSearchTerm(newValue);
-        const idList = props.elements
+    const filterElements = (elements: Element[], value: string) => {
+        const idList = elements
             .filter((item) => {
-                if (newValue === '') {
+                if (value === '') {
                     return true;
-                } else if (newValue) {
-                    return item.name.toLowerCase().includes(newValue.toLowerCase());
+                } else if (value) {
+                    return item.name.toLowerCase().includes(value.toLowerCase());
                 }
             })
             .map((elt) => {
@@ -42,6 +41,16 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
 
         props.onchange(idList);
     };
+
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const newValue = event.currentTarget.value;
+        setSearchTerm(newValue);
+        filterElements(elements, newValue);
+    };
+
+    useEffect(() => {
+        filterElements(elements, searchTerm);
+    }, [elements]);
 
     return (
         <Box>
