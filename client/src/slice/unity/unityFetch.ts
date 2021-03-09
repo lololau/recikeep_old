@@ -1,7 +1,6 @@
 export interface Unity {
     id: number;
     name: string;
-    custom: number;
     user_id: number;
 }
 

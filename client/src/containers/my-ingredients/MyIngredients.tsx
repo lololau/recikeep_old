@@ -17,6 +17,11 @@ const MyIngredients = (): JSX.Element => {
 
     const [modalOpen, setModalOpen] = useState(false);
 
+    const selectIngredientsCustom = (ingredientsElements: Ingredient[]): Ingredient[] =>
+        ingredientsElements.filter((ingredient) => {
+            return ingredient.user_id !== null;
+        });
+
     const [ingredientsDisplay, setIngredientsDisplay] = useState(ingredientsList);
 
     const onChange = (ids: string[]) => {
@@ -45,7 +50,7 @@ const MyIngredients = (): JSX.Element => {
                 </Grid>
             </Grid>
             <SearchBar elements={ingredientsList} onchange={onChange} width={'50%'} />
-            <ListComponent listElements={ingredientsDisplay} />
+            <ListComponent listElements={selectIngredientsCustom(ingredientsDisplay)} />
             <Dialog open={modalOpen} style={{}}>
                 <Container>
                     <DialogTitle>

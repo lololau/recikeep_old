@@ -119,21 +119,21 @@ import units from '../unity/unity-db';
     )`);
 
     foodFr.forEach(async (food) => {
-        await db.run(`INSERT INTO Ingredient (name, language, custom) VALUES ($name, $language, $custom)`, {
+        await db.run(`INSERT INTO Ingredient (name, language) VALUES ($name, $language)`, {
             $name: food,
             $language: 'fr',
         });
     });
 
     foodEn.forEach(async (food) => {
-        await db.run(`INSERT INTO Ingredient (name, language, custom) VALUES ($name, $language, $custom)`, {
+        await db.run(`INSERT INTO Ingredient (name, language) VALUES ($name, $language)`, {
             $name: food,
             $language: 'en',
         });
     });
 
     units.forEach(async (unity) => {
-        await db.run(`INSERT INTO Unity (name, custom) VALUES ($name, $custom)`, {
+        await db.run(`INSERT INTO Unity (name) VALUES ($name)`, {
             $name: unity,
         });
     });

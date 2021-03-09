@@ -1,6 +1,7 @@
 export interface Ingredient {
     id: number;
     name: string;
+    user_id?: number;
 }
 
 // Charge all ingredients in redux when a user is connected
