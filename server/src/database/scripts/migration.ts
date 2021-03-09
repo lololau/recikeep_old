@@ -74,18 +74,22 @@ import units from '../unity/unity-db';
         id INTEGER UNIQUE,
         name TEXT NOT NULL,
         language TEXT NOT NULL,
-        custom BOOL NOT NULL,
         user_id INTEGER,
         date_creation DATE,
         date_update DATE,
-        PRIMARY KEY("id" AUTOINCREMENT)
+        PRIMARY KEY("id" AUTOINCREMENT),
+        FOREIGN KEY(user_id) REFERENCES User(id)
     )`);
 
     await db.run('DROP TABLE IF EXISTS Unity');
     await db.run(`CREATE TABLE Unity (
         id INTEGER UNIQUE,
         name TEXT NOT NULL,
-        PRIMARY KEY("id" AUTOINCREMENT)
+        user_id INTEGER,
+        date_creation DATE,
+        date_update DATE,
+        PRIMARY KEY("id" AUTOINCREMENT),
+        FOREIGN KEY(user_id) REFERENCES User(id)
     )`);
 
     await db.run('DROP TABLE IF EXISTS Recipe_ingredient');
@@ -115,18 +119,16 @@ import units from '../unity/unity-db';
     )`);
 
     foodFr.forEach(async (food) => {
-        await db.run(`INSERT INTO Ingredient (name, language, custom) VALUES ($name, $language, $custom)`, {
+        await db.run(`INSERT INTO Ingredient (name, language) VALUES ($name, $language)`, {
             $name: food,
             $language: 'fr',
-            $custom: false,
         });
     });
 
     foodEn.forEach(async (food) => {
-        await db.run(`INSERT INTO Ingredient (name, language, custom) VALUES ($name, $language, $custom)`, {
+        await db.run(`INSERT INTO Ingredient (name, language) VALUES ($name, $language)`, {
             $name: food,
             $language: 'en',
-            $custom: false,
         });
     });
 

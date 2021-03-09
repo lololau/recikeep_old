@@ -1,6 +1,11 @@
 import express from 'express';
 import { verifyToken, verifyUser } from '../../app-config/firebase-config';
-import { getAllIngredients, searchIngredients, addIngredient } from '../../database/ingredient/ingredients';
+import {
+    getAllIngredients,
+    searchIngredients,
+    addIngredient,
+    deleteIngredient,
+} from '../../database/ingredient/ingredients';
 
 // Router and mounting
 const ingredients = express.Router();
@@ -27,6 +32,19 @@ ingredients.post('/add', verifyToken, verifyUser, async (req, res) => {
     } catch (e) {
         console.error(e);
         return res.status(404).send('Unable to add ingredient');
+    }
+});
+
+// DELETE - '/api/ingredients/delete' - delete an ingredient from user database
+ingredients.delete('/delete/:ingredientId', verifyToken, verifyUser, async (req, res) => {
+    const userId = res.locals.userId;
+    const ingredientId = Number(req.params.ingredientId);
+    try {
+        await deleteIngredient(userId, ingredientId);
+        res.status(204).send();
+    } catch (e) {
+        console.error(e);
+        res.status(404).send('Unable to delete the ingredient');
     }
 });
 

@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState } from 'react';
 import { Button, TextField, Box } from '@material-ui/core';
 import { fetchCreateUser, updateFirebaseUser, token } from '../../slice/user/userSlice';
 import { fetchGetIngredients } from '../../slice/ingredients/ingredientsSlice';
+import { fetchGetUnities } from '../../slice/unity/unitySlice';
 import { useDispatch, useSelector } from 'react-redux';
 import firebase from 'firebase/app';
 
@@ -24,8 +25,9 @@ const SignUp = (): JSX.Element => {
 
             <Button
                 onClick={() => {
-                    dispatch(fetchCreateUser({ fullName: fullN }));
                     dispatch(fetchGetIngredients(idToken));
+                    dispatch(fetchGetUnities(idToken));
+                    dispatch(fetchCreateUser({ fullName: fullN }));
                 }}
             >
                 Create User

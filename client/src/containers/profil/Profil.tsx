@@ -22,6 +22,7 @@ const Profile = (): JSX.Element => {
     const { t } = useTranslation();
 
     const user = useSelector(selectUser);
+
     const dispatch = useDispatch();
 
     const [newName, setNewName] = useState(user.fullName);
@@ -101,6 +102,10 @@ const Profile = (): JSX.Element => {
             <br />
             <Link to="/profile/my_ingredients">
                 <p>{t('myIngredients.title-page')}</p>
+            </Link>
+
+            <Link to="/profile/my_unities">
+                <p>{t('myUnities.title-page')}</p>
             </Link>
         </Container>
     );

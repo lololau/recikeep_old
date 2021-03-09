@@ -76,6 +76,9 @@
     "modal-add": "Add",
     "modal-close": "Close"
   },
+  "myUnities": {
+    "title-page": "My Unities"
+  },
   "profile": {
     "title-page": "My Profile",
     "username": "Username",

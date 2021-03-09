@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { Ingredient, RequestAddIngredient, getIngredients, addIngredient } from './ingredientsFetch';
+import { Ingredient, RequestAddIngredient, getIngredients, addIngredient, deleteIngredient } from './ingredientsFetch';
 
-export const fetchGetIngredients = createAsyncThunk('/api/ingredients/search/getAll', async (idToken: string) => {
+export const fetchGetIngredients = createAsyncThunk('/api/ingredients/getAll', async (idToken: string) => {
     const ingredients = await getIngredients(idToken);
     return ingredients;
 });
@@ -15,6 +15,12 @@ export const fetchAddIngredient = createAsyncThunk(
         return ingredient;
     },
 );
+
+export const fetchDeleteIngredient = createAsyncThunk('/api/unities/delete', async (ingredientId: number, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
+    await deleteIngredient(state.user.idToken, ingredientId);
+    return ingredientId;
+});
 
 type IngredientsList = {
     ingredients: Ingredient[];
@@ -39,6 +45,10 @@ const ingredientsReducer = createSlice({
         // fetchAddIngredient
         builder.addCase(fetchAddIngredient.fulfilled, (state, action) => {
             state.ingredients.push(action.payload);
+        });
+        // fetchDeleteIngredient
+        builder.addCase(fetchDeleteIngredient.fulfilled, (state, action) => {
+            state.ingredients = state.ingredients.filter((ingredient) => ingredient.id !== action.payload);
         });
     },
 });
