@@ -6,11 +6,10 @@ import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOut
 import Grid from '@material-ui/core/Grid';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import SearchBar from '../../components/SearchBar';
-import ListComponent from '../../components/List';
+import ListComponent, { Element } from '../../components/List';
 import { Ingredient } from '../../slice/ingredients/ingredientsFetch';
-import { ingredients } from '../../slice/ingredients/ingredientsSlice';
+import { ingredients, fetchDeleteIngredient } from '../../slice/ingredients/ingredientsSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchDeleteUnity } from '../../slice/unity/unitySlice';
 
 const MyIngredients = (): JSX.Element => {
     const ingredientsList = useSelector(ingredients);
@@ -25,9 +24,9 @@ const MyIngredients = (): JSX.Element => {
             return ingredient.user_id !== null;
         });
 
-    /* const deleteIngredient = (ingredient: Ingredient) => {
-        dispatch(fetchDeleteUnity(ingredient.id));
-    }; */
+    const deleteIngredient = (ingredient: Element) => {
+        dispatch(fetchDeleteIngredient(ingredient.id));
+    };
 
     const [ingredientsDisplay, setIngredientsDisplay] = useState(ingredientsList);
 
@@ -57,7 +56,10 @@ const MyIngredients = (): JSX.Element => {
                 </Grid>
             </Grid>
             <SearchBar elements={ingredientsList} onchange={onChange} width={'50%'} />
-            <ListComponent listElements={selectIngredientsCustom(ingredientsDisplay)} />
+            <ListComponent
+                listElements={selectIngredientsCustom(ingredientsDisplay)}
+                onRemoveElement={deleteIngredient}
+            />
             <Dialog open={modalOpen} style={{}}>
                 <Container>
                     <DialogTitle>

@@ -31,7 +31,7 @@ unities.post('/add', verifyToken, verifyUser, async (req, res) => {
     }
 });
 
-// DELETE - '/api/unities/add' - add an unity into user database
+// DELETE - '/api/unities/delete' - delete an unity from user database
 unities.delete('/delete/:unityId', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
     const unityId = Number(req.params.unityId);
@@ -40,7 +40,7 @@ unities.delete('/delete/:unityId', verifyToken, verifyUser, async (req, res) => 
         res.status(204).send();
     } catch (e) {
         console.error(e);
-        res.status(404).send('Unable to get all unities');
+        res.status(404).send('Unable to delete the unity');
     }
 });
 

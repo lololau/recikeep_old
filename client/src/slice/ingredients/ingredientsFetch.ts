@@ -40,6 +40,21 @@ export const addIngredient = async (idToken: string, request: RequestAddIngredie
     return ingredient;
 };
 
+export const deleteIngredient = async (idToken: string, ingredientId: number): Promise<void> => {
+    const myHeaders = new Headers({
+        Authorization: idToken,
+        'content-type': 'application/json',
+    });
+    const response = await fetch(`http://localhost:3000/api/unities/delete/${ingredientId}`, {
+        headers: myHeaders,
+        method: 'DELETE',
+    });
+    if (response.status < 200 || response.status >= 300) {
+        const err = await response.text();
+        throw new Error('Unity not added: ' + err);
+    }
+};
+
 export const fetchSearchIngredients = async (idToken: string, searchTerm: string): Promise<string[]> => {
     const myHeaders = new Headers({
         Authorization: idToken,

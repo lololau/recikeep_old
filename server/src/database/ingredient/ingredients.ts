@@ -38,6 +38,19 @@ export const addIngredient = async (userId: number, ingredientName: string): Pro
     return ingredient;
 };
 
+//Get all base unities and by userId
+export const deleteIngredient = async (userId: number, ingredientId: number): Promise<Ingredient[]> => {
+    const db = await openDb();
+
+    await db.run(`DELETE FROM Unity WHERE id=$id AND user_id=$userId`, {
+        $id: ingredientId,
+        $userId: userId,
+    });
+
+    const unities = getAllIngredients(userId);
+    return unities;
+};
+
 // Search ingredients by searchTerm
 export const searchIngredients = async (userId: number, searchTerm: string): Promise<string[]> => {
     const db = await openDb();
