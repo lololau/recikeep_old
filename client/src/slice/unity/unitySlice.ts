@@ -27,13 +27,14 @@ const unitiesReducer = createSlice({
     initialState: initialState,
     reducers: {},
     extraReducers: (builder) => {
-        // fetchGetIngredients
+        // fetchGetUnities
         builder.addCase(fetchGetUnities.fulfilled, (state, action) => {
             state.unities = action.payload;
         });
         builder.addCase(fetchGetUnities.rejected, (state) => {
             state.unities = [];
         });
+        // fetchAddUnity
         builder.addCase(fetchAddUnity.fulfilled, (state, action) => {
             state.unities.push(action.payload);
         });
@@ -41,5 +42,4 @@ const unitiesReducer = createSlice({
 });
 
 export const unities = (state: RootState): Unity[] => state.unities.unities;
-
 export default unitiesReducer.reducer;

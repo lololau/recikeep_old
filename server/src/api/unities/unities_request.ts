@@ -10,6 +10,7 @@ unities.get('/getAll', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
     try {
         const unities = await getAllUnities(userId);
+
         res.status(200).json({ unities: unities });
     } catch (e) {
         console.error(e);

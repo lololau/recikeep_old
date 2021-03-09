@@ -32,8 +32,9 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
             .filter((item) => {
                 if (newValue === '') {
                     return true;
+                } else if (newValue) {
+                    return item.name.toLowerCase().includes(newValue.toLowerCase());
                 }
-                return item.name.toLowerCase().includes(newValue.toLowerCase());
             })
             .map((elt) => {
                 return elt.id.toString();

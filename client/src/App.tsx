@@ -22,6 +22,7 @@ import { fetchGetUnities } from './slice/unity/unitySlice';
 import { isLogged, isCreated, updateIdToken, fetchGetUser, updateFirebaseUser } from './slice/user/userSlice';
 import firebase from 'firebase/app';
 import SignUp from './containers/create-user/CreateUser';
+import MyUnities from './containers/my-unities/MyUnities';
 
 const theme = createMuiTheme({
     palette: {
@@ -86,6 +87,7 @@ const App = (): JSX.Element => {
                         <Route path={'/recipe/:index'} component={MyRecipe} />
                         <Route path={'/recipes/selection'} exact component={RecipesSelectionStepper} />
                         <Route path={'/profile/my_ingredients'} component={MyIngredients} />
+                        <Route path={'/profile/my_unities'} component={MyUnities} />
                         <Route path="/groups" component={Groups} />
                         <Route path={'/groceryList'} component={GroceryList} />
                         <Route path={'/recipes/new_recipe'} exact component={NewRecipe} />

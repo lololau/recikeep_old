@@ -74,7 +74,6 @@ import units from '../unity/unity-db';
         id INTEGER UNIQUE,
         name TEXT NOT NULL,
         language TEXT NOT NULL,
-        custom BOOL NOT NULL,
         user_id INTEGER,
         date_creation DATE,
         date_update DATE,
@@ -87,6 +86,8 @@ import units from '../unity/unity-db';
         id INTEGER UNIQUE,
         name TEXT NOT NULL,
         user_id INTEGER,
+        date_creation DATE,
+        date_update DATE,
         PRIMARY KEY("id" AUTOINCREMENT),
         FOREIGN KEY(user_id) REFERENCES User(id)
     )`);
@@ -121,7 +122,6 @@ import units from '../unity/unity-db';
         await db.run(`INSERT INTO Ingredient (name, language, custom) VALUES ($name, $language, $custom)`, {
             $name: food,
             $language: 'fr',
-            $custom: false,
         });
     });
 
@@ -129,12 +129,11 @@ import units from '../unity/unity-db';
         await db.run(`INSERT INTO Ingredient (name, language, custom) VALUES ($name, $language, $custom)`, {
             $name: food,
             $language: 'en',
-            $custom: false,
         });
     });
 
     units.forEach(async (unity) => {
-        await db.run(`INSERT INTO Unity (name) VALUES ($name)`, {
+        await db.run(`INSERT INTO Unity (name, custom) VALUES ($name, $custom)`, {
             $name: unity,
         });
     });
