@@ -22,6 +22,7 @@ export type RequestAddRecipe = {
     recipe_description_id?: number;
 };
 
+// Add a recipe to the user database
 export const addRecipe = async (userId: number, req: RequestAddRecipe): Promise<Recipe> => {
     const db = await openDb();
 
@@ -48,6 +49,17 @@ export const addRecipe = async (userId: number, req: RequestAddRecipe): Promise<
     );
 
     return recipe;
+};
+
+// Get all recipes from user database
+export const getAllRecipes = async (userId: number): Promise<Recipe[]> => {
+    const db = await openDb();
+
+    const recipes: Recipe[] = await db.all(`SELECT name, id FROM Recipe WHERE user_id=$userId`, {
+        $userId: userId,
+    });
+
+    return recipes;
 };
 
 export const getRecipesByUserId = async (userId: number): Promise<Recipe[]> => {

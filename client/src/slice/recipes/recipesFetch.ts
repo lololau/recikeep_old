@@ -37,3 +37,17 @@ export const addRecipe = async (idToken: string, req: RequestAddRecipe): Promise
     const recipe = await response.json();
     return recipe;
 };
+
+export const getAllRecipes = async (idToken: string): Promise<Recipe[]> => {
+    const myHeaders = new Headers({
+        Authorization: idToken,
+    });
+    const response = await fetch(`http://localhost:3000/api/recipes/getAll/`, {
+        headers: myHeaders,
+    });
+    if (response.status === 404) {
+        throw new Error('Recipes not found');
+    }
+    const jsonResponse = await response.json();
+    return jsonResponse.recipes;
+};

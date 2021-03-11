@@ -1,5 +1,5 @@
 import express from 'express';
-import { getRecipesByUserId, addRecipe } from '../../database/recipe/recipe';
+import { getAllRecipes, addRecipe } from '../../database/recipe/recipe';
 import { verifyToken, verifyUser } from '../../app-config/firebase-config';
 
 // Router and mounting
@@ -30,7 +30,7 @@ recipes.post('/add', verifyToken, verifyUser, async (req, res) => {
 recipes.get('/getAll', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
     try {
-        const recipes = await getRecipesByUserId(userId);
+        const recipes = await getAllRecipes(userId);
         res.status(200).json({ recipes: recipes });
     } catch (e) {
         return res.status(404).send('Unable to get recipes');
