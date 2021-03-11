@@ -27,13 +27,13 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
     const [searchTerm, setSearchTerm] = useState('');
 
     const filterElements = (elements: Element[], value: string) => {
+        console.log(elements);
         const idList = elements
             .filter((item) => {
-                if (value === '') {
-                    return true;
-                } else if (value) {
+                if (value) {
                     return item.name.toLowerCase().includes(value.toLowerCase());
                 }
+                return true;
             })
             .map((elt) => {
                 return elt.id.toString();

@@ -3,6 +3,7 @@ import { Button, TextField, Box } from '@material-ui/core';
 import { fetchCreateUser, updateFirebaseUser, token } from '../../slice/user/userSlice';
 import { fetchGetIngredients } from '../../slice/ingredients/ingredientsSlice';
 import { fetchGetUnities } from '../../slice/unity/unitySlice';
+import { fetchGetAllRecipes } from '../../slice/recipes/recipesSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import firebase from 'firebase/app';
 
@@ -24,10 +25,11 @@ const SignUp = (): JSX.Element => {
             </Box>
 
             <Button
-                onClick={() => {
-                    dispatch(fetchGetIngredients(idToken));
-                    dispatch(fetchGetUnities(idToken));
-                    dispatch(fetchCreateUser({ fullName: fullN }));
+                onClick={async () => {
+                    await dispatch(fetchCreateUser({ fullName: fullN }));
+                    await dispatch(fetchGetIngredients(idToken));
+                    await dispatch(fetchGetUnities(idToken));
+                    await dispatch(fetchGetAllRecipes(idToken));
                 }}
             >
                 Create User

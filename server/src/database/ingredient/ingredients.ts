@@ -38,7 +38,7 @@ export const addIngredient = async (userId: number, ingredientName: string): Pro
     return ingredient;
 };
 
-//Get all base unities and by userId
+//Delete an ingredient from user database
 export const deleteIngredient = async (userId: number, ingredientId: number): Promise<Ingredient[]> => {
     const db = await openDb();
 
