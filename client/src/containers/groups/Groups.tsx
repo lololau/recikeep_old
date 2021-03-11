@@ -6,7 +6,7 @@ import { IconButton } from '@material-ui/core';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import SearchBar from '../../components/SearchBar';
 import ListComponent from '../../components/List';
-import { selectGroups, Group } from '../../slice/groupsSlice';
+import { selectGroups, Group } from '../../slice/groups/groupsSlice';
 import { useSelector } from 'react-redux';
 
 const Groups = (): JSX.Element => {

@@ -18,7 +18,8 @@ import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOut
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import { selectRecipes, Recipe } from '../../slice/recipesSlice';
+import { selectRecipes } from '../../slice/recipes/recipesSlice';
+import { Recipe } from '../../slice/recipes/recipesFetch';
 import { useSelector } from 'react-redux';
 
 export type RecipesListProps = {

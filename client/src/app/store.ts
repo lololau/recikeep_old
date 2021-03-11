@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import recipesReducer from '../slice/recipesSlice';
+import recipesReducer from '../slice/recipes/recipesSlice';
 import ingredientsReducer from '../slice/ingredients/ingredientsSlice';
 import userReducer from '../slice/user/userSlice';
-import groupsReducer from '../slice/groupsSlice';
+import groupsReducer from '../slice/groups/groupsSlice';
 import unitiesReducer from '../slice/unity/unitySlice';
 
 const store = configureStore({

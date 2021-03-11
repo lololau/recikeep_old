@@ -11,7 +11,8 @@ import React from 'react';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import SearchBar from '../../components/SearchBar';
-import { selectRecipes, Recipe } from '../../slice/recipesSlice';
+import { selectRecipes } from '../../slice/recipes/recipesSlice';
+import { Recipe } from '../../slice/recipes/recipesFetch';
 import { useSelector } from 'react-redux';
 
 const SelectionRecipesList = (props: RecipesListProps) => {
