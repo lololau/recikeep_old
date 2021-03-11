@@ -21,6 +21,7 @@ recipes.post('/add', verifyToken, verifyUser, async (req, res) => {
         const recipe = await addRecipe(userId, recipeRequest);
         res.status(201).json({ recipe: recipe });
     } catch (e) {
+        console.error(e);
         return res.status(404).send('Unable to add recipe');
     }
 });

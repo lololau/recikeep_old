@@ -40,7 +40,7 @@
     "sides": "Sides"
   },
   "parts": {
-    "comboBox": "Part(s)"
+    "add": "Part(s)"
   },
   "new_recipe": {
     "title-page": "New Recipe",
@@ -55,6 +55,7 @@
     "tag": "Tag(s)",
     "type": "Type",
     "parts": "Number of part(s)",
+    "parts_add": "Part(s)",
     "preparation-time": "Preparation time",
     "add-time": "0",
     "minute": "min",

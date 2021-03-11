@@ -16,7 +16,6 @@ export type RequestAddRecipe = {
     number_parts: number;
     time_presentation?: string;
     time_cooking?: string;
-    user_id: number;
     recipe_photo_id?: number;
     recipe_description_id?: number;
 };

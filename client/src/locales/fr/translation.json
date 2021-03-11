@@ -39,7 +39,7 @@
     "sides": "Accompagnement"
   },
   "parts": {
-    "comboBox": "Nombre de personne(s)"
+    "add": "Nombre de personne(s)"
   },
   "new_recipe": {
     "title-page": "Nouvelle Recette",
@@ -54,6 +54,7 @@
     "tag": "Balise(s)",
     "type": "Type",
     "parts": "Nombre de personne(s)",
+    "parts_add": "Part(s)",
     "preparation-time": "Temps de préparation",
     "add-time": "0",
     "minute": "min",
