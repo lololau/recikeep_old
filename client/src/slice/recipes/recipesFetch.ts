@@ -10,6 +10,12 @@ export interface Recipe {
     recipe_description_id?: number;
 }
 
+interface IngredientsRecipe {
+    ingredient_id?: number;
+    unity_id?: number;
+    quantity?: number;
+}
+
 export type RequestAddRecipe = {
     name: string;
     presentation?: string;
@@ -18,6 +24,7 @@ export type RequestAddRecipe = {
     time_cooking?: string;
     recipe_photo_id?: number;
     recipe_description_id?: number;
+    ingredients?: IngredientsRecipe[];
 };
 
 export const addRecipe = async (idToken: string, req: RequestAddRecipe): Promise<Recipe> => {
