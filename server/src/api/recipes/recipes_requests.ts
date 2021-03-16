@@ -1,6 +1,10 @@
 import express from 'express';
-import { getAllRecipes, addRecipe, RequestAddRecipe } from '../../database/recipe/recipe';
-import { addIngredientsRecipe, IngredientsRecipe } from '../../database/ingredient_recipe/ingredientsRecipe';
+import { getAllRecipes, getRecipeInformations, addRecipe, RequestAddRecipe } from '../../database/recipe/recipe';
+import {
+    addIngredientsRecipe,
+    getIngredientsRecipe,
+    IngredientsRecipe,
+} from '../../database/ingredient_recipe/ingredientsRecipe';
 import { verifyToken, verifyUser } from '../../app-config/firebase-config';
 
 // Router and mounting
@@ -13,7 +17,7 @@ recipes.post('/add', verifyToken, verifyUser, async (req, res) => {
         name: req.body.name,
         presentation: req.body.presentation,
         number_parts: req.body.number_parts,
-        time_presentation: req.body.time_presentation,
+        time_preparation: req.body.time_preparation,
         time_cooking: req.body.time_cooking,
         recipe_photo_id: req.body.recipe_photo_id,
         recipe_description_id: req.body.recipe_description_id,
@@ -37,6 +41,19 @@ recipes.get('/getAll', verifyToken, verifyUser, async (req, res) => {
         res.status(200).json({ recipes: recipes });
     } catch (e) {
         return res.status(404).send('Unable to get recipes');
+    }
+});
+
+//GET - /api/recipes/:id - get all recipes by userID
+recipes.get('/:id', verifyToken, verifyUser, async (req, res) => {
+    const userId = res.locals.userId;
+    const recipeId = Number(req.params.id);
+    try {
+        const recipe = await getRecipeInformations(userId, recipeId);
+        const ingredients = await getIngredientsRecipe(userId, recipeId);
+        res.status(200).json({ recipe: { ...recipe, ingredients } });
+    } catch (e) {
+        return res.status(404).send(`Unable to get recipe with id: ${recipeId}`);
     }
 });
 

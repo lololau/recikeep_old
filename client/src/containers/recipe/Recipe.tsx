@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next/';
 import '../../i18n';
 import React, { FC } from 'react';
+import { useSelector } from 'react-redux';
 import Container from '@material-ui/core/Container';
 import Avatar from '@material-ui/core/Avatar';
 import EditIcon from '@material-ui/icons/Edit';
@@ -15,25 +16,12 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import EcoIcon from '@material-ui/icons/Eco';
 import instructions_image from './description_recipe.png';
+import { selectRecipe } from '../../slice/recipe/recipeSlice';
+import { IngredientsRecipe } from '../../slice/recipe/recipeFetch';
 
 type IngredientListProps = {
-    ingredients: ingredient[];
+    ingredients: IngredientsRecipe[];
 };
-
-type ingredient = {
-    name: string;
-    unity: string;
-    quantity: string;
-};
-
-type ingredients = ingredient[];
-
-const myIngredientsRecipe: ingredients = [
-    { name: 'Tagliatelles', unity: '250', quantity: 'g' },
-    { name: 'Guanciale', unity: '200', quantity: 'g' },
-    { name: 'Pecorino', unity: '100', quantity: 'g' },
-    { name: 'Oeufs', unity: '2', quantity: '' },
-];
 
 const IngredientsListRecipe: FC<IngredientListProps> = (props) => {
     return (
@@ -45,8 +33,8 @@ const IngredientsListRecipe: FC<IngredientListProps> = (props) => {
                             <EcoIcon />
                         </ListItemIcon>
                         <ListItemText
-                            primary={ingredient.name}
-                            secondary={ingredient.unity + ' ' + ingredient.quantity}
+                            primary={ingredient.ingredient}
+                            secondary={ingredient.quantity + ' ' + ingredient.unity}
                             id={index.toString()}
                         />
                     </ListItem>
@@ -58,6 +46,8 @@ const IngredientsListRecipe: FC<IngredientListProps> = (props) => {
 
 const MyRecipe = (): JSX.Element => {
     const { t } = useTranslation();
+
+    const recipe = useSelector(selectRecipe);
 
     return (
         <Container>
@@ -74,7 +64,7 @@ const MyRecipe = (): JSX.Element => {
                 }}
             >
                 <Grid item xs={6} className="title-page">
-                    <h1>{t('recipe.title')}</h1>
+                    <h1>{recipe.name}</h1>
                 </Grid>
                 <Grid item xs={6} style={{ textAlign: 'right' }}>
                     <IconButton>
@@ -111,16 +101,16 @@ const MyRecipe = (): JSX.Element => {
                 >
                     <Grid item xs={4} className="preparation_time">
                         <h4>{t('recipe.preparation-time')}</h4>
-                        <p>20 min</p>
+                        <p>{recipe.time_preparation} min</p>
                     </Grid>
                     <Grid item xs={4} className="cooking_time">
                         <h4>{t('recipe.cooking-time')}</h4>
-                        <p>15 min</p>
+                        <p>{recipe.time_cooking} min</p>
                     </Grid>
                     <Grid item xs={4} className="parts">
                         <Grid container spacing={3} style={{ alignItems: 'center' }}>
                             <Grid item xs>
-                                <p>2</p>
+                                <p>{recipe.number_parts}</p>
                             </Grid>
                             <Grid item xs>
                                 <PersonIcon />
@@ -131,7 +121,7 @@ const MyRecipe = (): JSX.Element => {
             </Box>
             <Box style={{ textAlign: 'center' }}>
                 <h3>{t('recipe.ingredients-list')}</h3>
-                <IngredientsListRecipe ingredients={myIngredientsRecipe} />
+                <IngredientsListRecipe ingredients={recipe.ingredients} />
             </Box>
             <Box className="cooking_instructions" style={{ textAlign: 'center', marginTop: 75 }}>
                 <h3>{t('recipe.cooking-instructions')}</h3>

@@ -16,8 +16,8 @@ import units from '../unity/unity-db';
         full_name TEXT,
         firebase_id TEXT UNIQUE,
         image BLOB,
-        date_creation DATE,
-        date_update DATE,
+        date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
+        date_update DATETIME DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY("id" AUTOINCREMENT)
     )`);
     await db.run('DROP TABLE IF EXISTS Recipe');
@@ -26,7 +26,7 @@ import units from '../unity/unity-db';
         name TEXT NOT NULL,
         presentation TEXT,
         number_parts INTEGER NOT NULL,
-        time_presentation TEXT,
+        time_preparation TEXT,
         time_cooking TEXT,
         date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
         date_update DATETIME DEFAULT CURRENT_TIMESTAMP,

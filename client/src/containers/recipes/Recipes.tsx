@@ -19,21 +19,28 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import { selectRecipes } from '../../slice/recipes/recipesSlice';
+import { fetchGetARecipe } from '../../slice/recipe/recipeSlice';
 import { Recipe } from '../../slice/recipes/recipesFetch';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 export type RecipesListProps = {
     recipes: Recipe[];
 };
 
 export const RecipesList = (props: RecipesListProps): JSX.Element => {
+    const dispatch = useDispatch();
+
     return (
         <List>
             {props.recipes.map((recipe, index) => {
                 return (
                     <ListItem divider={true} key={'RecipesList' + index}>
-                        <Link to={'/recipe/' + index}>
-                            <ListItemText primary={recipe.name} id={index.toString()} />
+                        <Link to={'/recipe/' + recipe.id}>
+                            <ListItemText
+                                onClick={() => dispatch(fetchGetARecipe(recipe.id))}
+                                primary={recipe.name}
+                                id={index.toString()}
+                            />
                         </Link>
                         <ListItemSecondaryAction>
                             <IconButton>

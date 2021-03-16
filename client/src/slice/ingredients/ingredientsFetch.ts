@@ -4,6 +4,12 @@ export interface Ingredient {
     user_id?: number;
 }
 
+export interface IngredientsRecipe {
+    ingredient: string;
+    unity: string;
+    quantity: number;
+}
+
 // Charge all ingredients in redux when a user is connected
 export const getIngredients = async (idToken: string): Promise<Ingredient[]> => {
     const myHeaders = new Headers({
@@ -45,7 +51,7 @@ export const deleteIngredient = async (idToken: string, ingredientId: number): P
         Authorization: idToken,
         'content-type': 'application/json',
     });
-    const response = await fetch(`http://localhost:3000/api/unities/delete/${ingredientId}`, {
+    const response = await fetch(`http://localhost:3000/api/ingredients/delete/${ingredientId}`, {
         headers: myHeaders,
         method: 'DELETE',
     });
