@@ -226,7 +226,7 @@ const NewRecipe = (): JSX.Element => {
                                 onClick={() => {
                                     const newIngredientRow = ingredientsRow.concat(ingredientRecipe);
                                     setIngredientRow(newIngredientRow);
-                                    setRecipe({ ...recipe, ingredients: ingredientsRow });
+                                    setRecipe({ ...recipe, ingredients: newIngredientRow });
                                     setIngredientRecipe({
                                         ...ingredientRecipe,
                                         name: '',
