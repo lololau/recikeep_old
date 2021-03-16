@@ -3,7 +3,7 @@ export interface Recipe {
     name: string;
     presentation?: string;
     number_parts: number;
-    time_presentation?: string;
+    time_preparation?: string;
     time_cooking?: string;
     user_id: number;
     recipe_photo_id?: number;
@@ -20,13 +20,14 @@ export type RequestAddRecipe = {
     name: string;
     presentation?: string;
     number_parts: number;
-    time_presentation?: string;
+    time_preparation?: string;
     time_cooking?: string;
     recipe_photo_id?: number;
     recipe_description_id?: number;
     ingredients?: IngredientsRecipe[];
 };
 
+// Fetch to addRecipe into user db
 export const addRecipe = async (idToken: string, req: RequestAddRecipe): Promise<Recipe> => {
     const myHeaders = new Headers({
         Authorization: idToken,
@@ -42,9 +43,25 @@ export const addRecipe = async (idToken: string, req: RequestAddRecipe): Promise
         throw new Error('Recipe not added: ' + err);
     }
     const recipe = await response.json();
-    return recipe;
+    return recipe.recipe;
 };
 
+// Fetch to get a recipe by recipeId
+export const getOneRecipe = async (idToken: string, recipeId: number): Promise<Recipe> => {
+    const myHeaders = new Headers({
+        Authorization: idToken,
+    });
+    const response = await fetch(`http://localhost:3000/api/recipes/${recipeId}`, {
+        headers: myHeaders,
+    });
+    if (response.status === 404) {
+        throw new Error('Recipe not found');
+    }
+    const jsonResponse = await response.json();
+    return jsonResponse.recipe;
+};
+
+//Fetch to get all recipes by user
 export const getAllRecipes = async (idToken: string): Promise<Recipe[]> => {
     const myHeaders = new Headers({
         Authorization: idToken,

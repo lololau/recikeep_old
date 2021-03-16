@@ -86,7 +86,7 @@ const App = (): JSX.Element => {
                     <div className="App">
                         <Route path="/recipes" exact component={HomeRecipes} />
                         <Route path="/profile" exact component={Profile} />
-                        <Route path={'/recipe/:index'} component={MyRecipe} />
+                        <Route path={'/recipe/:id'} component={MyRecipe} />
                         <Route path={'/recipes/selection'} exact component={RecipesSelectionStepper} />
                         <Route path={'/profile/my_ingredients'} component={MyIngredients} />
                         <Route path={'/profile/my_unities'} component={MyUnities} />

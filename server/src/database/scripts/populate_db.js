@@ -9,7 +9,7 @@ const user = {
     id: {
         incrementalId: 0,
     },
-    username: {
+    full_name: {
         faker: 'name.findName',
     },
     date_creation: {
@@ -36,7 +36,22 @@ const recipe = {
             return (this.object.lastName.substring(0, 5) + this.object.firstName.substring(0, 3)).toLowerCase();
         },
     },
+    presentation: {
+        function: function () {
+            return 'Recette de Guigui & laulau';
+        },
+    },
     number_parts: {
+        function: function () {
+            return Math.floor(Math.random() * 10);
+        },
+    },
+    time_preparation: {
+        function: function () {
+            return Math.floor(Math.random() * 10);
+        },
+    },
+    time_cooking: {
         function: function () {
             return Math.floor(Math.random() * 10);
         },
@@ -91,6 +106,36 @@ const ingredient = {
     name: {
         faker: 'commerce.productName',
     },
+    user_id: {
+        hasOne: 'users',
+        get: 'id',
+    },
+    date_creation: {
+        faker: 'date.past',
+    },
+    date_update: {
+        faker: 'date.past',
+    },
+};
+
+// Unity table
+const unity = {
+    id: {
+        incrementalId: 0,
+    },
+    name: {
+        faker: 'commerce.color',
+    },
+    user_id: {
+        hasOne: 'users',
+        get: 'id',
+    },
+    date_creation: {
+        faker: 'date.past',
+    },
+    date_update: {
+        faker: 'date.past',
+    },
 };
 
 // Recipe_ingredient table
@@ -100,9 +145,7 @@ const recipe_ingredient = {
         get: 'id',
     },
     ingredient_id: {
-        hasMany: 'ingredients',
-        max: 5,
-        min: 1,
+        hasOne: 'ingredients',
         get: 'id',
     },
     quantity: {
@@ -110,8 +153,9 @@ const recipe_ingredient = {
             return Math.floor(Math.random() * 500);
         },
     },
-    unity: {
-        faker: 'random.alpha',
+    unity_id: {
+        hasOne: 'unities',
+        get: 'id',
     },
 };
 
@@ -146,6 +190,7 @@ const data = mocker()
     .schema('groups', group, 30)
     .schema('recipes_groups', recipe_group, 5)
     .schema('ingredients', ingredient, 30)
+    .schema('unities', unity, 30)
     .schema('recipes_ingredients', recipe_ingredient, 20)
     .schema('tags', tag, 15)
     .schema('recipes_tags', recipe_tag, 30)
@@ -158,6 +203,8 @@ const users = data.users;
 const groups = data.groups;
 // Ingredients database
 const ingredients = data.ingredients;
+// Unities database
+const unities = data.unities;
 // Tags database
 const tags = data.tags;
 // Recipes database
@@ -179,10 +226,10 @@ const recipes_tags = data.recipes_tags;
     // Fullfilled users table
     users.forEach((user) => {
         db.run(
-            `INSERT INTO User (id, username, date_creation, date_update) VALUES ($id, $username, $date_creation, $date_update)`,
+            `INSERT INTO User (id, full_name, date_creation, date_update) VALUES ($id, $full_name, $date_creation, $date_update)`,
             {
                 $id: user.id,
-                $username: user.username,
+                $full_name: user.full_name,
                 $date_creation: user.date_creation,
                 $date_update: user.date_update,
             },
@@ -205,12 +252,28 @@ const recipes_tags = data.recipes_tags;
     // Fullfilled ingredients table
     ingredients.forEach((ingredient) => {
         db.run(
-            `INSERT INTO Ingredient (id, name, date_creation, date_update) VALUES ($id, $name, $date_creation, $date_update)`,
+            `INSERT INTO Ingredient (id, name, language, user_id, date_creation, date_update) VALUES ($id, $name, $language, $user_id, $date_creation, $date_update)`,
             {
                 $id: ingredient.id,
                 $name: ingredient.name,
+                $language: 'fr',
+                $user_id: ingredient.user_id,
                 $date_creation: ingredient.date_creation,
                 $date_update: ingredient.date_update,
+            },
+        );
+    });
+
+    // Fullfilled unities table
+    unities.forEach((unity) => {
+        db.run(
+            `INSERT INTO Unity (id, name, user_id, date_creation, date_update) VALUES ($id, $name, $user_id, $date_creation, $date_update)`,
+            {
+                $id: unity.id,
+                $name: unity.name,
+                $user_id: unity.user_id,
+                $date_creation: unity.date_creation,
+                $date_update: unity.date_update,
             },
         );
     });
@@ -226,12 +289,15 @@ const recipes_tags = data.recipes_tags;
     // Fullfilled recipes table
     recipes.forEach((recipe) => {
         db.run(
-            `INSERT INTO Recipe (id, name, number_parts, date_creation, date_update, user_id) 
-            VALUES ($id, $name, $number_parts, $date_creation, $date_update, $user_id)`,
+            `INSERT INTO Recipe (id, name, presentation, number_parts, time_preparation, time_cooking, date_creation, date_update, user_id) 
+            VALUES ($id, $name, $presentation, $number_parts, $time_preparation, $time_cooking, $date_creation, $date_update, $user_id)`,
             {
                 $id: recipe.id,
                 $name: recipe.name,
+                $presentation: recipe.presentation,
                 $number_parts: recipe.number_parts,
+                $time_preparation: recipe.time_preparation,
+                $time_cooking: recipe.time_cooking,
                 $date_creation: recipe.date_creation,
                 $date_update: recipe.date_update,
                 $user_id: recipe.user_id,
@@ -250,12 +316,12 @@ const recipes_tags = data.recipes_tags;
     // Fullfilled recipes_ingredients table
     recipes_ingredients.forEach((recipe_ingredients) => {
         db.run(
-            `INSERT INTO Recipe_ingredient (recipe_id, ingredient_id, quantity, unity) VALUES ($recipe_id, $ingredient_id, $quantity, $unity)`,
+            `INSERT INTO Recipe_ingredient (recipe_id, ingredient_id, quantity, unity_id) VALUES ($recipe_id, $ingredient_id, $quantity, $unity_id)`,
             {
                 $recipe_id: recipe_ingredients.recipe_id,
                 $ingredient_id: recipe_ingredients.ingredient_id,
                 $quantity: recipe_ingredients.quantity,
-                $unity: recipe_ingredients.unity,
+                $unity_id: recipe_ingredients.unity_id,
             },
         );
     });

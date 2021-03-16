@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { unwrapResult } from '@reduxjs/toolkit';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
 import TextField from '@material-ui/core/TextField';
@@ -12,10 +14,12 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import List from '@material-ui/core/List';
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import Autosuggestion from '../../components/Autocomplete';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../app/store';
 import { ingredients, fetchAddIngredient } from '../../slice/ingredients/ingredientsSlice';
 import { unities, fetchAddUnity } from '../../slice/unity/unitySlice';
 import { fetchAddRecipe } from '../../slice/recipes/recipesSlice';
+import { selectRecipe } from '../../slice/recipe/recipeSlice';
 
 type onRemove = (ingredient: IngredientRecipe, index: number) => void;
 
@@ -74,12 +78,14 @@ interface RequestAddRecipe {
 const NewRecipe = (): JSX.Element => {
     const { t } = useTranslation();
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
+    const history = useHistory();
 
+    const recipe = useSelector(selectRecipe);
     const allIngredients = useSelector(ingredients);
     const allUnities = useSelector(unities);
 
-    const [recipe, setRecipe] = useState<RequestAddRecipe>({
+    const [newRecipe, setRecipe] = useState<RequestAddRecipe>({
         name: '',
         presentation: '',
         time_preparation: '',
@@ -114,7 +120,7 @@ const NewRecipe = (): JSX.Element => {
                     <TextField
                         placeholder={t('new_recipe.add-title')}
                         onChange={(event) => {
-                            setRecipe({ ...recipe, name: event.currentTarget.value });
+                            setRecipe({ ...newRecipe, name: event.currentTarget.value });
                         }}
                     />
                 </Box>
@@ -128,7 +134,7 @@ const NewRecipe = (): JSX.Element => {
                         fullWidth
                         placeholder={t('new_recipe.add-presentation')}
                         onChange={(event) => {
-                            setRecipe({ ...recipe, presentation: event.currentTarget.value });
+                            setRecipe({ ...newRecipe, presentation: event.currentTarget.value });
                         }}
                     />
                 </Box>
@@ -144,7 +150,7 @@ const NewRecipe = (): JSX.Element => {
                     <TextField
                         placeholder={t('new_recipe.parts_add')}
                         onChange={(event) => {
-                            setRecipe({ ...recipe, number_parts: Number(event.currentTarget.value) });
+                            setRecipe({ ...newRecipe, number_parts: Number(event.currentTarget.value) });
                         }}
                     />
                 </Box>
@@ -157,7 +163,7 @@ const NewRecipe = (): JSX.Element => {
                                 placeholder={t('new_recipe.add-time')}
                                 margin="normal"
                                 onChange={(event) => {
-                                    setRecipe({ ...recipe, time_preparation: event.currentTarget.value });
+                                    setRecipe({ ...newRecipe, time_preparation: event.currentTarget.value });
                                 }}
                             />
                             <p>{t('new_recipe.minute')}</p>
@@ -171,7 +177,7 @@ const NewRecipe = (): JSX.Element => {
                                 placeholder={t('new_recipe.add-time')}
                                 margin="normal"
                                 onChange={(event) => {
-                                    setRecipe({ ...recipe, time_cooking: event.currentTarget.value });
+                                    setRecipe({ ...newRecipe, time_cooking: event.currentTarget.value });
                                 }}
                             />
                             <p>{t('new_recipe.minute')}</p>
@@ -226,7 +232,7 @@ const NewRecipe = (): JSX.Element => {
                                 onClick={() => {
                                     const newIngredientRow = ingredientsRow.concat(ingredientRecipe);
                                     setIngredientRow(newIngredientRow);
-                                    setRecipe({ ...recipe, ingredients: newIngredientRow });
+                                    setRecipe({ ...newRecipe, ingredients: newIngredientRow });
                                     setIngredientRecipe({
                                         ...ingredientRecipe,
                                         name: '',
@@ -243,7 +249,17 @@ const NewRecipe = (): JSX.Element => {
                     </Grid>
                     <IngredientsList ingredientsList={ingredientsRow} onRemoveIngredient={removeIngredientList} />
                     <Box style={{ width: '100%' }}>
-                        <IconButton onClick={() => dispatch(fetchAddRecipe(recipe))}>
+                        <IconButton
+                            onClick={() =>
+                                dispatch(fetchAddRecipe(recipe))
+                                    .then(unwrapResult)
+                                    .then((result) => {
+                                        console.log('result: ', result);
+                                        history.push(`/recipe/${result.id}`);
+                                    })
+                                    .catch((e) => console.error(e))
+                            }
+                        >
                             <LibraryAddIcon style={{ fontSize: 25, marginLeft: 'auto', marginRight: 'auto' }} />
                         </IconButton>
                     </Box>

@@ -36,6 +36,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier '.*.js' 'src/**/*.{js,ts,tsx}' -w",
     "db:migration": "ts-node src/database/scripts/migration.ts",
+    "db:populate": "ts-node src/database/scripts/populate_db.js",
     "server": "tsc && node build/server.js"
   },
   "author": "",
