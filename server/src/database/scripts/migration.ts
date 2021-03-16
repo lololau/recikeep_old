@@ -23,7 +23,7 @@ import units from '../unity/unity-db';
     await db.run('DROP TABLE IF EXISTS Recipe');
     await db.run(`CREATE TABLE Recipe (
         id INTEGER UNIQUE,
-        name TEXT UNIQUE NOT NULL,
+        name TEXT NOT NULL,
         presentation TEXT,
         number_parts INTEGER NOT NULL,
         time_presentation TEXT,

@@ -24,22 +24,6 @@ type IngredientsListProps = {
     onRemoveIngredient: onRemove;
 };
 
-interface IngredientRecipe {
-    name: string;
-    unity: string;
-    quantity: number;
-}
-
-interface RequestAddRecipe {
-    name: string;
-    presentation?: string;
-    number_parts: number;
-    time_presentation?: string;
-    time_cooking?: string;
-    recipe_photo_id?: number;
-    recipe_description_id?: number;
-}
-
 const IngredientsList = (props: IngredientsListProps): JSX.Element => {
     return (
         <List>
@@ -68,6 +52,25 @@ const IngredientsList = (props: IngredientsListProps): JSX.Element => {
     );
 };
 
+interface IngredientRecipe {
+    ingredient_id?: number;
+    name: string;
+    unity_id?: number;
+    unity: string;
+    quantity?: number;
+}
+
+interface RequestAddRecipe {
+    name: string;
+    presentation?: string;
+    number_parts: number;
+    time_preparation?: string;
+    time_cooking?: string;
+    recipe_photo_id?: number;
+    recipe_description_id?: number;
+    ingredients?: IngredientRecipe[];
+}
+
 const NewRecipe = (): JSX.Element => {
     const { t } = useTranslation();
 
@@ -76,29 +79,28 @@ const NewRecipe = (): JSX.Element => {
     const allIngredients = useSelector(ingredients);
     const allUnities = useSelector(unities);
 
-    const [nameRecipe, setNameRecipe] = useState('');
-    const [presentationRecipe, setPresentationRecipe] = useState('');
-    const [timePrepRecipe, setTimePrepRecipe] = useState('');
-    const [timeCookRecipe, setTimeCookRecipe] = useState('');
-    const [numberParts, setNumberParts] = useState(2);
+    const [recipe, setRecipe] = useState<RequestAddRecipe>({
+        name: '',
+        presentation: '',
+        time_preparation: '',
+        time_cooking: '',
+        number_parts: 2,
+        ingredients: [],
+    });
 
-    const [ingredientRow, setIngredientRow] = useState<IngredientRecipe[]>([]);
-    const [nameIngredient, setNameIngredient] = useState('');
-    const [unityIngredient, setUnityIngredient] = useState('');
-    const [quantityIngredient, setQuantityIngredient] = useState(0);
+    const [ingredientsRow, setIngredientRow] = useState<IngredientRecipe[]>([]);
 
-    const ingredient: IngredientRecipe = { name: nameIngredient, unity: unityIngredient, quantity: quantityIngredient };
-    const recipe: RequestAddRecipe = {
-        name: nameRecipe,
-        presentation: presentationRecipe,
-        number_parts: numberParts,
-        time_presentation: timePrepRecipe,
-        time_cooking: timeCookRecipe,
-    };
+    const [ingredientRecipe, setIngredientRecipe] = useState<IngredientRecipe>({
+        name: '',
+        ingredient_id: undefined,
+        unity: '',
+        unity_id: undefined,
+        quantity: undefined,
+    });
 
     const removeIngredientList = (elt: IngredientRecipe, index: number) => {
-        if (ingredientRow[index]) {
-            const newingredientRow = ingredientRow.filter((_, i) => i !== index);
+        if (ingredientsRow[index]) {
+            const newingredientRow = ingredientsRow.filter((_, i) => i !== index);
             setIngredientRow(newingredientRow);
         }
     };
@@ -111,7 +113,9 @@ const NewRecipe = (): JSX.Element => {
                     <p>{t('new_recipe.title')}</p>
                     <TextField
                         placeholder={t('new_recipe.add-title')}
-                        onChange={(event) => setNameRecipe(event.currentTarget.value)}
+                        onChange={(event) => {
+                            setRecipe({ ...recipe, name: event.currentTarget.value });
+                        }}
                     />
                 </Box>
                 <Box className="image">
@@ -123,7 +127,9 @@ const NewRecipe = (): JSX.Element => {
                     <TextField
                         fullWidth
                         placeholder={t('new_recipe.add-presentation')}
-                        onChange={(event) => setPresentationRecipe(event.currentTarget.value)}
+                        onChange={(event) => {
+                            setRecipe({ ...recipe, presentation: event.currentTarget.value });
+                        }}
                     />
                 </Box>
                 <Box className="image">
@@ -137,7 +143,9 @@ const NewRecipe = (): JSX.Element => {
                     <p>{t('new_recipe.parts')}</p>
                     <TextField
                         placeholder={t('new_recipe.parts_add')}
-                        onChange={(event) => setNumberParts(Number(event.currentTarget.value))}
+                        onChange={(event) => {
+                            setRecipe({ ...recipe, number_parts: Number(event.currentTarget.value) });
+                        }}
                     />
                 </Box>
                 <Grid container spacing={9}>
@@ -148,7 +156,9 @@ const NewRecipe = (): JSX.Element => {
                                 fullWidth
                                 placeholder={t('new_recipe.add-time')}
                                 margin="normal"
-                                onChange={(event) => setTimePrepRecipe(event.currentTarget.value)}
+                                onChange={(event) => {
+                                    setRecipe({ ...recipe, time_preparation: event.currentTarget.value });
+                                }}
                             />
                             <p>{t('new_recipe.minute')}</p>
                         </Box>
@@ -160,7 +170,9 @@ const NewRecipe = (): JSX.Element => {
                                 fullWidth
                                 placeholder={t('new_recipe.add-time')}
                                 margin="normal"
-                                onChange={(event) => setTimeCookRecipe(event.currentTarget.value)}
+                                onChange={(event) => {
+                                    setRecipe({ ...recipe, time_cooking: event.currentTarget.value });
+                                }}
                             />
                             <p>{t('new_recipe.minute')}</p>
                         </Box>
@@ -172,7 +184,13 @@ const NewRecipe = (): JSX.Element => {
                         <Grid item xs={3}>
                             <Autosuggestion
                                 label="add ingredient"
-                                onSelect={(option) => setNameIngredient(option.name)}
+                                onSelect={(option) => {
+                                    setIngredientRecipe({
+                                        ...ingredientRecipe,
+                                        ingredient_id: option.id,
+                                        name: option.name,
+                                    });
+                                }}
                                 onAdd={(option) => dispatch(fetchAddIngredient(option))}
                                 options={allIngredients}
                             />
@@ -180,7 +198,13 @@ const NewRecipe = (): JSX.Element => {
                         <Grid item xs={3}>
                             <Autosuggestion
                                 label="add unit"
-                                onSelect={(option) => setUnityIngredient(option.name)}
+                                onSelect={(option) => {
+                                    setIngredientRecipe({
+                                        ...ingredientRecipe,
+                                        unity_id: option.id,
+                                        unity: option.name,
+                                    });
+                                }}
                                 onAdd={(option) => dispatch(fetchAddUnity(option))}
                                 options={allUnities}
                             />
@@ -189,24 +213,35 @@ const NewRecipe = (): JSX.Element => {
                             <TextField
                                 placeholder="Quantity"
                                 variant="outlined"
-                                onChange={(event) => setQuantityIngredient(Number(event.currentTarget.value))}
+                                onChange={(event) =>
+                                    setIngredientRecipe({
+                                        ...ingredientRecipe,
+                                        quantity: Number(event.currentTarget.value),
+                                    })
+                                }
                             />
                         </Grid>
                         <Grid item xs={3}>
                             <Button
                                 onClick={() => {
-                                    const newIngredientRow = ingredientRow.concat(ingredient);
+                                    const newIngredientRow = ingredientsRow.concat(ingredientRecipe);
                                     setIngredientRow(newIngredientRow);
-                                    setNameIngredient('');
-                                    setUnityIngredient('');
-                                    setQuantityIngredient(0);
+                                    setRecipe({ ...recipe, ingredients: newIngredientRow });
+                                    setIngredientRecipe({
+                                        ...ingredientRecipe,
+                                        name: '',
+                                        ingredient_id: undefined,
+                                        unity: '',
+                                        unity_id: undefined,
+                                        quantity: undefined,
+                                    });
                                 }}
                             >
                                 {t('new_recipe.add')}
                             </Button>
                         </Grid>
                     </Grid>
-                    <IngredientsList ingredientsList={ingredientRow} onRemoveIngredient={removeIngredientList} />
+                    <IngredientsList ingredientsList={ingredientsRow} onRemoveIngredient={removeIngredientList} />
                     <Box style={{ width: '100%' }}>
                         <IconButton onClick={() => dispatch(fetchAddRecipe(recipe))}>
                             <LibraryAddIcon style={{ fontSize: 25, marginLeft: 'auto', marginRight: 'auto' }} />
