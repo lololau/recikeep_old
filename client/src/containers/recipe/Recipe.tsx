@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next/';
 import '../../i18n';
-import React, { FC } from 'react';
-import { useSelector } from 'react-redux';
+import React, { FC, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import Avatar from '@material-ui/core/Avatar';
 import EditIcon from '@material-ui/icons/Edit';
@@ -10,44 +11,68 @@ import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import PersonIcon from '@material-ui/icons/Person';
-import List from '@material-ui/core/List';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import EcoIcon from '@material-ui/icons/Eco';
 import instructions_image from './description_recipe.png';
-import { selectRecipe } from '../../slice/recipe/recipeSlice';
+import { fetchGetARecipe, selectRecipe } from '../../slice/recipe/recipeSlice';
 import { IngredientsRecipe } from '../../slice/recipe/recipeFetch';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 type IngredientListProps = {
     ingredients: IngredientsRecipe[];
 };
 
-const IngredientsListRecipe: FC<IngredientListProps> = (props) => {
+const IngredientsTable: FC<IngredientListProps> = (props) => {
+    const { t } = useTranslation();
     return (
-        <List style={{ maxWidth: 200, marginLeft: 'auto', marginRight: 'auto' }}>
-            {props.ingredients.map((ingredient, index) => {
-                return (
-                    <ListItem divider={true} key={index}>
-                        <ListItemIcon>
-                            <EcoIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                            primary={ingredient.ingredient}
-                            secondary={ingredient.quantity + ' ' + ingredient.unity}
-                            id={index.toString()}
-                        />
-                    </ListItem>
-                );
-            })}
-        </List>
+        <TableContainer component={Paper} style={{ maxWidth: 300 }}>
+            <Table aria-label="simple table">
+                <TableHead>
+                    <TableRow>
+                        <TableCell style={{ fontWeight: 'bold' }}>{t('ingredients.ingredients')}</TableCell>
+                        <TableCell align="right" style={{ fontWeight: 'bold' }}>
+                            {t('ingredients.quantity')}
+                        </TableCell>
+                        <TableCell align="right" style={{ fontWeight: 'bold' }}>
+                            {t('ingredients.unity')}
+                        </TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {props.ingredients.map((row) => (
+                        <TableRow key={row.ingredient}>
+                            <TableCell component="th" scope="row">
+                                {row.ingredient}
+                            </TableCell>
+                            <TableCell align="right">{row.quantity}</TableCell>
+                            <TableCell align="right">{row.unity}</TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
     );
 };
+
+interface Params {
+    id: string;
+}
 
 const MyRecipe = (): JSX.Element => {
     const { t } = useTranslation();
 
+    const dispatch = useDispatch();
+
+    const { id } = useParams<Params>();
     const recipe = useSelector(selectRecipe);
+
+    useEffect(() => {
+        dispatch(fetchGetARecipe(Number(id)));
+    }, []);
 
     return (
         <Container>
@@ -119,9 +144,8 @@ const MyRecipe = (): JSX.Element => {
                     </Grid>
                 </Grid>
             </Box>
-            <Box style={{ textAlign: 'center' }}>
-                <h3>{t('recipe.ingredients-list')}</h3>
-                <IngredientsListRecipe ingredients={recipe.ingredients} />
+            <Box style={{ marginLeft: 'auto', marginRight: 'auto', display: 'flex', justifyContent: 'center' }}>
+                <IngredientsTable ingredients={recipe.ingredients} />
             </Box>
             <Box className="cooking_instructions" style={{ textAlign: 'center', marginTop: 75 }}>
                 <h3>{t('recipe.cooking-instructions')}</h3>

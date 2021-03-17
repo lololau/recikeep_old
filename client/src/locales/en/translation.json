@@ -94,5 +94,10 @@
   "groups": {
     "title-page": "Groups",
     "searchBar": "Search..."
+  },
+  "ingredients": {
+    "ingredients": "Ingredients",
+    "quantity": "Quantity",
+    "unity": "Unity"
   }
 }

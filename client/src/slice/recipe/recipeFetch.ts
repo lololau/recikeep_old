@@ -30,3 +30,7 @@ export const getOneRecipe = async (idToken: string, recipeId: number): Promise<R
     const jsonResponse = await response.json();
     return jsonResponse.recipe;
 };
+
+export type RequestUpdateRecipe = {
+    fullName: string;
+};
