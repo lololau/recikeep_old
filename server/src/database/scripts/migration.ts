@@ -1,10 +1,8 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import sqlite3 from 'sqlite3';
 import foodEn from '../ingredient/food-en';
 import foodFr from '../ingredient/food-fr';
-import { open } from 'sqlite';
 import units from '../unity/unity-db';
 import openDb from '../db';
 import placeholders from 'named-placeholders';

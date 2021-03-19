@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin';
 import { Request, Response, NextFunction } from 'express';
-import { getUserIdByFirebaseID } from '../database/user';
+import { getUserIdByFirebaseID } from '../database/user/user';
 
 admin.initializeApp();
 

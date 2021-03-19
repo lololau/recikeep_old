@@ -1,4 +1,6 @@
 import openDb from '../db';
+import placeholders from 'named-placeholders';
+const unamed = placeholders();
 
 export interface Recipe {
     id: number;
@@ -27,25 +29,29 @@ export const addRecipe = async (userId: number, req: RequestAddRecipe): Promise<
     const db = await openDb();
 
     const ret = await db.run(
-        `INSERT INTO Recipe (name, presentation, number_parts, time_preparation, time_cooking, user_id, recipe_photo_id, recipe_description_id) 
-        VALUES ($name, $presentation, $number_parts, $time_preparation, $time_cooking, $user_id, $recipe_photo_id, $recipe_description_id)`,
-        {
-            $name: req.name,
-            $presentation: req.presentation,
-            $number_parts: req.number_parts,
-            $time_preparation: req.time_preparation,
-            $time_cooking: req.time_cooking,
-            $user_id: userId,
-            $recipe_photo_id: req.recipe_photo_id,
-            $recipe_description_id: req.recipe_description_id,
-        },
+        ...unamed(
+            `INSERT INTO Recipe (name, presentation, number_parts, time_preparation, time_cooking, user_id, recipe_photo_id, recipe_description_id) 
+        VALUES (:name, :presentation, :number_parts, :time_preparation, :time_cooking, :user_id, :recipe_photo_id, :recipe_description_id)`,
+            {
+                name: req.name,
+                presentation: req.presentation,
+                number_parts: req.number_parts,
+                time_preparation: req.time_preparation,
+                time_cooking: req.time_cooking,
+                user_id: userId,
+                recipe_photo_id: req.recipe_photo_id,
+                recipe_description_id: req.recipe_description_id,
+            },
+        ),
     );
 
     const recipeId = ret.lastID;
 
     const recipe = db.get<Recipe>(
-        `SELECT id, name, presentation, number_parts, time_preparation, time_cooking, user_id, recipe_photo_id, recipe_description_id FROM Recipe WHERE id=$id`,
-        { $id: recipeId },
+        ...unamed(
+            `SELECT id, name, presentation, number_parts, time_preparation, time_cooking, user_id, recipe_photo_id, recipe_description_id FROM Recipe WHERE id=:id`,
+            { id: recipeId },
+        ),
     );
 
     return recipe;
@@ -55,9 +61,11 @@ export const addRecipe = async (userId: number, req: RequestAddRecipe): Promise<
 export const getAllRecipes = async (userId: number): Promise<Recipe[]> => {
     const db = await openDb();
 
-    const recipes: Recipe[] = await db.all(`SELECT name, id FROM Recipe WHERE user_id=$userId`, {
-        $userId: userId,
-    });
+    const recipes: Recipe[] = await db.all<Recipe>(
+        ...unamed(`SELECT name, id FROM Recipe WHERE user_id=:userId`, {
+            userId: userId,
+        }),
+    );
 
     return recipes;
 };
@@ -67,12 +75,14 @@ export const getRecipeInformations = async (userId: number, recipeId: number): P
     const db = await openDb();
 
     const recipe = await db.get<Recipe>(
-        `SELECT id, name, presentation, number_parts, time_preparation, time_cooking, recipe_photo_id, recipe_description_id 
-        FROM Recipe WHERE user_id=$userId AND id=$id`,
-        {
-            $userId: userId,
-            $id: recipeId,
-        },
+        ...unamed(
+            `SELECT id, name, presentation, number_parts, time_preparation, time_cooking, recipe_photo_id, recipe_description_id 
+        FROM Recipe WHERE user_id=:userId AND id=:id`,
+            {
+                userId: userId,
+                id: recipeId,
+            },
+        ),
     );
 
     return recipe;
@@ -93,26 +103,30 @@ export const updateRecipe = async (userId: number, recipeId: number, req: Reques
     const db = await openDb();
 
     await db.run(
-        `UPDATE Recipe 
-        SET name=$name, presentation=$presentation, number_parts=$number_parts, time_preparation=$time_preparation, 
-        time_cooking=$time_cooking, recipe_photo_id=$recipe_photo_id, recipe_description_id=$recipe_description_id
-        WHERE id=$id AND user_id=$user_id`,
-        {
-            $name: req.name,
-            $presentation: req.presentation,
-            $number_parts: req.number_parts,
-            $time_preparation: req.time_preparation,
-            $time_cooking: req.time_cooking,
-            $recipe_photo_id: req.recipe_photo_id,
-            $recipe_description_id: req.recipe_description_id,
-            $id: recipeId,
-            $user_id: userId,
-        },
+        ...unamed(
+            `UPDATE Recipe 
+        SET name=:name, presentation=:presentation, number_parts=:number_parts, time_preparation=:time_preparation, 
+        time_cooking=:time_cooking, recipe_photo_id=:recipe_photo_id, recipe_description_id=:recipe_description_id
+        WHERE id=:id AND user_id=:user_id`,
+            {
+                name: req.name,
+                presentation: req.presentation,
+                number_parts: req.number_parts,
+                time_preparation: req.time_preparation,
+                time_cooking: req.time_cooking,
+                recipe_photo_id: req.recipe_photo_id,
+                recipe_description_id: req.recipe_description_id,
+                id: recipeId,
+                user_id: userId,
+            },
+        ),
     );
 
     const recipe = await db.get<Recipe>(
-        `SELECT id, name, presentation, number_parts, time_preparation, time_cooking, user_id, recipe_photo_id, recipe_description_id FROM Recipe WHERE id=$id`,
-        { $id: recipeId },
+        ...unamed(
+            `SELECT id, name, presentation, number_parts, time_preparation, time_cooking, user_id, recipe_photo_id, recipe_description_id FROM Recipe WHERE id=:id`,
+            { id: recipeId },
+        ),
     );
 
     return recipe;

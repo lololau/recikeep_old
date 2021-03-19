@@ -1,6 +1,6 @@
 import express from 'express';
 import { verifyToken } from '../../app-config/firebase-config';
-import { getUserByFirebaseID, createUser, updateUser } from '../../database/user';
+import { getUserByFirebaseID, createUser, updateUser } from '../../database/user/user';
 
 // Router and mounting
 const user = express.Router();

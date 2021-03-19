@@ -76,11 +76,6 @@ class Database {
 
 const db = new Database(config);
 
-/* const db = open({
-    filename: process.env.TEST_DATABASE || './database.sqlite',
-    driver: sqlite3.Database,
-}); */
-
 const openDb = async (): Promise<Database> => db;
 
 export default openDb;
