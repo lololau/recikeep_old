@@ -1,8 +1,15 @@
 import express from 'express';
-import { getAllRecipes, getRecipeInformations, addRecipe, RequestAddRecipe } from '../../database/recipe/recipe';
+import {
+    getAllRecipes,
+    getRecipeInformations,
+    addRecipe,
+    RequestAddRecipe,
+    updateRecipe,
+} from '../../database/recipe/recipe';
 import {
     addIngredientsRecipe,
     getIngredientsRecipe,
+    updateIngredientsRecipe,
     IngredientsRecipe,
 } from '../../database/ingredient_recipe/ingredientsRecipe';
 import { verifyToken, verifyUser } from '../../app-config/firebase-config';
@@ -44,7 +51,7 @@ recipes.get('/getAll', verifyToken, verifyUser, async (req, res) => {
     }
 });
 
-//GET - /api/recipes/:id - get all recipes by userID
+//GET - /api/recipes/:id - get a recipe by userID and recipeId
 recipes.get('/:id', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
     const recipeId = Number(req.params.id);
@@ -54,6 +61,35 @@ recipes.get('/:id', verifyToken, verifyUser, async (req, res) => {
         res.status(200).json({ recipe: { ...recipe, ingredients } });
     } catch (e) {
         return res.status(404).send(`Unable to get recipe with id: ${recipeId}`);
+    }
+});
+
+//PUT - /api/recipes/update/:id - update a recipe by recipeId and userId
+recipes.put('/update/:id', verifyToken, verifyUser, async (req, res) => {
+    const userId = res.locals.userId;
+    const recipeId = Number(req.params.id);
+    console.log('recipeId:', recipeId);
+    console.log('userId:', userId);
+    const recipeRequest: RequestAddRecipe = {
+        name: req.body.name,
+        presentation: req.body.presentation,
+        number_parts: req.body.number_parts,
+        time_preparation: req.body.time_preparation,
+        time_cooking: req.body.time_cooking,
+        recipe_photo_id: req.body.recipe_photo_id,
+        recipe_description_id: req.body.recipe_description_id,
+    };
+    console.log('recipeRequest:', recipeRequest);
+    const ingredients: IngredientsRecipe[] = req.body.ingredients;
+
+    console.log('ingredients:', ingredients);
+    try {
+        const recipe = await updateRecipe(userId, recipeId, recipeRequest);
+        await updateIngredientsRecipe(recipeId, ingredients);
+        res.status(200).json({ recipe: { ...recipe, ingredients } });
+    } catch (e) {
+        console.error(e);
+        return res.status(404).send(`Unable to update recipe with id: ${recipeId}`);
     }
 });
 

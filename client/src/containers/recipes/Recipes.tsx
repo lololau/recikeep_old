@@ -11,9 +11,7 @@ import SearchBar from '../../components/SearchBar';
 import TagBox from '../../components/Tags';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import EditIcon from '@material-ui/icons/Edit';
-import PresentToAllIcon from '@material-ui/icons/PresentToAll';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
@@ -44,13 +42,7 @@ export const RecipesList = (props: RecipesListProps): JSX.Element => {
                         </Link>
                         <ListItemSecondaryAction>
                             <IconButton>
-                                <FavoriteIcon style={{ fontSize: 15 }} color="primary" />
-                            </IconButton>
-                            <IconButton>
                                 <EditIcon style={{ fontSize: 15 }} color="primary" />
-                            </IconButton>
-                            <IconButton>
-                                <PresentToAllIcon style={{ fontSize: 15 }} color="primary" />
                             </IconButton>
                             <IconButton edge="end">
                                 <DeleteIcon style={{ fontSize: 15 }} color="primary" />

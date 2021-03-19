@@ -25,7 +25,9 @@
     "preparation-time": "Preparation",
     "cooking-time": "Baking",
     "ingredients-list": "Ingredients List",
-    "cooking-instructions": "Cooking Instructions"
+    "cooking-instructions": "Cooking Instructions",
+    "for": "For",
+    "peoples": "peoples"
   },
   "tags": {
     "vegetables": "Vegetables",
@@ -65,6 +67,9 @@
     "unitsBox": "Unit",
     "unitsBox-quantity": "Quantity",
     "add": "Add"
+  },
+  "update_recipe": {
+    "title-page": "Update Recipe"
   },
   "groceryList": {
     "title-page": "Grocery List",

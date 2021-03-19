@@ -4,6 +4,7 @@ import Profile from './containers/profil/Profil';
 import HomeRecipes from './containers/recipes/Recipes';
 import MyRecipe from './containers/recipe/Recipe';
 import NewRecipe from './containers/new-recipe/NewRecipe';
+import UpdateRecipe from './containers/update-recipe/UpdateRecipe';
 import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
@@ -88,6 +89,9 @@ const App = (): JSX.Element => {
                         <Route path="/profile" exact component={Profile} />
                         <Route path="/recipe/:id">
                             <MyRecipe />
+                        </Route>
+                        <Route path="/recipes/update/:id" exact>
+                            <UpdateRecipe />
                         </Route>
                         <Route path={'/recipes/selection'} exact component={RecipesSelectionStepper} />
                         <Route path={'/profile/my_ingredients'} component={MyIngredients} />

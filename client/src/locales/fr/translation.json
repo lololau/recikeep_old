@@ -24,7 +24,9 @@
     "preparation-time": "Préparation",
     "cooking-time": "Cuisson",
     "ingredients-list": "Ingrédients",
-    "cooking-instructions": "Description de la Recette"
+    "cooking-instructions": "Description de la Recette",
+    "for": "Pour",
+    "peoples": "personne(s)"
   },
   "tags": {
     "vegetables": "Légumes",
@@ -64,6 +66,9 @@
     "unitsBox": "Unité",
     "unitsBox-quantity": "Quantité",
     "add": "Ajouter"
+  },
+  "update_recipe": {
+    "title-page": "Recette en cours de modification(s)"
   },
   "groceryList": {
     "title-page": "Liste de Courses",
