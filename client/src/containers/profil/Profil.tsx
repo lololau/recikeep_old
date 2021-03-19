@@ -78,8 +78,7 @@ const Profile = (): JSX.Element => {
                     <Button onClick={() => changeLanguage('fr')}>Français</Button>
                 </Grid>
             </Grid>
-            <br />
-            <Box style={{ alignItems: 'column' }}>
+            <Box style={{ alignItems: 'column', marginBottom: 30 }}>
                 <Avatar
                     style={{ width: 100, height: 100 }}
                     alt="my_picture"
@@ -87,19 +86,15 @@ const Profile = (): JSX.Element => {
                 />
                 <Button size="small">{t('profile.update-image')}</Button>
             </Box>
-            <br />
-            <br />
-            <Grid container spacing={2} style={{ alignItems: 'center' }}>
+            <Grid container spacing={2} style={{ alignItems: 'center', marginBottom: 10 }}>
                 <TextField type="text" onChange={onNameChange} value={newName} disabled={canUpdate} />
                 {!canUpdate && updateName()}
                 {canUpdate && notUpdateName()}
             </Grid>
-            <Grid container spacing={2} style={{ alignItems: 'center' }}>
+            <Grid container spacing={2} style={{ alignItems: 'center', marginBottom: 30 }}>
                 <p>{user.email}</p>
             </Grid>
 
-            <br />
-            <br />
             <Link to="/profile/my_ingredients">
                 <p>{t('myIngredients.title-page')}</p>
             </Link>

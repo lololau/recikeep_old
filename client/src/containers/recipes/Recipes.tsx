@@ -97,18 +97,15 @@ const HomeRecipes = (): JSX.Element => {
 
     return (
         <Container>
-            <div className="recipes">
-                <h1>{t('recipes.title')}</h1>
-                <br />
-                <SearchBar elements={recipes} onchange={onChange} width="33%" />
-                <br />
-                <br />
-                <Box>
-                    <Grid container spacing={3} style={{ alignItems: 'center' }}>
-                        <Grid item xs={6}>
+            <div className="recipes" style={{ marginBottom: 20 }}>
+                <h1 style={{ marginBottom: 20 }}>{t('recipes.title')}</h1>
+                <SearchBar elements={recipes} onchange={onChange} width="23%" />
+                <Box style={{ marginTop: 30 }}>
+                    <Grid container spacing={4} style={{ alignItems: 'center' }}>
+                        <Grid item xs={3}>
                             <TagBox />
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={3}>
                             <Link to="/recipes/selection">
                                 <Button color="primary">{t('recipes.selectRecipes')}</Button>
                             </Link>
@@ -116,12 +113,9 @@ const HomeRecipes = (): JSX.Element => {
                     </Grid>
                 </Box>
             </div>
-            <br />
-            <br />
-            <div className="RecipesList">
+            <div className="RecipesList" style={{ marginBottom: 20 }}>
                 <RecipesList recipes={recipesDisplay} />
             </div>
-            <br />
             <IconButton>
                 <Link to="/recipes/new_recipe">
                     <AddCircleOutlineOutlinedIcon style={{ fontSize: 30 }} />

@@ -44,7 +44,6 @@ const Groups = (): JSX.Element => {
             <Grid>
                 <SearchBar width="50%" onchange={onchange} elements={groups} />
             </Grid>
-            <br />
             <ListComponent listElements={groupsDisplay} />
         </Container>
     );
