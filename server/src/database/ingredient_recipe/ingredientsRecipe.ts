@@ -31,11 +31,8 @@ export const addIngredientsRecipe = async (recipeId: number, req: IngredientsRec
 export const updateIngredientsRecipe = async (recipeId: number, req: IngredientsRecipe[]): Promise<void> => {
     const db = await openDb();
 
-    req.forEach(async (ingredient) => {
-        console.log(ingredient);
-        await db.run(...unamed(`DELETE FROM Recipe_Ingredient WHERE recipe_id=:recipe_id`, { recipe_Id: recipeId }));
-        await addIngredientsRecipe(recipeId, req);
-    });
+    await db.run(...unamed(`DELETE FROM Recipe_Ingredient WHERE recipe_id=:recipe_id`, { recipe_id: recipeId }));
+    await addIngredientsRecipe(recipeId, req);
 };
 
 // Get ingredients by recipeId and userId

@@ -10,8 +10,6 @@ export interface Recipe {
     time_preparation?: string;
     time_cooking?: string;
     user_id: number;
-    recipe_photo_id?: number;
-    recipe_description_id?: number;
 }
 
 export type RequestAddRecipe = {
@@ -20,8 +18,6 @@ export type RequestAddRecipe = {
     number_parts: number;
     time_preparation?: string;
     time_cooking?: string;
-    recipe_photo_id?: number;
-    recipe_description_id?: number;
 };
 
 // Add a recipe to the user database
@@ -30,8 +26,8 @@ export const addRecipe = async (userId: number, req: RequestAddRecipe): Promise<
 
     const ret = await db.run(
         ...unamed(
-            `INSERT INTO Recipe (name, presentation, number_parts, time_preparation, time_cooking, user_id, recipe_photo_id, recipe_description_id) 
-        VALUES (:name, :presentation, :number_parts, :time_preparation, :time_cooking, :user_id, :recipe_photo_id, :recipe_description_id)`,
+            `INSERT INTO Recipe (name, presentation, number_parts, time_preparation, time_cooking, user_id) 
+        VALUES (:name, :presentation, :number_parts, :time_preparation, :time_cooking, :user_id)`,
             {
                 name: req.name,
                 presentation: req.presentation,
@@ -39,17 +35,15 @@ export const addRecipe = async (userId: number, req: RequestAddRecipe): Promise<
                 time_preparation: req.time_preparation,
                 time_cooking: req.time_cooking,
                 user_id: userId,
-                recipe_photo_id: req.recipe_photo_id,
-                recipe_description_id: req.recipe_description_id,
             },
         ),
     );
 
-    const recipeId = ret.lastID;
+    const recipeId = ret.insertId;
 
     const recipe = db.get<Recipe>(
         ...unamed(
-            `SELECT id, name, presentation, number_parts, time_preparation, time_cooking, user_id, recipe_photo_id, recipe_description_id FROM Recipe WHERE id=:id`,
+            `SELECT id, name, presentation, number_parts, time_preparation, time_cooking, user_id FROM Recipe WHERE id=:id`,
             { id: recipeId },
         ),
     );
@@ -76,8 +70,8 @@ export const getRecipeInformations = async (userId: number, recipeId: number): P
 
     const recipe = await db.get<Recipe>(
         ...unamed(
-            `SELECT id, name, presentation, number_parts, time_preparation, time_cooking, recipe_photo_id, recipe_description_id 
-        FROM Recipe WHERE user_id=:userId AND id=:id`,
+            `SELECT id, name, presentation, number_parts, time_preparation, time_cooking 
+            FROM Recipe WHERE user_id=:userId AND id=:id`,
             {
                 userId: userId,
                 id: recipeId,
@@ -94,8 +88,6 @@ export type RequestUpdateRecipe = {
     number_parts?: number;
     time_preparation?: string;
     time_cooking?: string;
-    recipe_photo_id?: number;
-    recipe_description_id?: number;
 };
 
 // Add a recipe to the user database
@@ -104,18 +96,14 @@ export const updateRecipe = async (userId: number, recipeId: number, req: Reques
 
     await db.run(
         ...unamed(
-            `UPDATE Recipe 
-        SET name=:name, presentation=:presentation, number_parts=:number_parts, time_preparation=:time_preparation, 
-        time_cooking=:time_cooking, recipe_photo_id=:recipe_photo_id, recipe_description_id=:recipe_description_id
-        WHERE id=:id AND user_id=:user_id`,
+            `UPDATE Recipe SET name=:name, presentation=:presentation, number_parts=:number_parts, 
+            time_preparation=:time_preparation, time_cooking=:time_cooking WHERE id=:id AND user_id=:user_id`,
             {
                 name: req.name,
                 presentation: req.presentation,
                 number_parts: req.number_parts,
                 time_preparation: req.time_preparation,
                 time_cooking: req.time_cooking,
-                recipe_photo_id: req.recipe_photo_id,
-                recipe_description_id: req.recipe_description_id,
                 id: recipeId,
                 user_id: userId,
             },
@@ -124,7 +112,7 @@ export const updateRecipe = async (userId: number, recipeId: number, req: Reques
 
     const recipe = await db.get<Recipe>(
         ...unamed(
-            `SELECT id, name, presentation, number_parts, time_preparation, time_cooking, user_id, recipe_photo_id, recipe_description_id FROM Recipe WHERE id=:id`,
+            `SELECT id, name, presentation, number_parts, time_preparation, time_cooking, user_id FROM Recipe WHERE id=:id`,
             { id: recipeId },
         ),
     );

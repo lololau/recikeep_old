@@ -26,8 +26,6 @@ recipes.post('/add', verifyToken, verifyUser, async (req, res) => {
         number_parts: req.body.number_parts,
         time_preparation: req.body.time_preparation,
         time_cooking: req.body.time_cooking,
-        recipe_photo_id: req.body.recipe_photo_id,
-        recipe_description_id: req.body.recipe_description_id,
     };
     const ingredients: IngredientsRecipe[] = req.body.ingredients;
     try {
@@ -76,8 +74,6 @@ recipes.put('/update/:id', verifyToken, verifyUser, async (req, res) => {
         number_parts: req.body.number_parts,
         time_preparation: req.body.time_preparation,
         time_cooking: req.body.time_cooking,
-        recipe_photo_id: req.body.recipe_photo_id,
-        recipe_description_id: req.body.recipe_description_id,
     };
     console.log('recipeRequest:', recipeRequest);
     const ingredients: IngredientsRecipe[] = req.body.ingredients;

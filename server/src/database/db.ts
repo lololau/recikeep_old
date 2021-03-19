@@ -24,6 +24,7 @@ class Database {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     query<T>(sql: string | mysql.QueryOptions, args?: any): Promise<T[]> {
         return new Promise((resolve, reject) => {
+            console.log('query:', sql, ' with', args);
             this.connection.query(sql, args, (err, rows: T[]) => {
                 if (err) {
                     reject(err);
@@ -52,6 +53,7 @@ class Database {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     run(sql: string | mysql.QueryOptions, args?: any): Promise<any> {
         return new Promise((resolve, reject) => {
+            console.log('query:', sql, ' with', args);
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             this.connection.query(sql, args, (err, results, rows) => {
                 if (err) {
