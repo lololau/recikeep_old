@@ -5,11 +5,13 @@ import {
     addRecipe,
     RequestAddRecipe,
     updateRecipe,
+    deleteRecipe,
 } from '../../database/recipe/recipe';
 import {
     addIngredientsRecipe,
     getIngredientsRecipe,
     updateIngredientsRecipe,
+    deleteIngredientsRecipe,
     IngredientsRecipe,
 } from '../../database/ingredient_recipe/ingredientsRecipe';
 import { verifyToken, verifyUser } from '../../app-config/firebase-config';
@@ -86,6 +88,20 @@ recipes.put('/update/:id', verifyToken, verifyUser, async (req, res) => {
     } catch (e) {
         console.error(e);
         return res.status(404).send(`Unable to update recipe with id: ${recipeId}`);
+    }
+});
+
+// DELETE - '/api/recipes/delete' - delete an ingredient from user database
+recipes.delete('/delete/:recipeId', verifyToken, verifyUser, async (req, res) => {
+    const userId = res.locals.userId;
+    const recipeId = Number(req.params.recipeId);
+    try {
+        await deleteIngredientsRecipe(recipeId);
+        await deleteRecipe(userId, recipeId);
+        res.status(204).send();
+    } catch (e) {
+        console.error(e);
+        res.status(404).send('Unable to delete the recipe');
     }
 });
 

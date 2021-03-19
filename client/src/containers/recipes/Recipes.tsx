@@ -1,5 +1,5 @@
 import '../../i18n';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
@@ -16,7 +16,7 @@ import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOut
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import { selectRecipes } from '../../slice/recipes/recipesSlice';
+import { fetchDeleteRecipe, selectRecipes } from '../../slice/recipes/recipesSlice';
 import { fetchGetARecipe } from '../../slice/recipe/recipeSlice';
 import { Recipe } from '../../slice/recipes/recipesFetch';
 import { useSelector, useDispatch } from 'react-redux';
@@ -27,6 +27,8 @@ export type RecipesListProps = {
 
 export const RecipesList = (props: RecipesListProps): JSX.Element => {
     const dispatch = useDispatch();
+
+    const history = useHistory();
 
     return (
         <List>
@@ -41,10 +43,20 @@ export const RecipesList = (props: RecipesListProps): JSX.Element => {
                             />
                         </Link>
                         <ListItemSecondaryAction>
-                            <IconButton>
+                            <IconButton
+                                onClick={() => {
+                                    history.push(`/recipes/update/${recipe.id}`);
+                                    console.log(recipe);
+                                }}
+                            >
                                 <EditIcon style={{ fontSize: 15 }} color="primary" />
                             </IconButton>
-                            <IconButton edge="end">
+                            <IconButton
+                                edge="end"
+                                onClick={() => {
+                                    dispatch(fetchDeleteRecipe(recipe.id));
+                                }}
+                            >
                                 <DeleteIcon style={{ fontSize: 15 }} color="primary" />
                             </IconButton>
                         </ListItemSecondaryAction>
@@ -85,18 +97,15 @@ const HomeRecipes = (): JSX.Element => {
 
     return (
         <Container>
-            <div className="recipes">
-                <h1>{t('recipes.title')}</h1>
-                <br />
-                <SearchBar elements={recipes} onchange={onChange} width="33%" />
-                <br />
-                <br />
-                <Box>
-                    <Grid container spacing={3} style={{ alignItems: 'center' }}>
-                        <Grid item xs={6}>
+            <div className="recipes" style={{ marginBottom: 20 }}>
+                <h1 style={{ marginBottom: 20 }}>{t('recipes.title')}</h1>
+                <SearchBar elements={recipes} onchange={onChange} width="23%" />
+                <Box style={{ marginTop: 30 }}>
+                    <Grid container spacing={4} style={{ alignItems: 'center' }}>
+                        <Grid item xs={3}>
                             <TagBox />
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={3}>
                             <Link to="/recipes/selection">
                                 <Button color="primary">{t('recipes.selectRecipes')}</Button>
                             </Link>
@@ -104,12 +113,9 @@ const HomeRecipes = (): JSX.Element => {
                     </Grid>
                 </Box>
             </div>
-            <br />
-            <br />
-            <div className="RecipesList">
+            <div className="RecipesList" style={{ marginBottom: 20 }}>
                 <RecipesList recipes={recipesDisplay} />
             </div>
-            <br />
             <IconButton>
                 <Link to="/recipes/new_recipe">
                     <AddCircleOutlineOutlinedIcon style={{ fontSize: 30 }} />

@@ -57,7 +57,7 @@ export const deleteIngredient = async (idToken: string, ingredientId: number): P
     });
     if (response.status < 200 || response.status >= 300) {
         const err = await response.text();
-        throw new Error('Unity not added: ' + err);
+        throw new Error('Ingredient not deleted: ' + err);
     }
 };
 

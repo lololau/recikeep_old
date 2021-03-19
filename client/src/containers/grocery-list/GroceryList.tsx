@@ -57,7 +57,6 @@ const GroceryList = (): JSX.Element => {
         <Container>
             <h1>{t('groceryList.title-page')}</h1>
             <CheckIngredientsList ingredients={myIngredients} />
-            <br />
             <Box>
                 <IconButton>
                     <Grid container direction="column" alignItems="center" spacing={1}>

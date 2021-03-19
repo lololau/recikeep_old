@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
@@ -105,9 +104,6 @@ const MyRecipe = (): JSX.Element => {
                             }}
                         >
                             <EditIcon style={{ fontSize: 20 }} color="primary" />
-                        </IconButton>
-                        <IconButton edge="end">
-                            <DeleteIcon style={{ fontSize: 20 }} color="primary" />
                         </IconButton>
                     </Grid>
                 </Grid>

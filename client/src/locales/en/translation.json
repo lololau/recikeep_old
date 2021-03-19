@@ -44,6 +44,9 @@
   "parts": {
     "add": "Part(s)"
   },
+  "autocomplete": {
+    "add": "Add"
+  },
   "new_recipe": {
     "title-page": "New Recipe",
     "title": "Title",
@@ -63,7 +66,9 @@
     "minute": "min",
     "cooking-time": "Baking time",
     "ingredients": "Ingredients",
-    "add-ingredient": "Add an ingredient",
+    "add-ingredient": "Add ingredient",
+    "add-unity": "Add unity",
+    "add-quantity": "Add quantity",
     "unitsBox": "Unit",
     "unitsBox-quantity": "Quantity",
     "add": "Add"

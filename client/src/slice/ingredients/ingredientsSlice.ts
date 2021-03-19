@@ -16,11 +16,14 @@ export const fetchAddIngredient = createAsyncThunk(
     },
 );
 
-export const fetchDeleteIngredient = createAsyncThunk('/api/unities/delete', async (ingredientId: number, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState;
-    await deleteIngredient(state.user.idToken, ingredientId);
-    return ingredientId;
-});
+export const fetchDeleteIngredient = createAsyncThunk(
+    '/api/ingredients/delete',
+    async (ingredientId: number, thunkAPI) => {
+        const state = thunkAPI.getState() as RootState;
+        await deleteIngredient(state.user.idToken, ingredientId);
+        return ingredientId;
+    },
+);
 
 type IngredientsList = {
     ingredients: Ingredient[];

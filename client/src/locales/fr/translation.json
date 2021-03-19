@@ -43,6 +43,9 @@
   "parts": {
     "add": "Nombre de personne(s)"
   },
+  "autocomplete": {
+    "add": "Ajouter"
+  },
   "new_recipe": {
     "title-page": "Nouvelle Recette",
     "title": "Titre de la recette",
@@ -63,6 +66,8 @@
     "cooking-time": "Temps de cuisson",
     "ingredients": "Ingrédients",
     "add-ingredient": "Ajouter un ingrédient",
+    "add-unity": "Ajouter une unité",
+    "add-quantity": "Ajouter une quantité",
     "unitsBox": "Unité",
     "unitsBox-quantity": "Quantité",
     "add": "Ajouter"

@@ -144,8 +144,8 @@ const NewRecipe = (): JSX.Element => {
                         }}
                     />
                 </Box>
-                <Grid container spacing={9}>
-                    <Grid item xs={5} className="preparation-time" style={{ display: 'block' }}>
+                <Grid container spacing={4}>
+                    <Grid item xs={3} className="preparation-time" style={{ display: 'block' }}>
                         <p>{t('new_recipe.preparation-time')}</p>
                         <Box style={{ display: 'flex' }}>
                             <TextField
@@ -159,7 +159,7 @@ const NewRecipe = (): JSX.Element => {
                             <p>{t('new_recipe.minute')}</p>
                         </Box>
                     </Grid>
-                    <Grid item xs={5} className="cooking-time" style={{ display: 'block' }}>
+                    <Grid item xs={3} className="cooking-time" style={{ display: 'block' }}>
                         <p>{t('new_recipe.cooking-time')}</p>
                         <Box style={{ display: 'flex' }}>
                             <TextField
@@ -179,7 +179,7 @@ const NewRecipe = (): JSX.Element => {
                     <Grid container spacing={4} style={{ marginBottom: 20, alignItems: 'center' }}>
                         <Grid item xs={3}>
                             <Autosuggestion
-                                label="add ingredient"
+                                label={t('new_recipe.add-ingredient')}
                                 onSelect={(option) => {
                                     setIngredientRecipe({
                                         ...ingredientRecipe,
@@ -192,8 +192,21 @@ const NewRecipe = (): JSX.Element => {
                             />
                         </Grid>
                         <Grid item xs={3}>
+                            <TextField
+                                style={{ maxWidth: 200 }}
+                                label={t('new_recipe.add-quantity')}
+                                variant="outlined"
+                                onChange={(event) =>
+                                    setIngredientRecipe({
+                                        ...ingredientRecipe,
+                                        quantity: Number(event.currentTarget.value),
+                                    })
+                                }
+                            />
+                        </Grid>
+                        <Grid item xs={3}>
                             <Autosuggestion
-                                label="add unit"
+                                label={t('new_recipe.add-unity')}
                                 onSelect={(option) => {
                                     setIngredientRecipe({
                                         ...ingredientRecipe,
@@ -203,18 +216,6 @@ const NewRecipe = (): JSX.Element => {
                                 }}
                                 onAdd={(option) => dispatch(fetchAddUnity(option))}
                                 options={allUnities}
-                            />
-                        </Grid>
-                        <Grid item xs={3}>
-                            <TextField
-                                placeholder="Quantity"
-                                variant="outlined"
-                                onChange={(event) =>
-                                    setIngredientRecipe({
-                                        ...ingredientRecipe,
-                                        quantity: Number(event.currentTarget.value),
-                                    })
-                                }
                             />
                         </Grid>
                         <Grid item xs={3}>

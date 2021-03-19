@@ -6,7 +6,6 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import HomeIcon from '@material-ui/icons/Home';
 import ListIcon from '@material-ui/icons/List';
-import GroupIcon from '@material-ui/icons/Group';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 type ToolbarProps = {
@@ -38,7 +37,6 @@ const ToolsBar = (props: ToolbarProps): JSX.Element => {
                 to={'/grocerylist'}
                 component={Link}
             />
-            <BottomNavigationAction icon={<GroupIcon />} label={t('toolsbar.groups')} to={'/groups'} component={Link} />
             <BottomNavigationAction
                 icon={<AccountCircleIcon />}
                 label={t('toolsbar.profile')}
