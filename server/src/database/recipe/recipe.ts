@@ -43,7 +43,7 @@ export const addRecipe = async (userId: number, req: RequestAddRecipe): Promise<
 
     const recipeId = ret.lastID;
 
-    const recipe = db.get(
+    const recipe = db.get<Recipe>(
         `SELECT id, name, presentation, number_parts, time_preparation, time_cooking, user_id, recipe_photo_id, recipe_description_id FROM Recipe WHERE id=$id`,
         { $id: recipeId },
     );
@@ -66,7 +66,7 @@ export const getAllRecipes = async (userId: number): Promise<Recipe[]> => {
 export const getRecipeInformations = async (userId: number, recipeId: number): Promise<Recipe> => {
     const db = await openDb();
 
-    const recipe = await db.get(
+    const recipe = await db.get<Recipe>(
         `SELECT id, name, presentation, number_parts, time_preparation, time_cooking, recipe_photo_id, recipe_description_id 
         FROM Recipe WHERE user_id=$userId AND id=$id`,
         {
@@ -110,7 +110,7 @@ export const updateRecipe = async (userId: number, recipeId: number, req: Reques
         },
     );
 
-    const recipe = db.get(
+    const recipe = await db.get<Recipe>(
         `SELECT id, name, presentation, number_parts, time_preparation, time_cooking, user_id, recipe_photo_id, recipe_description_id FROM Recipe WHERE id=$id`,
         { $id: recipeId },
     );

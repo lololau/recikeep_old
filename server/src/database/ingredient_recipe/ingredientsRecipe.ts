@@ -50,7 +50,7 @@ export const updateIngredientsRecipe = async (recipeId: number, req: Ingredients
 export const getIngredientsRecipe = async (userId: number, recipeId: number): Promise<IngredientsRecipe[]> => {
     const db = await openDb();
 
-    const ingredients = await db.all(
+    const ingredients = await db.all<IngredientsRecipe>(
         `SELECT Ingredient.name as ingredient, Unity.name as unity, Recipe_ingredient.quantity as quantity, Recipe_ingredient.ingredient_id as ingredient_id, Recipe_ingredient.unity_id as unity_id
                 FROM Recipe_ingredient 
                 JOIN Ingredient
