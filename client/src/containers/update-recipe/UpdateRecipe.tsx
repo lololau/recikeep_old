@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import { unwrapResult } from '@reduxjs/toolkit';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import TagsBox from '../../components/Tags';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
@@ -18,12 +17,13 @@ import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../app/store';
 import { ingredients, fetchAddIngredient } from '../../slice/ingredients/ingredientsSlice';
 import { unities, fetchAddUnity } from '../../slice/unity/unitySlice';
-import { fetchAddRecipe } from '../../slice/recipes/recipesSlice';
+import { fetchUpdateRecipe, fetchGetARecipe, selectRecipe } from '../../slice/recipe/recipeSlice';
+import { RecipeInformation, IngredientsRecipe } from '../../slice/recipe/recipeFetch';
 
-type onRemove = (ingredient: IngredientRecipe, index: number) => void;
+type onRemove = (ingredient: IngredientsRecipe, index: number) => void;
 
 type IngredientsListProps = {
-    ingredientsList: IngredientRecipe[];
+    ingredientsList: IngredientsRecipe[];
     onRemoveIngredient: onRemove;
 };
 
@@ -33,7 +33,7 @@ const IngredientsList = (props: IngredientsListProps): JSX.Element => {
             {props.ingredientsList.map((ingredient, index) => {
                 return (
                     <ListItem divider={true} key={index}>
-                        <ListItemText primary={ingredient.name} id={index.toString()} />
+                        <ListItemText primary={ingredient.ingredient} id={index.toString()} />
                         <ListItemText primary={ingredient.quantity} id={index.toString()} />
                         <ListItemText primary={ingredient.unity} id={index.toString()} />
                         <ListItemSecondaryAction>
@@ -55,70 +55,59 @@ const IngredientsList = (props: IngredientsListProps): JSX.Element => {
     );
 };
 
-interface IngredientRecipe {
-    ingredient_id?: number;
-    name: string;
-    unity_id?: number;
-    unity: string;
-    quantity?: number;
+interface Params {
+    id: string;
 }
 
-interface RequestAddRecipe {
-    name: string;
-    presentation?: string;
-    number_parts: number;
-    time_preparation?: string;
-    time_cooking?: string;
-    recipe_photo_id?: number;
-    recipe_description_id?: number;
-    ingredients?: IngredientRecipe[];
-}
-
-const NewRecipe = (): JSX.Element => {
+const UpdateRecipe = (): JSX.Element => {
     const { t } = useTranslation();
+
+    const { id } = useParams<Params>();
 
     const dispatch = useAppDispatch();
     const history = useHistory();
 
+    const recipe = useSelector(selectRecipe);
     const allIngredients = useSelector(ingredients);
     const allUnities = useSelector(unities);
 
-    const [newRecipe, setRecipe] = useState<RequestAddRecipe>({
-        name: '',
-        presentation: '',
-        time_preparation: '',
-        time_cooking: '',
-        number_parts: 2,
-        ingredients: [],
-    });
+    console.log(recipe);
+    const [updateRecipe, setUpdateRecipe] = useState<RecipeInformation>(recipe);
 
-    const [ingredientsRow, setIngredientRow] = useState<IngredientRecipe[]>([]);
-
-    const [ingredientRecipe, setIngredientRecipe] = useState<IngredientRecipe>({
-        name: '',
+    const [ingredientRecipe, setIngredientRecipe] = useState<IngredientsRecipe>({
+        ingredient: '',
         ingredient_id: undefined,
         unity: '',
         unity_id: undefined,
         quantity: undefined,
     });
 
-    const removeIngredientList = (elt: IngredientRecipe, index: number) => {
-        if (ingredientsRow[index]) {
-            const newingredientRow = ingredientsRow.filter((_, i) => i !== index);
-            setIngredientRow(newingredientRow);
+    const removeIngredientList = (elt: IngredientsRecipe, index: number) => {
+        if (updateRecipe.ingredients[index]) {
+            const newingredientRow = updateRecipe.ingredients.filter((_, i) => i !== index);
+            setUpdateRecipe({ ...updateRecipe, ingredients: newingredientRow });
         }
     };
+
+    useEffect(() => {
+        dispatch(fetchGetARecipe(Number(id)));
+    }, []);
+
+    useEffect(() => {
+        setUpdateRecipe(recipe);
+    }, [recipe]);
 
     return (
         <Container>
             <form>
-                <h1>{t('new_recipe.title-page')}</h1>
+                <h1>{t('update_recipe.title-page')}</h1>
                 <Box className="title">
                     <p>{t('new_recipe.title')}</p>
                     <TextField
+                        value={updateRecipe.name}
                         placeholder={t('new_recipe.add-title')}
                         onChange={(event) => {
-                            setRecipe({ ...newRecipe, name: event.currentTarget.value });
+                            setUpdateRecipe({ ...updateRecipe, name: event.currentTarget.value });
                         }}
                     />
                 </Box>
@@ -126,21 +115,20 @@ const NewRecipe = (): JSX.Element => {
                     <p>{t('new_recipe.presentation')}</p>
                     <TextField
                         fullWidth
+                        value={updateRecipe.presentation}
                         placeholder={t('new_recipe.add-presentation')}
                         onChange={(event) => {
-                            setRecipe({ ...newRecipe, presentation: event.currentTarget.value });
+                            setUpdateRecipe({ ...updateRecipe, presentation: event.currentTarget.value });
                         }}
                     />
                 </Box>
                 <Box>
-                    <TagsBox />
-                </Box>
-                <Box>
                     <p>{t('new_recipe.parts')}</p>
                     <TextField
+                        value={updateRecipe.number_parts}
                         placeholder={t('new_recipe.parts_add')}
                         onChange={(event) => {
-                            setRecipe({ ...newRecipe, number_parts: Number(event.currentTarget.value) });
+                            setUpdateRecipe({ ...updateRecipe, number_parts: Number(event.currentTarget.value) });
                         }}
                     />
                 </Box>
@@ -149,11 +137,12 @@ const NewRecipe = (): JSX.Element => {
                         <p>{t('new_recipe.preparation-time')}</p>
                         <Box style={{ display: 'flex' }}>
                             <TextField
+                                value={updateRecipe.time_preparation}
                                 fullWidth
                                 placeholder={t('new_recipe.add-time')}
                                 margin="normal"
                                 onChange={(event) => {
-                                    setRecipe({ ...newRecipe, time_preparation: event.currentTarget.value });
+                                    setUpdateRecipe({ ...updateRecipe, time_preparation: event.currentTarget.value });
                                 }}
                             />
                             <p>{t('new_recipe.minute')}</p>
@@ -163,11 +152,12 @@ const NewRecipe = (): JSX.Element => {
                         <p>{t('new_recipe.cooking-time')}</p>
                         <Box style={{ display: 'flex' }}>
                             <TextField
+                                value={updateRecipe.time_cooking}
                                 fullWidth
                                 placeholder={t('new_recipe.add-time')}
                                 margin="normal"
                                 onChange={(event) => {
-                                    setRecipe({ ...newRecipe, time_cooking: event.currentTarget.value });
+                                    setUpdateRecipe({ ...updateRecipe, time_cooking: event.currentTarget.value });
                                 }}
                             />
                             <p>{t('new_recipe.minute')}</p>
@@ -184,7 +174,7 @@ const NewRecipe = (): JSX.Element => {
                                     setIngredientRecipe({
                                         ...ingredientRecipe,
                                         ingredient_id: option.id,
-                                        name: option.name,
+                                        ingredient: option.name,
                                     });
                                 }}
                                 onAdd={(option) => dispatch(fetchAddIngredient(option))}
@@ -220,35 +210,43 @@ const NewRecipe = (): JSX.Element => {
                         <Grid item xs={3}>
                             <Button
                                 onClick={() => {
-                                    const newIngredientRow = ingredientsRow.concat(ingredientRecipe);
-                                    setIngredientRow(newIngredientRow);
-                                    setRecipe({ ...newRecipe, ingredients: newIngredientRow });
-                                    setIngredientRecipe({
-                                        ...ingredientRecipe,
-                                        name: '',
-                                        ingredient_id: undefined,
-                                        unity: '',
-                                        unity_id: undefined,
-                                        quantity: undefined,
-                                    });
+                                    if (updateRecipe.ingredients) {
+                                        const newIngredientRow = updateRecipe.ingredients.concat(ingredientRecipe);
+                                        setUpdateRecipe({ ...updateRecipe, ingredients: newIngredientRow });
+                                        setIngredientRecipe({
+                                            ...ingredientRecipe,
+                                            ingredient: '',
+                                            ingredient_id: undefined,
+                                            unity: '',
+                                            unity_id: undefined,
+                                            quantity: undefined,
+                                        });
+                                    }
                                 }}
                             >
                                 {t('new_recipe.add')}
                             </Button>
                         </Grid>
                     </Grid>
-                    <IngredientsList ingredientsList={ingredientsRow} onRemoveIngredient={removeIngredientList} />
+                    <IngredientsList
+                        ingredientsList={updateRecipe.ingredients}
+                        onRemoveIngredient={removeIngredientList}
+                    />
                     <Box style={{ width: '100%' }}>
                         <IconButton
-                            onClick={() => {
-                                return dispatch(fetchAddRecipe(newRecipe))
+                            onClick={() =>
+                                dispatch(
+                                    fetchUpdateRecipe({
+                                        recipe: updateRecipe,
+                                    }),
+                                )
                                     .then(unwrapResult)
                                     .then((result) => {
                                         console.log('result: ', result);
                                         history.push(`/recipe/${result.id}`);
                                     })
-                                    .catch((e) => console.error(e));
-                            }}
+                                    .catch((e) => console.error(e))
+                            }
                         >
                             <LibraryAddIcon style={{ fontSize: 25, marginLeft: 'auto', marginRight: 'auto' }} />
                         </IconButton>
@@ -259,4 +257,4 @@ const NewRecipe = (): JSX.Element => {
     );
 };
 
-export default NewRecipe;
+export default UpdateRecipe;

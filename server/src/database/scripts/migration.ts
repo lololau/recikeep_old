@@ -1,116 +1,86 @@
-import sqlite3 from 'sqlite3';
+import dotenv from 'dotenv';
+dotenv.config();
+
 import foodEn from '../ingredient/food-en';
 import foodFr from '../ingredient/food-fr';
-import { open } from 'sqlite';
 import units from '../unity/unity-db';
+import openDb from '../db';
+import placeholders from 'named-placeholders';
+const unamed = placeholders();
 
 (async () => {
-    const db = await open({
-        filename: process.env.TEST_DATABASE || './database.sqlite',
-        driver: sqlite3.Database,
-    });
+    const db = await openDb();
 
+    console.log('drop all tables...');
+    await db.run('DROP TABLE IF EXISTS Recipe_tag');
+    await db.run('DROP TABLE IF EXISTS Tag');
+    await db.run('DROP TABLE IF EXISTS Recipe_ingredient');
+    await db.run('DROP TABLE IF EXISTS Unity');
+    await db.run('DROP TABLE IF EXISTS Ingredient');
+    await db.run('DROP TABLE IF EXISTS Recipe');
     await db.run('DROP TABLE IF EXISTS User');
+
+    console.log('create all tables...');
     await db.run(`CREATE TABLE User (
-        id INTEGER UNIQUE,
-        full_name TEXT,
-        firebase_id TEXT UNIQUE,
-        image BLOB,
+        id INTEGER UNIQUE AUTO_INCREMENT,
+        full_name VARCHAR(255),
+        firebase_id VARCHAR(255) UNIQUE,
         date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
         date_update DATETIME DEFAULT CURRENT_TIMESTAMP,
-        PRIMARY KEY("id" AUTOINCREMENT)
+        PRIMARY KEY(id)
     )`);
-    await db.run('DROP TABLE IF EXISTS Recipe');
+
     await db.run(`CREATE TABLE Recipe (
-        id INTEGER UNIQUE,
-        name TEXT NOT NULL,
+        id INTEGER UNIQUE AUTO_INCREMENT,
+        name VARCHAR(255) NOT NULL,
         presentation TEXT,
         number_parts INTEGER NOT NULL,
-        time_preparation TEXT,
-        time_cooking TEXT,
+        time_preparation VARCHAR(255),
+        time_cooking VARCHAR(255),
         date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
         date_update DATETIME DEFAULT CURRENT_TIMESTAMP,
         user_id INTEGER,
-        recipe_photo_id INTEGER,
-        recipe_description_id INTEGER,
-        PRIMARY KEY("id" AUTOINCREMENT),
-        FOREIGN KEY(user_id) REFERENCES User(id),
-        FOREIGN KEY(recipe_photo_id) REFERENCES Recipe_photo(id),
-        FOREIGN KEY(recipe_description_id) REFERENCES Recipe_description(id)
+        PRIMARY KEY(id),
+        FOREIGN KEY(user_id) REFERENCES User(id)
     )`);
 
-    await db.run('DROP TABLE IF EXISTS Recipe_photo');
-    await db.run(`CREATE TABLE Recipe_photo (
-        id INTEGER UNIQUE,
-        image BLOB,
-        PRIMARY KEY("id" AUTOINCREMENT)
-    )`);
-
-    await db.run('DROP TABLE IF EXISTS Recipe_description');
-    await db.run(`CREATE TABLE Recipe_description (
-        id INTEGER UNIQUE,
-        image BLOB,
-        PRIMARY KEY("id" AUTOINCREMENT)
-    )`);
-    await db.run('DROP TABLE IF EXISTS Groups');
-    await db.run(`CREATE TABLE Groups (
-          id INTEGER UNIQUE,
-          name TEXT NOT NULL,
-          date_creation DATE,
-          date_update DATE,
-          PRIMARY KEY("id" AUTOINCREMENT)
-      )`);
-
-    await db.run('DROP TABLE IF EXISTS Recipe_group');
-    await db.run(`CREATE TABLE Recipe_group (
-        group_id INTEGER,
-        recipe_id INTEGER,
-        FOREIGN KEY(group_id) REFERENCES Groups(id),
-        FOREIGN KEY(recipe_id) REFERENCES Recipe(id)
-    )`);
-
-    await db.run('DROP TABLE IF EXISTS Ingredient');
     await db.run(`CREATE TABLE Ingredient (
-        id INTEGER UNIQUE,
-        name TEXT NOT NULL,
-        language TEXT NOT NULL,
+        id INTEGER UNIQUE AUTO_INCREMENT,
+        name VARCHAR(255) NOT NULL,
+        language VARCHAR(255) NOT NULL,
         user_id INTEGER,
         date_creation DATE,
         date_update DATE,
-        PRIMARY KEY("id" AUTOINCREMENT),
+        PRIMARY KEY(id),
         FOREIGN KEY(user_id) REFERENCES User(id)
     )`);
 
-    await db.run('DROP TABLE IF EXISTS Unity');
     await db.run(`CREATE TABLE Unity (
-        id INTEGER UNIQUE,
-        name TEXT NOT NULL,
+        id INTEGER UNIQUE AUTO_INCREMENT,
+        name VARCHAR(255) NOT NULL,
         user_id INTEGER,
         date_creation DATE,
         date_update DATE,
-        PRIMARY KEY("id" AUTOINCREMENT),
+        PRIMARY KEY(id),
         FOREIGN KEY(user_id) REFERENCES User(id)
     )`);
 
-    await db.run('DROP TABLE IF EXISTS Recipe_ingredient');
     await db.run(`CREATE TABLE Recipe_ingredient (
         ingredient_id INTEGER,
         recipe_id INTEGER,
         unity_id INTEGER,
         quantity INTEGER NOT NULL,
-        FOREIGN KEY(ingredient_id) REFERENCES Ingredient_base(id),
+        FOREIGN KEY(ingredient_id) REFERENCES Ingredient(id),
         FOREIGN KEY(recipe_id) REFERENCES Recipe(id),
         FOREIGN KEY(unity_id) REFERENCES Unity(id)
     )`);
 
-    await db.run('DROP TABLE IF EXISTS Tag');
     await db.run(`CREATE TABLE Tag (
-        id INTEGER UNIQUE,
-        name TEXT NOT NULL,
-        PRIMARY KEY("id" AUTOINCREMENT)
+        id INTEGER UNIQUE AUTO_INCREMENT,
+        name VARCHAR(255) NOT NULL,
+        PRIMARY KEY(id)
     )`);
 
-    await db.run('DROP TABLE IF EXISTS Recipe_tag');
     await db.run(`CREATE TABLE Recipe_tag (
         recipe_id INTEGER,
         tag_id INTEGER,
@@ -118,23 +88,37 @@ import units from '../unity/unity-db';
         FOREIGN KEY(tag_id) REFERENCES Tag(id)
     )`);
 
+    console.log('inserting fr food...');
     foodFr.forEach(async (food) => {
-        await db.run(`INSERT INTO Ingredient (name, language) VALUES ($name, $language)`, {
-            $name: food,
-            $language: 'fr',
-        });
+        await db.run(
+            ...unamed(`INSERT INTO Ingredient (name, language) VALUES (:name, :language)`, {
+                name: food,
+                language: 'fr',
+            }),
+        );
     });
 
+    console.log('inserting en food...');
     foodEn.forEach(async (food) => {
-        await db.run(`INSERT INTO Ingredient (name, language) VALUES ($name, $language)`, {
-            $name: food,
-            $language: 'en',
-        });
+        await db.run(
+            ...unamed(`INSERT INTO Ingredient (name, language) VALUES (:name, :language)`, {
+                name: food,
+                language: 'en',
+            }),
+        );
     });
 
+    console.log('inserting units...');
     units.forEach(async (unity) => {
-        await db.run(`INSERT INTO Unity (name) VALUES ($name)`, {
-            $name: unity,
-        });
+        await db.run(
+            ...unamed(`INSERT INTO Unity (name) VALUES (:name)`, {
+                name: unity,
+            }),
+        );
     });
+
+    console.log('done...');
+
+    await db.close();
+    process.exit(0);
 })();
