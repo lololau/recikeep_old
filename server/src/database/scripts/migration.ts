@@ -25,8 +25,8 @@ const unamed = placeholders();
         id INTEGER UNIQUE AUTO_INCREMENT,
         full_name VARCHAR(255),
         firebase_id VARCHAR(255) UNIQUE,
-        date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
-        date_update DATETIME DEFAULT CURRENT_TIMESTAMP,
+        date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        date_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         PRIMARY KEY(id)
     )`);
 
@@ -37,8 +37,8 @@ const unamed = placeholders();
         number_parts INTEGER NOT NULL,
         time_preparation VARCHAR(255),
         time_cooking VARCHAR(255),
-        date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
-        date_update DATETIME DEFAULT CURRENT_TIMESTAMP,
+        date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        date_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         user_id INTEGER,
         PRIMARY KEY(id),
         FOREIGN KEY(user_id) REFERENCES User(id)
@@ -49,8 +49,8 @@ const unamed = placeholders();
         name VARCHAR(255) NOT NULL,
         language VARCHAR(255) NOT NULL,
         user_id INTEGER,
-        date_creation DATE,
-        date_update DATE,
+        date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        date_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY(id),
         FOREIGN KEY(user_id) REFERENCES User(id)
     )`);
@@ -59,8 +59,8 @@ const unamed = placeholders();
         id INTEGER UNIQUE AUTO_INCREMENT,
         name VARCHAR(255) NOT NULL,
         user_id INTEGER,
-        date_creation DATE,
-        date_update DATE,
+        date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        date_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY(id),
         FOREIGN KEY(user_id) REFERENCES User(id)
     )`);
