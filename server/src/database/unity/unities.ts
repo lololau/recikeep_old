@@ -32,7 +32,7 @@ export const addUnity = async (userId: number, unityName: string): Promise<Unity
         }),
     );
 
-    const unityId = ret.lastID;
+    const unityId = ret.insertId;
 
     const unity = await db.get<Unity>(...unamed(`SELECT id, name, user_id FROM Unity WHERE id=:id`, { id: unityId }));
 

@@ -1,5 +1,5 @@
 import '../../i18n';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
@@ -16,7 +16,7 @@ import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOut
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import { selectRecipes } from '../../slice/recipes/recipesSlice';
+import { fetchDeleteRecipe, selectRecipes } from '../../slice/recipes/recipesSlice';
 import { fetchGetARecipe } from '../../slice/recipe/recipeSlice';
 import { Recipe } from '../../slice/recipes/recipesFetch';
 import { useSelector, useDispatch } from 'react-redux';
@@ -27,6 +27,8 @@ export type RecipesListProps = {
 
 export const RecipesList = (props: RecipesListProps): JSX.Element => {
     const dispatch = useDispatch();
+
+    const history = useHistory();
 
     return (
         <List>
@@ -41,10 +43,20 @@ export const RecipesList = (props: RecipesListProps): JSX.Element => {
                             />
                         </Link>
                         <ListItemSecondaryAction>
-                            <IconButton>
+                            <IconButton
+                                onClick={() => {
+                                    history.push(`/recipes/update/${recipe.id}`);
+                                    console.log(recipe);
+                                }}
+                            >
                                 <EditIcon style={{ fontSize: 15 }} color="primary" />
                             </IconButton>
-                            <IconButton edge="end">
+                            <IconButton
+                                edge="end"
+                                onClick={() => {
+                                    dispatch(fetchDeleteRecipe(recipe.id));
+                                }}
+                            >
                                 <DeleteIcon style={{ fontSize: 15 }} color="primary" />
                             </IconButton>
                         </ListItemSecondaryAction>

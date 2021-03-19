@@ -2,6 +2,7 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
+import { useTranslation } from 'react-i18next';
 
 interface OptionType {
     inputValue?: string;
@@ -21,6 +22,8 @@ type AutosuggestionProps = {
 const filter = createFilterOptions<OptionType>();
 
 const Autosuggestion = (Props: AutosuggestionProps): JSX.Element => {
+    const { t } = useTranslation();
+
     const { onSelect, onAdd, options, label } = Props;
     const [value, setValue] = React.useState<OptionType | null>(null);
 
@@ -60,7 +63,7 @@ const Autosuggestion = (Props: AutosuggestionProps): JSX.Element => {
                 if (params.inputValue !== '') {
                     filtered.push({
                         inputValue: params.inputValue,
-                        name: `Add "${params.inputValue}"`,
+                        name: `${t('autocomplete.add')} "${params.inputValue}"`,
                     });
                 }
 
@@ -83,7 +86,7 @@ const Autosuggestion = (Props: AutosuggestionProps): JSX.Element => {
                 return option.name;
             }}
             renderOption={(option) => option.name}
-            style={{ width: 300 }}
+            style={{ maxWidth: 200 }}
             freeSolo
             renderInput={(params) => <TextField {...params} label={label ? label : ''} variant="outlined" />}
         />

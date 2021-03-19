@@ -46,6 +46,21 @@ export const addRecipe = async (idToken: string, req: RequestAddRecipe): Promise
     return recipe.recipe;
 };
 
+export const deleteRecipe = async (idToken: string, recipeId: number): Promise<void> => {
+    const myHeaders = new Headers({
+        Authorization: idToken,
+        'content-type': 'application/json',
+    });
+    const response = await fetch(`http://localhost:3000/api/recipes/delete/${recipeId}`, {
+        headers: myHeaders,
+        method: 'DELETE',
+    });
+    if (response.status < 200 || response.status >= 300) {
+        const err = await response.text();
+        throw new Error('Recipe not deleted: ' + err);
+    }
+};
+
 //Fetch to get all recipes by user
 export const getAllRecipes = async (idToken: string): Promise<Recipe[]> => {
     const myHeaders = new Headers({

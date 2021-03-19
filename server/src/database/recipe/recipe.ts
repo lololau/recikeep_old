@@ -119,3 +119,18 @@ export const updateRecipe = async (userId: number, recipeId: number, req: Reques
 
     return recipe;
 };
+
+// Delete a recipe to the user database
+export const deleteRecipe = async (userId: number, recipeId: number): Promise<Recipe[]> => {
+    const db = await openDb();
+
+    await db.run(
+        ...unamed(`DELETE FROM Recipe WHERE id=:id AND user_id=:userId`, {
+            id: recipeId,
+            userId: userId,
+        }),
+    );
+
+    const recipes = getAllRecipes(userId);
+    return recipes;
+};

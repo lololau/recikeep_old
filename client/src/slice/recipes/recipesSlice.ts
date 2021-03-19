@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { Recipe, RequestAddRecipe, addRecipe, getAllRecipes } from './recipesFetch';
+import { Recipe, RequestAddRecipe, addRecipe, deleteRecipe, getAllRecipes } from './recipesFetch';
 
 export const fetchAddRecipe = createAsyncThunk('/api/recipes/add', async (request: RequestAddRecipe, thunkAPI) => {
     const state = thunkAPI.getState() as RootState;
@@ -12,6 +12,12 @@ export const fetchAddRecipe = createAsyncThunk('/api/recipes/add', async (reques
 export const fetchGetAllRecipes = createAsyncThunk('/api/recipes/getAll', async (idToken: string) => {
     const recipes = await getAllRecipes(idToken);
     return recipes;
+});
+
+export const fetchDeleteRecipe = createAsyncThunk(`/api/recipes/delete`, async (recipeId: number, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
+    await deleteRecipe(state.user.idToken, recipeId);
+    return recipeId;
 });
 
 type RecipeList = {
@@ -37,6 +43,10 @@ const recipesReducer = createSlice({
         // fetchAddRecipe
         builder.addCase(fetchAddRecipe.fulfilled, (state, action) => {
             state.recipes.push(action.payload);
+        });
+        // fetchDeleteRecipe
+        builder.addCase(fetchDeleteRecipe.fulfilled, (state, action) => {
+            state.recipes = state.recipes.filter((recipe) => recipe.id !== action.payload);
         });
     },
 });

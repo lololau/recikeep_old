@@ -36,7 +36,7 @@ export const addIngredient = async (userId: number, ingredientName: string): Pro
         }),
     );
 
-    const ingredientId = result.lastID;
+    const ingredientId = result.insertId;
 
     const ingredient = await db.get<Ingredient>(
         ...unamed(`SELECT id, name, user_id FROM Ingredient WHERE id=:id`, {
@@ -52,7 +52,7 @@ export const deleteIngredient = async (userId: number, ingredientId: number): Pr
     const db = await openDb();
 
     await db.run(
-        ...unamed(`DELETE FROM Unity WHERE id=:id AND user_id=:userId`, {
+        ...unamed(`DELETE FROM Ingredient WHERE id=:id AND user_id=:userId`, {
             id: ingredientId,
             userId: userId,
         }),

@@ -59,3 +59,10 @@ export const getIngredientsRecipe = async (userId: number, recipeId: number): Pr
 
     return ingredients;
 };
+
+// Delete ingredrients by recipeId when a recipe is deleted
+export const deleteIngredientsRecipe = async (recipeId: number): Promise<void> => {
+    const db = await openDb();
+
+    await db.run(...unamed(`DELETE FROM Recipe_Ingredient WHERE recipe_id=:recipe_id`, { recipe_id: recipeId }));
+};
