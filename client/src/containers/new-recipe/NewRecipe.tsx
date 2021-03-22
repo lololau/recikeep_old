@@ -226,11 +226,6 @@ const NewRecipe = (): JSX.Element => {
                                     setRecipe({ ...newRecipe, ingredients: newIngredientRow });
                                     setIngredientRecipe({
                                         ...ingredientRecipe,
-                                        name: '',
-                                        ingredient_id: undefined,
-                                        unity: '',
-                                        unity_id: undefined,
-                                        quantity: undefined,
                                     });
                                 }}
                             >
