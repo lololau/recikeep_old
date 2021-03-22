@@ -187,7 +187,15 @@ const NewRecipe = (): JSX.Element => {
                                         name: option.name,
                                     });
                                 }}
-                                onAdd={(option) => dispatch(fetchAddIngredient(option))}
+                                onAdd={async (option) => {
+                                    const caca = await dispatch(fetchAddIngredient(option));
+                                    console.log(caca);
+                                    setIngredientRecipe({
+                                        ...ingredientRecipe,
+                                        ingredient_id: option.id,
+                                        name: option.name,
+                                    });
+                                }}
                                 options={allIngredients}
                             />
                         </Grid>
