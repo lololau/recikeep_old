@@ -15,9 +15,9 @@ type SearchBarProps = {
     elements: Element[];
 };
 
-export const filterSearchBar = (groups: Element[], filter: string[]): Element[] => {
-    return groups.filter((group) => {
-        return filter.includes(group.id.toString());
+export const filterSearchBar = (elts: Element[], filter: string[]): Element[] => {
+    return elts.filter((elt) => {
+        return filter.includes(elt.id.toString());
     });
 };
 
@@ -27,15 +27,20 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
     const [searchTerm, setSearchTerm] = useState('');
 
     const filterElements = (elements: Element[], value: string) => {
-        console.log(elements);
         const idList = elements
             .filter((item) => {
+                if (!item.id) {
+                    console.warn('error item got id undefined', item);
+                    return false;
+                }
                 if (value) {
+                    console.log('value: ', value);
                     return item.name.toLowerCase().includes(value.toLowerCase());
                 }
                 return true;
             })
             .map((elt) => {
+                console.log('elt.id: ', elt.id);
                 return elt.id.toString();
             });
 

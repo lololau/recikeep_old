@@ -34,6 +34,11 @@ const MyIngredients = (): JSX.Element => {
         const newIngredients: Ingredient[] = ingredientsList.filter((ingredient) => {
             let resultat = false;
             for (let i = 0; i < ids.length; i++) {
+                if (!ingredient.id) {
+                    // @DEBUG: remove this
+                    console.warn('ingredient with id undefined', ingredient);
+                    continue;
+                }
                 if (ingredient.id.toString() === ids[i]) {
                     resultat = true;
                 }
