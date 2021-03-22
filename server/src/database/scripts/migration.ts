@@ -91,7 +91,7 @@ const unamed = placeholders();
     console.log('inserting fr food...');
     foodFr.forEach(async (food) => {
         await db.run(
-            ...unamed(`INSERT INTO Ingredient (name, language) VALUES (:name, :language)`, {
+            ...unamed('INSERT INTO Ingredient (name, language) VALUES (:name, :language)', {
                 name: food,
                 language: 'fr',
             }),
@@ -99,23 +99,23 @@ const unamed = placeholders();
     });
 
     console.log('inserting en food...');
-    foodEn.forEach(async (food) => {
+    /* foodEn.forEach(async (food) => {
         await db.run(
             ...unamed(`INSERT INTO Ingredient (name, language) VALUES (:name, :language)`, {
                 name: food,
                 language: 'en',
             }),
         );
-    });
+    }); */
 
     console.log('inserting units...');
-    units.forEach(async (unity) => {
+    /*  units.forEach(async (unity) => {
         await db.run(
             ...unamed(`INSERT INTO Unity (name) VALUES (:name)`, {
                 name: unity,
             }),
         );
-    });
+    }); */
 
     console.log('done...');
 

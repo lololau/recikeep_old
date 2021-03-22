@@ -2,17 +2,15 @@
   "ts-node": {
     "files": true
   },
-  "files": [
-    "src/database/placeholders.d.ts"
-  ],
   "compilerOptions": {
     "target": "es5",                          
-    "module": "commonjs",                    
+    "module": "commonjs",                   
     "lib": ["es6"],                     
     "allowJs": true,
     "outDir": "build",                          
     "rootDir": "src",
-    "strict": true,         
+    "strict": true,      
+    "typeRoots": [ "node_modules/@types" ],   
     "noImplicitAny": true,
     "esModuleInterop": true,
     "resolveJsonModule": true
