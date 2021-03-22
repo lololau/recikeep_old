@@ -187,7 +187,15 @@ const NewRecipe = (): JSX.Element => {
                                         name: option.name,
                                     });
                                 }}
-                                onAdd={(option) => dispatch(fetchAddIngredient(option))}
+                                onAdd={async (option) => {
+                                    const ingredient = await dispatch(fetchAddIngredient(option));
+                                    const result = unwrapResult(ingredient);
+                                    setIngredientRecipe({
+                                        ...ingredientRecipe,
+                                        ingredient_id: result.id,
+                                        name: result.name,
+                                    });
+                                }}
                                 options={allIngredients}
                             />
                         </Grid>
@@ -214,7 +222,15 @@ const NewRecipe = (): JSX.Element => {
                                         unity: option.name,
                                     });
                                 }}
-                                onAdd={(option) => dispatch(fetchAddUnity(option))}
+                                onAdd={async (option) => {
+                                    const unity = await dispatch(fetchAddUnity(option));
+                                    const result = unwrapResult(unity);
+                                    setIngredientRecipe({
+                                        ...ingredientRecipe,
+                                        unity_id: result.id,
+                                        unity: result.name,
+                                    });
+                                }}
                                 options={allUnities}
                             />
                         </Grid>
@@ -226,11 +242,6 @@ const NewRecipe = (): JSX.Element => {
                                     setRecipe({ ...newRecipe, ingredients: newIngredientRow });
                                     setIngredientRecipe({
                                         ...ingredientRecipe,
-                                        name: '',
-                                        ingredient_id: undefined,
-                                        unity: '',
-                                        unity_id: undefined,
-                                        quantity: undefined,
                                     });
                                 }}
                             >
@@ -241,14 +252,15 @@ const NewRecipe = (): JSX.Element => {
                     <IngredientsList ingredientsList={ingredientsRow} onRemoveIngredient={removeIngredientList} />
                     <Box style={{ width: '100%' }}>
                         <IconButton
-                            onClick={() => {
-                                return dispatch(fetchAddRecipe(newRecipe))
-                                    .then(unwrapResult)
-                                    .then((result) => {
-                                        console.log('result: ', result);
-                                        history.push(`/recipe/${result.id}`);
-                                    })
-                                    .catch((e) => console.error(e));
+                            onClick={async () => {
+                                try {
+                                    const action = await dispatch(fetchAddRecipe(newRecipe));
+                                    const result = unwrapResult(action);
+                                    console.log('result: ', result);
+                                    history.push(`/recipe/${result.id}`);
+                                } catch (e) {
+                                    return console.error(e);
+                                }
                             }}
                         >
                             <LibraryAddIcon style={{ fontSize: 25, marginLeft: 'auto', marginRight: 'auto' }} />

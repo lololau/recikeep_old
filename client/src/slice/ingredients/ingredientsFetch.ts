@@ -43,7 +43,7 @@ export const addIngredient = async (idToken: string, request: RequestAddIngredie
         throw new Error('Ingredient not added: ' + err);
     }
     const ingredient = await response.json();
-    return ingredient;
+    return ingredient.ingredient;
 };
 
 export const deleteIngredient = async (idToken: string, ingredientId: number): Promise<void> => {

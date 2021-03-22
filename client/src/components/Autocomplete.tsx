@@ -76,10 +76,12 @@ const Autosuggestion = (Props: AutosuggestionProps): JSX.Element => {
             getOptionLabel={(option) => {
                 // Value selected with enter, right from the input
                 if (typeof option === 'string') {
+                    console.log('string: ', option);
                     return option;
                 }
                 // Add "xxx" option created dynamically
                 if (option.inputValue) {
+                    console.log('option add: ', option);
                     return option.inputValue;
                 }
                 // Regular option
