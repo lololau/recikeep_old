@@ -1,27 +1,23 @@
 import MobileStepper from '@material-ui/core/MobileStepper';
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import SelectionRecipes from './RecipesSelection1';
 import SelectionParts from './RecipesSelection2';
 import GroceryList from '../grocery-list/GroceryList';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
-
-const getStepperComponent = (step: number) => {
-    switch (step) {
-        case 0:
-            return <SelectionRecipes />;
-        case 1:
-            return <SelectionParts />;
-        case 2:
-            return <GroceryList />;
-        default:
-            return 'Unknown step';
-    }
-};
+import { selectRecipes } from '../../slice/recipes/recipesSlice';
+import { useSelector } from 'react-redux';
+import { Recipe } from '../../slice/recipes/recipesFetch';
+//import { IngredientsRecipe } from '../../slice/ingredients/ingredientsFetch';
 
 const RecipesSelectionStepper = (): JSX.Element => {
-    const [activeStep, setActiveStep] = React.useState(0);
+    const [activeStep, setActiveStep] = useState(0);
+    const [recipesSelected, setRecipesSelected] = useState<Recipe[]>([]);
+
+    //const [groceryList, setgroceryList] = useState<IngredientsRecipe[]>([]);
+
+    const recipes = useSelector(selectRecipes);
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -29,6 +25,34 @@ const RecipesSelectionStepper = (): JSX.Element => {
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    };
+
+    const getStepperComponent = (step: number) => {
+        switch (step) {
+            case 0:
+                return (
+                    <SelectionRecipes
+                        recipes={recipes}
+                        onSelected={(recipesSelect) => {
+                            console.log('select: ', recipesSelect);
+                            setRecipesSelected(recipesSelect);
+                        }}
+                    />
+                );
+            case 1:
+                return (
+                    <SelectionParts
+                        recipes={recipesSelected}
+                        onValidateNumberParts={(groceryList) => {
+                            console.log('groceryList: ', groceryList);
+                        }}
+                    />
+                );
+            case 2:
+                return <GroceryList />;
+            default:
+                return 'Unknown step';
+        }
     };
 
     return (

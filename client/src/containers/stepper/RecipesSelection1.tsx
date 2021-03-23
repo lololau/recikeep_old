@@ -1,4 +1,3 @@
-import { RecipesListProps } from '../recipes/Recipes';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import List from '@material-ui/core/List';
@@ -11,11 +10,16 @@ import React from 'react';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import SearchBar from '../../components/SearchBar';
-import { selectRecipes } from '../../slice/recipes/recipesSlice';
 import { Recipe } from '../../slice/recipes/recipesFetch';
-import { useSelector } from 'react-redux';
 
-const SelectionRecipesList = (props: RecipesListProps) => {
+type onChange = (recipes: Recipe[]) => void;
+
+interface SelectionRecipesListProps {
+    recipes: Recipe[];
+    onChange: onChange;
+}
+
+const SelectionRecipesList = (props: SelectionRecipesListProps) => {
     const [checked, setChecked] = React.useState([-1]);
 
     const handleToggle = (value: number) => () => {
@@ -27,9 +31,15 @@ const SelectionRecipesList = (props: RecipesListProps) => {
         } else {
             newChecked.splice(currentIndex, 1);
         }
-
         setChecked(newChecked);
+
+        const filteredRecipes = props.recipes.filter((recipe, index) => {
+            return newChecked.includes(index);
+        });
+
+        props.onChange(filteredRecipes);
     };
+
     return (
         <List>
             {props.recipes.map((recipe, index) => {
@@ -51,14 +61,20 @@ const SelectionRecipesList = (props: RecipesListProps) => {
     );
 };
 
-const SelectionRecipes = (): JSX.Element => {
-    const { t } = useTranslation();
-    const recipes = useSelector(selectRecipes);
+type onSelected = (recipes: Recipe[]) => void;
 
-    const [recipesDisplay, setRecipesDisplay] = useState(recipes);
+interface SelectionRecipesProps {
+    recipes: Recipe[];
+    onSelected?: onSelected;
+}
+
+const SelectionRecipes = (props: SelectionRecipesProps): JSX.Element => {
+    const { t } = useTranslation();
+
+    const [recipesDisplay, setRecipesDisplay] = useState(props.recipes);
 
     const onChange = (ids: string[]) => {
-        const newRecipes: Recipe[] = recipes.filter((recipe) => {
+        const newRecipes: Recipe[] = props.recipes.filter((recipe) => {
             let resultat = false;
             for (let i = 0; i < ids.length; i++) {
                 if (recipe.id.toString() === ids[i]) {
@@ -81,14 +97,21 @@ const SelectionRecipes = (): JSX.Element => {
                 }}
             >
                 <Grid item xs={6}>
-                    <SearchBar onchange={onChange} elements={recipes} width="100%" />
+                    <SearchBar onchange={onChange} elements={props.recipes} width="100%" />
                 </Grid>
                 <Grid item xs={6}>
                     <TagsBox />
                 </Grid>
             </Grid>
             <div className="SelectionRecipesList">
-                <SelectionRecipesList recipes={recipesDisplay} />
+                <SelectionRecipesList
+                    recipes={recipesDisplay}
+                    onChange={(recipes) => {
+                        if (props.onSelected) {
+                            props.onSelected(recipes);
+                        }
+                    }}
+                />
             </div>
         </Container>
     );
