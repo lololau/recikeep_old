@@ -9,13 +9,13 @@ import Box from '@material-ui/core/Box';
 import { selectRecipes } from '../../slice/recipes/recipesSlice';
 import { useSelector } from 'react-redux';
 import { Recipe } from '../../slice/recipes/recipesFetch';
-import { IngredientsRecipe } from '../../slice/ingredients/ingredientsFetch';
+//import { IngredientsRecipe } from '../../slice/ingredients/ingredientsFetch';
 
 const RecipesSelectionStepper = (): JSX.Element => {
     const [activeStep, setActiveStep] = useState(0);
     const [recipesSelected, setRecipesSelected] = useState<Recipe[]>([]);
 
-    const [groceryList, setgroceryList] = useState<IngredientsRecipe[]>([]);
+    //const [groceryList, setgroceryList] = useState<IngredientsRecipe[]>([]);
 
     const recipes = useSelector(selectRecipes);
 

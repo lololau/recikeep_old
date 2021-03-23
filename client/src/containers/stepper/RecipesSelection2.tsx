@@ -5,11 +5,10 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import React, { FC, useState } from 'react';
 import Container from '@material-ui/core/Container';
-import { selectRecipes } from '../../slice/recipes/recipesSlice';
-import { useSelector } from 'react-redux';
+// import { selectRecipes } from '../../slice/recipes/recipesSlice';
+// import { useSelector } from 'react-redux';
 import { Recipe } from '../../slice/recipes/recipesFetch';
 import { IngredientsRecipe } from '../../slice/ingredients/ingredientsFetch';
-import { Event } from '@material-ui/icons';
 
 type onPartsSelected = (ingredientsListWithQuantityUpdated: IngredientsRecipe[]) => void;
 
