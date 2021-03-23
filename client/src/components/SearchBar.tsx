@@ -34,13 +34,11 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
                     return false;
                 }
                 if (value) {
-                    console.log('value: ', value);
                     return item.name.toLowerCase().includes(value.toLowerCase());
                 }
                 return true;
             })
             .map((elt) => {
-                console.log('elt.id: ', elt.id);
                 return elt.id.toString();
             });
 

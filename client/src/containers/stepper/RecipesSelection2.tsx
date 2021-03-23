@@ -1,66 +1,42 @@
-import { useState } from 'react';
-import { RecipesListProps } from '../recipes/Recipes';
-import { FunctionComponent } from 'react';
 import { useTranslation } from 'react-i18next';
 import List from '@material-ui/core/List';
 import TextField from '@material-ui/core/TextField';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import React from 'react';
+import React, { FC, useState } from 'react';
 import Container from '@material-ui/core/Container';
 import { selectRecipes } from '../../slice/recipes/recipesSlice';
 import { useSelector } from 'react-redux';
+import { Recipe } from '../../slice/recipes/recipesFetch';
+import { IngredientsRecipe } from '../../slice/ingredients/ingredientsFetch';
+import { Event } from '@material-ui/icons';
 
-export const PartsComboBox = (): JSX.Element => {
+type onPartsSelected = (ingredientsListWithQuantityUpdated: IngredientsRecipe[]) => void;
+
+interface SelectionPartsRecipeProps {
+    recipes: Recipe[];
+    onPartsSelected?: onPartsSelected;
+}
+
+const SelectionPartsRecipes: FC<SelectionPartsRecipeProps> = (props) => {
     const { t } = useTranslation();
 
-    const options: string[] = [
-        '1',
-        '2',
-        '3',
-        '4',
-        '5',
-        '6',
-        '7',
-        '8',
-        '9',
-        '10',
-        '11',
-        '12',
-        '13',
-        '14',
-        '15',
-        '16',
-        '17',
-        '18',
-        '19',
-        '20',
-    ];
-
-    const [part] = useState(options[1]);
-
-    return (
-        <div>
-            <Autocomplete
-                value={part}
-                id="controllable-states-demo"
-                options={options}
-                renderInput={(params) => <TextField {...params} label={t('parts.comboBox')} variant="outlined" />}
-            />
-        </div>
-    );
-};
-
-const SelectionPartsRecipes: FunctionComponent<RecipesListProps> = (props) => {
     return (
         <List>
             {props.recipes.map((recipe, index) => {
+                const [numberParts, setNumberParts] = useState<number>(recipe.number_parts);
+
+                //const changeIngredientsQuantity = (number: number) => {};
+
                 return (
                     <ListItem divider={true} key={'SelectionPartsRecipes' + index}>
                         <ListItemText primary={recipe.name} id={index.toString()} />
 
-                        <PartsComboBox />
+                        <TextField
+                            placeholder={t('new_recipe.parts_add')}
+                            value={numberParts}
+                            onChange={(event) => setNumberParts(Number(event.currentTarget.value))}
+                        />
                     </ListItem>
                 );
             })}
@@ -68,8 +44,14 @@ const SelectionPartsRecipes: FunctionComponent<RecipesListProps> = (props) => {
     );
 };
 
-const SelectionParts = (): JSX.Element => {
-    const recipes = useSelector(selectRecipes);
+type onValidateNumberParts = (groceryList: IngredientsRecipe[]) => void;
+
+interface SelectionPartsProps {
+    recipes: Recipe[];
+    onValidateNumberParts: onValidateNumberParts;
+}
+
+const SelectionParts: FC<SelectionPartsProps> = (props): JSX.Element => {
     const { t } = useTranslation();
 
     return (
@@ -77,7 +59,7 @@ const SelectionParts = (): JSX.Element => {
             <h1>{t('stepper.title-part')}</h1>
 
             <div className="SelectionRecipesList">
-                <SelectionPartsRecipes recipes={recipes} />
+                <SelectionPartsRecipes recipes={props.recipes} />
             </div>
         </Container>
     );
