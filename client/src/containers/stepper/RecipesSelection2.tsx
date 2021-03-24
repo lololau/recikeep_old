@@ -9,8 +9,9 @@ import Container from '@material-ui/core/Container';
 // import { useSelector } from 'react-redux';
 import { Recipe } from '../../slice/recipes/recipesFetch';
 import { IngredientsRecipe } from '../../slice/ingredients/ingredientsFetch';
+import { Button } from '@material-ui/core';
 
-type onPartsSelected = (ingredientsListWithQuantityUpdated: IngredientsRecipe[]) => void;
+type onPartsSelected = (numberPartsByRecipe: IngredientsRecipe[]) => void;
 
 interface SelectionPartsRecipeProps {
     recipes: Recipe[];
@@ -20,26 +21,52 @@ interface SelectionPartsRecipeProps {
 const SelectionPartsRecipes: FC<SelectionPartsRecipeProps> = (props) => {
     const { t } = useTranslation();
 
+    const [defaultValue, setDefaultValue] = useState<number>(2);
+
+    const initialState = props.recipes.map(() => defaultValue);
+    const [parts, setParts] = useState<number[]>(initialState);
+
     return (
-        <List>
-            {props.recipes.map((recipe, index) => {
-                const [numberParts, setNumberParts] = useState<number>(recipe.number_parts);
+        <>
+            <TextField
+                style={{ width: '10%', textAlign: 'center' }}
+                placeholder={t('new_recipe.parts_add')}
+                value={defaultValue}
+                onChange={(event) => {
+                    const value = Number(event.currentTarget.value);
+                    setDefaultValue(value);
+                }}
+            />
+            <Button
+                onClick={() => {
+                    const newValues = props.recipes.map(() => defaultValue);
+                    setParts(newValues);
+                }}
+            >
+                {t('stepper.new-number-parts')}
+            </Button>
+            <List>
+                {props.recipes.map((recipe, index) => {
+                    const newState = [...parts];
 
-                //const changeIngredientsQuantity = (number: number) => {};
+                    return (
+                        <ListItem divider={true} key={'SelectionPartsRecipes' + index}>
+                            <ListItemText primary={recipe.name} id={index.toString()} />
 
-                return (
-                    <ListItem divider={true} key={'SelectionPartsRecipes' + index}>
-                        <ListItemText primary={recipe.name} id={index.toString()} />
-
-                        <TextField
-                            placeholder={t('new_recipe.parts_add')}
-                            value={numberParts}
-                            onChange={(event) => setNumberParts(Number(event.currentTarget.value))}
-                        />
-                    </ListItem>
-                );
-            })}
-        </List>
+                            <TextField
+                                value={parts[index]}
+                                placeholder={t('new_recipe.parts_add')}
+                                onChange={(event) => {
+                                    const newParts = Number(event.currentTarget.value);
+                                    newState[index] = newParts;
+                                    setParts(newState);
+                                }}
+                            />
+                        </ListItem>
+                    );
+                })}
+            </List>
+        </>
     );
 };
 

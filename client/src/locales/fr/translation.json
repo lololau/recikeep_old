@@ -98,7 +98,8 @@
   },
   "stepper": {
     "title-selection": "Quelles recettes voulez-vous cuisiner ?",
-    "title-part": "Pour combien de personnes ?"
+    "title-part": "Pour combien de personnes ?",
+    "new-number-parts": "Changer"
   },
   "groups": {
     "title-page": "Groupes",
