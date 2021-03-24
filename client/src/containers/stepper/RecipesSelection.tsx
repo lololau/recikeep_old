@@ -2,20 +2,19 @@ import MobileStepper from '@material-ui/core/MobileStepper';
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import SelectionRecipes from './RecipesSelection1';
-import SelectionParts from './RecipesSelection2';
+import SelectionParts, { numberPartsRecipe } from './RecipesSelection2';
 import GroceryList from '../grocery-list/GroceryList';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import { selectRecipes } from '../../slice/recipes/recipesSlice';
 import { useSelector } from 'react-redux';
 import { Recipe } from '../../slice/recipes/recipesFetch';
-//import { IngredientsRecipe } from '../../slice/ingredients/ingredientsFetch';
 
 const RecipesSelectionStepper = (): JSX.Element => {
     const [activeStep, setActiveStep] = useState(0);
     const [recipesSelected, setRecipesSelected] = useState<Recipe[]>([]);
-
-    //const [groceryList, setgroceryList] = useState<IngredientsRecipe[]>([]);
+    const [numberPartsByRecipe, setnumberPartsByRecipe] = useState<numberPartsRecipe[]>([]);
+    console.log(numberPartsByRecipe);
 
     const recipes = useSelector(selectRecipes);
 
@@ -43,8 +42,9 @@ const RecipesSelectionStepper = (): JSX.Element => {
                 return (
                     <SelectionParts
                         recipes={recipesSelected}
-                        onValidateNumberParts={(groceryList) => {
-                            console.log('groceryList: ', groceryList);
+                        onValidateNumberParts={(numberPartsByRecipe) => {
+                            console.log('numberPartsByRecipe: ', numberPartsByRecipe);
+                            setnumberPartsByRecipe(numberPartsByRecipe);
                         }}
                     />
                 );
