@@ -14,6 +14,7 @@ const RecipesSelectionStepper = (): JSX.Element => {
     const [activeStep, setActiveStep] = useState(0);
     const [recipesSelected, setRecipesSelected] = useState<Recipe[]>([]);
     const [numberPartsByRecipe, setnumberPartsByRecipe] = useState<numberPartsRecipe[]>([]);
+    console.log(numberPartsByRecipe);
 
     const recipes = useSelector(selectRecipes);
 
