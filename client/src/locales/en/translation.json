@@ -100,7 +100,7 @@
   "stepper": {
     "title-selection": "Which recipes do you want to cook ?",
     "title-part": "For how many peoples ?",
-    "new-number-parts": "Change"
+    "new-number-parts": "Update"
   },
   "groups": {
     "title-page": "Groups",
