@@ -6,6 +6,7 @@ import userReducer from '../slice/user/userSlice';
 import groupsReducer from '../slice/groups/groupsSlice';
 import unitiesReducer from '../slice/unity/unitySlice';
 import recipeReducer from '../slice/recipe/recipeSlice';
+import groceryListReducer from '../slice/groceryList/groceryListSlice';
 
 const store = configureStore({
     reducer: {
@@ -15,6 +16,7 @@ const store = configureStore({
         unities: unitiesReducer,
         user: userReducer,
         groups: groupsReducer,
+        groceryList: groceryListReducer,
     },
 });
 

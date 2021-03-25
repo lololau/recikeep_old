@@ -11,24 +11,13 @@ import { IconButton } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { groceryList } from '../../slice/groceryList/groceryListSlice';
+import { IngredientsRecipe } from '../../slice/groceryList/groceryListFetch';
 
 type IngredientListProps = {
-    ingredients: ingredient[];
+    ingredients: IngredientsRecipe[];
 };
-
-type ingredient = {
-    name: string;
-    unity: string;
-    quantity: string;
-};
-
-type ingredients = ingredient[];
-
-const myIngredients: ingredients = [
-    { name: 'Potatoes', unity: '500', quantity: 'g' },
-    { name: 'Chicken', unity: '2', quantity: 'filets' },
-    { name: 'Tomatoes', unity: '3', quantity: '' },
-];
 
 const CheckIngredientsList: FC<IngredientListProps> = (props) => {
     return (
@@ -40,7 +29,7 @@ const CheckIngredientsList: FC<IngredientListProps> = (props) => {
                             <Checkbox edge="start" checked={false} tabIndex={-1} disableRipple />
                         </ListItemIcon>
                         <ListItemText
-                            primary={ingredient.name}
+                            primary={ingredient.ingredient}
                             secondary={ingredient.unity + ' ' + ingredient.quantity}
                             id={index.toString()}
                         />
@@ -53,10 +42,13 @@ const CheckIngredientsList: FC<IngredientListProps> = (props) => {
 
 const GroceryList = (): JSX.Element => {
     const { t } = useTranslation();
+
+    const ingredientsList = useSelector(groceryList);
+
     return (
         <Container>
             <h1>{t('groceryList.title-page')}</h1>
-            <CheckIngredientsList ingredients={myIngredients} />
+            <CheckIngredientsList ingredients={ingredientsList} />
             <Box>
                 <IconButton>
                     <Grid container direction="column" alignItems="center" spacing={1}>

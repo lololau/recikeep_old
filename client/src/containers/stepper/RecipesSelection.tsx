@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import SelectionRecipes from './RecipesSelection1';
 import SelectionParts, { numberPartsRecipe } from './RecipesSelection2';
 import GroceryList from '../grocery-list/GroceryList';
+import AddMoreIngredients from './RecipesSelection3';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import { selectRecipes } from '../../slice/recipes/recipesSlice';
@@ -49,7 +50,7 @@ const RecipesSelectionStepper = (): JSX.Element => {
                     />
                 );
             case 2:
-                return <GroceryList />;
+                return <AddMoreIngredients />;
             default:
                 return 'Unknown step';
         }
