@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import SelectionRecipes from './RecipesSelection1';
 import SelectionParts, { numberPartsRecipe } from './RecipesSelection2';
-import GroceryList from '../grocery-list/GroceryList';
 import AddMoreIngredients from './RecipesSelection3';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
@@ -15,7 +14,6 @@ const RecipesSelectionStepper = (): JSX.Element => {
     const [activeStep, setActiveStep] = useState(0);
     const [recipesSelected, setRecipesSelected] = useState<Recipe[]>([]);
     const [numberPartsByRecipe, setnumberPartsByRecipe] = useState<numberPartsRecipe[]>([]);
-    console.log(numberPartsByRecipe);
 
     const recipes = useSelector(selectRecipes);
 
@@ -50,7 +48,7 @@ const RecipesSelectionStepper = (): JSX.Element => {
                     />
                 );
             case 2:
-                return <AddMoreIngredients />;
+                return <AddMoreIngredients numberPartsByRecipe={numberPartsByRecipe} />;
             default:
                 return 'Unknown step';
         }

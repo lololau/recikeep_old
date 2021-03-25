@@ -1,4 +1,5 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
+import { unwrapResult } from '@reduxjs/toolkit';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
 import List from '@material-ui/core/List';
@@ -8,15 +9,16 @@ import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOut
 import { IconButton } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import Box from '@material-ui/core/Box';
 import CheckIcon from '@material-ui/icons/Check';
 import Autosuggestion from '../../components/Autocomplete';
 import { useSelector } from 'react-redux';
+import { token } from '../../slice/user/userSlice';
 import { ingredients, fetchAddIngredient } from '../../slice/ingredients/ingredientsSlice';
 import { unities, fetchAddUnity } from '../../slice/unity/unitySlice';
 import { groceryList } from '../../slice/groceryList/groceryListSlice';
-import { IngredientsRecipe } from '../../slice/groceryList/groceryListFetch';
+import { IngredientsRecipe, fetchGetIngredientsByRecipes } from '../../slice/groceryList/groceryListFetch';
 import { useAppDispatch } from '../../app/store';
+import { numberPartsRecipe } from './RecipesSelection2';
 
 type onRemove = (ingredient: IngredientsRecipe, index: number) => void;
 
@@ -56,7 +58,13 @@ const CheckIngredientsList: FC<IngredientListProps> = (props) => {
     );
 };
 
-const AddMoreIngredients = (): JSX.Element => {
+type onValidateIngredientsList = (ingredientsList: IngredientsRecipe[]) => void;
+
+interface AddMoreIngredientsProps {
+    numberPartsByRecipe: numberPartsRecipe[];
+}
+
+const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => {
     const { t } = useTranslation();
 
     const dispatch = useAppDispatch();
@@ -64,6 +72,7 @@ const AddMoreIngredients = (): JSX.Element => {
     const ingredientsList = useSelector(groceryList);
     const allIngredients = useSelector(ingredients);
     const allUnities = useSelector(unities);
+    const idToken = useSelector(token);
 
     const [newIngredientsList, setNewIngredientsList] = useState(ingredientsList);
 
@@ -75,20 +84,21 @@ const AddMoreIngredients = (): JSX.Element => {
         quantity: undefined,
     });
 
-    const onAdd = (ing: IngredientsRecipe) => {
-        const newList = [...ingredientsList];
-        newList.push(ing);
-        console.log('newList', newList);
-
-        setNewIngredientsList(newList);
-    };
-
     const removeIngredientList = (elt: IngredientsRecipe, index: number) => {
         if (newIngredientsList[index]) {
             const newingredientRow = newIngredientsList.filter((_, i) => i !== index);
             setNewIngredientsList(newingredientRow);
         }
     };
+
+    useEffect(() => {
+        const getIngredients = fetchGetIngredientsByRecipes(idToken, props.numberPartsByRecipe);
+        const ingredientsList = async () => {
+            const list = await getIngredients;
+            console.log(list);
+        };
+        ingredientsList();
+    }, []);
 
     return (
         <Container>

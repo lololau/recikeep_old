@@ -6,9 +6,24 @@ import {
     addIngredient,
     deleteIngredient,
 } from '../../database/ingredient/ingredients';
+import { getIngredientsByRecipes } from '../../database/ingredient_recipe/ingredientsRecipe';
 
 // Router and mounting
 const ingredients = express.Router();
+
+//GET - /api/ingredients/getByRecipes - get all ingredients for differents recipes by userId;
+ingredients.post('/getByRecipes', verifyToken, verifyUser, async (req, res) => {
+    const userId = res.locals.userId;
+    const responseGetIngredients = req.body;
+    try {
+        const ingredients = await getIngredientsByRecipes(userId, responseGetIngredients);
+        console.log('ingredients api:', ingredients);
+        res.status(200).json({ ingredientsList: ingredients });
+    } catch (e) {
+        console.error(e);
+        return res.status(404).send('Unable to get ingredients for all recipes');
+    }
+});
 
 //GET - /api/ingredients/getAll - get all base ingredients and ingredients by userId;
 ingredients.get('/getAll', verifyToken, verifyUser, async (req, res) => {
