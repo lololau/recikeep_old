@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
 import List from '@material-ui/core/List';
@@ -6,17 +6,13 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItem from '@material-ui/core/ListItem';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
-import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
-import { IconButton } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { groceryList } from '../../slice/groceryList/groceryListSlice';
-import { IngredientsRecipe } from '../../slice/groceryList/groceryListFetch';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { fetchGetAGroceryList, selectGroceryList } from '../../slice/groceryList/groceryListSlice';
+import { IngredientsGroceryList } from '../../slice/groceriesLists/groceriesListsFetch';
 
 type IngredientListProps = {
-    ingredients: IngredientsRecipe[];
+    ingredients: IngredientsGroceryList[];
 };
 
 const CheckIngredientsList: FC<IngredientListProps> = (props) => {
@@ -30,7 +26,7 @@ const CheckIngredientsList: FC<IngredientListProps> = (props) => {
                         </ListItemIcon>
                         <ListItemText
                             primary={ingredient.ingredient}
-                            secondary={ingredient.unity + ' ' + ingredient.quantity}
+                            secondary={ingredient.quantity + ' ' + ingredient.unity}
                             id={index.toString()}
                         />
                     </ListItem>
@@ -40,24 +36,26 @@ const CheckIngredientsList: FC<IngredientListProps> = (props) => {
     );
 };
 
+interface Params {
+    id: string;
+}
+
 const GroceryList = (): JSX.Element => {
     const { t } = useTranslation();
 
-    const ingredientsList = useSelector(groceryList);
+    const dispatch = useDispatch();
+
+    const { id } = useParams<Params>();
+    const groceryList = useSelector(selectGroceryList);
+
+    useEffect(() => {
+        dispatch(fetchGetAGroceryList(Number(id)));
+    }, []);
 
     return (
         <Container>
             <h1>{t('groceryList.title-page')}</h1>
-            <CheckIngredientsList ingredients={ingredientsList} />
-            <Box>
-                <IconButton>
-                    <Grid container direction="column" alignItems="center" spacing={1}>
-                        <Link to="/groceryList">
-                            <AddCircleOutlineOutlinedIcon style={{ fontSize: 30 }} />
-                        </Link>
-                    </Grid>
-                </IconButton>
-            </Box>
+            <CheckIngredientsList ingredients={groceryList.ingredients} />
         </Container>
     );
 };

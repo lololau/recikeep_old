@@ -97,7 +97,9 @@ const App = (): JSX.Element => {
                         <Route path={'/profile/my_ingredients'} component={MyIngredients} />
                         <Route path={'/profile/my_unities'} component={MyUnities} />
                         <Route path="/groups" component={Groups} />
-                        <Route path={'/groceryList'} component={GroceryList} />
+                        <Route path="/groceryList/:id">
+                            <GroceryList />
+                        </Route>
                         <Route path={'/recipes/new_recipe'} exact component={NewRecipe} />
                     </div>
                     <Paper elevation={1}>

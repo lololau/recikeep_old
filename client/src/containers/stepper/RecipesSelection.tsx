@@ -9,11 +9,14 @@ import Box from '@material-ui/core/Box';
 import { selectRecipes } from '../../slice/recipes/recipesSlice';
 import { useSelector } from 'react-redux';
 import { Recipe } from '../../slice/recipes/recipesFetch';
+import { IngredientsGroceryList } from '../../slice/groceriesLists/groceriesListsFetch';
 
 const RecipesSelectionStepper = (): JSX.Element => {
     const [activeStep, setActiveStep] = useState(0);
     const [recipesSelected, setRecipesSelected] = useState<Recipe[]>([]);
     const [numberPartsByRecipe, setnumberPartsByRecipe] = useState<numberPartsRecipe[]>([]);
+    const [ingredientsList, setIngredientsList] = useState<IngredientsGroceryList[]>([]);
+    console.log(ingredientsList);
 
     const recipes = useSelector(selectRecipes);
 
@@ -48,7 +51,15 @@ const RecipesSelectionStepper = (): JSX.Element => {
                     />
                 );
             case 2:
-                return <AddMoreIngredients numberPartsByRecipe={numberPartsByRecipe} />;
+                return (
+                    <AddMoreIngredients
+                        numberPartsByRecipe={numberPartsByRecipe}
+                        onValidation={(ingredientsList) => {
+                            console.log('ingredientsList: ', ingredientsList);
+                            setIngredientsList(ingredientsList);
+                        }}
+                    />
+                );
             default:
                 return 'Unknown step';
         }

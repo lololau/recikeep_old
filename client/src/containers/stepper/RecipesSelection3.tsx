@@ -1,7 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
-import { unwrapResult } from '@reduxjs/toolkit';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { useHistory } from 'react-router-dom';
 import List from '@material-ui/core/List';
 import { ListItem, ListItemText, ListItemSecondaryAction } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -14,24 +15,29 @@ import Autosuggestion from '../../components/Autocomplete';
 import { useSelector } from 'react-redux';
 import { token } from '../../slice/user/userSlice';
 import { ingredients, fetchAddIngredient } from '../../slice/ingredients/ingredientsSlice';
+import { fetchGetIngredientsByRecipes } from '../../slice/ingredients/ingredientsFetch';
 import { unities, fetchAddUnity } from '../../slice/unity/unitySlice';
-import { groceryList } from '../../slice/groceryList/groceryListSlice';
-import { IngredientsRecipe, fetchGetIngredientsByRecipes } from '../../slice/groceryList/groceryListFetch';
+import { IngredientsGroceryList } from '../../slice/groceriesLists/groceriesListsFetch';
 import { useAppDispatch } from '../../app/store';
 import { numberPartsRecipe } from './RecipesSelection2';
+import { fetchAddGroceryList } from '../../slice/groceriesLists/groceriesListsSlice';
 
-type onRemove = (ingredient: IngredientsRecipe, index: number) => void;
+type onRemove = (ingredient: IngredientsGroceryList, index: number) => void;
+type onValidateIngredientsList = (ingredientsList: IngredientsGroceryList[]) => void;
 
 type IngredientListProps = {
-    ingredients: IngredientsRecipe[];
+    ingredients: IngredientsGroceryList[];
     onRemoveIngredient: onRemove;
+    onValidateList: onValidateIngredientsList;
 };
 
 const CheckIngredientsList: FC<IngredientListProps> = (props) => {
+    useEffect(() => {
+        props.onValidateList(props.ingredients);
+    }, [props.ingredients]);
     return (
         <List>
             {props.ingredients.map((ingredient, index) => {
-                console.log(props.ingredients);
                 return (
                     <ListItem divider={true} key={'CheckIngredientsList' + index}>
                         <ListItemText
@@ -58,25 +64,30 @@ const CheckIngredientsList: FC<IngredientListProps> = (props) => {
     );
 };
 
-type onValidateIngredientsList = (ingredientsList: IngredientsRecipe[]) => void;
+export interface RequestAddGroceryList {
+    ingredients: IngredientsGroceryList[];
+}
 
 interface AddMoreIngredientsProps {
     numberPartsByRecipe: numberPartsRecipe[];
+    onValidation: onValidateIngredientsList;
 }
 
 const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => {
     const { t } = useTranslation();
 
+    const history = useHistory();
     const dispatch = useAppDispatch();
 
-    const ingredientsList = useSelector(groceryList);
     const allIngredients = useSelector(ingredients);
     const allUnities = useSelector(unities);
     const idToken = useSelector(token);
 
-    const [newIngredientsList, setNewIngredientsList] = useState(ingredientsList);
+    const [newIngredientsList, setNewIngredientsList] = useState<RequestAddGroceryList>({
+        ingredients: [],
+    });
 
-    const [ingredientRecipe, setIngredientRecipe] = useState<IngredientsRecipe>({
+    const [ingredientRecipe, setIngredientRecipe] = useState<IngredientsGroceryList>({
         ingredient: '',
         ingredient_id: undefined,
         unity: '',
@@ -84,10 +95,10 @@ const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => 
         quantity: undefined,
     });
 
-    const removeIngredientList = (elt: IngredientsRecipe, index: number) => {
-        if (newIngredientsList[index]) {
-            const newingredientRow = newIngredientsList.filter((_, i) => i !== index);
-            setNewIngredientsList(newingredientRow);
+    const removeIngredientList = (elt: IngredientsGroceryList, index: number) => {
+        if (newIngredientsList.ingredients) {
+            const newingredientRow = newIngredientsList.ingredients.filter((_, i) => i !== index);
+            setNewIngredientsList({ ...newIngredientsList, ingredients: newingredientRow });
         }
     };
 
@@ -95,14 +106,14 @@ const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => 
         const getIngredients = fetchGetIngredientsByRecipes(idToken, props.numberPartsByRecipe);
         const ingredientsList = async () => {
             const list = await getIngredients;
-            console.log(list);
+            setNewIngredientsList({ ...newIngredientsList, ingredients: list });
         };
         ingredientsList();
     }, []);
 
     return (
         <Container>
-            <h1 style={{ marginBottom: 50 }}>{t('groceryList.title-page')}</h1>
+            <h1 style={{ marginBottom: 50 }}>{t('stepper.title-ingredientsList')}</h1>
             <Grid container spacing={4} style={{ alignItems: 'center', marginBottom: 10 }}>
                 <Grid item xs={3}>
                     <Autosuggestion
@@ -147,24 +158,46 @@ const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => 
                 <Grid item xs={3}>
                     <IconButton
                         onClick={() => {
-                            const newIngredientRow = newIngredientsList.concat(ingredientRecipe);
-                            setNewIngredientsList(newIngredientRow);
-                            setIngredientRecipe({
-                                ...ingredientRecipe,
-                                ingredient: '',
-                                ingredient_id: undefined,
-                                unity: '',
-                                unity_id: undefined,
-                                quantity: undefined,
-                            });
+                            if (newIngredientsList.ingredients) {
+                                const newIngredientRow = newIngredientsList.ingredients.concat(ingredientRecipe);
+                                setNewIngredientsList({ ...newIngredientsList, ingredients: newIngredientRow });
+                                setIngredientRecipe({
+                                    ...ingredientRecipe,
+                                    ingredient: '',
+                                    ingredient_id: undefined,
+                                    unity: '',
+                                    unity_id: undefined,
+                                    quantity: undefined,
+                                });
+                            }
                         }}
                     >
                         <AddCircleOutlineOutlinedIcon style={{ fontSize: 30 }} />
                     </IconButton>
                 </Grid>
             </Grid>
-            <CheckIngredientsList ingredients={newIngredientsList} onRemoveIngredient={removeIngredientList} />
-            <IconButton style={{ marginTop: 10 }}>
+            <CheckIngredientsList
+                ingredients={newIngredientsList.ingredients}
+                onValidateList={(ingredientsList) => {
+                    if (props.onValidation) {
+                        props.onValidation(ingredientsList);
+                    }
+                }}
+                onRemoveIngredient={removeIngredientList}
+            />
+            <IconButton
+                style={{ marginTop: 10 }}
+                onClick={async () => {
+                    try {
+                        const action = await dispatch(fetchAddGroceryList(newIngredientsList));
+                        const result = unwrapResult(action);
+                        console.log('result: ', result);
+                        history.push(`/groceryList/${result.id}`);
+                    } catch (e) {
+                        return console.error(e);
+                    }
+                }}
+            >
                 <CheckIcon />
             </IconButton>
         </Container>

@@ -1,24 +1,38 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { IngredientsRecipe } from './groceryListFetch';
+import { getGroceryList, GroceryListInformation } from './groceryListFetch';
+
+export const fetchGetAGroceryList = createAsyncThunk(
+    `/api/groceriesLists/:id`,
+    async (groceryListId: number, thunkAPI) => {
+        const state = thunkAPI.getState() as RootState;
+        const groceryList = await getGroceryList(state.user.idToken, groceryListId);
+        return groceryList;
+    },
+);
 
 type GroceryList = {
-    groceryList: IngredientsRecipe[];
+    groceryList: GroceryListInformation;
 };
 
-const prout: IngredientsRecipe[] = [{ ingredient: 'Poireau', unity: 'unit', quantity: 3 }];
-
 const initialState: GroceryList = {
-    groceryList: prout,
+    groceryList: {
+        ingredients: [],
+    },
 };
 
 const groceryListReducer = createSlice({
     name: 'groceryList',
     initialState: initialState,
     reducers: {},
-    //extraReducers: (builder) => {},
+    extraReducers: (builder) => {
+        // fetchGetGroceryList
+        builder.addCase(fetchGetAGroceryList.fulfilled, (state, action) => {
+            state.groceryList = action.payload;
+        });
+    },
 });
 
-export const groceryList = (state: RootState): IngredientsRecipe[] => state.groceryList.groceryList;
+export const selectGroceryList = (state: RootState): GroceryListInformation => state.groceryList.groceryList;
 
 export default groceryListReducer.reducer;

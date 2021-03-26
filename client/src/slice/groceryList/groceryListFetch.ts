@@ -1,4 +1,4 @@
-export interface IngredientsRecipe {
+export interface IngredientsGroceryList {
     ingredient_id?: number;
     ingredient: string;
     unity_id?: number;
@@ -6,38 +6,22 @@ export interface IngredientsRecipe {
     quantity?: number;
 }
 
-export type RequestGetIngredientsByRecipes = {
-    recipe_id: number;
-    number_parts: number;
-};
-
-export type ResponseGetIngredientsByRecipes = {
-    ingredient: string;
-    ingredient_id: number;
-    unity: string;
-    unity_id: number;
-    quantity: number;
-    recipe_id: number;
-    recipe_number_parts: number;
-};
+export interface GroceryListInformation {
+    id?: number;
+    ingredients: IngredientsGroceryList[];
+}
 
 // Fetch to get a recipe by recipeId
-export const fetchGetIngredientsByRecipes = async (
-    idToken: string,
-    request: RequestGetIngredientsByRecipes[],
-): Promise<ResponseGetIngredientsByRecipes[]> => {
+export const getGroceryList = async (idToken: string, groceryListId: number): Promise<GroceryListInformation> => {
     const myHeaders = new Headers({
         Authorization: idToken,
-        'content-type': 'application/json',
     });
-    const response = await fetch(`http://localhost:3000/api/ingredients/getByRecipes`, {
-        method: 'POST',
-        body: JSON.stringify(request),
+    const response = await fetch(`http://localhost:3000/api/groceriesLists/${groceryListId}`, {
         headers: myHeaders,
     });
     if (response.status === 404) {
-        throw new Error('Recipe not found');
+        throw new Error('GroceryList not found');
     }
     const jsonResponse = await response.json();
-    return jsonResponse.ingredientsList;
+    return jsonResponse.groceryList;
 };

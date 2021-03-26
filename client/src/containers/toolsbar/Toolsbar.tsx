@@ -7,6 +7,8 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import HomeIcon from '@material-ui/icons/Home';
 import ListIcon from '@material-ui/icons/List';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchGetAGroceryList, selectGroceryList } from '../../slice/groceryList/groceryListSlice';
 
 type ToolbarProps = {
     style?: React.CSSProperties;
@@ -15,6 +17,10 @@ type ToolbarProps = {
 const ToolsBar = (props: ToolbarProps): JSX.Element => {
     const { t } = useTranslation();
     const [button, setButton] = React.useState(0);
+
+    const dispatch = useDispatch();
+    const groceryList = useSelector(selectGroceryList);
+    console.log('groceryList: ', groceryList);
 
     return (
         <BottomNavigation
@@ -34,7 +40,13 @@ const ToolsBar = (props: ToolbarProps): JSX.Element => {
             <BottomNavigationAction
                 icon={<ListIcon />}
                 label={t('toolsbar.groceryList')}
-                to={'/grocerylist'}
+                to={`/groceryList/${groceryList.id}`}
+                onClick={() => {
+                    if (groceryList.id) {
+                        console.log('id: ', groceryList.id);
+                        dispatch(fetchGetAGroceryList(groceryList.id));
+                    }
+                }}
                 component={Link}
             />
             <BottomNavigationAction
