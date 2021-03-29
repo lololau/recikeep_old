@@ -112,5 +112,11 @@
     "ingredients": "Ingredients",
     "quantity": "Quantity",
     "unity": "Unity"
+  },
+  "modal": {
+    "delete-recipe": "Are you sure you want to delete this recipe?",
+    "delete-definitif": "No going back will be possible.",
+    "delete-yes": "Yes",
+    "delete-no": "No"
   }
 }
