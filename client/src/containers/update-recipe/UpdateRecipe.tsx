@@ -101,7 +101,7 @@ const UpdateRecipe = (): JSX.Element => {
         <Container>
             <form>
                 <h1>{t('update_recipe.title-page')}</h1>
-                <Box className="title">
+                <Box className="title" style={{ marginBottom: 40 }}>
                     <p>{t('new_recipe.title')}</p>
                     <TextField
                         value={updateRecipe.name}
@@ -111,7 +111,7 @@ const UpdateRecipe = (): JSX.Element => {
                         }}
                     />
                 </Box>
-                <Box>
+                <Box style={{ marginBottom: 40 }}>
                     <p>{t('new_recipe.presentation')}</p>
                     <TextField
                         fullWidth
@@ -122,7 +122,7 @@ const UpdateRecipe = (): JSX.Element => {
                         }}
                     />
                 </Box>
-                <Box>
+                <Box style={{ marginBottom: 40 }}>
                     <p>{t('new_recipe.parts')}</p>
                     <TextField
                         value={updateRecipe.number_parts}
@@ -132,8 +132,8 @@ const UpdateRecipe = (): JSX.Element => {
                         }}
                     />
                 </Box>
-                <Grid container spacing={9}>
-                    <Grid item xs={5} className="preparation-time" style={{ display: 'block' }}>
+                <Grid container spacing={4} style={{ marginBottom: 20 }}>
+                    <Grid item xs={3} className="preparation-time" style={{ display: 'block' }}>
                         <p>{t('new_recipe.preparation-time')}</p>
                         <Box style={{ display: 'flex' }}>
                             <TextField
@@ -148,7 +148,7 @@ const UpdateRecipe = (): JSX.Element => {
                             <p>{t('new_recipe.minute')}</p>
                         </Box>
                     </Grid>
-                    <Grid item xs={5} className="cooking-time" style={{ display: 'block' }}>
+                    <Grid item xs={3} className="cooking-time" style={{ display: 'block' }}>
                         <p>{t('new_recipe.cooking-time')}</p>
                         <Box style={{ display: 'flex' }}>
                             <TextField
@@ -169,7 +169,7 @@ const UpdateRecipe = (): JSX.Element => {
                     <Grid container spacing={4} style={{ marginBottom: 20, alignItems: 'center' }}>
                         <Grid item xs={3}>
                             <Autosuggestion
-                                label="add ingredient"
+                                label={t('new_recipe.add-ingredient')}
                                 onSelect={(option) => {
                                     setIngredientRecipe({
                                         ...ingredientRecipe,
@@ -182,8 +182,20 @@ const UpdateRecipe = (): JSX.Element => {
                             />
                         </Grid>
                         <Grid item xs={3}>
+                            <TextField
+                                label={t('new_recipe.add-quantity')}
+                                variant="outlined"
+                                onChange={(event) =>
+                                    setIngredientRecipe({
+                                        ...ingredientRecipe,
+                                        quantity: Number(event.currentTarget.value),
+                                    })
+                                }
+                            />
+                        </Grid>
+                        <Grid item xs={3}>
                             <Autosuggestion
-                                label="add unit"
+                                label={t('new_recipe.add-unity')}
                                 onSelect={(option) => {
                                     setIngredientRecipe({
                                         ...ingredientRecipe,
@@ -193,18 +205,6 @@ const UpdateRecipe = (): JSX.Element => {
                                 }}
                                 onAdd={(option) => dispatch(fetchAddUnity(option))}
                                 options={allUnities}
-                            />
-                        </Grid>
-                        <Grid item xs={3}>
-                            <TextField
-                                placeholder="Quantity"
-                                variant="outlined"
-                                onChange={(event) =>
-                                    setIngredientRecipe({
-                                        ...ingredientRecipe,
-                                        quantity: Number(event.currentTarget.value),
-                                    })
-                                }
                             />
                         </Grid>
                         <Grid item xs={3}>

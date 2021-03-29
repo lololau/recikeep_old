@@ -70,7 +70,8 @@
     "add-quantity": "Ajouter une quantité",
     "unitsBox": "Unité",
     "unitsBox-quantity": "Quantité",
-    "add": "Ajouter"
+    "add": "Ajouter",
+    "name-missing": "Le nom de la recette doit être rempli"
   },
   "update_recipe": {
     "title-page": "Recette en cours de modification(s)"

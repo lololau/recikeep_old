@@ -71,7 +71,8 @@
     "add-quantity": "Add quantity",
     "unitsBox": "Unit",
     "unitsBox-quantity": "Quantity",
-    "add": "Add"
+    "add": "Add",
+    "name-missing": "Name must be filled out"
   },
   "update_recipe": {
     "title-page": "Update Recipe"
