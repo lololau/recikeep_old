@@ -71,7 +71,9 @@
     "unitsBox": "Unité",
     "unitsBox-quantity": "Quantité",
     "add": "Ajouter",
-    "name-missing": "Le nom de la recette doit être rempli"
+    "name-missing": "Le nom de la recette doit être",
+    "quantity-typeof": "Les quantités doivent être des nombres",
+    "field-missing": "Pour ajouter un ingrédient, les champs 'Ingrédient', 'Quantité' et 'Unité' doivent être remplis"
   },
   "update_recipe": {
     "title-page": "Recette en cours de modification(s)"

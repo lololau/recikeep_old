@@ -109,6 +109,7 @@ const App = (): JSX.Element => {
                             style={{
                                 position: 'fixed',
                                 bottom: 0,
+                                zIndex: 1,
                                 width: '100%',
                                 borderTop: 'thin solid',
                                 background: 'grey',

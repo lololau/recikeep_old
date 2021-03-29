@@ -222,12 +222,16 @@ const NewRecipe = (): JSX.Element => {
                                 style={{ maxWidth: 200 }}
                                 label={t('new_recipe.add-quantity')}
                                 variant="outlined"
-                                onChange={(event) =>
+                                onChange={(event) => {
+                                    if (Number(event.currentTarget.value) === NaN) {
+                                        alert(t('new_recipe.quantity-typeof'));
+                                        return false;
+                                    }
                                     setIngredientRecipe({
                                         ...ingredientRecipe,
                                         quantity: Number(event.currentTarget.value),
-                                    })
-                                }
+                                    });
+                                }}
                             />
                         </Grid>
                         <Grid item xs={3}>
@@ -255,12 +259,19 @@ const NewRecipe = (): JSX.Element => {
                         <Grid item xs={3}>
                             <Button
                                 onClick={() => {
-                                    const newIngredientRow = ingredientsRow.concat(ingredientRecipe);
-                                    setIngredientRow(newIngredientRow);
-                                    setRecipe({ ...newRecipe, ingredients: newIngredientRow });
-                                    setIngredientRecipe({
-                                        ...ingredientRecipe,
-                                    });
+                                    if (
+                                        ingredientRecipe.ingredient &&
+                                        ingredientRecipe.quantity &&
+                                        ingredientRecipe.unity
+                                    ) {
+                                        const newIngredientRow = ingredientsRow.concat(ingredientRecipe);
+                                        setIngredientRow(newIngredientRow);
+                                        setRecipe({ ...newRecipe, ingredients: newIngredientRow });
+                                        setIngredientRecipe({
+                                            ...ingredientRecipe,
+                                        });
+                                    }
+                                    alert(t('new_recipe.field-missing'));
                                 }}
                             >
                                 {t('new_recipe.add')}

@@ -72,7 +72,9 @@
     "unitsBox": "Unit",
     "unitsBox-quantity": "Quantity",
     "add": "Add",
-    "name-missing": "Name must be filled out"
+    "name-missing": "Name must be filled out",
+    "quantity-typeof": "Type of quantity must be a number",
+    "field-missing": "To add an ingredient, the fields 'Ingredient', 'Quantity' and 'Unity' have to be filled out"
   },
   "update_recipe": {
     "title-page": "Update Recipe"

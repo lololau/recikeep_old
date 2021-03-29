@@ -207,12 +207,17 @@ const UpdateRecipe = (): JSX.Element => {
                             <TextField
                                 label={t('new_recipe.add-quantity')}
                                 variant="outlined"
-                                onChange={(event) =>
+                                onChange={(event) => {
+                                    const val = Number(event.currentTarget.value);
+                                    if (isNaN(val)) {
+                                        alert(t('new_recipe.quantity-typeof'));
+                                        return false;
+                                    }
                                     setIngredientRecipe({
                                         ...ingredientRecipe,
-                                        quantity: Number(event.currentTarget.value),
-                                    })
-                                }
+                                        quantity: val,
+                                    });
+                                }}
                             />
                         </Grid>
                         <Grid item xs={3}>
@@ -233,16 +238,18 @@ const UpdateRecipe = (): JSX.Element => {
                             <Button
                                 onClick={() => {
                                     if (updateRecipe.ingredients) {
-                                        const newIngredientRow = updateRecipe.ingredients.concat(ingredientRecipe);
-                                        setUpdateRecipe({ ...updateRecipe, ingredients: newIngredientRow });
-                                        setIngredientRecipe({
-                                            ...ingredientRecipe,
-                                            ingredient: '',
-                                            ingredient_id: undefined,
-                                            unity: '',
-                                            unity_id: undefined,
-                                            quantity: undefined,
-                                        });
+                                        if (
+                                            ingredientRecipe.ingredient &&
+                                            ingredientRecipe.quantity &&
+                                            ingredientRecipe.unity
+                                        ) {
+                                            const newIngredientRow = updateRecipe.ingredients.concat(ingredientRecipe);
+                                            setUpdateRecipe({ ...updateRecipe, ingredients: newIngredientRow });
+                                            setIngredientRecipe({
+                                                ...ingredientRecipe,
+                                            });
+                                        }
+                                        alert(t('new_recipe.field-missing'));
                                     }
                                 }}
                             >
