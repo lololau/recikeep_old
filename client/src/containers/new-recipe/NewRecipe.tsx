@@ -5,7 +5,6 @@ import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import TagsBox from '../../components/Tags';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
@@ -16,7 +15,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
+import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import Autosuggestion from '../../components/Autocomplete';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../app/store';
@@ -279,7 +278,7 @@ const NewRecipe = (): JSX.Element => {
                     >
                         <IngredientsList ingredientsList={ingredientsRow} onRemoveIngredient={removeIngredientList} />
                     </Box>
-                    <Box style={{ width: '100%' }}>
+                    <Box style={{ width: '100%', textAlign: 'center', marginTop: 20 }}>
                         <IconButton
                             onClick={async () => {
                                 if (newRecipe.name == '') {
@@ -296,7 +295,7 @@ const NewRecipe = (): JSX.Element => {
                                 }
                             }}
                         >
-                            <LibraryAddIcon style={{ fontSize: 25, marginLeft: 'auto', marginRight: 'auto' }} />
+                            <AddCircleOutlineOutlinedIcon style={{ fontSize: 25 }} />
                         </IconButton>
                     </Box>
                 </Box>
