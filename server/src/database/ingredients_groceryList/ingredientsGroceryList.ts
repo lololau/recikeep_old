@@ -55,13 +55,26 @@ export const addIngredientsGroceryList = async (
 };
 
 // Get one recipe by recipeId from user database
-export const getGroceryList = async (userId: number, groceryListId: number): Promise<GroceryList> => {
+export const getGroceryListById = async (userId: number, groceryListId: number): Promise<GroceryList> => {
     const db = await openDb();
 
     const groceryList = await db.get<GroceryList>(
         ...unamed(`SELECT id FROM GroceryList WHERE user_id=:userId AND id=:id`, {
             userId: userId,
             id: groceryListId,
+        }),
+    );
+
+    return groceryList;
+};
+
+// Get one recipe by recipeId from user database
+export const getMostRecentGroceryList = async (userId: number): Promise<GroceryList> => {
+    const db = await openDb();
+
+    const groceryList = await db.get<GroceryList>(
+        ...unamed(`SELECT id FROM GroceryList WHERE user_id=:userId ORDER BY date_creation DESC LIMIT 1`, {
+            userId: userId,
         }),
     );
 
