@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import foodEn from '../ingredient/food-en';
+//import foodEn from '../ingredient/food-en';
 import foodFr from '../ingredient/food-fr';
 import units from '../unity/unity-db';
 import openDb from '../db';
@@ -14,6 +14,8 @@ const unamed = placeholders();
     console.log('drop all tables...');
     await db.run('DROP TABLE IF EXISTS Recipe_tag');
     await db.run('DROP TABLE IF EXISTS Tag');
+    await db.run('DROP TABLE IF EXISTS GroceryList_ingredient');
+    await db.run('DROP TABLE IF EXISTS GroceryList');
     await db.run('DROP TABLE IF EXISTS Recipe_ingredient');
     await db.run('DROP TABLE IF EXISTS Unity');
     await db.run('DROP TABLE IF EXISTS Ingredient');
@@ -58,6 +60,10 @@ const unamed = placeholders();
     await db.run(`CREATE TABLE Unity (
         id INTEGER UNIQUE AUTO_INCREMENT,
         name VARCHAR(255) NOT NULL,
+        upscaling VARCHAR(255),
+        upscaling_factor INTEGER,
+        downscaling VARCHAR(255),
+        downscaling_factor INTEGER,
         user_id INTEGER,
         date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         date_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -72,6 +78,25 @@ const unamed = placeholders();
         quantity INTEGER NOT NULL,
         FOREIGN KEY(ingredient_id) REFERENCES Ingredient(id),
         FOREIGN KEY(recipe_id) REFERENCES Recipe(id),
+        FOREIGN KEY(unity_id) REFERENCES Unity(id)
+    )`);
+
+    await db.run(`CREATE TABLE GroceryList (
+        id INTEGER UNIQUE AUTO_INCREMENT,
+        user_id INTEGER,
+        date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        date_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY(id),
+        FOREIGN KEY(user_id) REFERENCES User(id)
+    )`);
+
+    await db.run(`CREATE TABLE GroceryList_ingredient (
+        ingredient_id INTEGER,
+        groceryList_id INTEGER,
+        unity_id INTEGER,
+        quantity INTEGER NOT NULL,
+        FOREIGN KEY(ingredient_id) REFERENCES Ingredient(id),
+        FOREIGN KEY(groceryList_id) REFERENCES GroceryList(id),
         FOREIGN KEY(unity_id) REFERENCES Unity(id)
     )`);
 
@@ -98,7 +123,7 @@ const unamed = placeholders();
         );
     });
 
-    console.log('inserting en food...');
+    //console.log('inserting en food...');
     /* foodEn.forEach(async (food) => {
         await db.run(
             ...unamed(`INSERT INTO Ingredient (name, language) VALUES (:name, :language)`, {
@@ -109,13 +134,21 @@ const unamed = placeholders();
     }); */
 
     console.log('inserting units...');
-    /*  units.forEach(async (unity) => {
+    units.forEach(async (unity) => {
         await db.run(
-            ...unamed(`INSERT INTO Unity (name) VALUES (:name)`, {
-                name: unity,
-            }),
+            ...unamed(
+                `INSERT INTO Unity (name, downscaling, downscaling_factor, upscaling, upscaling_factor) 
+            VALUES (:name, :downscaling, :downscaling_factor, :upscaling, :upscaling_factor)`,
+                {
+                    name: unity.unit,
+                    downscaling: unity.downscaling,
+                    downscaling_factor: unity.downscaling_factor,
+                    upscaling: unity.upscaling,
+                    upscaling_factor: unity.upscaling_factor,
+                },
+            ),
         );
-    }); */
+    });
 
     console.log('done...');
 

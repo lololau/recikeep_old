@@ -3,18 +3,20 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import SelectionRecipes from './RecipesSelection1';
 import SelectionParts, { numberPartsRecipe } from './RecipesSelection2';
-import GroceryList from '../grocery-list/GroceryList';
+import AddMoreIngredients from './RecipesSelection3';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import { selectRecipes } from '../../slice/recipes/recipesSlice';
 import { useSelector } from 'react-redux';
 import { Recipe } from '../../slice/recipes/recipesFetch';
+import { IngredientsGroceryList } from '../../slice/groceriesLists/groceriesListsFetch';
 
 const RecipesSelectionStepper = (): JSX.Element => {
     const [activeStep, setActiveStep] = useState(0);
     const [recipesSelected, setRecipesSelected] = useState<Recipe[]>([]);
     const [numberPartsByRecipe, setnumberPartsByRecipe] = useState<numberPartsRecipe[]>([]);
-    console.log(numberPartsByRecipe);
+    const [ingredientsList, setIngredientsList] = useState<IngredientsGroceryList[]>([]);
+    console.log(ingredientsList);
 
     const recipes = useSelector(selectRecipes);
 
@@ -49,7 +51,15 @@ const RecipesSelectionStepper = (): JSX.Element => {
                     />
                 );
             case 2:
-                return <GroceryList />;
+                return (
+                    <AddMoreIngredients
+                        numberPartsByRecipe={numberPartsByRecipe}
+                        onValidation={(ingredientsList) => {
+                            console.log('ingredientsList: ', ingredientsList);
+                            setIngredientsList(ingredientsList);
+                        }}
+                    />
+                );
             default:
                 return 'Unknown step';
         }

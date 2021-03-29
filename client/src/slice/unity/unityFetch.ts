@@ -1,6 +1,10 @@
 export interface Unity {
     id: number;
     name: string;
+    downscaling?: string;
+    downscaling_factor?: number;
+    upscaling?: string;
+    upscaling_factor?: number;
     user_id: number;
 }
 
