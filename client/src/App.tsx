@@ -22,6 +22,7 @@ import { fetchGetAllRecipes } from './slice/recipes/recipesSlice';
 import { fetchGetIngredients } from './slice/ingredients/ingredientsSlice';
 import { fetchGetUnities } from './slice/unity/unitySlice';
 import { isLogged, isCreated, updateIdToken, fetchGetUser, updateFirebaseUser } from './slice/user/userSlice';
+import { fetchGetLatestGroceryList } from './slice/groceryList/groceryListSlice';
 import firebase from 'firebase/app';
 import SignUp from './containers/create-user/CreateUser';
 import MyUnities from './containers/my-unities/MyUnities';
@@ -60,6 +61,7 @@ const App = (): JSX.Element => {
                     dispatch(fetchGetIngredients(idToken));
                     dispatch(fetchGetUnities(idToken));
                     dispatch(fetchGetAllRecipes(idToken));
+                    dispatch(fetchGetLatestGroceryList(idToken));
                 })
                 .catch((error) => console.log(error));
         }

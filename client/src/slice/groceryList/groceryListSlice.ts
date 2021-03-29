@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { getGroceryList, GroceryListInformation } from './groceryListFetch';
+import { getGroceryList, GroceryListInformation, getLatestGroceryList } from './groceryListFetch';
 
 export const fetchGetAGroceryList = createAsyncThunk(
     `/api/groceriesLists/:id`,
@@ -10,6 +10,11 @@ export const fetchGetAGroceryList = createAsyncThunk(
         return groceryList;
     },
 );
+
+export const fetchGetLatestGroceryList = createAsyncThunk(`/api/groceriesLists/`, async (idToken: string) => {
+    const groceryList = await getLatestGroceryList(idToken);
+    return groceryList;
+});
 
 type GroceryList = {
     groceryList: GroceryListInformation;
@@ -28,6 +33,10 @@ const groceryListReducer = createSlice({
     extraReducers: (builder) => {
         // fetchGetGroceryList
         builder.addCase(fetchGetAGroceryList.fulfilled, (state, action) => {
+            state.groceryList = action.payload;
+        });
+        // fetchGetLatestGroceryList
+        builder.addCase(fetchGetLatestGroceryList.fulfilled, (state, action) => {
             state.groceryList = action.payload;
         });
     },

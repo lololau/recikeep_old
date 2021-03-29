@@ -4,14 +4,15 @@ import {
     addGroceryList,
     addIngredientsGroceryList,
     IngredientsGroceryList,
-    getGroceryList,
+    getGroceryListById,
+    getMostRecentGroceryList,
     getIngredientsGroceryList,
 } from '../../database/ingredients_groceryList/ingredientsGroceryList';
 
 // Router and mounting
 const groceriesLists = express.Router();
 
-//POST - /api/groceryList/add - add a recipe to user database
+//POST - /api/groceryList/add - add a groceryList to user database
 groceriesLists.post('/add', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
     const ingredientsList: IngredientsGroceryList[] = req.body.ingredients;
@@ -54,17 +55,30 @@ groceriesLists.post('/add', verifyToken, verifyUser, async (req, res) => {
     }
 });
 
-//GET - /api/groceryList/:id - get a recipe by userID and recipeId
+//GET - /api/groceryList/:id - get a groceryList by userID and groceryListId
 groceriesLists.get('/:id', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
     const groceryListId = Number(req.params.id);
     try {
-        const groceryList = await getGroceryList(userId, groceryListId);
+        const groceryList = await getGroceryListById(userId, groceryListId);
         const ingredients = await getIngredientsGroceryList(userId, groceryListId);
         res.status(200).json({ groceryList: { ...groceryList, ingredients } });
     } catch (e) {
         console.error(e);
         return res.status(404).send(`Unable to get the grocery list with id: ${groceryListId}`);
+    }
+});
+
+//GET - /api/groceryList/ - get a groceryList by userID and by the most recent date_creation
+groceriesLists.get('/', verifyToken, verifyUser, async (req, res) => {
+    const userId = res.locals.userId;
+    try {
+        const groceryList = await getMostRecentGroceryList(userId);
+        const ingredients = await getIngredientsGroceryList(userId, groceryList.id);
+        res.status(200).json({ groceryList: { ...groceryList, ingredients } });
+    } catch (e) {
+        console.error(e);
+        return res.status(404).send(`Unable to get the latest grocery list`);
     }
 });
 

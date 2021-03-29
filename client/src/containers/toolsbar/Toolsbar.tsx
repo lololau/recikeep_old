@@ -20,7 +20,6 @@ const ToolsBar = (props: ToolbarProps): JSX.Element => {
 
     const dispatch = useDispatch();
     const groceryList = useSelector(selectGroceryList);
-    console.log('groceryList: ', groceryList);
 
     return (
         <BottomNavigation
@@ -43,7 +42,6 @@ const ToolsBar = (props: ToolbarProps): JSX.Element => {
                 to={`/groceryList/${groceryList.id}`}
                 onClick={() => {
                     if (groceryList.id) {
-                        console.log('id: ', groceryList.id);
                         dispatch(fetchGetAGroceryList(groceryList.id));
                     }
                 }}
