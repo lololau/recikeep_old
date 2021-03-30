@@ -1,3 +1,5 @@
+import { getApiUrl } from '../host';
+
 export interface IngredientsGroceryList {
     ingredient_id?: number;
     ingredient: string;
@@ -21,7 +23,7 @@ export const addGroceryList = async (idToken: string, req: RequestAddGroceryList
         Authorization: idToken,
         'content-type': 'application/json',
     });
-    const response = await fetch(`http://localhost:3000/api/groceriesLists/add/`, {
+    const response = await fetch(getApiUrl(`api/groceriesLists/add/`), {
         method: 'POST',
         body: JSON.stringify(req),
         headers: myHeaders,

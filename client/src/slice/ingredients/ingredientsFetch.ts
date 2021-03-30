@@ -1,3 +1,5 @@
+import { getApiUrl } from '../host';
+
 export interface Ingredient {
     id: number;
     name: string;
@@ -9,7 +11,7 @@ export const getIngredients = async (idToken: string): Promise<Ingredient[]> => 
     const myHeaders = new Headers({
         Authorization: idToken,
     });
-    const response = await fetch(`http://localhost:3000/api/ingredients/getAll/`, { headers: myHeaders });
+    const response = await fetch(getApiUrl(`api/ingredients/getAll/`), { headers: myHeaders });
     if (response.status === 404) {
         throw new Error('User not found');
     }
@@ -27,7 +29,7 @@ export const addIngredient = async (idToken: string, request: RequestAddIngredie
         Authorization: idToken,
         'content-type': 'application/json',
     });
-    const response = await fetch(`http://localhost:3000/api/ingredients/add/`, {
+    const response = await fetch(getApiUrl(`api/ingredients/add/`), {
         method: 'POST',
         body: JSON.stringify(request),
         headers: myHeaders,
@@ -45,7 +47,7 @@ export const deleteIngredient = async (idToken: string, ingredientId: number): P
         Authorization: idToken,
         'content-type': 'application/json',
     });
-    const response = await fetch(`http://localhost:3000/api/ingredients/delete/${ingredientId}`, {
+    const response = await fetch(getApiUrl(`api/ingredients/delete/${ingredientId}`), {
         headers: myHeaders,
         method: 'DELETE',
     });
@@ -79,7 +81,7 @@ export const fetchGetIngredientsByRecipes = async (
         Authorization: idToken,
         'content-type': 'application/json',
     });
-    const response = await fetch(`http://localhost:3000/api/ingredients/getByRecipes`, {
+    const response = await fetch(getApiUrl(`api/ingredients/getByRecipes`), {
         method: 'POST',
         body: JSON.stringify(request),
         headers: myHeaders,

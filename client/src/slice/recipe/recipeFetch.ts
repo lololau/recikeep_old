@@ -1,3 +1,5 @@
+import { getApiUrl } from '../host';
+
 export interface IngredientsRecipe {
     ingredient_id?: number;
     ingredient: string;
@@ -23,7 +25,7 @@ export const getOneRecipe = async (idToken: string, recipeId: number): Promise<R
     const myHeaders = new Headers({
         Authorization: idToken,
     });
-    const response = await fetch(`http://localhost:3000/api/recipes/${recipeId}`, {
+    const response = await fetch(getApiUrl(`api/recipes/${recipeId}`), {
         headers: myHeaders,
     });
     if (response.status === 404) {
@@ -48,7 +50,7 @@ export const updateRecipe = async (idToken: string, req: RequestUpdateRecipe): P
         throw new Error('no id given');
     }
 
-    const response = await fetch(`http://localhost:3000/api/recipes/update/${req.recipe.id}`, {
+    const response = await fetch(getApiUrl(`api/recipes/update/${req.recipe.id}`), {
         method: 'PUT',
         body: JSON.stringify(req.recipe),
         headers: myHeaders,

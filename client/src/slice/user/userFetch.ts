@@ -1,3 +1,5 @@
+import { getApiUrl } from '../host';
+
 export type User = {
     id: number;
     firebase_id: string;
@@ -12,7 +14,7 @@ export const GetUser = async (idToken: string): Promise<User> => {
     const myHeaders = new Headers({
         Authorization: idToken,
     });
-    const response = await fetch('http://localhost:3000/api/user/getUser', { headers: myHeaders });
+    const response = await fetch(getApiUrl('api/user/getUser'), { headers: myHeaders });
     if (response.status === 404) {
         throw new Error('User not found');
     }
@@ -34,7 +36,7 @@ export const CreateUser = async (idToken: string, request: RequestCreateUser): P
         'content-type': 'application/json',
     });
 
-    const response = await fetch('http://localhost:3000/api/user/createUser', {
+    const response = await fetch(getApiUrl('api/user/createUser'), {
         method: 'POST',
         body: JSON.stringify(request),
         headers: myHeaders,
@@ -62,7 +64,7 @@ export const UpdateUser = async (idToken: string, request: RequestUpdateUser): P
         'content-type': 'application/json',
     });
 
-    const response = await fetch('http://localhost:3000/api/user/updateUser', {
+    const response = await fetch(getApiUrl('api/user/updateUser'), {
         method: 'PUT',
         body: JSON.stringify(request),
         headers: myHeaders,

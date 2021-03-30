@@ -130,6 +130,9 @@ const NewRecipe = (): JSX.Element => {
         }
     };
 
+    let requiredField = '';
+    let error = false;
+
     return (
         <Container>
             <form>
@@ -138,6 +141,9 @@ const NewRecipe = (): JSX.Element => {
                     <p>{t('new_recipe.title')}</p>
                     <TextField
                         placeholder={t('new_recipe.add-title')}
+                        required={true}
+                        error={error}
+                        helperText={requiredField}
                         onChange={(event) => {
                             setRecipe({ ...newRecipe, name: event.currentTarget.value });
                         }}
@@ -291,9 +297,11 @@ const NewRecipe = (): JSX.Element => {
                     </Box>
                     <Box style={{ width: '100%', textAlign: 'center', marginTop: 20 }}>
                         <IconButton
+                            type="submit"
                             onClick={async () => {
                                 if (newRecipe.name == '') {
-                                    alert(t('new_recipe.name-missing'));
+                                    requiredField = 'Field required';
+                                    error = true;
                                     return false;
                                 }
                                 try {

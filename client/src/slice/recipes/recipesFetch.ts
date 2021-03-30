@@ -1,3 +1,5 @@
+import { getApiUrl } from '../host';
+
 export interface Recipe {
     id: number;
     name: string;
@@ -33,7 +35,7 @@ export const addRecipe = async (idToken: string, req: RequestAddRecipe): Promise
         Authorization: idToken,
         'content-type': 'application/json',
     });
-    const response = await fetch(`http://localhost:3000/api/recipes/add/`, {
+    const response = await fetch(getApiUrl(`api/recipes/add/`), {
         method: 'POST',
         body: JSON.stringify(req),
         headers: myHeaders,
@@ -51,7 +53,7 @@ export const deleteRecipe = async (idToken: string, recipeId: number): Promise<v
         Authorization: idToken,
         'content-type': 'application/json',
     });
-    const response = await fetch(`http://localhost:3000/api/recipes/delete/${recipeId}`, {
+    const response = await fetch(getApiUrl(`api/recipes/delete/${recipeId}`), {
         headers: myHeaders,
         method: 'DELETE',
     });
@@ -66,7 +68,7 @@ export const getAllRecipes = async (idToken: string): Promise<Recipe[]> => {
     const myHeaders = new Headers({
         Authorization: idToken,
     });
-    const response = await fetch(`http://localhost:3000/api/recipes/getAll/`, {
+    const response = await fetch(getApiUrl(`api/recipes/getAll/`), {
         headers: myHeaders,
     });
     if (response.status === 404) {
