@@ -16,13 +16,31 @@ type IngredientListProps = {
 };
 
 const CheckIngredientsList: FC<IngredientListProps> = (props) => {
+    const [checked, setChecked] = React.useState([-1]);
+
+    const handleToggle = (value: number) => () => {
+        const currentIndex = checked.indexOf(value);
+        const newChecked = [...checked];
+
+        if (currentIndex === -1) {
+            newChecked.push(value);
+        } else {
+            newChecked.splice(currentIndex, 1);
+        }
+        setChecked(newChecked);
+    };
     return (
         <List>
             {props.ingredients.map((ingredient, index) => {
                 return (
-                    <ListItem divider={true} key={'CheckIngredientsList' + index}>
+                    <ListItem divider={true} key={'CheckIngredientsList' + index} onClick={handleToggle(index)}>
                         <ListItemIcon>
-                            <Checkbox edge="start" checked={false} tabIndex={-1} disableRipple />
+                            <Checkbox
+                                edge="start"
+                                checked={checked.indexOf(index) !== -1}
+                                tabIndex={-1}
+                                disableRipple
+                            />
                         </ListItemIcon>
                         <ListItemText
                             primary={ingredient.ingredient}

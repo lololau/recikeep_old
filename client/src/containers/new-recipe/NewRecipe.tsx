@@ -5,14 +5,17 @@ import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import TagsBox from '../../components/Tags';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
-import { ListItem, ListItemText, ListItemSecondaryAction } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import List from '@material-ui/core/List';
-import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import Autosuggestion from '../../components/Autocomplete';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../app/store';
@@ -29,35 +32,53 @@ type IngredientsListProps = {
 
 const IngredientsList = (props: IngredientsListProps): JSX.Element => {
     return (
-        <List>
-            {props.ingredientsList.map((ingredient, index) => {
-                return (
-                    <ListItem divider={true} key={index}>
-                        <ListItemText primary={ingredient.name} id={index.toString()} />
-                        <ListItemText primary={ingredient.quantity} id={index.toString()} />
-                        <ListItemText primary={ingredient.unity} id={index.toString()} />
-                        <ListItemSecondaryAction>
-                            <IconButton
-                                edge="end"
-                                onClick={() => {
-                                    if (props.onRemoveIngredient) {
-                                        props.onRemoveIngredient(ingredient, index);
-                                    }
-                                }}
-                            >
-                                <DeleteIcon style={{ fontSize: 15 }} color="primary" />
-                            </IconButton>
-                        </ListItemSecondaryAction>
-                    </ListItem>
-                );
-            })}
-        </List>
+        <>
+            <TableContainer style={{ width: '100%' }}>
+                <Table aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell style={{ fontWeight: 'bold', fontSize: 20 }}></TableCell>
+                            <TableCell align="center" style={{ fontWeight: 'bold', fontSize: 20 }}></TableCell>
+                            <TableCell align="center" style={{ fontWeight: 'bold', fontSize: 20 }}></TableCell>
+                            <TableCell align="center" style={{ fontWeight: 'bold', fontSize: 20 }}></TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {props.ingredientsList.map((ingredient, index) => (
+                            <TableRow key={ingredient.ingredient}>
+                                <TableCell component="th" scope="row" style={{ fontSize: 15 }}>
+                                    {ingredient.ingredient}
+                                </TableCell>
+                                <TableCell align="center" style={{ fontSize: 15 }}>
+                                    {ingredient.quantity}
+                                </TableCell>
+                                <TableCell align="center" style={{ fontSize: 15 }}>
+                                    {ingredient.unity}
+                                </TableCell>
+                                <TableCell align="center" style={{ fontSize: 15 }}>
+                                    <IconButton
+                                        edge="end"
+                                        onClick={() => {
+                                            if (props.onRemoveIngredient) {
+                                                props.onRemoveIngredient(ingredient, index);
+                                            }
+                                        }}
+                                    >
+                                        <DeleteIcon style={{ fontSize: 15 }} color="primary" />
+                                    </IconButton>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </>
     );
 };
 
 interface IngredientRecipe {
     ingredient_id?: number;
-    name: string;
+    ingredient: string;
     unity_id?: number;
     unity: string;
     quantity?: number;
@@ -95,7 +116,7 @@ const NewRecipe = (): JSX.Element => {
     const [ingredientsRow, setIngredientRow] = useState<IngredientRecipe[]>([]);
 
     const [ingredientRecipe, setIngredientRecipe] = useState<IngredientRecipe>({
-        name: '',
+        ingredient: '',
         ingredient_id: undefined,
         unity: '',
         unity_id: undefined,
@@ -112,8 +133,8 @@ const NewRecipe = (): JSX.Element => {
     return (
         <Container>
             <form>
-                <h1>{t('new_recipe.title-page')}</h1>
-                <Box className="title">
+                <h1 style={{ marginBottom: 40 }}>{t('new_recipe.title-page')}</h1>
+                <Box className="title" style={{ marginBottom: 40 }}>
                     <p>{t('new_recipe.title')}</p>
                     <TextField
                         placeholder={t('new_recipe.add-title')}
@@ -122,7 +143,7 @@ const NewRecipe = (): JSX.Element => {
                         }}
                     />
                 </Box>
-                <Box>
+                <Box style={{ marginBottom: 40 }}>
                     <p>{t('new_recipe.presentation')}</p>
                     <TextField
                         fullWidth
@@ -132,10 +153,7 @@ const NewRecipe = (): JSX.Element => {
                         }}
                     />
                 </Box>
-                <Box>
-                    <TagsBox />
-                </Box>
-                <Box>
+                <Box style={{ marginBottom: 40 }}>
                     <p>{t('new_recipe.parts')}</p>
                     <TextField
                         placeholder={t('new_recipe.parts_add')}
@@ -144,7 +162,7 @@ const NewRecipe = (): JSX.Element => {
                         }}
                     />
                 </Box>
-                <Grid container spacing={4}>
+                <Grid container spacing={4} style={{ marginBottom: 30 }}>
                     <Grid item xs={3} className="preparation-time" style={{ display: 'block' }}>
                         <p>{t('new_recipe.preparation-time')}</p>
                         <Box style={{ display: 'flex' }}>
@@ -176,7 +194,7 @@ const NewRecipe = (): JSX.Element => {
                 </Grid>
                 <Box style={{ marginBottom: 70 }}>
                     <p>{t('new_recipe.ingredients')}</p>
-                    <Grid container spacing={4} style={{ marginBottom: 20, alignItems: 'center' }}>
+                    <Grid container spacing={4} style={{ alignItems: 'center' }}>
                         <Grid item xs={3}>
                             <Autosuggestion
                                 label={t('new_recipe.add-ingredient')}
@@ -184,7 +202,7 @@ const NewRecipe = (): JSX.Element => {
                                     setIngredientRecipe({
                                         ...ingredientRecipe,
                                         ingredient_id: option.id,
-                                        name: option.name,
+                                        ingredient: option.name,
                                     });
                                 }}
                                 onAdd={async (option) => {
@@ -193,7 +211,7 @@ const NewRecipe = (): JSX.Element => {
                                     setIngredientRecipe({
                                         ...ingredientRecipe,
                                         ingredient_id: result.id,
-                                        name: result.name,
+                                        ingredient: result.name,
                                     });
                                 }}
                                 options={allIngredients}
@@ -204,12 +222,16 @@ const NewRecipe = (): JSX.Element => {
                                 style={{ maxWidth: 200 }}
                                 label={t('new_recipe.add-quantity')}
                                 variant="outlined"
-                                onChange={(event) =>
+                                onChange={(event) => {
+                                    if (Number(event.currentTarget.value) === NaN) {
+                                        alert(t('new_recipe.quantity-typeof'));
+                                        return false;
+                                    }
                                     setIngredientRecipe({
                                         ...ingredientRecipe,
                                         quantity: Number(event.currentTarget.value),
-                                    })
-                                }
+                                    });
+                                }}
                             />
                         </Grid>
                         <Grid item xs={3}>
@@ -237,22 +259,43 @@ const NewRecipe = (): JSX.Element => {
                         <Grid item xs={3}>
                             <Button
                                 onClick={() => {
-                                    const newIngredientRow = ingredientsRow.concat(ingredientRecipe);
-                                    setIngredientRow(newIngredientRow);
-                                    setRecipe({ ...newRecipe, ingredients: newIngredientRow });
-                                    setIngredientRecipe({
-                                        ...ingredientRecipe,
-                                    });
+                                    if (
+                                        ingredientRecipe.ingredient &&
+                                        ingredientRecipe.quantity &&
+                                        ingredientRecipe.unity
+                                    ) {
+                                        const newIngredientRow = ingredientsRow.concat(ingredientRecipe);
+                                        setIngredientRow(newIngredientRow);
+                                        setRecipe({ ...newRecipe, ingredients: newIngredientRow });
+                                        setIngredientRecipe({
+                                            ...ingredientRecipe,
+                                        });
+                                    }
+                                    alert(t('new_recipe.field-missing'));
                                 }}
                             >
                                 {t('new_recipe.add')}
                             </Button>
                         </Grid>
                     </Grid>
-                    <IngredientsList ingredientsList={ingredientsRow} onRemoveIngredient={removeIngredientList} />
-                    <Box style={{ width: '100%' }}>
+                    <Box
+                        style={{
+                            marginLeft: 'auto',
+                            marginRight: 'auto',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            marginBottom: 20,
+                        }}
+                    >
+                        <IngredientsList ingredientsList={ingredientsRow} onRemoveIngredient={removeIngredientList} />
+                    </Box>
+                    <Box style={{ width: '100%', textAlign: 'center', marginTop: 20 }}>
                         <IconButton
                             onClick={async () => {
+                                if (newRecipe.name == '') {
+                                    alert(t('new_recipe.name-missing'));
+                                    return false;
+                                }
                                 try {
                                     const action = await dispatch(fetchAddRecipe(newRecipe));
                                     const result = unwrapResult(action);
@@ -263,7 +306,7 @@ const NewRecipe = (): JSX.Element => {
                                 }
                             }}
                         >
-                            <LibraryAddIcon style={{ fontSize: 25, marginLeft: 'auto', marginRight: 'auto' }} />
+                            <AddCircleOutlineOutlinedIcon style={{ fontSize: 25 }} />
                         </IconButton>
                     </Box>
                 </Box>
