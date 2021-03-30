@@ -33,6 +33,3 @@ jobs:
       - name: run build
         run: npm run build --if-present
         working-directory: ./server
-      - name: run migration.js
-        run: node build/database/migration.js
-        working-directory: ./server
