@@ -1,3 +1,5 @@
+import { getApiUrl } from '../host';
+
 export interface Unity {
     id: number;
     name: string;
@@ -13,7 +15,7 @@ export const getUnities = async (idToken: string): Promise<Unity[]> => {
     const myHeaders = new Headers({
         Authorization: idToken,
     });
-    const response = await fetch(`http://localhost:3000/api/unities/getAll/`, { headers: myHeaders });
+    const response = await fetch(getApiUrl(`api/unities/getAll/`), { headers: myHeaders });
     if (response.status === 404) {
         throw new Error('User not found');
     }
@@ -30,7 +32,7 @@ export const addUnity = async (idToken: string, request: RequestAddUnity): Promi
         Authorization: idToken,
         'content-type': 'application/json',
     });
-    const response = await fetch(`http://localhost:3000/api/unities/add/`, {
+    const response = await fetch(getApiUrl(`api/unities/add/`), {
         headers: myHeaders,
         method: 'POST',
         body: JSON.stringify(request),
@@ -52,7 +54,7 @@ export const deleteUnity = async (idToken: string, unityId: number): Promise<voi
         Authorization: idToken,
         'content-type': 'application/json',
     });
-    const response = await fetch(`http://localhost:3000/api/unities/delete/${unityId}`, {
+    const response = await fetch(getApiUrl(`api/unities/delete/${unityId}`), {
         headers: myHeaders,
         method: 'DELETE',
     });

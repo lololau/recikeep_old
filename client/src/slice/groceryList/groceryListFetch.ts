@@ -1,3 +1,5 @@
+import { getApiUrl } from '../host';
+
 export interface IngredientsGroceryList {
     ingredient_id?: number;
     ingredient: string;
@@ -16,7 +18,7 @@ export const getGroceryList = async (idToken: string, groceryListId: number): Pr
     const myHeaders = new Headers({
         Authorization: idToken,
     });
-    const response = await fetch(`http://localhost:3000/api/groceriesLists/${groceryListId}`, {
+    const response = await fetch(getApiUrl(`api/groceriesLists/${groceryListId}`), {
         headers: myHeaders,
     });
     if (response.status === 404) {
@@ -31,7 +33,7 @@ export const getLatestGroceryList = async (idToken: string): Promise<GroceryList
     const myHeaders = new Headers({
         Authorization: idToken,
     });
-    const response = await fetch(`http://localhost:3000/api/groceriesLists/`, {
+    const response = await fetch(getApiUrl(`api/groceriesLists/`), {
         headers: myHeaders,
     });
     if (response.status === 404) {
