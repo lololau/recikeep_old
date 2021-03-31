@@ -125,6 +125,9 @@
     "email": "Adresse email",
     "password": "Mot de passe",
     "create-account": "Créer un compte",
-    "connection": "Se connecter"
+    "connection": "Se connecter",
+    "username": "Nom d'utilisateur",
+    "create-user": "Créer l'utilisateur",
+    "sign-out": "Se déconnecter"
   }
 }

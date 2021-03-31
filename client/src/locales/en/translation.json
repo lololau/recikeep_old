@@ -128,6 +128,9 @@
     "email": "Email",
     "password": "Password",
     "creation-account": "Create an account",
-    "connection": "Sign in"
+    "connection": "Sign in",
+    "username": "Username",
+    "create-user": "Create user",
+    "sign-out": "Sign out"
   }
 }
