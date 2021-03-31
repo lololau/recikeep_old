@@ -95,13 +95,15 @@ const Profile = (): JSX.Element => {
                 <p>{user.email}</p>
             </Grid>
 
-            <Link to="/profile/my_ingredients">
-                <p>{t('myIngredients.title-page')}</p>
-            </Link>
+            <Box style={{ display: 'grid' }}>
+                <Link to="/profile/my_ingredients" style={{ textDecoration: 'none', color: 'black' }}>
+                    <Button>{t('myIngredients.title-page')}</Button>
+                </Link>
 
-            <Link to="/profile/my_unities">
-                <p>{t('myUnities.title-page')}</p>
-            </Link>
+                <Link to="/profile/my_unities" style={{ textDecoration: 'none', color: 'black' }}>
+                    <Button>{t('myUnities.title-page')}</Button>
+                </Link>
+            </Box>
         </Container>
     );
 };

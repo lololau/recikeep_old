@@ -168,10 +168,10 @@ const NewRecipe = (): JSX.Element => {
                         }}
                     />
                 </Box>
-                <Grid container spacing={4} style={{ marginBottom: 30 }}>
-                    <Grid item xs={3} className="preparation-time" style={{ display: 'block' }}>
+                <Grid container spacing={3} style={{ marginBottom: 30 }}>
+                    <Grid item xs={6} className="preparation-time" style={{ display: 'block' }}>
                         <p>{t('new_recipe.preparation-time')}</p>
-                        <Box style={{ display: 'flex' }}>
+                        <Box style={{ display: 'flex', width: '70%' }}>
                             <TextField
                                 fullWidth
                                 placeholder={t('new_recipe.add-time')}
@@ -183,9 +183,9 @@ const NewRecipe = (): JSX.Element => {
                             <p>{t('new_recipe.minute')}</p>
                         </Box>
                     </Grid>
-                    <Grid item xs={3} className="cooking-time" style={{ display: 'block' }}>
+                    <Grid item xs={6} className="cooking-time" style={{ display: 'block' }}>
                         <p>{t('new_recipe.cooking-time')}</p>
-                        <Box style={{ display: 'flex' }}>
+                        <Box style={{ display: 'flex', width: '70%' }}>
                             <TextField
                                 fullWidth
                                 placeholder={t('new_recipe.add-time')}
@@ -200,8 +200,8 @@ const NewRecipe = (): JSX.Element => {
                 </Grid>
                 <Box style={{ marginBottom: 70 }}>
                     <p>{t('new_recipe.ingredients')}</p>
-                    <Grid container spacing={4} style={{ alignItems: 'center' }}>
-                        <Grid item xs={3}>
+                    <Grid container spacing={1} style={{ alignItems: 'center' }}>
+                        <Grid item xs={6} sm={3}>
                             <Autosuggestion
                                 label={t('new_recipe.add-ingredient')}
                                 onSelect={(option) => {
@@ -223,7 +223,7 @@ const NewRecipe = (): JSX.Element => {
                                 options={allIngredients}
                             />
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={6} sm={3}>
                             <TextField
                                 style={{ maxWidth: 200 }}
                                 label={t('new_recipe.add-quantity')}
@@ -240,7 +240,7 @@ const NewRecipe = (): JSX.Element => {
                                 }}
                             />
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={6} sm={3}>
                             <Autosuggestion
                                 label={t('new_recipe.add-unity')}
                                 onSelect={(option) => {
@@ -262,7 +262,7 @@ const NewRecipe = (): JSX.Element => {
                                 options={allUnities}
                             />
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={6} sm={3}>
                             <Button
                                 onClick={() => {
                                     if (

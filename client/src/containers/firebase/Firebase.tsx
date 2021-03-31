@@ -3,11 +3,14 @@ import React, { ChangeEvent, useState } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
-import { Button, TextField, Grid } from '@material-ui/core';
+import { Button, TextField, Grid, Container, Paper, Box } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 const Firebase = (): JSX.Element => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const { t } = useTranslation();
 
     const onChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
@@ -44,16 +47,48 @@ const Firebase = (): JSX.Element => {
 
     return (
         <>
-            <Grid container spacing={6} style={{ alignItems: 'left' }}>
-                <Grid item xs>
-                    <TextField type="text" onChange={onChangeEmail} placeholder="Enter your email" />
+            <Paper
+                style={{
+                    top: '50%',
+                    left: '50%',
+                }}
+            >
+                <h2 style={{ marginBottom: 30 }}>{t('firebase.connect')}</h2>
+                <Grid container direction="column" justify="center" alignItems="center">
+                    <Grid item>
+                        <TextField
+                            style={{ width: '300px', marginBottom: 30 }}
+                            label={t('firebase.email')}
+                            variant="outlined"
+                            type="text"
+                            onChange={onChangeEmail}
+                        />
+                    </Grid>
+                    <Grid item>
+                        <TextField
+                            style={{ width: '300px' }}
+                            label={t('firebase.password')}
+                            variant="outlined"
+                            type="password"
+                            onChange={onChangePassword}
+                        />
+                    </Grid>
+                    <Grid item>
+                        <Grid container spacing={5} style={{ marginTop: 20 }}>
+                            <Grid item>
+                                <Button onClick={onSignIn} style={{ fontSize: '12px' }}>
+                                    {t('firebase.connection')}
+                                </Button>
+                            </Grid>
+                            <Grid item>
+                                <Button onClick={onSignUp} style={{ fontSize: '12px' }}>
+                                    {t('firebase.create-account')}
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Grid>
                 </Grid>
-                <Grid item xs>
-                    <TextField type="password" onChange={onChangePassword} placeholder="Enter your password" />
-                </Grid>
-            </Grid>
-            <Button onClick={onSignIn}>Sign In</Button>
-            <Button onClick={onSignUp}>Create an account</Button>
+            </Paper>
         </>
     );
 };
