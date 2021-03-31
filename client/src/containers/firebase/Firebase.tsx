@@ -47,48 +47,55 @@ const Firebase = (): JSX.Element => {
 
     return (
         <>
-            <Paper
-                style={{
-                    top: '50%',
-                    left: '50%',
-                }}
-            >
-                <h2 style={{ marginBottom: 30 }}>{t('firebase.connect')}</h2>
-                <Grid container direction="column" justify="center" alignItems="center">
-                    <Grid item>
-                        <TextField
-                            style={{ width: '300px', marginBottom: 30 }}
-                            label={t('firebase.email')}
-                            variant="outlined"
-                            type="text"
-                            onChange={onChangeEmail}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <TextField
-                            style={{ width: '300px' }}
-                            label={t('firebase.password')}
-                            variant="outlined"
-                            type="password"
-                            onChange={onChangePassword}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <Grid container spacing={5} style={{ marginTop: 20 }}>
-                            <Grid item>
-                                <Button onClick={onSignIn} style={{ fontSize: '12px' }}>
-                                    {t('firebase.connection')}
-                                </Button>
-                            </Grid>
-                            <Grid item>
-                                <Button onClick={onSignUp} style={{ fontSize: '12px' }}>
-                                    {t('firebase.create-account')}
-                                </Button>
+            <Container style={{ maxWidth: '500px' }}>
+                <Paper
+                    style={{
+                        top: '50%',
+                        left: '50%',
+                        marginTop: '50%',
+                        marginBottom: '50%',
+                        paddingBottom: 5,
+                    }}
+                >
+                    <Grid container direction="column" justify="center" alignItems="center">
+                        <Grid item>
+                            <h2 style={{ marginBottom: 30 }}>{t('firebase.connect')}</h2>
+                        </Grid>
+                        <Grid item>
+                            <TextField
+                                style={{ width: '300px', marginBottom: 30 }}
+                                label={t('firebase.email')}
+                                variant="outlined"
+                                type="text"
+                                onChange={onChangeEmail}
+                            />
+                        </Grid>
+                        <Grid item>
+                            <TextField
+                                style={{ width: '300px' }}
+                                label={t('firebase.password')}
+                                variant="outlined"
+                                type="password"
+                                onChange={onChangePassword}
+                            />
+                        </Grid>
+                        <Grid item>
+                            <Grid container spacing={5} style={{ marginTop: 20 }}>
+                                <Grid item>
+                                    <Button onClick={onSignIn} style={{ fontSize: '12px' }}>
+                                        {t('firebase.connection')}
+                                    </Button>
+                                </Grid>
+                                <Grid item>
+                                    <Button onClick={onSignUp} style={{ fontSize: '12px' }}>
+                                        {t('firebase.create-account')}
+                                    </Button>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
-                </Grid>
-            </Paper>
+                </Paper>
+            </Container>
         </>
     );
 };
