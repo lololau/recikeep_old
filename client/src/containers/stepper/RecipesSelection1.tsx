@@ -7,7 +7,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import React from 'react';
 import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
 import SearchBar from '../../components/SearchBar';
 import { Recipe } from '../../slice/recipes/recipesFetch';
 import { Box } from '@material-ui/core';
