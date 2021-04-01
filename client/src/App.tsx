@@ -29,10 +29,10 @@ import MyUnities from './containers/my-unities/MyUnities';
 const theme = createMuiTheme({
     palette: {
         primary: {
-            main: '#ff5722',
+            main: '#f4511e',
         },
         secondary: {
-            main: '#0d47a1',
+            main: '#f4511e',
         },
     },
 });
@@ -111,7 +111,7 @@ const App = (): JSX.Element => {
                                 zIndex: 1,
                                 width: '100%',
                                 borderTop: 'thin solid',
-                                background: 'grey',
+                                background: '#00695c',
                             }}
                         />
                     </Paper>

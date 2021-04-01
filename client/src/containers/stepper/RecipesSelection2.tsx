@@ -66,43 +66,19 @@ const SelectionPartsRecipes: FC<SelectionPartsRecipeProps> = (props) => {
                 </Grid>
             </Grid>
 
-            {/*             <Grid container spacing={3} style={{ alignItems: 'center', display: 'flex', textAlign: 'center' }}>
-                <Grid item xs={4}>
-                    <p>{t('stepper.start-number-parts')}</p>
-                </Grid>
-                <Grid item xs={4}>
-                    <Box style={{ textAlign: 'center' }}>
-                        <TextField
-                            inputProps={{ style: { textAlign: 'center' } }}
-                            placeholder={t('new_recipe.parts_add')}
-                            value={defaultValue}
-                            onChange={(event) => {
-                                const value = Number(event.currentTarget.value);
-                                if (value > 0 || value < 1000) {
-                                    setDefaultValue(value);
-                                }
-                                const newValues = props.recipes.map(() => value);
-                                setParts(newValues);
-                            }}
-                        />
-                    </Box>
-                </Grid>
-                <Grid item xs={4}>
-                    <p>{t('stepper.end-number-parts')}</p>
-                </Grid>
-            </Grid> */}
             <List style={{ marginTop: 30 }}>
                 {props.recipes.map((recipe, index) => {
                     const newState = [...parts];
 
                     return (
                         <ListItem divider={true} key={'SelectionPartsRecipes' + index}>
-                            <Grid container spacing={2} style={{ alignItems: 'center' }}>
-                                <Grid item xs={6} sm={3}>
+                            <Grid container spacing={1} style={{ alignItems: 'center' }}>
+                                <Grid item xs={6} sm={9}>
                                     <ListItemText primary={recipe.name} id={index.toString()} />
                                 </Grid>
                                 <Grid item xs={6} sm={3}>
                                     <TextField
+                                        style={{ width: '100%' }}
                                         inputProps={{ style: { textAlign: 'center' } }}
                                         value={parts[index]}
                                         placeholder={t('new_recipe.parts_add')}
