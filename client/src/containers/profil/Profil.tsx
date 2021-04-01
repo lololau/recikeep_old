@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
-import Avatar from '@material-ui/core/Avatar';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import Container from '@material-ui/core/Container';
 import CheckIcon from '@material-ui/icons/Check';
 import Box from '@material-ui/core/Box';
@@ -68,43 +68,53 @@ const Profile = (): JSX.Element => {
     };
 
     return (
-        <Container>
-            <Grid container spacing={4}>
-                <Grid item xs={6}>
+        <>
+            <Container>
+                <Grid style={{ marginBottom: 30 }}>
                     <h1>{t('profile.title-page')}</h1>
                 </Grid>
-                <Grid item xs={6} style={{ textAlign: 'right' }}>
+                <Grid container direction="column">
+                    <Grid style={{ marginBottom: 10 }}>
+                        <TextField type="text" onChange={onNameChange} value={newName} disabled={canUpdate} />
+                        {!canUpdate && updateName()}
+                        {canUpdate && notUpdateName()}
+                    </Grid>
+                    <Grid>
+                        <p>{user.email}</p>
+                    </Grid>
+                </Grid>
+                <Box style={{ display: 'grid', marginTop: 30 }}>
+                    <Link
+                        to="/profile/my_ingredients"
+                        style={{ textDecoration: 'none', color: 'black', marginBottom: 20 }}
+                    >
+                        <Grid container style={{ alignItems: 'center' }}>
+                            <Grid item>
+                                <ArrowRightIcon />
+                            </Grid>
+                            <Grid item>
+                                <p>{t('myIngredients.title-page')}</p>
+                            </Grid>
+                        </Grid>
+                    </Link>
+
+                    <Link to="/profile/my_unities" style={{ textDecoration: 'none', color: 'black' }}>
+                        <Grid container style={{ alignItems: 'center' }}>
+                            <Grid item>
+                                <ArrowRightIcon />
+                            </Grid>
+                            <Grid item>
+                                <p>{t('myUnities.title-page')}</p>
+                            </Grid>
+                        </Grid>
+                    </Link>
+                </Box>
+                <Box style={{ marginTop: '50%', textAlign: 'center' }}>
                     <Button onClick={() => changeLanguage('en')}>English</Button>
                     <Button onClick={() => changeLanguage('fr')}>Français</Button>
-                </Grid>
-            </Grid>
-            <Box style={{ alignItems: 'column', marginBottom: 30 }}>
-                <Avatar
-                    style={{ width: 100, height: 100 }}
-                    alt="my_picture"
-                    src="https://www.vetostore.com/media/wysiwyg/img_fiche_conseil/Alimentation-lapin-sevrage-1.jpg"
-                />
-                <Button size="small">{t('profile.update-image')}</Button>
-            </Box>
-            <Grid container spacing={2} style={{ alignItems: 'center', marginBottom: 10 }}>
-                <TextField type="text" onChange={onNameChange} value={newName} disabled={canUpdate} />
-                {!canUpdate && updateName()}
-                {canUpdate && notUpdateName()}
-            </Grid>
-            <Grid container spacing={2} style={{ alignItems: 'center', marginBottom: 30 }}>
-                <p>{user.email}</p>
-            </Grid>
-
-            <Box style={{ display: 'grid' }}>
-                <Link to="/profile/my_ingredients" style={{ textDecoration: 'none', color: 'black' }}>
-                    <Button>{t('myIngredients.title-page')}</Button>
-                </Link>
-
-                <Link to="/profile/my_unities" style={{ textDecoration: 'none', color: 'black' }}>
-                    <Button>{t('myUnities.title-page')}</Button>
-                </Link>
-            </Box>
-        </Container>
+                </Box>
+            </Container>
+        </>
     );
 };
 
