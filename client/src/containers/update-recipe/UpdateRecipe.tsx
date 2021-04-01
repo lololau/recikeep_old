@@ -4,10 +4,10 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
+import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -154,10 +154,10 @@ const UpdateRecipe = (): JSX.Element => {
                         }}
                     />
                 </Box>
-                <Grid container spacing={4} style={{ marginBottom: 20 }}>
-                    <Grid item xs={3} className="preparation-time" style={{ display: 'block' }}>
+                <Grid container spacing={3} style={{ marginBottom: 20 }}>
+                    <Grid item xs={6} className="preparation-time" style={{ display: 'block' }}>
                         <p>{t('new_recipe.preparation-time')}</p>
-                        <Box style={{ display: 'flex' }}>
+                        <Box style={{ display: 'flex', width: '70%' }}>
                             <TextField
                                 value={updateRecipe.time_preparation}
                                 fullWidth
@@ -170,9 +170,9 @@ const UpdateRecipe = (): JSX.Element => {
                             <p>{t('new_recipe.minute')}</p>
                         </Box>
                     </Grid>
-                    <Grid item xs={3} className="cooking-time" style={{ display: 'block' }}>
+                    <Grid item xs={6} className="cooking-time" style={{ display: 'block' }}>
                         <p>{t('new_recipe.cooking-time')}</p>
-                        <Box style={{ display: 'flex' }}>
+                        <Box style={{ display: 'flex', width: '70%' }}>
                             <TextField
                                 value={updateRecipe.time_cooking}
                                 fullWidth
@@ -188,75 +188,79 @@ const UpdateRecipe = (): JSX.Element => {
                 </Grid>
                 <Box style={{ marginBottom: 70 }}>
                     <p>{t('new_recipe.ingredients')}</p>
-                    <Grid container spacing={4} style={{ alignItems: 'center' }}>
-                        <Grid item xs={3}>
-                            <Autosuggestion
-                                label={t('new_recipe.add-ingredient')}
-                                onSelect={(option) => {
-                                    setIngredientRecipe({
-                                        ...ingredientRecipe,
-                                        ingredient_id: option.id,
-                                        ingredient: option.name,
-                                    });
-                                }}
-                                onAdd={(option) => dispatch(fetchAddIngredient(option))}
-                                options={allIngredients}
-                            />
-                        </Grid>
-                        <Grid item xs={3}>
-                            <TextField
-                                label={t('new_recipe.add-quantity')}
-                                variant="outlined"
-                                onChange={(event) => {
-                                    const val = Number(event.currentTarget.value);
-                                    if (isNaN(val)) {
-                                        alert(t('new_recipe.quantity-typeof'));
-                                        return false;
-                                    }
-                                    setIngredientRecipe({
-                                        ...ingredientRecipe,
-                                        quantity: val,
-                                    });
-                                }}
-                            />
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Autosuggestion
-                                label={t('new_recipe.add-unity')}
-                                onSelect={(option) => {
-                                    setIngredientRecipe({
-                                        ...ingredientRecipe,
-                                        unity_id: option.id,
-                                        unity: option.name,
-                                    });
-                                }}
-                                onAdd={(option) => dispatch(fetchAddUnity(option))}
-                                options={allUnities}
-                            />
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Button
-                                onClick={() => {
-                                    if (updateRecipe.ingredients) {
-                                        if (
-                                            ingredientRecipe.ingredient &&
-                                            ingredientRecipe.quantity &&
-                                            ingredientRecipe.unity
-                                        ) {
-                                            const newIngredientRow = updateRecipe.ingredients.concat(ingredientRecipe);
-                                            setUpdateRecipe({ ...updateRecipe, ingredients: newIngredientRow });
-                                            setIngredientRecipe({
-                                                ...ingredientRecipe,
-                                            });
+                    <div>
+                        <Grid container spacing={1} style={{ alignItems: 'center' }}>
+                            <Grid item xs={6} sm={3}>
+                                <Autosuggestion
+                                    label={t('new_recipe.add-ingredient')}
+                                    onSelect={(option) => {
+                                        setIngredientRecipe({
+                                            ...ingredientRecipe,
+                                            ingredient_id: option.id,
+                                            ingredient: option.name,
+                                        });
+                                    }}
+                                    onAdd={(option) => dispatch(fetchAddIngredient(option))}
+                                    options={allIngredients}
+                                />
+                            </Grid>
+                            <Grid item xs={6} sm={3}>
+                                <TextField
+                                    label={t('new_recipe.add-quantity')}
+                                    variant="outlined"
+                                    onChange={(event) => {
+                                        const val = Number(event.currentTarget.value);
+                                        if (isNaN(val)) {
+                                            alert(t('new_recipe.quantity-typeof'));
+                                            return false;
                                         }
-                                        alert(t('new_recipe.field-missing'));
-                                    }
-                                }}
-                            >
-                                {t('new_recipe.add')}
-                            </Button>
+                                        setIngredientRecipe({
+                                            ...ingredientRecipe,
+                                            quantity: val,
+                                        });
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={6} sm={3}>
+                                <Autosuggestion
+                                    label={t('new_recipe.add-unity')}
+                                    onSelect={(option) => {
+                                        setIngredientRecipe({
+                                            ...ingredientRecipe,
+                                            unity_id: option.id,
+                                            unity: option.name,
+                                        });
+                                    }}
+                                    onAdd={(option) => dispatch(fetchAddUnity(option))}
+                                    options={allUnities}
+                                />
+                            </Grid>
+                            <Grid item xs={6} sm={3} style={{ textAlign: 'center' }}>
+                                <IconButton
+                                    onClick={() => {
+                                        if (updateRecipe.ingredients) {
+                                            if (
+                                                ingredientRecipe.ingredient &&
+                                                ingredientRecipe.quantity &&
+                                                ingredientRecipe.unity
+                                            ) {
+                                                const newIngredientRow = updateRecipe.ingredients.concat(
+                                                    ingredientRecipe,
+                                                );
+                                                setUpdateRecipe({ ...updateRecipe, ingredients: newIngredientRow });
+                                                setIngredientRecipe({
+                                                    ...ingredientRecipe,
+                                                });
+                                            }
+                                            alert(t('new_recipe.field-missing'));
+                                        }
+                                    }}
+                                >
+                                    <AddCircleOutlineOutlinedIcon style={{ fontSize: 30, color: '#c9bc1f' }} />
+                                </IconButton>
+                            </Grid>
                         </Grid>
-                    </Grid>
+                    </div>
                     <IngredientsList
                         ingredientsList={updateRecipe.ingredients}
                         onRemoveIngredient={removeIngredientList}
@@ -277,7 +281,7 @@ const UpdateRecipe = (): JSX.Element => {
                                     .catch((e) => console.error(e))
                             }
                         >
-                            <AddCircleOutlineOutlinedIcon style={{ fontSize: 25 }} />
+                            <CheckIcon style={{ fontSize: 25, color: '#00695c' }} />
                         </IconButton>
                     </Box>
                 </Box>

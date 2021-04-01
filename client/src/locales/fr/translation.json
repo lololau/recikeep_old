@@ -65,11 +65,9 @@
     "minute": "min",
     "cooking-time": "Temps de cuisson",
     "ingredients": "Ingrédients",
-    "add-ingredient": "Ajouter un ingrédient",
-    "add-unity": "Ajouter une unité",
-    "add-quantity": "Ajouter une quantité",
-    "unitsBox": "Unité",
-    "unitsBox-quantity": "Quantité",
+    "add-ingredient": "Ingrédient",
+    "add-unity": "Unité",
+    "add-quantity": "Quantité",
     "add": "Ajouter",
     "name-missing": "Le nom de la recette doit être",
     "quantity-typeof": "Les quantités doivent être des nombres",
@@ -103,7 +101,8 @@
     "title-selection": "Quelles recettes voulez-vous cuisiner ?",
     "title-part": "Pour combien de personnes ?",
     "title-ingredientsList": "Une modification à faire ?",
-    "new-number-parts": "Mettre à jour",
+    "start-number-parts": "Je cuisine pour ",
+    "end-number-parts": "personne(s)",
     "add-ing": "Ajouter un ingrédient"
   },
   "groups": {
@@ -120,5 +119,15 @@
     "delete-definitif": "Aucun retour en arrière ne sera possible.",
     "delete-yes": "Oui",
     "delete-no": "Non"
+  },
+  "firebase": {
+    "connect": "Accéder à votre compte",
+    "email": "Adresse email",
+    "password": "Mot de passe",
+    "create-account": "Créer un compte",
+    "connection": "Se connecter",
+    "username": "Nom d'utilisateur",
+    "create-user": "Créer l'utilisateur",
+    "sign-out": "Se déconnecter"
   }
 }

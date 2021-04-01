@@ -102,9 +102,10 @@
   },
   "stepper": {
     "title-selection": "Which recipes do you want to cook ?",
-    "title-part": "For how many peoples ?",
+    "title-part": "For how many people ?",
     "title-ingredientsList": "Need to change something ?",
-    "new-number-parts": "Update",
+    "start-number-parts": "I cook for ",
+    "end-number-parts": "people",
     "add-ing": "Add an ingredient"
   },
   "groups": {
@@ -121,5 +122,15 @@
     "delete-definitif": "No going back will be possible.",
     "delete-yes": "Yes",
     "delete-no": "No"
+  },
+  "firebase": {
+    "connect": "Access to your account",
+    "email": "Email",
+    "password": "Password",
+    "creation-account": "Create an account",
+    "connection": "Sign in",
+    "username": "Username",
+    "create-user": "Create user",
+    "sign-out": "Sign out"
   }
 }

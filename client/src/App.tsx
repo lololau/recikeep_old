@@ -15,7 +15,6 @@ import GroceryList from './containers/grocery-list/GroceryList';
 import MyIngredients from './containers/my-ingredients/MyIngredients';
 import Paper from '@material-ui/core/Paper';
 import RecipesSelectionStepper from './containers/stepper/RecipesSelection';
-import Groups from './containers/groups/Groups';
 import Firebase from './containers/firebase/Firebase';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchGetAllRecipes } from './slice/recipes/recipesSlice';
@@ -30,10 +29,10 @@ import MyUnities from './containers/my-unities/MyUnities';
 const theme = createMuiTheme({
     palette: {
         primary: {
-            main: '#ff5722',
+            main: '#00695c',
         },
         secondary: {
-            main: '#0d47a1',
+            main: '#00695c',
         },
     },
 });
@@ -87,18 +86,19 @@ const App = (): JSX.Element => {
                 </Box>
                 <Router>
                     <div className="App">
+                        <Route path="/" exact component={HomeRecipes} />
                         <Route path="/recipes" exact component={HomeRecipes} />
                         <Route path="/profile" exact component={Profile} />
-                        <Route path="/recipe/:id">
-                            <MyRecipe />
-                        </Route>
-                        <Route path="/recipes/update/:id" exact>
-                            <UpdateRecipe />
-                        </Route>
                         <Route path={'/recipes/selection'} exact component={RecipesSelectionStepper} />
                         <Route path={'/profile/my_ingredients'} component={MyIngredients} />
                         <Route path={'/profile/my_unities'} component={MyUnities} />
-                        <Route path="/groups" component={Groups} />
+                        <Route path="/recipes/update/:id" exact>
+                            <UpdateRecipe />
+                        </Route>
+
+                        <Route path="/recipe/:id">
+                            <MyRecipe />
+                        </Route>
                         <Route path="/groceryList/:id">
                             <GroceryList />
                         </Route>
@@ -112,7 +112,7 @@ const App = (): JSX.Element => {
                                 zIndex: 1,
                                 width: '100%',
                                 borderTop: 'thin solid',
-                                background: 'grey',
+                                background: '#fff176',
                             }}
                         />
                     </Paper>

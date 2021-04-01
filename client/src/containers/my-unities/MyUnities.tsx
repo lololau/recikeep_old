@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Container from '@material-ui/core/Container';
+import { Container, Box } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import SearchBar from '../../components/SearchBar';
 import ListComponent, { Element } from '../../components/List';
@@ -40,7 +40,9 @@ const MyUnities = (): JSX.Element => {
     return (
         <Container>
             <h1>{t('myUnities.title-page')}</h1>
-            <SearchBar elements={unitiesList} onchange={onChange} width={'50%'} />
+            <Box style={{ marginTop: 30, marginBottom: 20 }}>
+                <SearchBar elements={unitiesList} onchange={onChange} width="100%" />
+            </Box>
             <ListComponent onRemoveElement={deleteUnity} listElements={selectUnitiesCustom(unitiesCustomDisplay)} />
         </Container>
     );

@@ -82,22 +82,24 @@ const MyRecipe = (): JSX.Element => {
         <Container>
             <Box>
                 <Grid
-                    spacing={4}
                     container
                     style={{
                         alignItems: 'center',
                         width: '100%',
-                        position: 'fixed',
-                        zIndex: 1,
-                        top: 0,
-                        backgroundColor: 'white',
                     }}
                 >
-                    <Grid item xs={6} className="title-page">
+                    <Grid item className="title-page">
                         <h1>{recipe.name}</h1>
                     </Grid>
-                    <Grid item xs={6} style={{ textAlign: 'right' }}>
+                    <Grid item>
                         <IconButton
+                            style={{
+                                float: 'right',
+                                position: 'absolute',
+                                marginRight: '12px',
+                                right: '-2px',
+                                top: '55px',
+                            }}
                             onClick={() => {
                                 history.push(`/recipes/update/${id}`);
                                 console.log(recipe);
@@ -108,8 +110,8 @@ const MyRecipe = (): JSX.Element => {
                     </Grid>
                 </Grid>
             </Box>
-            <Box className="image_and_time_table" style={{ width: '100%', position: 'relative', marginTop: 60 }}>
-                <h3 style={{ marginBottom: 50 }}>{recipe.presentation}</h3>
+            <Box className="image_and_time_table" style={{ width: '100%' }}>
+                <p style={{ marginBottom: 60, marginTop: 0 }}>{recipe.presentation}</p>
                 <Box
                     className="time_and_parts_table"
                     style={{
@@ -121,18 +123,20 @@ const MyRecipe = (): JSX.Element => {
                     }}
                 >
                     <Box style={{ marginBottom: 50 }}>
-                        <h3>
-                            {t('recipe.for')} {recipe.number_parts} {t('recipe.peoples')}
-                        </h3>
+                        <p>
+                            <b>
+                                {t('recipe.for')} {recipe.number_parts} {t('recipe.peoples')}
+                            </b>
+                        </p>
                     </Box>
                     <Box>
-                        <h4>
+                        <p>
                             {recipe.time_preparation &&
                                 `${t('recipe.preparation-time')}: ${recipe.time_preparation} min`}
-                        </h4>
+                        </p>
                     </Box>
                     <Box>
-                        <h4>{recipe.time_cooking && `${t('recipe.cooking-time')}: ${recipe.time_cooking} min`}</h4>
+                        <p>{recipe.time_cooking && `${t('recipe.cooking-time')}: ${recipe.time_cooking} min`}</p>
                     </Box>
                 </Box>
             </Box>

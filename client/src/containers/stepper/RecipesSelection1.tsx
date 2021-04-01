@@ -2,15 +2,14 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import TagsBox from '../../components/Tags';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import React from 'react';
 import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
 import SearchBar from '../../components/SearchBar';
 import { Recipe } from '../../slice/recipes/recipesFetch';
+import { Box } from '@material-ui/core';
 
 type onChange = (recipes: Recipe[]) => void;
 
@@ -89,20 +88,9 @@ const SelectionRecipes = (props: SelectionRecipesProps): JSX.Element => {
     return (
         <Container>
             <h1>{t('stepper.title-selection')}</h1>
-            <Grid
-                container
-                spacing={2}
-                style={{
-                    textAlign: 'left',
-                }}
-            >
-                <Grid item xs={6}>
-                    <SearchBar onchange={onChange} elements={props.recipes} width="100%" />
-                </Grid>
-                <Grid item xs={6}>
-                    <TagsBox />
-                </Grid>
-            </Grid>
+            <Box style={{ marginTop: 30, marginBottom: 20 }}>
+                <SearchBar onchange={onChange} elements={props.recipes} width="100%" />
+            </Box>
             <div className="SelectionRecipesList">
                 <SelectionRecipesList
                     recipes={recipesDisplay}

@@ -9,7 +9,6 @@ import Container from '@material-ui/core/Container';
 // import { selectRecipes } from '../../slice/recipes/recipesSlice';
 // import { useSelector } from 'react-redux';
 import { Recipe } from '../../slice/recipes/recipesFetch';
-import { Button } from '@material-ui/core';
 
 export type numberPartsRecipe = {
     recipe_id: number;
@@ -40,51 +39,60 @@ const SelectionPartsRecipes: FC<SelectionPartsRecipeProps> = (props) => {
 
     return (
         <>
-            <Grid container spacing={0} style={{ alignItems: 'center', display: 'flex' }}>
-                <Grid item xs={2}>
+            <Grid container spacing={1} style={{ alignItems: 'center', display: 'flex', textAlign: 'center' }}>
+                <Grid item>
+                    <p>{t('stepper.start-number-parts')}</p>
+                </Grid>
+
+                <Grid item>
                     <TextField
-                        style={{ width: '100%', textAlign: 'center' }}
+                        style={{ width: '50px' }}
+                        inputProps={{ style: { textAlign: 'center' } }}
                         placeholder={t('new_recipe.parts_add')}
                         value={defaultValue}
-                        variant="outlined"
                         onChange={(event) => {
                             const value = Number(event.currentTarget.value);
                             if (value > 0 || value < 1000) {
                                 setDefaultValue(value);
                             }
+                            const newValues = props.recipes.map(() => value);
+                            setParts(newValues);
                         }}
                     />
                 </Grid>
-                <Grid item xs={2}>
-                    <Button
-                        onClick={() => {
-                            const newValues = props.recipes.map(() => defaultValue);
-                            setParts(newValues);
-                        }}
-                    >
-                        {t('stepper.new-number-parts')}
-                    </Button>
+
+                <Grid item>
+                    <p>{t('stepper.end-number-parts')}</p>
                 </Grid>
             </Grid>
-            <List>
+
+            <List style={{ marginTop: 30 }}>
                 {props.recipes.map((recipe, index) => {
                     const newState = [...parts];
 
                     return (
                         <ListItem divider={true} key={'SelectionPartsRecipes' + index}>
-                            <ListItemText primary={recipe.name} id={index.toString()} />
-
-                            <TextField
-                                value={parts[index]}
-                                placeholder={t('new_recipe.parts_add')}
-                                onChange={(event) => {
-                                    const newParts = Number(event.currentTarget.value);
-                                    if (newParts >= 0 && newParts < 1000) {
-                                        newState[index] = newParts;
-                                        setParts(newState);
-                                    }
-                                }}
-                            />
+                            <Grid container spacing={1} style={{ alignItems: 'center' }}>
+                                <Grid item xs={6} sm={9}>
+                                    <ListItemText primary={recipe.name} id={index.toString()} />
+                                </Grid>
+                                <Grid item xs={6} sm={3}>
+                                    <TextField
+                                        style={{ width: '100%' }}
+                                        inputProps={{ style: { textAlign: 'center' } }}
+                                        value={parts[index]}
+                                        placeholder={t('new_recipe.parts_add')}
+                                        variant="outlined"
+                                        onChange={(event) => {
+                                            const newParts = Number(event.currentTarget.value);
+                                            if (newParts >= 0 && newParts < 1000) {
+                                                newState[index] = newParts;
+                                                setParts(newState);
+                                            }
+                                        }}
+                                    />
+                                </Grid>
+                            </Grid>
                         </ListItem>
                     );
                 })}

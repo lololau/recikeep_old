@@ -4,11 +4,11 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import CheckIcon from '@material-ui/icons/Check';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -168,10 +168,10 @@ const NewRecipe = (): JSX.Element => {
                         }}
                     />
                 </Box>
-                <Grid container spacing={4} style={{ marginBottom: 30 }}>
-                    <Grid item xs={3} className="preparation-time" style={{ display: 'block' }}>
+                <Grid container spacing={3} style={{ marginBottom: 30 }}>
+                    <Grid item xs={6} className="preparation-time" style={{ display: 'block' }}>
                         <p>{t('new_recipe.preparation-time')}</p>
-                        <Box style={{ display: 'flex' }}>
+                        <Box style={{ display: 'flex', width: '70%' }}>
                             <TextField
                                 fullWidth
                                 placeholder={t('new_recipe.add-time')}
@@ -183,9 +183,9 @@ const NewRecipe = (): JSX.Element => {
                             <p>{t('new_recipe.minute')}</p>
                         </Box>
                     </Grid>
-                    <Grid item xs={3} className="cooking-time" style={{ display: 'block' }}>
+                    <Grid item xs={6} className="cooking-time" style={{ display: 'block' }}>
                         <p>{t('new_recipe.cooking-time')}</p>
-                        <Box style={{ display: 'flex' }}>
+                        <Box style={{ display: 'flex', width: '70%' }}>
                             <TextField
                                 fullWidth
                                 placeholder={t('new_recipe.add-time')}
@@ -200,8 +200,8 @@ const NewRecipe = (): JSX.Element => {
                 </Grid>
                 <Box style={{ marginBottom: 70 }}>
                     <p>{t('new_recipe.ingredients')}</p>
-                    <Grid container spacing={4} style={{ alignItems: 'center' }}>
-                        <Grid item xs={3}>
+                    <Grid container spacing={1} style={{ alignItems: 'center' }}>
+                        <Grid item xs={6} sm={3}>
                             <Autosuggestion
                                 label={t('new_recipe.add-ingredient')}
                                 onSelect={(option) => {
@@ -223,7 +223,7 @@ const NewRecipe = (): JSX.Element => {
                                 options={allIngredients}
                             />
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={6} sm={3}>
                             <TextField
                                 style={{ maxWidth: 200 }}
                                 label={t('new_recipe.add-quantity')}
@@ -240,7 +240,7 @@ const NewRecipe = (): JSX.Element => {
                                 }}
                             />
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={6} sm={3}>
                             <Autosuggestion
                                 label={t('new_recipe.add-unity')}
                                 onSelect={(option) => {
@@ -262,8 +262,8 @@ const NewRecipe = (): JSX.Element => {
                                 options={allUnities}
                             />
                         </Grid>
-                        <Grid item xs={3}>
-                            <Button
+                        <Grid item xs={6} sm={3} style={{ textAlign: 'center' }}>
+                            <IconButton
                                 onClick={() => {
                                     if (
                                         ingredientRecipe.ingredient &&
@@ -280,8 +280,8 @@ const NewRecipe = (): JSX.Element => {
                                     alert(t('new_recipe.field-missing'));
                                 }}
                             >
-                                {t('new_recipe.add')}
-                            </Button>
+                                <AddCircleOutlineOutlinedIcon style={{ fontSize: 30, color: '#c9bc1f' }} />
+                            </IconButton>
                         </Grid>
                     </Grid>
                     <Box
@@ -314,7 +314,7 @@ const NewRecipe = (): JSX.Element => {
                                 }
                             }}
                         >
-                            <AddCircleOutlineOutlinedIcon style={{ fontSize: 25 }} />
+                            <CheckIcon style={{ fontSize: 25, color: '#00695c' }} />
                         </IconButton>
                     </Box>
                 </Box>

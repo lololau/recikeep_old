@@ -1,16 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
-import { unwrapResult } from '@reduxjs/toolkit';
-import { useHistory } from 'react-router-dom';
 import List from '@material-ui/core/List';
-import { ListItem, ListItemText, ListItemSecondaryAction } from '@material-ui/core';
+import { ListItem, ListItemText, ListItemSecondaryAction, Box } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import { IconButton } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import CheckIcon from '@material-ui/icons/Check';
 import Autosuggestion from '../../components/Autocomplete';
 import { useSelector } from 'react-redux';
 import { token } from '../../slice/user/userSlice';
@@ -20,7 +17,6 @@ import { unities, fetchAddUnity } from '../../slice/unity/unitySlice';
 import { IngredientsGroceryList } from '../../slice/groceriesLists/groceriesListsFetch';
 import { useAppDispatch } from '../../app/store';
 import { numberPartsRecipe } from './RecipesSelection2';
-import { fetchAddGroceryList } from '../../slice/groceriesLists/groceriesListsSlice';
 
 type onRemove = (ingredient: IngredientsGroceryList, index: number) => void;
 type onValidateIngredientsList = (ingredientsList: IngredientsGroceryList[]) => void;
@@ -76,7 +72,6 @@ interface AddMoreIngredientsProps {
 const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => {
     const { t } = useTranslation();
 
-    const history = useHistory();
     const dispatch = useAppDispatch();
 
     const allIngredients = useSelector(ingredients);
@@ -113,9 +108,9 @@ const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => 
 
     return (
         <Container>
-            <h1 style={{ marginBottom: 50 }}>{t('stepper.title-ingredientsList')}</h1>
-            <Grid container spacing={4} style={{ alignItems: 'center', marginBottom: 10 }}>
-                <Grid item xs={3}>
+            <h1 style={{ marginBottom: 40 }}>{t('stepper.title-ingredientsList')}</h1>
+            <Grid container spacing={1} style={{ alignItems: 'center', marginBottom: 10 }}>
+                <Grid item xs={6} sm={3}>
                     <Autosuggestion
                         label={t('new_recipe.add-ingredient')}
                         onSelect={(option) => {
@@ -129,7 +124,7 @@ const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => 
                         options={allIngredients}
                     />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={6} sm={3}>
                     <Autosuggestion
                         label={t('new_recipe.add-unity')}
                         onSelect={(option) => {
@@ -143,7 +138,7 @@ const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => 
                         options={allUnities}
                     />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={6} sm={3}>
                     <TextField
                         label={t('new_recipe.add-quantity')}
                         variant="outlined"
@@ -155,7 +150,7 @@ const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => 
                         }
                     />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={6} sm={3} style={{ textAlign: 'center' }}>
                     <IconButton
                         onClick={() => {
                             if (newIngredientsList.ingredients) {
@@ -163,43 +158,25 @@ const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => 
                                 setNewIngredientsList({ ...newIngredientsList, ingredients: newIngredientRow });
                                 setIngredientRecipe({
                                     ...ingredientRecipe,
-                                    ingredient: '',
-                                    ingredient_id: undefined,
-                                    unity: '',
-                                    unity_id: undefined,
-                                    quantity: undefined,
                                 });
                             }
                         }}
                     >
-                        <AddCircleOutlineOutlinedIcon style={{ fontSize: 30 }} />
+                        <AddCircleOutlineOutlinedIcon style={{ fontSize: 30, color: '#c9bc1f' }} />
                     </IconButton>
                 </Grid>
             </Grid>
-            <CheckIngredientsList
-                ingredients={newIngredientsList.ingredients}
-                onValidateList={(ingredientsList) => {
-                    if (props.onValidation) {
-                        props.onValidation(ingredientsList);
-                    }
-                }}
-                onRemoveIngredient={removeIngredientList}
-            />
-            <IconButton
-                style={{ marginTop: 10 }}
-                onClick={async () => {
-                    try {
-                        const action = await dispatch(fetchAddGroceryList(newIngredientsList));
-                        const result = unwrapResult(action);
-                        console.log('result: ', result);
-                        history.push(`/groceryList/${result.id}`);
-                    } catch (e) {
-                        return console.error(e);
-                    }
-                }}
-            >
-                <CheckIcon />
-            </IconButton>
+            <Box style={{ paddingBottom: '30px' }}>
+                <CheckIngredientsList
+                    ingredients={newIngredientsList.ingredients}
+                    onValidateList={(ingredientsList) => {
+                        if (props.onValidation) {
+                            props.onValidation(ingredientsList);
+                        }
+                    }}
+                    onRemoveIngredient={removeIngredientList}
+                />
+            </Box>
         </Container>
     );
 };

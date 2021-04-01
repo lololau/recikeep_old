@@ -9,18 +9,17 @@ import Modal from '@material-ui/core/Modal';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import SearchBar from '../../components/SearchBar';
-import TagBox from '../../components/Tags';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import Container from '@material-ui/core/Container';
-import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import { fetchDeleteRecipe, selectRecipes } from '../../slice/recipes/recipesSlice';
 import { fetchGetARecipe } from '../../slice/recipe/recipeSlice';
 import { Recipe } from '../../slice/recipes/recipesFetch';
 import { useSelector, useDispatch } from 'react-redux';
+import { Box } from '@material-ui/core';
 
 export type RecipesListProps = {
     recipes: Recipe[];
@@ -87,7 +86,7 @@ export const RecipesList = (props: RecipesListProps): JSX.Element => {
                 {props.recipes.map((recipe, index) => {
                     return (
                         <ListItem divider={true} key={'RecipesList' + index}>
-                            <Link to={'/recipe/' + recipe.id}>
+                            <Link to={'/recipe/' + recipe.id} style={{ textDecoration: 'none', color: 'black' }}>
                                 <ListItemText
                                     onClick={() => dispatch(fetchGetARecipe(recipe.id))}
                                     primary={recipe.name}
@@ -155,28 +154,27 @@ const HomeRecipes = (): JSX.Element => {
         <Container>
             <div className="recipes" style={{ marginBottom: 20 }}>
                 <h1 style={{ marginBottom: 20 }}>{t('recipes.title')}</h1>
-                <SearchBar elements={recipes} onchange={onChange} width="23%" />
-                <Box style={{ marginTop: 30 }}>
-                    <Grid container spacing={4} style={{ alignItems: 'center' }}>
-                        <Grid item xs={3}>
-                            <TagBox />
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Link to="/recipes/selection">
-                                <Button color="primary">{t('recipes.selectRecipes')}</Button>
-                            </Link>
-                        </Grid>
+                <Grid container spacing={1} style={{ alignItems: 'center' }}>
+                    <Grid item xs={6} sm={6}>
+                        <SearchBar elements={recipes} onchange={onChange} width="100%" />
                     </Grid>
-                </Box>
+                    <Grid item xs={6} sm={6} style={{ textAlign: 'center' }}>
+                        <Link to="/recipes/selection" style={{ textDecoration: 'none' }}>
+                            <Button color="primary">{t('recipes.selectRecipes')}</Button>
+                        </Link>
+                    </Grid>
+                </Grid>
             </div>
             <div className="RecipesList" style={{ marginBottom: 20 }}>
                 <RecipesList recipes={recipesDisplay} />
             </div>
-            <IconButton>
-                <Link to="/recipes/new_recipe">
-                    <AddCircleOutlineOutlinedIcon style={{ fontSize: 30 }} />
-                </Link>
-            </IconButton>
+            <Box style={{ textAlign: 'center', width: '100%' }}>
+                <IconButton>
+                    <Link to="/recipes/new_recipe" style={{ color: '#c9bc1f' }}>
+                        <AddCircleOutlineOutlinedIcon style={{ fontSize: 30 }} />
+                    </Link>
+                </IconButton>
+            </Box>
         </Container>
     );
 };
