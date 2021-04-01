@@ -170,7 +170,7 @@ const HomeRecipes = (): JSX.Element => {
             </div>
             <Box style={{ textAlign: 'center', width: '100%' }}>
                 <IconButton>
-                    <Link to="/recipes/new_recipe" style={{ color: 'black' }}>
+                    <Link to="/recipes/new_recipe" style={{ color: '#00695c' }}>
                         <AddCircleOutlineOutlinedIcon style={{ fontSize: 30 }} />
                     </Link>
                 </IconButton>

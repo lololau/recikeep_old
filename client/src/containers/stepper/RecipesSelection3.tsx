@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
 import List from '@material-ui/core/List';
-import { ListItem, ListItemText, ListItemSecondaryAction } from '@material-ui/core';
+import { ListItem, ListItemText, ListItemSecondaryAction, Box } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import { IconButton } from '@material-ui/core';
@@ -108,7 +108,7 @@ const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => 
 
     return (
         <Container>
-            <h1 style={{ marginBottom: 50 }}>{t('stepper.title-ingredientsList')}</h1>
+            <h1 style={{ marginBottom: 40 }}>{t('stepper.title-ingredientsList')}</h1>
             <Grid container spacing={1} style={{ alignItems: 'center', marginBottom: 10 }}>
                 <Grid item xs={6} sm={3}>
                     <Autosuggestion
@@ -150,7 +150,7 @@ const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => 
                         }
                     />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={6} sm={3} style={{ textAlign: 'center' }}>
                     <IconButton
                         onClick={() => {
                             if (newIngredientsList.ingredients) {
@@ -162,19 +162,21 @@ const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => 
                             }
                         }}
                     >
-                        <AddCircleOutlineOutlinedIcon style={{ fontSize: 30 }} />
+                        <AddCircleOutlineOutlinedIcon style={{ fontSize: 30, color: '#f4511e' }} />
                     </IconButton>
                 </Grid>
             </Grid>
-            <CheckIngredientsList
-                ingredients={newIngredientsList.ingredients}
-                onValidateList={(ingredientsList) => {
-                    if (props.onValidation) {
-                        props.onValidation(ingredientsList);
-                    }
-                }}
-                onRemoveIngredient={removeIngredientList}
-            />
+            <Box style={{ paddingBottom: '30px' }}>
+                <CheckIngredientsList
+                    ingredients={newIngredientsList.ingredients}
+                    onValidateList={(ingredientsList) => {
+                        if (props.onValidation) {
+                            props.onValidation(ingredientsList);
+                        }
+                    }}
+                    onRemoveIngredient={removeIngredientList}
+                />
+            </Box>
         </Container>
     );
 };

@@ -4,10 +4,10 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
+import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -235,8 +235,8 @@ const UpdateRecipe = (): JSX.Element => {
                                     options={allUnities}
                                 />
                             </Grid>
-                            <Grid item xs={6} sm={3}>
-                                <Button
+                            <Grid item xs={6} sm={3} style={{ textAlign: 'center' }}>
+                                <IconButton
                                     onClick={() => {
                                         if (updateRecipe.ingredients) {
                                             if (
@@ -256,8 +256,8 @@ const UpdateRecipe = (): JSX.Element => {
                                         }
                                     }}
                                 >
-                                    {t('new_recipe.add')}
-                                </Button>
+                                    <AddCircleOutlineOutlinedIcon style={{ fontSize: 30, color: '#f4511e' }} />
+                                </IconButton>
                             </Grid>
                         </Grid>
                     </div>
@@ -281,7 +281,7 @@ const UpdateRecipe = (): JSX.Element => {
                                     .catch((e) => console.error(e))
                             }
                         >
-                            <AddCircleOutlineOutlinedIcon style={{ fontSize: 25 }} />
+                            <CheckIcon style={{ fontSize: 25, color: '#00695c' }} />
                         </IconButton>
                     </Box>
                 </Box>

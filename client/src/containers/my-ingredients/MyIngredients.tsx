@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
-import Grid from '@material-ui/core/Grid';
+import { Box } from '@material-ui/core';
 import SearchBar from '../../components/SearchBar';
 import ListComponent, { Element } from '../../components/List';
 import { Ingredient } from '../../slice/ingredients/ingredientsFetch';
@@ -45,12 +45,10 @@ const MyIngredients = (): JSX.Element => {
 
     return (
         <Container>
-            <Grid container style={{ alignItems: 'center' }}>
-                <Grid item xs={6}>
-                    <h1>{t('myIngredients.title-page')}</h1>
-                </Grid>
-            </Grid>
-            <SearchBar elements={ingredientsList} onchange={onChange} width={'50%'} />
+            <h1>{t('myIngredients.title-page')}</h1>
+            <Box style={{ marginTop: 30, marginBottom: 20 }}>
+                <SearchBar elements={ingredientsList} onchange={onChange} width={'100%'} />
+            </Box>
             <ListComponent
                 listElements={selectIngredientsCustom(ingredientsDisplay)}
                 onRemoveElement={deleteIngredient}

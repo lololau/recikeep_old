@@ -81,6 +81,7 @@ const RecipesSelectionStepper = (): JSX.Element => {
                 nextButton={
                     <Button
                         size="small"
+                        disabled={recipesSelected.length <= 0}
                         onClick={async () => {
                             if (activeStep < 2) {
                                 handleNext();

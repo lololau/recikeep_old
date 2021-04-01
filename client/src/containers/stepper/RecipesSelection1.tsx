@@ -88,7 +88,7 @@ const SelectionRecipes = (props: SelectionRecipesProps): JSX.Element => {
     return (
         <Container>
             <h1>{t('stepper.title-selection')}</h1>
-            <Box style={{ marginTop: 30, marginBottom: 30 }}>
+            <Box style={{ marginTop: 30, marginBottom: 20 }}>
                 <SearchBar onchange={onChange} elements={props.recipes} width="100%" />
             </Box>
             <div className="SelectionRecipesList">
