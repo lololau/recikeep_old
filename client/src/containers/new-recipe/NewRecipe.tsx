@@ -280,7 +280,7 @@ const NewRecipe = (): JSX.Element => {
                                     alert(t('new_recipe.field-missing'));
                                 }}
                             >
-                                <AddCircleOutlineOutlinedIcon style={{ fontSize: 30, color: '#f4511e' }} />
+                                <AddCircleOutlineOutlinedIcon style={{ fontSize: 30, color: '#c9bc1f' }} />
                             </IconButton>
                         </Grid>
                     </Grid>
