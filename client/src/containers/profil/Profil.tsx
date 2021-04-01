@@ -109,7 +109,7 @@ const Profile = (): JSX.Element => {
                         </Grid>
                     </Link>
                 </Box>
-                <Box style={{ marginTop: '50%', textAlign: 'center' }}>
+                <Box style={{ marginTop: '150px', textAlign: 'center' }}>
                     <Button onClick={() => changeLanguage('en')}>English</Button>
                     <Button onClick={() => changeLanguage('fr')}>Français</Button>
                 </Box>
