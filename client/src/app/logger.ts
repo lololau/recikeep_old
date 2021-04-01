@@ -1,5 +1,6 @@
 import { Middleware } from '@reduxjs/toolkit';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const loggerMiddleware: Middleware = (api) => (next) => (action) => {
     if (!action.type) {
         return next(action);
