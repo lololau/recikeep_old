@@ -20,11 +20,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchGetAllRecipes } from './slice/recipes/recipesSlice';
 import { fetchGetIngredients } from './slice/ingredients/ingredientsSlice';
 import { fetchGetUnities } from './slice/unity/unitySlice';
-import { isLogged, isCreated, updateIdToken, fetchGetUser, updateFirebaseUser } from './slice/user/userSlice';
+import { isLogged, isCreated, loading, updateIdToken, fetchGetUser, updateFirebaseUser } from './slice/user/userSlice';
 import { fetchGetLatestGroceryList } from './slice/groceryList/groceryListSlice';
 import firebase from 'firebase/app';
 import SignUp from './containers/create-user/CreateUser';
 import MyUnities from './containers/my-unities/MyUnities';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const theme = createMuiTheme({
     palette: {
@@ -40,6 +41,7 @@ const theme = createMuiTheme({
 const App = (): JSX.Element => {
     const dispatch = useDispatch();
 
+    const isLoading = useSelector(loading);
     const logged = useSelector(isLogged);
     const created = useSelector(isCreated);
 
@@ -71,6 +73,10 @@ const App = (): JSX.Element => {
         return subscriber; // unsubscribe on unmount
     }, []);
 
+    /* useEffect(() => {
+        console.log('loading: ', isLoading);
+    }, [isLoading]);
+ */
     const logIn = () => {
         return (
             <div>
@@ -121,6 +127,14 @@ const App = (): JSX.Element => {
         );
     };
 
+    const pending = () => {
+        return (
+            <>
+                <LinearProgress />
+            </>
+        );
+    };
+
     const logOut = () => {
         return (
             <>
@@ -140,8 +154,10 @@ const App = (): JSX.Element => {
     let composant;
     if (!logged) {
         composant = logOut();
-    } else if (logged && created) {
-        composant = logIn();
+    } else if (logged && created && !isLoading) {
+        composant = logIn(); /* 
+    } else if (logged && created && isLoading) {
+        composant = pending(); */
     } else if (logged && !created) {
         composant = createUser();
     }

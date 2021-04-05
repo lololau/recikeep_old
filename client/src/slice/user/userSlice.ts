@@ -18,7 +18,7 @@ const initialState: User = {
     fullName: '',
     idToken: '',
     email: '',
-    isLoading: false,
+    isLoading: true,
 };
 
 export const fetchGetUser = createAsyncThunk('/api/user/getUser', async (idToken: string) => {
@@ -49,56 +49,46 @@ const userReducer = createSlice({
             state.firebaseId = action.payload.firebaseId;
             state.email = action.payload.email;
         },
+        setIsLoadingTrue: (state) => {
+            state.isLoading = true;
+        },
+        setIsLoadingFalse: (state) => {
+            state.isLoading = false;
+        },
     },
     extraReducers: (builder) => {
         // fetchGetUser
-        builder.addCase(fetchGetUser.pending, (state) => {
-            state.isLoading = true;
-        });
         builder.addCase(fetchGetUser.fulfilled, (state, action) => {
-            state.isLoading = false;
             console.log(action.payload);
             state.fullName = action.payload.full_name;
         });
         builder.addCase(fetchGetUser.rejected, (state) => {
-            state.isLoading = false;
             state.fullName = '';
         });
 
         // fetchCreateUser
-        builder.addCase(fetchCreateUser.pending, (state) => {
-            state.isLoading = true;
-        });
         builder.addCase(fetchCreateUser.fulfilled, (state, action) => {
-            state.isLoading = false;
             console.log(action.payload);
             state.fullName = action.payload.user.full_name;
         });
         builder.addCase(fetchCreateUser.rejected, (state) => {
-            state.isLoading = false;
             state.fullName = '';
         });
 
         // fetchUpdateUser
-        builder.addCase(fetchUpdateUser.pending, (state) => {
-            state.isLoading = true;
-        });
         builder.addCase(fetchUpdateUser.fulfilled, (state, action) => {
-            state.isLoading = false;
             console.log(action.payload);
             state.fullName = action.payload.user.full_name;
-        });
-        builder.addCase(fetchUpdateUser.rejected, (state) => {
-            state.isLoading = false;
         });
     },
 });
 
-export const { updateIdToken, updateFirebaseUser } = userReducer.actions;
+export const { updateIdToken, updateFirebaseUser, setIsLoadingTrue, setIsLoadingFalse } = userReducer.actions;
 
 export const selectUser = (state: RootState): User => state.user;
 export const isLogged = (state: RootState): boolean => state.user.firebaseId !== '';
 export const isCreated = (state: RootState): boolean => state.user.fullName !== '';
 export const token = (state: RootState): string => state.user.idToken;
+export const loading = (state: RootState): boolean => state.user.isLoading;
 
 export default userReducer.reducer;

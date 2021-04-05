@@ -13,8 +13,8 @@ import './app-config/firebase-config';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use('/static', express.static(__dirname + '/../../client/build/static'));
-app.use('/', express.static(__dirname + '/../../client/build'));
+/* app.use('/static', express.static(__dirname + '/../../client/build/static'));
+app.use('/', express.static(__dirname + '/../../client/build')); */
 
 // Middlewares
 app.use(cors());
