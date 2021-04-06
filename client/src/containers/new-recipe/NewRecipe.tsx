@@ -9,12 +9,18 @@ import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CheckIcon from '@material-ui/icons/Check';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import Autosuggestion from '../../components/Autocomplete';
 import { useSelector } from 'react-redux';
@@ -95,6 +101,10 @@ interface RequestAddRecipe {
     ingredients?: IngredientRecipe[];
 }
 
+function Alert(props: AlertProps) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const NewRecipe = (): JSX.Element => {
     const { t } = useTranslation();
 
@@ -123,6 +133,10 @@ const NewRecipe = (): JSX.Element => {
         quantity: undefined,
     });
 
+    const [open, setOpen] = useState<boolean>(false);
+    const [error, setError] = useState<boolean>(false);
+    const [requiredField, setRequiredField] = useState<string>('');
+
     const removeIngredientList = (elt: IngredientRecipe, index: number) => {
         if (ingredientsRow[index]) {
             const newingredientRow = ingredientsRow.filter((_, i) => i !== index);
@@ -130,13 +144,23 @@ const NewRecipe = (): JSX.Element => {
         }
     };
 
-    let requiredField = '';
-    let error = false;
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
 
     const onSubmit = async () => {
         if (newRecipe.name == '') {
-            requiredField = 'Field required';
-            error = true;
+            setRequiredField(t('new_recipe.field-missing'));
+            setError(true);
+            handleClick();
+            return false;
         }
         try {
             console.log('fetch add recipe');
@@ -154,16 +178,18 @@ const NewRecipe = (): JSX.Element => {
             <form>
                 <h1 style={{ marginBottom: 40 }}>{t('new_recipe.title-page')}</h1>
                 <Box className="title" style={{ marginBottom: 40 }}>
-                    <p>{t('new_recipe.title')}</p>
-                    <TextField
-                        placeholder={t('new_recipe.add-title')}
-                        required={true}
-                        error={error}
-                        helperText={requiredField}
-                        onChange={(event) => {
-                            setRecipe({ ...newRecipe, name: event.currentTarget.value });
-                        }}
-                    />
+                    <p style={{ marginBottom: 5 }}>{t('new_recipe.title')}</p>
+                    <FormControl error={error} required={true}>
+                        <InputLabel>{t('new_recipe.add-title')}</InputLabel>
+                        <Input
+                            id="component-error"
+                            value={newRecipe.name}
+                            onChange={(event) => {
+                                setRecipe({ ...newRecipe, name: event.currentTarget.value });
+                            }}
+                        />
+                        <FormHelperText id="component-error-text">{requiredField}</FormHelperText>
+                    </FormControl>
                 </Box>
                 <Box style={{ marginBottom: 40 }}>
                     <p>{t('new_recipe.presentation')}</p>
@@ -281,11 +307,7 @@ const NewRecipe = (): JSX.Element => {
                         <Grid item xs={6} sm={3} style={{ textAlign: 'center' }}>
                             <IconButton
                                 onClick={() => {
-                                    if (
-                                        ingredientRecipe.ingredient &&
-                                        ingredientRecipe.quantity &&
-                                        ingredientRecipe.unity
-                                    ) {
+                                    if (ingredientRecipe.ingredient) {
                                         const newIngredientRow = ingredientsRow.concat(ingredientRecipe);
                                         setIngredientRow(newIngredientRow);
                                         setRecipe({ ...newRecipe, ingredients: newIngredientRow });
@@ -295,7 +317,7 @@ const NewRecipe = (): JSX.Element => {
                                     }
                                 }}
                             >
-                                <AddCircleOutlineOutlinedIcon style={{ fontSize: 30, color: '#c9bc1f' }} />
+                                <AddCircleOutlineOutlinedIcon style={{ fontSize: 30, color: '#9ebdd8' }} />
                             </IconButton>
                         </Grid>
                     </Grid>
@@ -316,11 +338,15 @@ const NewRecipe = (): JSX.Element => {
                             onClick={(e) => {
                                 e.preventDefault();
                                 onSubmit();
-                                return false;
                             }}
                         >
-                            <CheckIcon style={{ fontSize: 25, color: '#00695c' }} />
+                            <CheckIcon style={{ fontSize: 25, color: '#ff8a65' }} />
                         </IconButton>
+                        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                            <Alert onClose={handleClose} severity="error">
+                                {t('new_recipe.error')}
+                            </Alert>
+                        </Snackbar>
                     </Box>
                 </Box>
             </form>

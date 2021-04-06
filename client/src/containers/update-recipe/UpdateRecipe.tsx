@@ -8,6 +8,10 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import CheckIcon from '@material-ui/icons/Check';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -23,6 +27,8 @@ import { ingredients, fetchAddIngredient } from '../../slice/ingredients/ingredi
 import { unities, fetchAddUnity } from '../../slice/unity/unitySlice';
 import { fetchUpdateRecipe, fetchGetARecipe, selectRecipe } from '../../slice/recipe/recipeSlice';
 import { RecipeInformation, IngredientsRecipe } from '../../slice/recipe/recipeFetch';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 
 type onRemove = (ingredient: IngredientsRecipe, index: number) => void;
 
@@ -200,7 +206,15 @@ const UpdateRecipe = (): JSX.Element => {
                                             ingredient: option.name,
                                         });
                                     }}
-                                    onAdd={(option) => dispatch(fetchAddIngredient(option))}
+                                    onAdd={async (option) => {
+                                        const ingredient = await dispatch(fetchAddIngredient(option));
+                                        const result = unwrapResult(ingredient);
+                                        setIngredientRecipe({
+                                            ...ingredientRecipe,
+                                            ingredient_id: result.id,
+                                            ingredient: result.name,
+                                        });
+                                    }}
                                     options={allIngredients}
                                 />
                             </Grid>
@@ -239,11 +253,8 @@ const UpdateRecipe = (): JSX.Element => {
                                 <IconButton
                                     onClick={() => {
                                         if (updateRecipe.ingredients) {
-                                            if (
-                                                ingredientRecipe.ingredient &&
-                                                ingredientRecipe.quantity &&
-                                                ingredientRecipe.unity
-                                            ) {
+                                            if (ingredientRecipe.ingredient) {
+                                                console.log('ingredientRecipe: ', ingredientRecipe);
                                                 const newIngredientRow = updateRecipe.ingredients.concat(
                                                     ingredientRecipe,
                                                 );
@@ -252,11 +263,10 @@ const UpdateRecipe = (): JSX.Element => {
                                                     ...ingredientRecipe,
                                                 });
                                             }
-                                            alert(t('new_recipe.field-missing'));
                                         }
                                     }}
                                 >
-                                    <AddCircleOutlineOutlinedIcon style={{ fontSize: 30, color: '#c9bc1f' }} />
+                                    <AddCircleOutlineOutlinedIcon style={{ fontSize: 30, color: '#9ebdd8' }} />
                                 </IconButton>
                             </Grid>
                         </Grid>
@@ -281,7 +291,7 @@ const UpdateRecipe = (): JSX.Element => {
                                     .catch((e) => console.error(e))
                             }
                         >
-                            <CheckIcon style={{ fontSize: 25, color: '#00695c' }} />
+                            <CheckIcon style={{ fontSize: 25, color: '#ff8a65' }} />
                         </IconButton>
                     </Box>
                 </Box>

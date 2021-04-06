@@ -30,10 +30,10 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 const theme = createMuiTheme({
     palette: {
         primary: {
-            main: '#00695c',
+            main: '#ff8a65',
         },
         secondary: {
-            main: '#00695c',
+            main: '#ff8a65',
         },
     },
 });
@@ -118,7 +118,7 @@ const App = (): JSX.Element => {
                                 zIndex: 1,
                                 width: '100%',
                                 borderTop: 'thin solid',
-                                background: '#fff176',
+                                background: '#d0efff',
                             }}
                         />
                     </Paper>

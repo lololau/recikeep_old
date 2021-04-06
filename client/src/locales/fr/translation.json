@@ -71,7 +71,8 @@
     "add": "Ajouter",
     "name-missing": "Le nom de la recette doit être",
     "quantity-typeof": "Les quantités doivent être des nombres",
-    "field-missing": "Pour ajouter un ingrédient, les champs 'Ingrédient', 'Quantité' et 'Unité' doivent être remplis"
+    "field-missing": "Champ obligatoire",
+    "error": "Veuillez renseigner les champs obligatoires"
   },
   "update_recipe": {
     "title-page": "Recette en cours de modification(s)"
