@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import Container from '@material-ui/core/Container';
+import { unwrapResult } from '@reduxjs/toolkit';
 import { useTranslation } from 'react-i18next';
 import List from '@material-ui/core/List';
 import { ListItem, ListItemText, ListItemSecondaryAction, Box } from '@material-ui/core';
@@ -120,22 +121,16 @@ const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => 
                                 ingredient: option.name,
                             });
                         }}
-                        onAdd={(option) => dispatch(fetchAddIngredient(option))}
-                        options={allIngredients}
-                    />
-                </Grid>
-                <Grid item xs={6} sm={3}>
-                    <Autosuggestion
-                        label={t('new_recipe.add-unity')}
-                        onSelect={(option) => {
+                        onAdd={async (option) => {
+                            const ingredient = await dispatch(fetchAddIngredient(option));
+                            const result = unwrapResult(ingredient);
                             setIngredientRecipe({
                                 ...ingredientRecipe,
-                                unity_id: option.id,
-                                unity: option.name,
+                                ingredient_id: result.id,
+                                ingredient: result.name,
                             });
                         }}
-                        onAdd={(option) => dispatch(fetchAddUnity(option))}
-                        options={allUnities}
+                        options={allIngredients}
                     />
                 </Grid>
                 <Grid item xs={6} sm={3}>
@@ -150,6 +145,28 @@ const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => 
                         }
                     />
                 </Grid>
+                <Grid item xs={6} sm={3}>
+                    <Autosuggestion
+                        label={t('new_recipe.add-unity')}
+                        onSelect={(option) => {
+                            setIngredientRecipe({
+                                ...ingredientRecipe,
+                                unity_id: option.id,
+                                unity: option.name,
+                            });
+                        }}
+                        onAdd={async (option) => {
+                            const unity = await dispatch(fetchAddUnity(option));
+                            const result = unwrapResult(unity);
+                            setIngredientRecipe({
+                                ...ingredientRecipe,
+                                unity_id: result.id,
+                                unity: result.name,
+                            });
+                        }}
+                        options={allUnities}
+                    />
+                </Grid>
                 <Grid item xs={6} sm={3} style={{ textAlign: 'center' }}>
                     <IconButton
                         onClick={() => {
@@ -162,7 +179,7 @@ const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => 
                             }
                         }}
                     >
-                        <AddCircleOutlineOutlinedIcon style={{ fontSize: 30, color: '#c9bc1f' }} />
+                        <AddCircleOutlineOutlinedIcon style={{ fontSize: 30, color: '#9ebdd8' }} />
                     </IconButton>
                 </Grid>
             </Grid>

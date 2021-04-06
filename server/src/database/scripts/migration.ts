@@ -75,7 +75,7 @@ const unamed = placeholders();
         ingredient_id INTEGER,
         recipe_id INTEGER,
         unity_id INTEGER,
-        quantity INTEGER NOT NULL,
+        quantity INTEGER,
         FOREIGN KEY(ingredient_id) REFERENCES Ingredient(id),
         FOREIGN KEY(recipe_id) REFERENCES Recipe(id),
         FOREIGN KEY(unity_id) REFERENCES Unity(id)

@@ -20,19 +20,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchGetAllRecipes } from './slice/recipes/recipesSlice';
 import { fetchGetIngredients } from './slice/ingredients/ingredientsSlice';
 import { fetchGetUnities } from './slice/unity/unitySlice';
-import { isLogged, isCreated, updateIdToken, fetchGetUser, updateFirebaseUser } from './slice/user/userSlice';
+import { isLogged, isCreated, loading, updateIdToken, fetchGetUser, updateFirebaseUser } from './slice/user/userSlice';
 import { fetchGetLatestGroceryList } from './slice/groceryList/groceryListSlice';
 import firebase from 'firebase/app';
 import SignUp from './containers/create-user/CreateUser';
 import MyUnities from './containers/my-unities/MyUnities';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const theme = createMuiTheme({
     palette: {
         primary: {
-            main: '#00695c',
+            main: '#ff8a65',
         },
         secondary: {
-            main: '#00695c',
+            main: '#ff8a65',
         },
     },
 });
@@ -40,6 +41,7 @@ const theme = createMuiTheme({
 const App = (): JSX.Element => {
     const dispatch = useDispatch();
 
+    const isLoading = useSelector(loading);
     const logged = useSelector(isLogged);
     const created = useSelector(isCreated);
 
@@ -71,6 +73,10 @@ const App = (): JSX.Element => {
         return subscriber; // unsubscribe on unmount
     }, []);
 
+    /* useEffect(() => {
+        console.log('loading: ', isLoading);
+    }, [isLoading]);
+ */
     const logIn = () => {
         return (
             <div>
@@ -112,12 +118,20 @@ const App = (): JSX.Element => {
                                 zIndex: 1,
                                 width: '100%',
                                 borderTop: 'thin solid',
-                                background: '#fff176',
+                                background: '#d0efff',
                             }}
                         />
                     </Paper>
                 </Router>
             </div>
+        );
+    };
+
+    const pending = () => {
+        return (
+            <>
+                <LinearProgress />
+            </>
         );
     };
 
@@ -148,6 +162,7 @@ const App = (): JSX.Element => {
 
     return (
         <ThemeProvider theme={theme}>
+            <div>{isLoading && pending()}</div>
             <div>{composant}</div>
         </ThemeProvider>
     );

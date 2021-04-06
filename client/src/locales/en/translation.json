@@ -74,7 +74,8 @@
     "add": "Add",
     "name-missing": "Name must be filled out",
     "quantity-typeof": "Type of quantity must be a number",
-    "field-missing": "To add an ingredient, the fields 'Ingredient', 'Quantity' and 'Unity' have to be filled out"
+    "field-missing": "Required field",
+    "error": "Some fields are missing !"
   },
   "update_recipe": {
     "title-page": "Update Recipe"

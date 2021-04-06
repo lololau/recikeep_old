@@ -32,7 +32,7 @@ export const addIngredientsRecipe = async (recipeId: number, req: IngredientsRec
 export const updateIngredientsRecipe = async (recipeId: number, req: IngredientsRecipe[]): Promise<void> => {
     const db = await openDb();
 
-    await db.run(...unamed(`DELETE FROM Recipe_Ingredient WHERE recipe_id=:recipe_id`, { recipe_id: recipeId }));
+    await db.run(...unamed(`DELETE FROM Recipe_ingredient WHERE recipe_id=:recipe_id`, { recipe_id: recipeId }));
     await addIngredientsRecipe(recipeId, req);
 };
 
@@ -65,7 +65,7 @@ export const getIngredientsRecipe = async (userId: number, recipeId: number): Pr
 export const deleteIngredientsRecipe = async (recipeId: number): Promise<void> => {
     const db = await openDb();
 
-    await db.run(...unamed(`DELETE FROM Recipe_Ingredient WHERE recipe_id=:recipe_id`, { recipe_id: recipeId }));
+    await db.run(...unamed(`DELETE FROM Recipe_ingredient WHERE recipe_id=:recipe_id`, { recipe_id: recipeId }));
 };
 
 export type numberPartsRecipe = {
