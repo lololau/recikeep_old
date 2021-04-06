@@ -342,7 +342,12 @@ const NewRecipe = (): JSX.Element => {
                         >
                             <CheckIcon style={{ fontSize: 25, color: '#ff8a65' }} />
                         </IconButton>
-                        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                        <Snackbar
+                            open={open}
+                            style={{ marginBottom: 70 }}
+                            autoHideDuration={6000}
+                            onClose={handleClose}
+                        >
                             <Alert onClose={handleClose} severity="error">
                                 {t('new_recipe.error')}
                             </Alert>
