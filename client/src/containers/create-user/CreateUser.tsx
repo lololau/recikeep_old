@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { Button, TextField, Box, Paper, Grid, Container } from '@material-ui/core';
-import { fetchCreateUser, updateFirebaseUser, token } from '../../slice/user/userSlice';
+import { fetchCreateUser, updateFirebaseUser, token, loading } from '../../slice/user/userSlice';
 import { fetchGetIngredients } from '../../slice/ingredients/ingredientsSlice';
 import { fetchGetUnities } from '../../slice/unity/unitySlice';
 import { fetchGetAllRecipes } from '../../slice/recipes/recipesSlice';
@@ -14,12 +15,27 @@ const SignUp = (): JSX.Element => {
     const dispatch = useDispatch();
 
     const idToken = useSelector(token);
+    const isLoading = useSelector(loading);
 
     const { t } = useTranslation();
 
     const onChangeFullName = (event: ChangeEvent<HTMLInputElement>) => {
         setFullName(event.currentTarget.value);
     };
+
+    if (isLoading) {
+        return (
+            <div
+                style={{
+                    position: 'fixed',
+                    top: '50%',
+                    left: '50%',
+                }}
+            >
+                <CircularProgress />
+            </div>
+        );
+    }
 
     return (
         <>

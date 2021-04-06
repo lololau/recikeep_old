@@ -5,7 +5,7 @@ import { Recipe, RequestAddRecipe, addRecipe, deleteRecipe, getAllRecipes } from
 export const fetchAddRecipe = createAsyncThunk('/api/recipes/add', async (request: RequestAddRecipe, thunkAPI) => {
     const state = thunkAPI.getState() as RootState;
     const recipe = await addRecipe(state.user.idToken, request);
-    console.log(recipe);
+    console.log('recipe: ', recipe);
     return recipe;
 });
 

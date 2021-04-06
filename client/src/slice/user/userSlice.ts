@@ -4,7 +4,7 @@ import { GetUser, CreateUser, RequestCreateUser, UpdateUser, RequestUpdateUser }
 
 export interface User {
     id: number;
-    isLoading: boolean;
+    isLoading: number;
     firebaseId: string;
     fullName: string;
     idToken: string;
@@ -18,7 +18,7 @@ const initialState: User = {
     fullName: '',
     idToken: '',
     email: '',
-    isLoading: true,
+    isLoading: 0,
 };
 
 export const fetchGetUser = createAsyncThunk('/api/user/getUser', async (idToken: string) => {
@@ -49,11 +49,11 @@ const userReducer = createSlice({
             state.firebaseId = action.payload.firebaseId;
             state.email = action.payload.email;
         },
-        setIsLoadingTrue: (state) => {
-            state.isLoading = true;
+        loadingStarted: (state) => {
+            state.isLoading++;
         },
-        setIsLoadingFalse: (state) => {
-            state.isLoading = false;
+        loadingFinished: (state) => {
+            state.isLoading--;
         },
     },
     extraReducers: (builder) => {
@@ -83,12 +83,12 @@ const userReducer = createSlice({
     },
 });
 
-export const { updateIdToken, updateFirebaseUser, setIsLoadingTrue, setIsLoadingFalse } = userReducer.actions;
+export const { updateIdToken, updateFirebaseUser, loadingStarted, loadingFinished } = userReducer.actions;
 
 export const selectUser = (state: RootState): User => state.user;
 export const isLogged = (state: RootState): boolean => state.user.firebaseId !== '';
 export const isCreated = (state: RootState): boolean => state.user.fullName !== '';
 export const token = (state: RootState): string => state.user.idToken;
-export const loading = (state: RootState): boolean => state.user.isLoading;
+export const loading = (state: RootState): boolean => state.user.isLoading > 0;
 
 export default userReducer.reducer;

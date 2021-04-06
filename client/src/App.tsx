@@ -154,16 +154,15 @@ const App = (): JSX.Element => {
     let composant;
     if (!logged) {
         composant = logOut();
-    } else if (logged && created && !isLoading) {
-        composant = logIn(); /* 
-    } else if (logged && created && isLoading) {
-        composant = pending(); */
+    } else if (logged && created) {
+        composant = logIn();
     } else if (logged && !created) {
         composant = createUser();
     }
 
     return (
         <ThemeProvider theme={theme}>
+            <div>{isLoading && pending()}</div>
             <div>{composant}</div>
         </ThemeProvider>
     );

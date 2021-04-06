@@ -133,6 +133,22 @@ const NewRecipe = (): JSX.Element => {
     let requiredField = '';
     let error = false;
 
+    const onSubmit = async () => {
+        if (newRecipe.name == '') {
+            requiredField = 'Field required';
+            error = true;
+        }
+        try {
+            console.log('fetch add recipe');
+            const action = await dispatch(fetchAddRecipe(newRecipe));
+            const result = unwrapResult(action);
+            console.log('result: ', result);
+            history.push(`/recipe/${result.id}`);
+        } catch (e) {
+            return console.error('add recipe error:', e);
+        }
+    };
+
     return (
         <Container>
             <form>
@@ -277,7 +293,6 @@ const NewRecipe = (): JSX.Element => {
                                             ...ingredientRecipe,
                                         });
                                     }
-                                    alert(t('new_recipe.field-missing'));
                                 }}
                             >
                                 <AddCircleOutlineOutlinedIcon style={{ fontSize: 30, color: '#c9bc1f' }} />
@@ -297,21 +312,11 @@ const NewRecipe = (): JSX.Element => {
                     </Box>
                     <Box style={{ width: '100%', textAlign: 'center', marginTop: 20 }}>
                         <IconButton
-                            type="submit"
-                            onClick={async () => {
-                                if (newRecipe.name == '') {
-                                    requiredField = 'Field required';
-                                    error = true;
-                                    return false;
-                                }
-                                try {
-                                    const action = await dispatch(fetchAddRecipe(newRecipe));
-                                    const result = unwrapResult(action);
-                                    console.log('result: ', result);
-                                    history.push(`/recipe/${result.id}`);
-                                } catch (e) {
-                                    return console.error(e);
-                                }
+                            type="button"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                onSubmit();
+                                return false;
                             }}
                         >
                             <CheckIcon style={{ fontSize: 25, color: '#00695c' }} />
