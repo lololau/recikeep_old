@@ -8,10 +8,10 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import CheckIcon from '@material-ui/icons/Check';
-import FormControl from '@material-ui/core/FormControl';
+/* import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
+import InputLabel from '@material-ui/core/InputLabel'; */
 import DeleteIcon from '@material-ui/icons/Delete';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -27,8 +27,8 @@ import { ingredients, fetchAddIngredient } from '../../slice/ingredients/ingredi
 import { unities, fetchAddUnity } from '../../slice/unity/unitySlice';
 import { fetchUpdateRecipe, fetchGetARecipe, selectRecipe } from '../../slice/recipe/recipeSlice';
 import { RecipeInformation, IngredientsRecipe } from '../../slice/recipe/recipeFetch';
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+/* import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert'; */
 
 type onRemove = (ingredient: IngredientsRecipe, index: number) => void;
 
