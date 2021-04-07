@@ -21,7 +21,11 @@ const loggerMiddleware: Middleware = (api) => (next) => (action) => {
         return next(action);
     } else if (action.type.match(isRejected)) {
         console.log('action rejected: ', action.error.stack);
+        console.log('error message: ', action.error);
         api.dispatch(loadingFinished());
+        if (action.error.message === 'Unexpected token i in JSON at position 0') {
+            document.location.reload();
+        }
 
         return next(action);
     }

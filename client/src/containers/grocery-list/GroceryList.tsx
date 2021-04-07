@@ -3,11 +3,12 @@ import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
 import List from '@material-ui/core/List';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Button from '@material-ui/core/Button';
 import ListItem from '@material-ui/core/ListItem';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { fetchGetAGroceryList, selectGroceryList } from '../../slice/groceryList/groceryListSlice';
 import { IngredientsGroceryList } from '../../slice/groceriesLists/groceriesListsFetch';
 
@@ -73,6 +74,9 @@ const GroceryList = (): JSX.Element => {
     return (
         <Container>
             <h1>{t('groceryList.title-page')}</h1>
+            <Link to="/recipes/selection" style={{ textDecoration: 'none' }}>
+                <Button color="primary">{t('recipes.selectRecipes')}</Button>
+            </Link>
             <CheckIngredientsList ingredients={groceryList.ingredients} />
         </Container>
     );

@@ -2,7 +2,6 @@ import '../../i18n';
 import { Link, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';

@@ -87,7 +87,7 @@ interface IngredientRecipe {
     ingredient: string;
     unity_id?: number;
     unity: string;
-    quantity?: number;
+    quantity?: number | null;
 }
 
 interface RequestAddRecipe {

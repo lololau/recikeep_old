@@ -81,6 +81,7 @@ const SignUp = (): JSX.Element => {
                                         onClick={() => {
                                             firebase.auth().signOut();
                                             dispatch(updateFirebaseUser(''));
+                                            document.location.reload();
                                         }}
                                     >
                                         {t('firebase.sign-out')}
