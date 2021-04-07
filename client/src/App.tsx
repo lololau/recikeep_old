@@ -8,6 +8,7 @@ import UpdateRecipe from './containers/update-recipe/UpdateRecipe';
 import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
+import Hidden from '@material-ui/core/Hidden';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import ToolsBar from './containers/toolsbar/Toolsbar';
@@ -71,6 +72,23 @@ const App = (): JSX.Element => {
         }
     };
 
+    const screenSize = () => {
+        return (
+            <Hidden>
+                <ToolsBar
+                    style={{
+                        position: 'fixed',
+                        bottom: 0,
+                        zIndex: 1,
+                        width: '100%',
+                        borderTop: 'thin solid',
+                        background: '#d0efff',
+                    }}
+                />
+            </Hidden>
+        );
+    };
+
     useEffect(() => {
         const subscriber = firebase.auth().onIdTokenChanged(onAuthStateChanged);
         return subscriber; // unsubscribe on unmount
@@ -112,7 +130,8 @@ const App = (): JSX.Element => {
                         <Route path={'/recipes/new_recipe'} exact component={NewRecipe} />
                     </div>
                     <Paper elevation={1}>
-                        <ToolsBar
+                        {screenSize()}
+                        {/* <ToolsBar
                             style={{
                                 position: 'fixed',
                                 bottom: 0,
@@ -121,7 +140,7 @@ const App = (): JSX.Element => {
                                 borderTop: 'thin solid',
                                 background: '#d0efff',
                             }}
-                        />
+                        /> */}
                     </Paper>
                 </Router>
             </div>
