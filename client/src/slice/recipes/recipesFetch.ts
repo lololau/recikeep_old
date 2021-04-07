@@ -15,7 +15,7 @@ export interface Recipe {
 interface IngredientsRecipe {
     ingredient_id?: number;
     unity_id?: number;
-    quantity?: number;
+    quantity?: number | null;
 }
 
 export type RequestAddRecipe = {

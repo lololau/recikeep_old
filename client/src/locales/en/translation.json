@@ -1,8 +1,6 @@
 {
-  "counter": {
-    "title": "Counter",
-    "add": "AddAmount",
-    "addAsync": "AddAsync"
+  "app":{
+    "sign-out": "Sign Out"
   },
   "toolsbar": {
     "recipes": "Recipes",
@@ -15,7 +13,7 @@
     "search": "Search...",
     "tagList": "Tags",
     "types": "Types",
-    "selectRecipes": "Select Recipes",
+    "selectRecipes": "» New Grocery list",
     "add-recipe": "Recipe"
   },
   "recipe": {
@@ -132,6 +130,8 @@
     "connection": "Sign in",
     "username": "Username",
     "create-user": "Create user",
-    "sign-out": "Sign out"
+    "sign-out": "Sign out",
+    "wrong-connection": "The password is invalid or the user does not have an account.",
+    "already-account": "The email address is already in use by another account."
   }
 }

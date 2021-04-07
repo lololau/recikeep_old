@@ -1,8 +1,6 @@
 {
-  "counter": {
-    "title": "Compteur",
-    "add": "Ajout Montant",
-    "addAsync": "Ajout Montant Async"
+  "app":{
+    "sign-out": "Déconnexion"
   },
   "toolsbar": {
     "recipes": "Recettes",
@@ -14,7 +12,7 @@
     "title": "Recettes",
     "search": "Recheche...",
     "tagList": "Tag(s)",
-    "selectRecipes": "Selection de Recettes",
+    "selectRecipes": "» nouvelle liste de course",
     "add-recipe": "Recette"
   }, 
   "recipe": {
@@ -129,6 +127,8 @@
     "connection": "Se connecter",
     "username": "Nom d'utilisateur",
     "create-user": "Créer l'utilisateur",
-    "sign-out": "Se déconnecter"
+    "sign-out": "Se déconnecter",
+    "wrong-connection": "Le mot de passe n'est pas valide ou l'utilisateur ne possède pas de compte.",
+    "already-account": "L'adresse email est déjà utilisée par un autre compte."
   }
 }

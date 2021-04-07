@@ -258,6 +258,7 @@ const UpdateRecipe = (): JSX.Element => {
                                                 const newIngredientRow = updateRecipe.ingredients.concat(
                                                     ingredientRecipe,
                                                 );
+                                                console.log('newIngredientRow: ', newIngredientRow);
                                                 setUpdateRecipe({ ...updateRecipe, ingredients: newIngredientRow });
                                                 setIngredientRecipe({
                                                     ...ingredientRecipe,

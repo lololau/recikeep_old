@@ -26,6 +26,7 @@ import firebase from 'firebase/app';
 import SignUp from './containers/create-user/CreateUser';
 import MyUnities from './containers/my-unities/MyUnities';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import { useTranslation } from 'react-i18next';
 
 const theme = createMuiTheme({
     palette: {
@@ -40,6 +41,8 @@ const theme = createMuiTheme({
 
 const App = (): JSX.Element => {
     const dispatch = useDispatch();
+
+    const { t } = useTranslation();
 
     const isLoading = useSelector(loading);
     const logged = useSelector(isLogged);
@@ -73,21 +76,19 @@ const App = (): JSX.Element => {
         return subscriber; // unsubscribe on unmount
     }, []);
 
-    /* useEffect(() => {
-        console.log('loading: ', isLoading);
-    }, [isLoading]);
- */
     const logIn = () => {
         return (
             <div>
                 <Box style={{ textAlign: 'right' }}>
                     <Button
+                        size="small"
                         onClick={() => {
                             firebase.auth().signOut();
                             dispatch(updateFirebaseUser(''));
+                            document.location.reload();
                         }}
                     >
-                        Sign Out
+                        {t('app.sign-out')}
                     </Button>
                 </Box>
                 <Router>
