@@ -5,7 +5,7 @@ import HomeRecipes from './containers/recipes/Recipes';
 import MyRecipe from './containers/recipe/Recipe';
 import NewRecipe from './containers/new-recipe/NewRecipe';
 import UpdateRecipe from './containers/update-recipe/UpdateRecipe';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -48,6 +48,8 @@ const App = (): JSX.Element => {
     const logged = useSelector(isLogged);
     const created = useSelector(isCreated);
 
+    const [marginLeft, setMarginLeft] = useState<number>(0);
+
     const onAuthStateChanged = (user: firebase.User | null) => {
         console.log('User: ', user);
         if (user) {
@@ -71,10 +73,24 @@ const App = (): JSX.Element => {
         }
     };
 
+    const margin = () => {
+        let newMargin;
+        if (window.screen.width < 600) {
+            newMargin = 0;
+        } else {
+            newMargin = 160;
+        }
+        setMarginLeft(newMargin);
+    };
+
     useEffect(() => {
         const subscriber = firebase.auth().onIdTokenChanged(onAuthStateChanged);
         return subscriber; // unsubscribe on unmount
     }, []);
+
+    useEffect(() => {
+        margin();
+    }, [window.screen.width]);
 
     const logIn = () => {
         return (
@@ -92,7 +108,7 @@ const App = (): JSX.Element => {
                     </Button>
                 </Box>
                 <Router>
-                    <div className="App">
+                    <div className="App" style={{ marginLeft: marginLeft }}>
                         <Route path="/" exact component={HomeRecipes} />
                         <Route path="/recipes" exact component={HomeRecipes} />
                         <Route path="/profile" exact component={Profile} />
@@ -119,7 +135,7 @@ const App = (): JSX.Element => {
                                 zIndex: 1,
                                 width: '100%',
                                 borderTop: 'thin solid',
-                                background: '#d0efff',
+                                background: '#b7e0e5',
                             }}
                         />
                     </Paper>
