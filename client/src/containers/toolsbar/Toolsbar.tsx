@@ -30,51 +30,56 @@ const ToolsBar = (props: ToolbarProps): JSX.Element => {
 
     return (
         <div>
-            <Hidden only="xs">
-                <Drawer variant="permanent" anchor="left">
-                    <Divider />
-                    <List>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <HomeIcon />
-                            </ListItemIcon>
-                            <Link to={'/recipes'} style={{ textDecoration: 'none', color: 'black' }}>
-                                <ListItemText primary={t('toolsbar.recipes')} />
-                            </Link>
-                        </ListItem>
+            <div>
+                <Hidden only="xs">
+                    <Drawer variant="permanent" anchor="left">
                         <Divider />
-                        <ListItem button>
-                            <ListItemIcon>
-                                <ListIcon />
-                            </ListItemIcon>
-                            <Link
-                                to={`/groceryList/${groceryList.id}`}
-                                style={{ textDecoration: 'none', color: 'black' }}
-                            >
-                                <ListItemText
-                                    primary={t('toolsbar.groceryList')}
-                                    onClick={() => {
-                                        if (groceryList.id) {
-                                            dispatch(fetchGetAGroceryList(groceryList.id));
-                                        }
-                                    }}
-                                />
-                            </Link>
-                        </ListItem>
-                        <Divider />
-                        <ListItem button>
-                            <ListItemIcon>
-                                <ListIcon />
-                            </ListItemIcon>
-                            <Link to={'/profile'} style={{ textDecoration: 'none', color: 'black' }}>
-                                <ListItemText primary={t('toolsbar.profile')} />
-                            </Link>
-                        </ListItem>
-                    </List>
-                    <Divider />
-                </Drawer>
-            </Hidden>
-            <Hidden only={['sm', 'lg']}>
+                        <List
+                            style={{
+                                width: '160px',
+                            }}
+                        >
+                            <ListItem button>
+                                <ListItemIcon style={{ color: '#b7e0e5' }}>
+                                    <HomeIcon />
+                                </ListItemIcon>
+                                <Link to={'/recipes'} style={{ textDecoration: 'none', color: 'rgba(0, 0, 0, 0.54)' }}>
+                                    <ListItemText primary={t('toolsbar.recipes')} />
+                                </Link>
+                            </ListItem>
+                            <Divider />
+                            <ListItem button>
+                                <ListItemIcon style={{ color: '#b7e0e5' }}>
+                                    <ListIcon />
+                                </ListItemIcon>
+                                <Link
+                                    to={`/groceryList/${groceryList.id}`}
+                                    style={{ textDecoration: 'none', color: 'rgba(0, 0, 0, 0.54)' }}
+                                >
+                                    <ListItemText
+                                        primary={t('toolsbar.groceryList')}
+                                        onClick={() => {
+                                            if (groceryList.id) {
+                                                dispatch(fetchGetAGroceryList(groceryList.id));
+                                            }
+                                        }}
+                                    />
+                                </Link>
+                            </ListItem>
+                            <Divider />
+                            <ListItem button>
+                                <ListItemIcon style={{ color: '#b7e0e5' }}>
+                                    <AccountCircleIcon />
+                                </ListItemIcon>
+                                <Link to={'/profile'} style={{ textDecoration: 'none', color: 'rgba(0, 0, 0, 0.54)' }}>
+                                    <ListItemText primary={t('toolsbar.profile')} />
+                                </Link>
+                            </ListItem>
+                        </List>
+                    </Drawer>
+                </Hidden>
+            </div>
+            <Hidden only={['sm', 'md', 'lg', 'xl']}>
                 <Drawer variant="permanent" anchor="left">
                     <BottomNavigation
                         value={button}
