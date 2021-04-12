@@ -70,7 +70,9 @@
     "name-missing": "Le nom de la recette doit être",
     "quantity-typeof": "Les quantités doivent être des nombres",
     "field-missing": "Champ obligatoire",
-    "error": "Veuillez renseigner les champs obligatoires"
+    "error": "Veuillez renseigner les champs obligatoires",
+    "same-ingredient": "Impossible d'ajouter le même ingrédient plusieurs fois dans la liste.",
+    "bad-ingredients": "Pour ajouter un ingrédient vous devez reseigner les cases 'Ingrédient', 'Quantité' et 'Unité'."
   },
   "update_recipe": {
     "title-page": "Recette en cours de modification(s)"
@@ -129,6 +131,8 @@
     "create-user": "Créer l'utilisateur",
     "sign-out": "Se déconnecter",
     "wrong-connection": "Le mot de passe n'est pas valide ou l'utilisateur ne possède pas de compte.",
-    "already-account": "L'adresse email est déjà utilisée par un autre compte."
+    "already-account": "L'adresse email est déjà utilisée par un autre compte.",
+    "bad-email": "L'adresse email indiquée comporte une erreur. Veuillez la corriger. Une adresse mail est composée de caractères alphanumériques et ne contient ni espace, ni lettre accentuée.",
+    "bad-password": "Le mot de passe doit comporter 6 caractères ou plus."
   }
 }

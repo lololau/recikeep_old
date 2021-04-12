@@ -8,10 +8,10 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import CheckIcon from '@material-ui/icons/Check';
-/* import FormControl from '@material-ui/core/FormControl';
+import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel'; */
+import InputLabel from '@material-ui/core/InputLabel';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -27,8 +27,8 @@ import { ingredients, fetchAddIngredient } from '../../slice/ingredients/ingredi
 import { unities, fetchAddUnity } from '../../slice/unity/unitySlice';
 import { fetchUpdateRecipe, fetchGetARecipe, selectRecipe } from '../../slice/recipe/recipeSlice';
 import { RecipeInformation, IngredientsRecipe } from '../../slice/recipe/recipeFetch';
-/* import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert'; */
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 
 type onRemove = (ingredient: IngredientsRecipe, index: number) => void;
 
@@ -87,6 +87,10 @@ interface Params {
     id: string;
 }
 
+function Alert(props: AlertProps) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const UpdateRecipe = (): JSX.Element => {
     const { t } = useTranslation();
 
@@ -99,8 +103,11 @@ const UpdateRecipe = (): JSX.Element => {
     const allIngredients = useSelector(ingredients);
     const allUnities = useSelector(unities);
 
-    console.log(recipe);
     const [updateRecipe, setUpdateRecipe] = useState<RecipeInformation>(recipe);
+    const [errorMessage, setErrorMessage] = useState<string>('');
+    const [open, setOpen] = useState<boolean>(false);
+    const [error, setError] = useState<boolean>(false);
+    const [requiredField, setRequiredField] = useState<string>('');
 
     const [ingredientRecipe, setIngredientRecipe] = useState<IngredientsRecipe>({
         ingredient: '',
@@ -125,19 +132,34 @@ const UpdateRecipe = (): JSX.Element => {
         setUpdateRecipe(recipe);
     }, [recipe]);
 
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
+
     return (
         <Container>
             <form>
                 <h1 style={{ marginBottom: 40 }}>{t('update_recipe.title-page')}</h1>
                 <Box className="title" style={{ marginBottom: 40 }}>
                     <p>{t('new_recipe.title')}</p>
-                    <TextField
-                        value={updateRecipe.name}
-                        placeholder={t('new_recipe.add-title')}
-                        onChange={(event) => {
-                            setUpdateRecipe({ ...updateRecipe, name: event.currentTarget.value });
-                        }}
-                    />
+                    <FormControl error={error} required={true}>
+                        <InputLabel>{t('new_recipe.add-title')}</InputLabel>
+                        <Input
+                            id="component-error"
+                            value={updateRecipe.name}
+                            onChange={(event) => {
+                                setUpdateRecipe({ ...updateRecipe, name: event.currentTarget.value });
+                            }}
+                        />
+                        <FormHelperText id="component-error-text">{requiredField}</FormHelperText>
+                    </FormControl>
                 </Box>
                 <Box style={{ marginBottom: 40 }}>
                     <p>{t('new_recipe.presentation')}</p>
@@ -253,22 +275,46 @@ const UpdateRecipe = (): JSX.Element => {
                                 <IconButton
                                     onClick={() => {
                                         if (updateRecipe.ingredients) {
-                                            if (ingredientRecipe.ingredient) {
-                                                console.log('ingredientRecipe: ', ingredientRecipe);
-                                                const newIngredientRow = updateRecipe.ingredients.concat(
-                                                    ingredientRecipe,
-                                                );
-                                                console.log('newIngredientRow: ', newIngredientRow);
-                                                setUpdateRecipe({ ...updateRecipe, ingredients: newIngredientRow });
-                                                setIngredientRecipe({
-                                                    ...ingredientRecipe,
-                                                });
+                                            if (
+                                                !ingredientRecipe.ingredient ||
+                                                !ingredientRecipe.quantity ||
+                                                !ingredientRecipe.unity
+                                            ) {
+                                                setErrorMessage(t('new_recipe.bad-ingredients'));
+                                                handleClick();
+                                                return;
                                             }
+                                            const sameIngredient = updateRecipe.ingredients.find(
+                                                (ing) => ing.ingredient_id === ingredientRecipe.ingredient_id,
+                                            );
+                                            console.log('sameIngredient: ', sameIngredient);
+                                            if (sameIngredient) {
+                                                setErrorMessage(t('new_recipe.same-ingredient'));
+                                                handleClick();
+                                                return;
+                                            }
+                                            const newIngredientRow = updateRecipe.ingredients.concat(ingredientRecipe);
+                                            setUpdateRecipe({ ...updateRecipe, ingredients: newIngredientRow });
+                                            setIngredientRecipe({
+                                                ...ingredientRecipe,
+                                                ingredient: '',
+                                                ingredient_id: undefined,
+                                            });
                                         }
                                     }}
                                 >
                                     <AddCircleOutlineOutlinedIcon style={{ fontSize: 30, color: '#9ebdd8' }} />
                                 </IconButton>
+                                <Snackbar
+                                    open={open}
+                                    style={{ marginBottom: 70 }}
+                                    autoHideDuration={6000}
+                                    onClose={handleClose}
+                                >
+                                    <Alert onClose={handleClose} severity="error">
+                                        {errorMessage}
+                                    </Alert>
+                                </Snackbar>
                             </Grid>
                         </Grid>
                     </div>
@@ -278,7 +324,14 @@ const UpdateRecipe = (): JSX.Element => {
                     />
                     <Box style={{ width: '100%', textAlign: 'center', marginTop: 20 }}>
                         <IconButton
-                            onClick={() =>
+                            onClick={() => {
+                                if (updateRecipe.name == '') {
+                                    setRequiredField(t('new_recipe.field-missing'));
+                                    setError(true);
+                                    setErrorMessage(t('new_recipe.error'));
+                                    handleClick();
+                                    return false;
+                                }
                                 dispatch(
                                     fetchUpdateRecipe({
                                         recipe: updateRecipe,
@@ -289,8 +342,8 @@ const UpdateRecipe = (): JSX.Element => {
                                         console.log('result: ', result);
                                         history.push(`/recipe/${result.id}`);
                                     })
-                                    .catch((e) => console.error(e))
-                            }
+                                    .catch((e) => console.error(e));
+                            }}
                         >
                             <CheckIcon style={{ fontSize: 25, color: '#ff8a65' }} />
                         </IconButton>

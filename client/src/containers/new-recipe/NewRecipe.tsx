@@ -87,7 +87,7 @@ interface IngredientRecipe {
     ingredient: string;
     unity_id?: number;
     unity: string;
-    quantity?: number | null;
+    quantity?: number;
 }
 
 interface RequestAddRecipe {
@@ -133,6 +133,7 @@ const NewRecipe = (): JSX.Element => {
         quantity: undefined,
     });
 
+    const [errorMessage, setErrorMessage] = useState<string>('');
     const [open, setOpen] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
     const [requiredField, setRequiredField] = useState<string>('');
@@ -159,6 +160,7 @@ const NewRecipe = (): JSX.Element => {
         if (newRecipe.name == '') {
             setRequiredField(t('new_recipe.field-missing'));
             setError(true);
+            setErrorMessage(t('new_recipe.error'));
             handleClick();
             return false;
         }
@@ -307,18 +309,46 @@ const NewRecipe = (): JSX.Element => {
                         <Grid item xs={6} sm={3} style={{ textAlign: 'center' }}>
                             <IconButton
                                 onClick={() => {
-                                    if (ingredientRecipe.ingredient) {
-                                        const newIngredientRow = ingredientsRow.concat(ingredientRecipe);
-                                        setIngredientRow(newIngredientRow);
-                                        setRecipe({ ...newRecipe, ingredients: newIngredientRow });
-                                        setIngredientRecipe({
-                                            ...ingredientRecipe,
-                                        });
+                                    if (
+                                        !ingredientRecipe.ingredient ||
+                                        !ingredientRecipe.quantity ||
+                                        !ingredientRecipe.unity
+                                    ) {
+                                        setErrorMessage(t('new_recipe.bad-ingredients'));
+                                        handleClick();
+                                        return;
                                     }
+                                    const sameIngredient = ingredientsRow.find(
+                                        (ing) => ing.ingredient_id === ingredientRecipe.ingredient_id,
+                                    );
+                                    console.log('sameIngredient: ', sameIngredient);
+                                    if (sameIngredient) {
+                                        setErrorMessage(t('new_recipe.same-ingredient'));
+                                        handleClick();
+                                        return;
+                                    }
+                                    const newIngredientRow = ingredientsRow.concat(ingredientRecipe);
+                                    setIngredientRow(newIngredientRow);
+                                    setRecipe({ ...newRecipe, ingredients: newIngredientRow });
+                                    setIngredientRecipe({
+                                        ...ingredientRecipe,
+                                        ingredient: '',
+                                        ingredient_id: undefined,
+                                    });
                                 }}
                             >
                                 <AddCircleOutlineOutlinedIcon style={{ fontSize: 30, color: '#9ebdd8' }} />
                             </IconButton>
+                            <Snackbar
+                                open={open}
+                                style={{ marginBottom: 70 }}
+                                autoHideDuration={6000}
+                                onClose={handleClose}
+                            >
+                                <Alert onClose={handleClose} severity="error">
+                                    {errorMessage}
+                                </Alert>
+                            </Snackbar>
                         </Grid>
                     </Grid>
                     <Box
@@ -349,7 +379,7 @@ const NewRecipe = (): JSX.Element => {
                             onClose={handleClose}
                         >
                             <Alert onClose={handleClose} severity="error">
-                                {t('new_recipe.error')}
+                                {errorMessage}
                             </Alert>
                         </Snackbar>
                     </Box>

@@ -113,7 +113,7 @@ const SelectionParts: FC<SelectionPartsProps> = (props): JSX.Element => {
         <Container>
             <h1>{t('stepper.title-part')}</h1>
 
-            <div className="SelectionRecipesList">
+            <div className="SelectionRecipesList" style={{ paddingBottom: '30px' }}>
                 <SelectionPartsRecipes
                     recipes={props.recipes}
                     onPartsSelected={(numberPartsByRecipe) => {

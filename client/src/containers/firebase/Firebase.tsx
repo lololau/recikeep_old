@@ -44,10 +44,19 @@ const Firebase = (): JSX.Element => {
                 console.log(userCredential);
             })
             .catch((error) => {
-                setErrorMessage(t('firebase.already-account'));
-                handleClick();
                 const errorCode = error.code;
                 const errorMessage = error.message;
+
+                if (errorMessage == 'The email address is badly formatted.') {
+                    setErrorMessage(t('firebase.bad-email'));
+                    handleClick();
+                } else if (errorMessage == 'The password must be 6 characters long or more.') {
+                    setErrorMessage(t('firebase.bad-password'));
+                    handleClick();
+                } else {
+                    setErrorMessage(t('firebase.already-account'));
+                    handleClick();
+                }
                 console.log('Error: signUpWithEmailPassword, errorCode: ', errorCode);
                 console.log('Error: signUpWithEmailPassword, errorMessage: ', errorMessage);
             });

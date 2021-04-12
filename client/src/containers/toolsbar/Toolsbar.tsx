@@ -1,5 +1,5 @@
 import '../../i18n';
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import React from 'react';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
@@ -10,6 +10,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
+import Grid from '@material-ui/core/Grid';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -36,44 +37,71 @@ const ToolsBar = (props: ToolbarProps): JSX.Element => {
                         <Divider />
                         <List
                             style={{
-                                width: '160px',
+                                width: '200px',
                             }}
                         >
                             <ListItem button>
-                                <ListItemIcon style={{ color: '#b7e0e5' }}>
-                                    <HomeIcon />
-                                </ListItemIcon>
-                                <Link to={'/recipes'} style={{ textDecoration: 'none', color: 'rgba(0, 0, 0, 0.54)' }}>
-                                    <ListItemText primary={t('toolsbar.recipes')} />
-                                </Link>
-                            </ListItem>
-                            <Divider />
-                            <ListItem button>
-                                <ListItemIcon style={{ color: '#b7e0e5' }}>
-                                    <ListIcon />
-                                </ListItemIcon>
-                                <Link
-                                    to={`/groceryList/${groceryList.id}`}
-                                    style={{ textDecoration: 'none', color: 'rgba(0, 0, 0, 0.54)' }}
+                                <NavLink
+                                    to={'/recipes'}
+                                    style={{ textDecoration: 'none', color: 'rgb(170, 170, 170)' }}
+                                    activeStyle={{ color: 'black', fontWeight: 'bolder' }}
                                 >
-                                    <ListItemText
-                                        primary={t('toolsbar.groceryList')}
-                                        onClick={() => {
-                                            if (groceryList.id) {
-                                                dispatch(fetchGetAGroceryList(groceryList.id));
-                                            }
-                                        }}
-                                    />
-                                </Link>
+                                    <Grid container style={{ alignItems: 'center' }}>
+                                        <Grid item xs>
+                                            <ListItemIcon style={{ color: '#b7e0e5' }}>
+                                                <HomeIcon />
+                                            </ListItemIcon>
+                                        </Grid>
+                                        <Grid item xs style={{ width: '100%' }}>
+                                            <ListItemText primary={t('toolsbar.recipes')} />
+                                        </Grid>
+                                    </Grid>
+                                </NavLink>
                             </ListItem>
                             <Divider />
                             <ListItem button>
-                                <ListItemIcon style={{ color: '#b7e0e5' }}>
-                                    <AccountCircleIcon />
-                                </ListItemIcon>
-                                <Link to={'/profile'} style={{ textDecoration: 'none', color: 'rgba(0, 0, 0, 0.54)' }}>
-                                    <ListItemText primary={t('toolsbar.profile')} />
-                                </Link>
+                                <NavLink
+                                    to={`/groceryList/${groceryList.id}`}
+                                    style={{ textDecoration: 'none', color: 'rgb(170, 170, 170)' }}
+                                    activeStyle={{ color: 'black' }}
+                                >
+                                    <Grid container style={{ alignItems: 'center' }}>
+                                        <Grid item xs>
+                                            <ListItemIcon style={{ color: '#b7e0e5' }}>
+                                                <ListIcon />
+                                            </ListItemIcon>
+                                        </Grid>
+                                        <Grid item xs style={{ width: '100%' }}>
+                                            <ListItemText
+                                                primary={t('toolsbar.groceryList')}
+                                                onClick={() => {
+                                                    if (groceryList.id) {
+                                                        dispatch(fetchGetAGroceryList(groceryList.id));
+                                                    }
+                                                }}
+                                            />
+                                        </Grid>
+                                    </Grid>
+                                </NavLink>
+                            </ListItem>
+                            <Divider />
+                            <ListItem button>
+                                <NavLink
+                                    to={'/profile'}
+                                    style={{ textDecoration: 'none', color: 'rgb(170, 170, 170)' }}
+                                    activeStyle={{ color: 'black' }}
+                                >
+                                    <Grid container style={{ alignItems: 'center' }}>
+                                        <Grid item xs>
+                                            <ListItemIcon style={{ color: '#b7e0e5' }}>
+                                                <AccountCircleIcon />
+                                            </ListItemIcon>
+                                        </Grid>
+                                        <Grid item xs style={{ width: '100%' }}>
+                                            <ListItemText primary={t('toolsbar.profile')} />
+                                        </Grid>
+                                    </Grid>
+                                </NavLink>
                             </ListItem>
                         </List>
                     </Drawer>

@@ -91,7 +91,7 @@ const SelectionRecipes = (props: SelectionRecipesProps): JSX.Element => {
             <Box style={{ marginTop: 30, marginBottom: 20 }}>
                 <SearchBar onchange={onChange} elements={props.recipes} width="100%" />
             </Box>
-            <div className="SelectionRecipesList">
+            <div className="SelectionRecipesList" style={{ paddingBottom: '30px' }}>
                 <SelectionRecipesList
                     recipes={recipesDisplay}
                     onChange={(recipes) => {
