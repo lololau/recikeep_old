@@ -1,5 +1,5 @@
 import '../../i18n';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import React from 'react';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
@@ -26,6 +26,7 @@ const ToolsBar = (props: ToolbarProps): JSX.Element => {
     const { t } = useTranslation();
     const [button, setButton] = React.useState(0);
 
+    const { pathname } = useLocation();
     const dispatch = useDispatch();
     const groceryList = useSelector(selectGroceryList);
 
@@ -44,6 +45,7 @@ const ToolsBar = (props: ToolbarProps): JSX.Element => {
                                 <NavLink
                                     to={'/recipes'}
                                     style={{ textDecoration: 'none', color: 'rgb(170, 170, 170)' }}
+                                    isActive={() => ['/recipes', '/'].includes(pathname)}
                                     activeStyle={{ color: 'black', fontWeight: 'bolder' }}
                                 >
                                     <Grid container style={{ alignItems: 'center' }}>
