@@ -316,14 +316,25 @@ const NewRecipe = (): JSX.Element => {
                                     ) {
                                         setErrorMessage(t('new_recipe.bad-ingredients'));
                                         handleClick();
-                                    } else {
-                                        const newIngredientRow = ingredientsRow.concat(ingredientRecipe);
-                                        setIngredientRow(newIngredientRow);
-                                        setRecipe({ ...newRecipe, ingredients: newIngredientRow });
-                                        setIngredientRecipe({
-                                            ...ingredientRecipe,
-                                        });
+                                        return;
                                     }
+                                    const sameIngredient = ingredientsRow.find(
+                                        (ing) => ing.ingredient_id === ingredientRecipe.ingredient_id,
+                                    );
+                                    console.log('sameIngredient: ', sameIngredient);
+                                    if (sameIngredient) {
+                                        setErrorMessage(t('new_recipe.same-ingredient'));
+                                        handleClick();
+                                        return;
+                                    }
+                                    const newIngredientRow = ingredientsRow.concat(ingredientRecipe);
+                                    setIngredientRow(newIngredientRow);
+                                    setRecipe({ ...newRecipe, ingredients: newIngredientRow });
+                                    setIngredientRecipe({
+                                        ...ingredientRecipe,
+                                        ingredient: '',
+                                        ingredient_id: undefined,
+                                    });
                                 }}
                             >
                                 <AddCircleOutlineOutlinedIcon style={{ fontSize: 30, color: '#9ebdd8' }} />

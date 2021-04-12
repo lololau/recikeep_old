@@ -282,15 +282,24 @@ const UpdateRecipe = (): JSX.Element => {
                                             ) {
                                                 setErrorMessage(t('new_recipe.bad-ingredients'));
                                                 handleClick();
-                                            } else {
-                                                const newIngredientRow = updateRecipe.ingredients.concat(
-                                                    ingredientRecipe,
-                                                );
-                                                setUpdateRecipe({ ...updateRecipe, ingredients: newIngredientRow });
-                                                setIngredientRecipe({
-                                                    ...ingredientRecipe,
-                                                });
+                                                return;
                                             }
+                                            const sameIngredient = updateRecipe.ingredients.find(
+                                                (ing) => ing.ingredient_id === ingredientRecipe.ingredient_id,
+                                            );
+                                            console.log('sameIngredient: ', sameIngredient);
+                                            if (sameIngredient) {
+                                                setErrorMessage(t('new_recipe.same-ingredient'));
+                                                handleClick();
+                                                return;
+                                            }
+                                            const newIngredientRow = updateRecipe.ingredients.concat(ingredientRecipe);
+                                            setUpdateRecipe({ ...updateRecipe, ingredients: newIngredientRow });
+                                            setIngredientRecipe({
+                                                ...ingredientRecipe,
+                                                ingredient: '',
+                                                ingredient_id: undefined,
+                                            });
                                         }
                                     }}
                                 >

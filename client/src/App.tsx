@@ -146,8 +146,8 @@ const App = (): JSX.Element => {
 
     const pending = () => {
         return (
-            <div style={{ position: 'fixed' }}>
-                <LinearProgress />
+            <div>
+                <LinearProgress style={{ position: 'fixed', zIndex: 2 }} />
             </div>
         );
     };
@@ -180,7 +180,7 @@ const App = (): JSX.Element => {
     return (
         <ThemeProvider theme={theme}>
             <div>{isLoading && pending()}</div>
-            <div>{composant}</div>
+            <div style={{ marginTop: '10px' }}>{composant}</div>
         </ThemeProvider>
     );
 };

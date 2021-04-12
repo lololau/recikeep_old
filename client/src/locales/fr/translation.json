@@ -71,6 +71,7 @@
     "quantity-typeof": "Les quantités doivent être des nombres",
     "field-missing": "Champ obligatoire",
     "error": "Veuillez renseigner les champs obligatoires",
+    "same-ingredient": "Impossible d'ajouter le même ingrédient plusieurs fois dans la liste.",
     "bad-ingredients": "Pour ajouter un ingrédient vous devez reseigner les cases 'Ingrédient', 'Quantité' et 'Unité'."
   },
   "update_recipe": {
