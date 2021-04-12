@@ -78,7 +78,7 @@ const App = (): JSX.Element => {
         if (window.screen.width < 600) {
             newMargin = 0;
         } else {
-            newMargin = 160;
+            newMargin = 200;
         }
         setMarginLeft(newMargin);
     };
