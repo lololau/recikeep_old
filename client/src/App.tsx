@@ -146,9 +146,9 @@ const App = (): JSX.Element => {
 
     const pending = () => {
         return (
-            <>
+            <div style={{ position: 'fixed' }}>
                 <LinearProgress />
-            </>
+            </div>
         );
     };
 
