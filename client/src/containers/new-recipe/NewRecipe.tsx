@@ -19,8 +19,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import Autosuggestion from '../../components/Autocomplete';
 import { useSelector } from 'react-redux';
@@ -28,6 +26,7 @@ import { useAppDispatch } from '../../app/store';
 import { ingredients, fetchAddIngredient } from '../../slice/ingredients/ingredientsSlice';
 import { unities, fetchAddUnity } from '../../slice/unity/unitySlice';
 import { fetchAddRecipe } from '../../slice/recipes/recipesSlice';
+import { updateNotification } from '../../slice/notification/notificationSlice';
 
 type onRemove = (ingredient: IngredientRecipe, index: number) => void;
 
@@ -101,10 +100,6 @@ interface RequestAddRecipe {
     ingredients?: IngredientRecipe[];
 }
 
-function Alert(props: AlertProps) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
 const NewRecipe = (): JSX.Element => {
     const { t } = useTranslation();
 
@@ -133,8 +128,6 @@ const NewRecipe = (): JSX.Element => {
         quantity: undefined,
     });
 
-    const [errorMessage, setErrorMessage] = useState<string>('');
-    const [open, setOpen] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
     const [requiredField, setRequiredField] = useState<string>('');
 
@@ -145,23 +138,11 @@ const NewRecipe = (): JSX.Element => {
         }
     };
 
-    const handleClick = () => {
-        setOpen(true);
-    };
-
-    const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpen(false);
-    };
-
     const onSubmit = async () => {
         if (newRecipe.name == '') {
             setRequiredField(t('new_recipe.field-missing'));
             setError(true);
-            setErrorMessage(t('new_recipe.error'));
-            handleClick();
+            dispatch(updateNotification({ message: t('new_recipe.field-missing'), severity: 'error' }));
             return false;
         }
         try {
@@ -314,8 +295,12 @@ const NewRecipe = (): JSX.Element => {
                                         !ingredientRecipe.quantity ||
                                         !ingredientRecipe.unity
                                     ) {
-                                        setErrorMessage(t('new_recipe.bad-ingredients'));
-                                        handleClick();
+                                        dispatch(
+                                            updateNotification({
+                                                message: t('new_recipe.bad-ingredients'),
+                                                severity: 'error',
+                                            }),
+                                        );
                                         return;
                                     }
                                     const sameIngredient = ingredientsRow.find(
@@ -323,8 +308,12 @@ const NewRecipe = (): JSX.Element => {
                                     );
                                     console.log('sameIngredient: ', sameIngredient);
                                     if (sameIngredient) {
-                                        setErrorMessage(t('new_recipe.same-ingredient'));
-                                        handleClick();
+                                        dispatch(
+                                            updateNotification({
+                                                message: t('new_recipe.same-ingredient'),
+                                                severity: 'error',
+                                            }),
+                                        );
                                         return;
                                     }
                                     const newIngredientRow = ingredientsRow.concat(ingredientRecipe);
@@ -339,16 +328,6 @@ const NewRecipe = (): JSX.Element => {
                             >
                                 <AddCircleOutlineOutlinedIcon style={{ fontSize: 30, color: '#9ebdd8' }} />
                             </IconButton>
-                            <Snackbar
-                                open={open}
-                                style={{ marginBottom: 70 }}
-                                autoHideDuration={6000}
-                                onClose={handleClose}
-                            >
-                                <Alert onClose={handleClose} severity="error">
-                                    {errorMessage}
-                                </Alert>
-                            </Snackbar>
                         </Grid>
                     </Grid>
                     <Box
@@ -372,16 +351,6 @@ const NewRecipe = (): JSX.Element => {
                         >
                             <CheckIcon style={{ fontSize: 25, color: '#ff8a65' }} />
                         </IconButton>
-                        <Snackbar
-                            open={open}
-                            style={{ marginBottom: 70 }}
-                            autoHideDuration={6000}
-                            onClose={handleClose}
-                        >
-                            <Alert onClose={handleClose} severity="error">
-                                {errorMessage}
-                            </Alert>
-                        </Snackbar>
                     </Box>
                 </Box>
             </form>

@@ -5,31 +5,20 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import { Button, TextField, Grid, Container, Paper } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
-
-function Alert(props: AlertProps) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+import { updateNotification, selectNotification } from '../../slice/notification/notificationSlice';
+import { useAppDispatch } from '../../app/store';
+import Notification from '../../components/Notification';
+import { useSelector } from 'react-redux';
 
 const Firebase = (): JSX.Element => {
+    const dispatch = useAppDispatch();
+
+    const notification = useSelector(selectNotification);
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [open, setOpen] = useState<boolean>(false);
-    const [errorMessage, setErrorMessage] = useState<string>('');
 
     const { t } = useTranslation();
-
-    const handleClick = () => {
-        setOpen(true);
-    };
-
-    const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpen(false);
-    };
 
     const onChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
@@ -47,15 +36,12 @@ const Firebase = (): JSX.Element => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
 
-                if (errorMessage == 'The email address is badly formatted.') {
-                    setErrorMessage(t('firebase.bad-email'));
-                    handleClick();
-                } else if (errorMessage == 'The password must be 6 characters long or more.') {
-                    setErrorMessage(t('firebase.bad-password'));
-                    handleClick();
-                } else {
-                    setErrorMessage(t('firebase.already-account'));
-                    handleClick();
+                if (errorCode == 'auth/invalid-email') {
+                    dispatch(updateNotification({ message: t('firebase.bad-email'), severity: 'error' }));
+                } else if (errorCode == 'auth/weak-password') {
+                    dispatch(updateNotification({ message: t('firebase.bad-password'), severity: 'error' }));
+                } else if (errorCode == 'auth/email-already-in-use') {
+                    dispatch(updateNotification({ message: t('firebase.already-account'), severity: 'error' }));
                 }
                 console.log('Error: signUpWithEmailPassword, errorCode: ', errorCode);
                 console.log('Error: signUpWithEmailPassword, errorMessage: ', errorMessage);
@@ -68,10 +54,14 @@ const Firebase = (): JSX.Element => {
                 console.log(userCredential);
             })
             .catch((error) => {
-                setErrorMessage(t('firebase.wrong-connection'));
-                handleClick();
                 const errorCode = error.code;
                 const errorMessage = error.message;
+                if (errorCode == 'auth/invalid-email') {
+                    dispatch(updateNotification({ message: t('firebase.bad-email'), severity: 'error' }));
+                }
+                if (errorCode == 'auth/wrong-password') {
+                    dispatch(updateNotification({ message: t('firebase.wrong-connection'), severity: 'error' }));
+                }
                 console.log('Error: signInWithEmailPassword, errorCode: ', errorCode);
                 console.log('Error: signInWithEmailPassword, errorMessage: ', errorMessage);
             });
@@ -80,6 +70,7 @@ const Firebase = (): JSX.Element => {
     return (
         <>
             <Container style={{ maxWidth: '500px' }}>
+                <Notification message={notification.message} severity={notification.severity} id={notification.id} />
                 <Paper
                     style={{
                         top: '50%',
@@ -117,31 +108,11 @@ const Firebase = (): JSX.Element => {
                                     <Button onClick={onSignIn} style={{ fontSize: '12px' }}>
                                         {t('firebase.connection')}
                                     </Button>
-                                    <Snackbar
-                                        open={open}
-                                        style={{ marginBottom: 70 }}
-                                        autoHideDuration={6000}
-                                        onClose={handleClose}
-                                    >
-                                        <Alert onClose={handleClose} severity="error">
-                                            {errorMessage}
-                                        </Alert>
-                                    </Snackbar>
                                 </Grid>
                                 <Grid item>
                                     <Button onClick={onSignUp} style={{ fontSize: '12px' }}>
                                         {t('firebase.create-account')}
                                     </Button>
-                                    <Snackbar
-                                        open={open}
-                                        style={{ marginBottom: 70 }}
-                                        autoHideDuration={6000}
-                                        onClose={handleClose}
-                                    >
-                                        <Alert onClose={handleClose} severity="error">
-                                            {errorMessage}
-                                        </Alert>
-                                    </Snackbar>
                                 </Grid>
                             </Grid>
                         </Grid>

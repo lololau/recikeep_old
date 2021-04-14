@@ -86,11 +86,12 @@
     "title-page": "My Ingredients",
     "add-ingredient": "New Ingredient",
     "textField": "Ingredient...",
-    "modal-add": "Add",
-    "modal-close": "Close"
+    "delete-impossible": "Cannot be deleted. This ingredient is present in a grocery list or in a recipe. Delete the shopping list or edit the recipe in order to delete the item."
   },
   "myUnities": {
-    "title-page": "My Unities"
+    "title-page": "My Unities",
+    "delete-impossible": "Cannot be deleted. This unity is present in a grocery list or in a recipe. Delete the shopping list or edit the recipe in order to delete the item."
+  
   },
   "profile": {
     "title-page": "My Profile",

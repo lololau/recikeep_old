@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { unwrapResult } from '@reduxjs/toolkit';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
@@ -25,10 +25,9 @@ import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../app/store';
 import { ingredients, fetchAddIngredient } from '../../slice/ingredients/ingredientsSlice';
 import { unities, fetchAddUnity } from '../../slice/unity/unitySlice';
-import { fetchUpdateRecipe, fetchGetARecipe, selectRecipe } from '../../slice/recipe/recipeSlice';
+import { fetchUpdateRecipe, selectRecipe } from '../../slice/recipe/recipeSlice';
 import { RecipeInformation, IngredientsRecipe } from '../../slice/recipe/recipeFetch';
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import { updateNotification } from '../../slice/notification/notificationSlice';
 
 type onRemove = (ingredient: IngredientsRecipe, index: number) => void;
 
@@ -83,18 +82,8 @@ const IngredientsList = (props: IngredientsListProps): JSX.Element => {
     );
 };
 
-interface Params {
-    id: string;
-}
-
-function Alert(props: AlertProps) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
 const UpdateRecipe = (): JSX.Element => {
     const { t } = useTranslation();
-
-    const { id } = useParams<Params>();
 
     const dispatch = useAppDispatch();
     const history = useHistory();
@@ -104,8 +93,6 @@ const UpdateRecipe = (): JSX.Element => {
     const allUnities = useSelector(unities);
 
     const [updateRecipe, setUpdateRecipe] = useState<RecipeInformation>(recipe);
-    const [errorMessage, setErrorMessage] = useState<string>('');
-    const [open, setOpen] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
     const [requiredField, setRequiredField] = useState<string>('');
 
@@ -125,23 +112,8 @@ const UpdateRecipe = (): JSX.Element => {
     };
 
     useEffect(() => {
-        dispatch(fetchGetARecipe(Number(id)));
-    }, []);
-
-    useEffect(() => {
         setUpdateRecipe(recipe);
     }, [recipe]);
-
-    const handleClick = () => {
-        setOpen(true);
-    };
-
-    const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpen(false);
-    };
 
     return (
         <Container>
@@ -280,8 +252,12 @@ const UpdateRecipe = (): JSX.Element => {
                                                 !ingredientRecipe.quantity ||
                                                 !ingredientRecipe.unity
                                             ) {
-                                                setErrorMessage(t('new_recipe.bad-ingredients'));
-                                                handleClick();
+                                                dispatch(
+                                                    updateNotification({
+                                                        message: t('new_recipe.bad-ingredients'),
+                                                        severity: 'error',
+                                                    }),
+                                                );
                                                 return;
                                             }
                                             const sameIngredient = updateRecipe.ingredients.find(
@@ -289,8 +265,12 @@ const UpdateRecipe = (): JSX.Element => {
                                             );
                                             console.log('sameIngredient: ', sameIngredient);
                                             if (sameIngredient) {
-                                                setErrorMessage(t('new_recipe.same-ingredient'));
-                                                handleClick();
+                                                dispatch(
+                                                    updateNotification({
+                                                        message: t('new_recipe.same-ingredient'),
+                                                        severity: 'error',
+                                                    }),
+                                                );
                                                 return;
                                             }
                                             const newIngredientRow = updateRecipe.ingredients.concat(ingredientRecipe);
@@ -305,16 +285,6 @@ const UpdateRecipe = (): JSX.Element => {
                                 >
                                     <AddCircleOutlineOutlinedIcon style={{ fontSize: 30, color: '#9ebdd8' }} />
                                 </IconButton>
-                                <Snackbar
-                                    open={open}
-                                    style={{ marginBottom: 70 }}
-                                    autoHideDuration={6000}
-                                    onClose={handleClose}
-                                >
-                                    <Alert onClose={handleClose} severity="error">
-                                        {errorMessage}
-                                    </Alert>
-                                </Snackbar>
                             </Grid>
                         </Grid>
                     </div>
@@ -328,8 +298,12 @@ const UpdateRecipe = (): JSX.Element => {
                                 if (updateRecipe.name == '') {
                                     setRequiredField(t('new_recipe.field-missing'));
                                     setError(true);
-                                    setErrorMessage(t('new_recipe.error'));
-                                    handleClick();
+                                    dispatch(
+                                        updateNotification({
+                                            message: t('new_recipe.error'),
+                                            severity: 'error',
+                                        }),
+                                    );
                                     return false;
                                 }
                                 dispatch(

@@ -22,11 +22,13 @@ import { fetchGetIngredients } from './slice/ingredients/ingredientsSlice';
 import { fetchGetUnities } from './slice/unity/unitySlice';
 import { isLogged, isCreated, loading, updateIdToken, fetchGetUser, updateFirebaseUser } from './slice/user/userSlice';
 import { fetchGetLatestGroceryList } from './slice/groceryList/groceryListSlice';
+import { selectNotification } from './slice/notification/notificationSlice';
 import firebase from 'firebase/app';
 import SignUp from './containers/create-user/CreateUser';
 import MyUnities from './containers/my-unities/MyUnities';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { useTranslation } from 'react-i18next';
+import Notification from './components/Notification';
 
 const theme = createMuiTheme({
     palette: {
@@ -47,11 +49,13 @@ const App = (): JSX.Element => {
     const isLoading = useSelector(loading);
     const logged = useSelector(isLogged);
     const created = useSelector(isCreated);
+    const notification = useSelector(selectNotification);
+    console.log(notification);
 
     const [marginLeft, setMarginLeft] = useState<number>(0);
 
     const onAuthStateChanged = (user: firebase.User | null) => {
-        console.log('User: ', user);
+        console.log('On auth change: ', user);
         if (user) {
             const newUser = { firebaseId: user.uid, email: user.email };
             console.log(user);
@@ -127,6 +131,11 @@ const App = (): JSX.Element => {
                         </Route>
                         <Route path={'/recipes/new_recipe'} exact component={NewRecipe} />
                     </div>
+                    <Notification
+                        message={notification.message}
+                        severity={notification.severity}
+                        id={notification.id}
+                    />
                     <Paper elevation={1}>
                         <ToolsBar
                             style={{
