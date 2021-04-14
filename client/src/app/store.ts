@@ -8,7 +8,8 @@ import unitiesReducer from '../slice/unity/unitySlice';
 import recipeReducer from '../slice/recipe/recipeSlice';
 import groceriesListsReducer from '../slice/groceriesLists/groceriesListsSlice';
 import groceryListReducer from '../slice/groceryList/groceryListSlice';
-import loggerMiddleware from './logger';
+import notificationReducer from '../slice/notification/notificationSlice';
+import loadingMiddleware from './loading';
 
 const store = configureStore({
     reducer: {
@@ -20,8 +21,9 @@ const store = configureStore({
         groups: groupsReducer,
         groceriesLists: groceriesListsReducer,
         groceryList: groceryListReducer,
+        notification: notificationReducer,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(loggerMiddleware),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(loadingMiddleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

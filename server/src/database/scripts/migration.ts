@@ -83,6 +83,7 @@ const unamed = placeholders();
 
     await db.run(`CREATE TABLE GroceryList (
         id INTEGER UNIQUE AUTO_INCREMENT,
+        name VARCHAR(255),
         user_id INTEGER,
         date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         date_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -95,6 +96,7 @@ const unamed = placeholders();
         groceryList_id INTEGER,
         unity_id INTEGER,
         quantity INTEGER NOT NULL,
+        checked INTEGER,
         FOREIGN KEY(ingredient_id) REFERENCES Ingredient(id),
         FOREIGN KEY(groceryList_id) REFERENCES GroceryList(id),
         FOREIGN KEY(unity_id) REFERENCES Unity(id)

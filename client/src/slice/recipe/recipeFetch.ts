@@ -1,7 +1,7 @@
 import { getApiUrl } from '../host';
 
 export interface IngredientsRecipe {
-    ingredient_id?: number;
+    ingredient_id: number;
     ingredient: string;
     unity_id?: number;
     unity: string;

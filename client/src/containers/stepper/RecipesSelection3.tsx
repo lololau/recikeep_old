@@ -85,10 +85,11 @@ const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => 
 
     const [ingredientRecipe, setIngredientRecipe] = useState<IngredientsGroceryList>({
         ingredient: '',
-        ingredient_id: undefined,
+        ingredient_id: 0,
         unity: '',
-        unity_id: undefined,
-        quantity: undefined,
+        unity_id: 0,
+        quantity: 0,
+        checked: 0,
     });
 
     const removeIngredientList = (elt: IngredientsGroceryList, index: number) => {
@@ -117,7 +118,7 @@ const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => 
                         onSelect={(option) => {
                             setIngredientRecipe({
                                 ...ingredientRecipe,
-                                ingredient_id: option.id,
+                                ingredient_id: option.id ? option.id : 0,
                                 ingredient: option.name,
                             });
                         }}

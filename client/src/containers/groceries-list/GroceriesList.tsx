@@ -1,5 +1,5 @@
 import '../../i18n';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
@@ -11,24 +11,20 @@ import ListItemText from '@material-ui/core/ListItemText';
 import SearchBar from '../../components/SearchBar';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import { fetchDeleteRecipe, selectRecipes } from '../../slice/recipes/recipesSlice';
-import { fetchGetARecipe } from '../../slice/recipe/recipeSlice';
-import { Recipe } from '../../slice/recipes/recipesFetch';
+import { fetchDeleteRecipe, selectGroceriesList } from '../../slice/groceriesLists/groceriesListsSlice';
+import { fetchGetAGroceryList } from '../../slice/groceryList/groceryListSlice';
+import { GroceryList } from '../../slice/groceriesLists/groceriesListsFetch';
 import { useSelector, useDispatch } from 'react-redux';
-import { Box } from '@material-ui/core';
 
-export type RecipesListProps = {
-    recipes: Recipe[];
+export type GroceryListProps = {
+    groceries: GroceryList[];
 };
 
-export const RecipesList = (props: RecipesListProps): JSX.Element => {
+export const GroceriesList = (props: GroceryListProps): JSX.Element => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
-    const history = useHistory();
 
     const [modalOpen, setModalOpen] = useState(false);
     const [toDeleteId, setToDeleteId] = useState(0);
@@ -57,7 +53,7 @@ export const RecipesList = (props: RecipesListProps): JSX.Element => {
             }}
         >
             <Grid item xs>
-                <h2>{t('modal.delete-recipe')}</h2>
+                <h2>{t('modal.delete-grocery')}</h2>
                 <p>{t('modal.delete-definitif')}</p>
             </Grid>
             <Grid item xs>
@@ -83,26 +79,18 @@ export const RecipesList = (props: RecipesListProps): JSX.Element => {
     return (
         <>
             <List>
-                {props.recipes.map((recipe, index) => {
+                {props.groceries.map((grocery, index) => {
                     return (
-                        <ListItem divider={true} key={'RecipesList' + index}>
-                            <Link to={'/recipe/' + recipe.id} style={{ textDecoration: 'none', color: 'black' }}>
+                        <ListItem divider={true} key={'GroceriesList' + index}>
+                            <Link to={'/groceryList/' + grocery.id} style={{ textDecoration: 'none', color: 'black' }}>
                                 <ListItemText
-                                    onClick={() => dispatch(fetchGetARecipe(recipe.id))}
-                                    primary={recipe.name}
+                                    onClick={() => dispatch(fetchGetAGroceryList(grocery.id))}
+                                    primary={t('groceries.name-beginning') + grocery.name}
                                     id={index.toString()}
                                 />
                             </Link>
                             <ListItemSecondaryAction>
-                                <IconButton
-                                    onClick={() => {
-                                        history.push(`/recipes/update/${recipe.id}`);
-                                        console.log(recipe);
-                                    }}
-                                >
-                                    <EditIcon style={{ fontSize: 15 }} color="primary" />
-                                </IconButton>
-                                <IconButton edge="end" onClick={() => handleModalOpen(recipe.id)}>
+                                <IconButton edge="end" onClick={() => handleModalOpen(grocery.id)}>
                                     <DeleteIcon style={{ fontSize: 15 }} color="primary" />
                                 </IconButton>
                             </ListItemSecondaryAction>
@@ -131,15 +119,15 @@ export const RecipesList = (props: RecipesListProps): JSX.Element => {
 // - Share into a group by clicking on the arrow icon;
 // - Delete the recipe by clicking on the trush icon.
 
-const HomeRecipes = (): JSX.Element => {
-    const recipes = useSelector(selectRecipes);
-    console.log(recipes);
+const Groceries = (): JSX.Element => {
+    const groceriesList = useSelector(selectGroceriesList);
+    console.log('groceriesList :', groceriesList);
     const { t } = useTranslation();
 
-    const [recipesDisplay, setRecipesDisplay] = useState(recipes);
+    const [groceriesDisplay, setGroceriesDisplay] = useState(groceriesList);
 
     const onChange = (ids: string[]) => {
-        const newRecipes: Recipe[] = recipes.filter((recipe) => {
+        const newGroceriesList: GroceryList[] = groceriesList.filter((recipe) => {
             let resultat = false;
             for (let i = 0; i < ids.length; i++) {
                 if (recipe.id.toString() === ids[i]) {
@@ -148,31 +136,29 @@ const HomeRecipes = (): JSX.Element => {
             }
             return resultat;
         });
-        setRecipesDisplay(newRecipes);
+        setGroceriesDisplay(newGroceriesList);
     };
 
     return (
         <Container>
-            <div className="recipes" style={{ marginBottom: 20 }}>
-                <h1 style={{ marginBottom: 20 }}>{t('recipes.title')}</h1>
+            <div className="groceries" style={{ marginBottom: 20 }}>
+                <h1 style={{ marginBottom: 20 }}>{t('groceries.title')}</h1>
                 <Grid container spacing={1} style={{ alignItems: 'center' }}>
                     <Grid item xs={6} sm={6}>
-                        <SearchBar elements={recipes} onchange={onChange} width="100%" />
+                        <SearchBar elements={groceriesList} onchange={onChange} width="100%" />
+                    </Grid>
+                    <Grid item xs={6} sm={6} style={{ textAlign: 'center' }}>
+                        <Link to="/recipes/selection" style={{ textDecoration: 'none' }}>
+                            <Button color="primary">{t('recipes.selectRecipes')}</Button>
+                        </Link>
                     </Grid>
                 </Grid>
             </div>
-            <div className="RecipesList" style={{ marginBottom: 20 }}>
-                <RecipesList recipes={recipesDisplay} />
+            <div style={{ marginBottom: 20 }}>
+                <GroceriesList groceries={groceriesDisplay} />
             </div>
-            <Box style={{ textAlign: 'center', width: '100%' }}>
-                <IconButton>
-                    <Link to="/recipes/new_recipe" style={{ color: '#9ebdd8' }}>
-                        <AddCircleOutlineOutlinedIcon style={{ fontSize: 30 }} />
-                    </Link>
-                </IconButton>
-            </Box>
         </Container>
     );
 };
 
-export default HomeRecipes;
+export default Groceries;

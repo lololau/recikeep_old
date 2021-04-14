@@ -1,13 +1,20 @@
 import express from 'express';
 import { verifyToken, verifyUser } from '../../app-config/firebase-config';
 import {
-    addGroceryList,
     addIngredientsGroceryList,
     IngredientsGroceryList,
-    getGroceryListById,
-    getMostRecentGroceryList,
     getIngredientsGroceryList,
+    deleteIngredientsGroceryList,
+    checkTrueIngredientGroceryList,
+    checkFalseIngredientGroceryList,
 } from '../../database/ingredients_groceryList/ingredientsGroceryList';
+import {
+    addGroceryList,
+    getGroceryListInformations,
+    getAllGroceriesList,
+    RequestAddGroceryList,
+    deleteGroceryList,
+} from '../../database/groceries/groceries';
 
 // Router and mounting
 const groceriesLists = express.Router();
@@ -16,8 +23,11 @@ const groceriesLists = express.Router();
 groceriesLists.post('/add', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
     const ingredientsList: IngredientsGroceryList[] = req.body.ingredients;
+    const groceryListRequest: RequestAddGroceryList = {
+        name: req.body.name,
+    };
     try {
-        const groceryList = await addGroceryList(userId);
+        const groceryList = await addGroceryList(userId, groceryListRequest);
 
         const sortByIngredientId: { [key: string]: IngredientsGroceryList[] } = {};
         ingredientsList.forEach((elt) => {
@@ -55,12 +65,24 @@ groceriesLists.post('/add', verifyToken, verifyUser, async (req, res) => {
     }
 });
 
+//GET - /api/groceryList/getAll - get all groceries lists by userID
+groceriesLists.get('/getAll', verifyToken, verifyUser, async (req, res) => {
+    const userId = res.locals.userId;
+    try {
+        const groceries = await getAllGroceriesList(userId);
+        res.status(200).json({ groceriesLists: groceries });
+    } catch (e) {
+        console.error(e);
+        return res.status(404).send(`Unable to get all the groceries list`);
+    }
+});
+
 //GET - /api/groceryList/:id - get a groceryList by userID and groceryListId
 groceriesLists.get('/:id', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
     const groceryListId = Number(req.params.id);
     try {
-        const groceryList = await getGroceryListById(userId, groceryListId);
+        const groceryList = await getGroceryListInformations(userId, groceryListId);
         const ingredients = await getIngredientsGroceryList(userId, groceryListId);
         res.status(200).json({ groceryList: { ...groceryList, ingredients } });
     } catch (e) {
@@ -69,16 +91,47 @@ groceriesLists.get('/:id', verifyToken, verifyUser, async (req, res) => {
     }
 });
 
-//GET - /api/groceryList/ - get a groceryList by userID and by the most recent date_creation
-groceriesLists.get('/', verifyToken, verifyUser, async (req, res) => {
+// DELETE - '/api/groceryList/delete' - delete a grocery list from user database
+groceriesLists.delete('/delete/:groceryListId', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
+    const groceryListId = Number(req.params.groceryListId);
     try {
-        const groceryList = await getMostRecentGroceryList(userId);
-        const ingredients = await getIngredientsGroceryList(userId, groceryList.id);
-        res.status(200).json({ groceryList: { ...groceryList, ingredients } });
+        await deleteIngredientsGroceryList(groceryListId);
+        await deleteGroceryList(userId, groceryListId);
+        res.status(204).send();
     } catch (e) {
         console.error(e);
-        return res.status(404).send(`Unable to get the latest grocery list`);
+        res.status(404).send('Unable to delete the grocery list');
+    }
+});
+
+// PUT - 'api/groceriesList/updateTrue' - update ingredient.checked to 1 by groceryListId and ingredientId
+groceriesLists.put('/updateTrue', verifyToken, verifyUser, async (req, res) => {
+    const groceryListId = req.body.groceryListId;
+    const ingredientId = req.body.ingredient.ingredient_id;
+    try {
+        await checkTrueIngredientGroceryList(groceryListId, ingredientId);
+        res.status(200).send();
+    } catch (e) {
+        console.error(e);
+        res.status(404).send(
+            `Unable to check ingredient with id: ${ingredientId} in groceryList with id: ${groceryListId}`,
+        );
+    }
+});
+
+// PUT - 'api/groceriesList/updateTrue' - update ingredient.checked to 0 by groceryListId and ingredientId
+groceriesLists.put('/updateFalse', verifyToken, verifyUser, async (req, res) => {
+    const groceryListId = req.body.groceryListId;
+    const ingredientId = req.body.ingredientId;
+    try {
+        await checkFalseIngredientGroceryList(groceryListId, ingredientId);
+        res.status(200).send();
+    } catch (e) {
+        console.error(e);
+        res.status(404).send(
+            `Unable to uncheck ingredient with id: ${ingredientId} in groceryList with id: ${groceryListId}`,
+        );
     }
 });
 

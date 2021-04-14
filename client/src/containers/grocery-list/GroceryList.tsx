@@ -1,47 +1,39 @@
-import React, { FC, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Container from '@material-ui/core/Container';
-import { useTranslation } from 'react-i18next';
 import List from '@material-ui/core/List';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Button from '@material-ui/core/Button';
 import ListItem from '@material-ui/core/ListItem';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { fetchGetAGroceryList, selectGroceryList } from '../../slice/groceryList/groceryListSlice';
 import { IngredientsGroceryList } from '../../slice/groceriesLists/groceriesListsFetch';
+import { fetchCheckTrueGroceryList, fetchCheckFalseGroceryList } from '../../slice/groceriesLists/groceriesListsSlice';
 
 type IngredientListProps = {
     ingredients: IngredientsGroceryList[];
+    groceryId: number;
 };
 
-const CheckIngredientsList: FC<IngredientListProps> = (props) => {
-    const [checked, setChecked] = React.useState([-1]);
+const CheckIngredientsList = (props: IngredientListProps) => {
+    const dispatch = useDispatch();
 
-    const handleToggle = (value: number) => () => {
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
-
-        if (currentIndex === -1) {
-            newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
+    const handleCheck = (ingredient: IngredientsGroceryList) => () => {
+        if (!ingredient.checked) {
+            dispatch(fetchCheckTrueGroceryList({ groceryListId: props.groceryId, ingredient: ingredient }));
+            return;
         }
-        setChecked(newChecked);
+        dispatch(fetchCheckFalseGroceryList({ groceryListId: props.groceryId, ingredient: ingredient }));
     };
+
     return (
         <List>
             {props.ingredients.map((ingredient, index) => {
                 return (
-                    <ListItem divider={true} key={'CheckIngredientsList' + index} onClick={handleToggle(index)}>
+                    <ListItem divider={true} key={'CheckIngredientsList' + index} onClick={handleCheck(ingredient)}>
                         <ListItemIcon>
-                            <Checkbox
-                                edge="start"
-                                checked={checked.indexOf(index) !== -1}
-                                tabIndex={-1}
-                                disableRipple
-                            />
+                            <Checkbox edge="start" checked={!!ingredient.checked} tabIndex={-1} disableRipple />
                         </ListItemIcon>
                         <ListItemText
                             primary={ingredient.ingredient}
@@ -60,12 +52,11 @@ interface Params {
 }
 
 const GroceryList = (): JSX.Element => {
-    const { t } = useTranslation();
-
     const dispatch = useDispatch();
 
     const { id } = useParams<Params>();
     const groceryList = useSelector(selectGroceryList);
+    console.log('groceryList: ', groceryList);
 
     useEffect(() => {
         dispatch(fetchGetAGroceryList(Number(id)));
@@ -73,11 +64,8 @@ const GroceryList = (): JSX.Element => {
 
     return (
         <Container>
-            <h1>{t('groceryList.title-page')}</h1>
-            <Link to="/recipes/selection" style={{ textDecoration: 'none' }}>
-                <Button color="primary">{t('recipes.selectRecipes')}</Button>
-            </Link>
-            <CheckIngredientsList ingredients={groceryList.ingredients} />
+            <h1>{groceryList.name}</h1>
+            <CheckIngredientsList groceryId={groceryList.id} ingredients={groceryList.ingredients} />
         </Container>
     );
 };

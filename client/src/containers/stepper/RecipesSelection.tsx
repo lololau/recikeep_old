@@ -88,7 +88,28 @@ const RecipesSelectionStepper = (): JSX.Element => {
                                 return;
                             }
                             try {
-                                const action = await dispatch(fetchAddGroceryList({ ingredients: ingredientsList }));
+                                // Get the actual date-time
+                                const today = new Date();
+                                const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+                                const time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+                                const dateTime = date + '  ' + time;
+
+                                const recipesComment = recipesSelected.map((recipe) => {
+                                    if (recipe.presentation) {
+                                        return recipe.name + ' - ' + recipe.presentation;
+                                    } else {
+                                        return recipe.name;
+                                    }
+                                });
+
+                                console.log('recipesComment', recipesComment);
+
+                                const action = await dispatch(
+                                    fetchAddGroceryList({
+                                        ingredients: ingredientsList,
+                                        name: dateTime,
+                                    }),
+                                );
                                 const result = unwrapResult(action);
                                 console.log('result: ', result);
                                 history.push(`/groceryList/${result.id}`);

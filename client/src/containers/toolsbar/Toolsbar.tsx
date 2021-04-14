@@ -1,5 +1,5 @@
 import '../../i18n';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import React from 'react';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
@@ -14,9 +14,7 @@ import Grid from '@material-ui/core/Grid';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { useDispatch, useSelector } from 'react-redux';
 import Hidden from '@material-ui/core/Hidden';
-import { fetchGetAGroceryList, selectGroceryList } from '../../slice/groceryList/groceryListSlice';
 
 type ToolbarProps = {
     style?: React.CSSProperties;
@@ -26,8 +24,7 @@ const ToolsBar = (props: ToolbarProps): JSX.Element => {
     const { t } = useTranslation();
     const [button, setButton] = React.useState(0);
 
-    const dispatch = useDispatch();
-    const groceryList = useSelector(selectGroceryList);
+    const { pathname } = useLocation();
 
     return (
         <div>
@@ -37,13 +34,14 @@ const ToolsBar = (props: ToolbarProps): JSX.Element => {
                         <Divider />
                         <List
                             style={{
-                                width: '200px',
+                                width: '230px',
                             }}
                         >
                             <ListItem button>
                                 <NavLink
                                     to={'/recipes'}
                                     style={{ textDecoration: 'none', color: 'rgb(170, 170, 170)' }}
+                                    isActive={() => ['/recipes', '/'].includes(pathname)}
                                     activeStyle={{ color: 'black', fontWeight: 'bolder' }}
                                 >
                                     <Grid container style={{ alignItems: 'center' }}>
@@ -61,7 +59,7 @@ const ToolsBar = (props: ToolbarProps): JSX.Element => {
                             <Divider />
                             <ListItem button>
                                 <NavLink
-                                    to={`/groceryList/${groceryList.id}`}
+                                    to={`/groceries`}
                                     style={{ textDecoration: 'none', color: 'rgb(170, 170, 170)' }}
                                     activeStyle={{ color: 'black' }}
                                 >
@@ -72,14 +70,7 @@ const ToolsBar = (props: ToolbarProps): JSX.Element => {
                                             </ListItemIcon>
                                         </Grid>
                                         <Grid item xs style={{ width: '100%' }}>
-                                            <ListItemText
-                                                primary={t('toolsbar.groceryList')}
-                                                onClick={() => {
-                                                    if (groceryList.id) {
-                                                        dispatch(fetchGetAGroceryList(groceryList.id));
-                                                    }
-                                                }}
-                                            />
+                                            <ListItemText primary={t('toolsbar.groceriesList')} />
                                         </Grid>
                                     </Grid>
                                 </NavLink>
@@ -125,13 +116,8 @@ const ToolsBar = (props: ToolbarProps): JSX.Element => {
                         />
                         <BottomNavigationAction
                             icon={<ListIcon />}
-                            label={t('toolsbar.groceryList')}
-                            to={`/groceryList/${groceryList.id}`}
-                            onClick={() => {
-                                if (groceryList.id) {
-                                    dispatch(fetchGetAGroceryList(groceryList.id));
-                                }
-                            }}
+                            label={t('toolsbar.groceriesList')}
+                            to={`/groceries`}
                             component={Link}
                         />
                         <BottomNavigationAction

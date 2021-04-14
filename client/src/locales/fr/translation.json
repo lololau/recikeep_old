@@ -4,7 +4,7 @@
   },
   "toolsbar": {
     "recipes": "Recettes",
-    "groceryList": "Courses",
+    "groceriesList": "Courses",
     "groups": "Groupes",
     "profile": "Profil"
   },
@@ -72,10 +72,14 @@
     "field-missing": "Champ obligatoire",
     "error": "Veuillez renseigner les champs obligatoires",
     "same-ingredient": "Impossible d'ajouter le même ingrédient plusieurs fois dans la liste.",
-    "bad-ingredients": "Pour ajouter un ingrédient vous devez reseigner les cases 'Ingrédient', 'Quantité' et 'Unité'."
+    "bad-ingredients": "Pour ajouter un ingrédient vous devez renseigner les cases 'Ingrédient', 'Quantité' et 'Unité'."
   },
   "update_recipe": {
     "title-page": "Recette en cours de modification(s)"
+  },
+  "groceries": {
+    "title": "Mes Listes de Courses",
+    "name-beginning": "Fait le "
   },
   "groceryList": {
     "title-page": "Liste de Courses",
@@ -85,11 +89,12 @@
     "title-page": "Mes Ingrédients",
     "add-ingredient": "Nouvel Ingrédient",
     "textField": "Ingrédient...",
-    "modal-add": "Ajouter",
-    "modal-close": "Fermer"
+    "delete-impossible": "Suppression impossible. Cet ingrédient est présent dans une liste de course ou dans une recette. Supprimez la liste de course ou éditez la recette en question afin de pouvoir supprimer l'élément."
   },
   "myUnities": {
-    "title-page": "Mes Unités"
+    "title-page": "Mes Unités",
+    "delete-impossible": "Suppression impossible. Cette unité est présente dans une liste de course ou dans une recette. Supprimez la liste de course ou éditez la recette en question afin de pouvoir supprimer l'élément."
+  
   },
   "profile": {
     "title-page": "Mon Profil",
@@ -117,6 +122,7 @@
   },
   "modal": {
     "delete-recipe": "Êtes-vous sûr(e) de vouloir supprimer cette recette?",
+    "delete-grocery": "Êtes-vous sûr(e) de vouloir supprimer cette liste de course?",
     "delete-definitif": "Aucun retour en arrière ne sera possible.",
     "delete-yes": "Oui",
     "delete-no": "Non"

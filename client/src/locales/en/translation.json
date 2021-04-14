@@ -4,7 +4,7 @@
   },
   "toolsbar": {
     "recipes": "Recipes",
-    "groceryList": "Grocery List",
+    "groceriesList": "Groceries Lists",
     "groups": "Groups",
     "profile": "Profile"
   },
@@ -78,6 +78,10 @@
   "update_recipe": {
     "title-page": "Update Recipe"
   },
+  "groceries": {
+    "title": "My Groceries Lists",
+    "name-beginning": "Done on "
+  },
   "groceryList": {
     "title-page": "Grocery List",
     "add-ingredient": "Ingredient"
@@ -86,11 +90,12 @@
     "title-page": "My Ingredients",
     "add-ingredient": "New Ingredient",
     "textField": "Ingredient...",
-    "modal-add": "Add",
-    "modal-close": "Close"
+    "delete-impossible": "Cannot be deleted. This ingredient is present in a grocery list or in a recipe. Delete the shopping list or edit the recipe in order to delete the item."
   },
   "myUnities": {
-    "title-page": "My Unities"
+    "title-page": "My Unities",
+    "delete-impossible": "Cannot be deleted. This unity is present in a grocery list or in a recipe. Delete the shopping list or edit the recipe in order to delete the item."
+  
   },
   "profile": {
     "title-page": "My Profile",
@@ -118,6 +123,7 @@
   },
   "modal": {
     "delete-recipe": "Are you sure you want to delete this recipe?",
+    "delete-grocery": "Are you sure you want to delete this grocery list?",
     "delete-definitif": "No going back will be possible.",
     "delete-yes": "Yes",
     "delete-no": "No"
