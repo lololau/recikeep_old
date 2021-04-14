@@ -14,9 +14,7 @@ import Grid from '@material-ui/core/Grid';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { useDispatch, useSelector } from 'react-redux';
 import Hidden from '@material-ui/core/Hidden';
-import { fetchGetAGroceryList, selectGroceryList } from '../../slice/groceryList/groceryListSlice';
 
 type ToolbarProps = {
     style?: React.CSSProperties;
@@ -27,8 +25,6 @@ const ToolsBar = (props: ToolbarProps): JSX.Element => {
     const [button, setButton] = React.useState(0);
 
     const { pathname } = useLocation();
-    const dispatch = useDispatch();
-    const groceryList = useSelector(selectGroceryList);
 
     return (
         <div>
