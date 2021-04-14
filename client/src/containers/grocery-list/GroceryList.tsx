@@ -17,21 +17,7 @@ type IngredientListProps = {
 };
 
 const CheckIngredientsList = (props: IngredientListProps) => {
-    const [checked, setChecked] = React.useState([-1]);
-
     const dispatch = useDispatch();
-
-    const handleToggle = (value: number) => () => {
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
-
-        if (currentIndex === -1) {
-            newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
-        setChecked(newChecked);
-    };
 
     const handleCheck = (ingredient: IngredientsGroceryList) => () => {
         if (!ingredient.checked) {
