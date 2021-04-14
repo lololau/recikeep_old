@@ -1,15 +1,14 @@
 import { useTranslation } from 'react-i18next/';
 import '../../i18n';
-import { useHistory } from 'react-router-dom';
-import React, { FC } from 'react';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+import React, { FC, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Container from '@material-ui/core/Container';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import { selectRecipe } from '../../slice/recipe/recipeSlice';
+import { selectRecipe, fetchGetARecipe } from '../../slice/recipe/recipeSlice';
 import { IngredientsRecipe } from '../../slice/recipe/recipeFetch';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -67,10 +66,16 @@ interface Params {
 
 const MyRecipe = (): JSX.Element => {
     const { t } = useTranslation();
+
+    const dispatch = useDispatch();
     const history = useHistory();
 
     const { id } = useParams<Params>();
     const recipe = useSelector(selectRecipe);
+
+    useEffect(() => {
+        dispatch(fetchGetARecipe(Number(id)));
+    }, []);
 
     return (
         <Container>

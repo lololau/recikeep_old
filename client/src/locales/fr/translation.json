@@ -4,7 +4,7 @@
   },
   "toolsbar": {
     "recipes": "Recettes",
-    "groceryList": "Courses",
+    "groceriesList": "Courses",
     "groups": "Groupes",
     "profile": "Profil"
   },
@@ -77,6 +77,10 @@
   "update_recipe": {
     "title-page": "Recette en cours de modification(s)"
   },
+  "groceries": {
+    "title": "Mes Listes de Courses",
+    "name-beginning": "Fait le "
+  },
   "groceryList": {
     "title-page": "Liste de Courses",
     "add-ingredient": "Ingrédient"
@@ -118,6 +122,7 @@
   },
   "modal": {
     "delete-recipe": "Êtes-vous sûr(e) de vouloir supprimer cette recette?",
+    "delete-grocery": "Êtes-vous sûr(e) de vouloir supprimer cette liste de course?",
     "delete-definitif": "Aucun retour en arrière ne sera possible.",
     "delete-yes": "Oui",
     "delete-no": "Non"

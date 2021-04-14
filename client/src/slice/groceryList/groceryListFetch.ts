@@ -1,15 +1,17 @@
 import { getApiUrl } from '../host';
 
 export interface IngredientsGroceryList {
-    ingredient_id?: number;
+    ingredient_id: number;
     ingredient: string;
     unity_id?: number;
     unity: string;
     quantity?: number;
+    checked: number;
 }
 
 export interface GroceryListInformation {
-    id?: number;
+    id: number;
+    name: string;
     ingredients: IngredientsGroceryList[];
 }
 

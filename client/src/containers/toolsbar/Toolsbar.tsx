@@ -38,7 +38,7 @@ const ToolsBar = (props: ToolbarProps): JSX.Element => {
                         <Divider />
                         <List
                             style={{
-                                width: '200px',
+                                width: '230px',
                             }}
                         >
                             <ListItem button>
@@ -63,7 +63,7 @@ const ToolsBar = (props: ToolbarProps): JSX.Element => {
                             <Divider />
                             <ListItem button>
                                 <NavLink
-                                    to={`/groceryList/${groceryList.id}`}
+                                    to={`/groceries`}
                                     style={{ textDecoration: 'none', color: 'rgb(170, 170, 170)' }}
                                     activeStyle={{ color: 'black' }}
                                 >
@@ -74,14 +74,7 @@ const ToolsBar = (props: ToolbarProps): JSX.Element => {
                                             </ListItemIcon>
                                         </Grid>
                                         <Grid item xs style={{ width: '100%' }}>
-                                            <ListItemText
-                                                primary={t('toolsbar.groceryList')}
-                                                onClick={() => {
-                                                    if (groceryList.id) {
-                                                        dispatch(fetchGetAGroceryList(groceryList.id));
-                                                    }
-                                                }}
-                                            />
+                                            <ListItemText primary={t('toolsbar.groceriesList')} />
                                         </Grid>
                                     </Grid>
                                 </NavLink>
@@ -127,13 +120,8 @@ const ToolsBar = (props: ToolbarProps): JSX.Element => {
                         />
                         <BottomNavigationAction
                             icon={<ListIcon />}
-                            label={t('toolsbar.groceryList')}
-                            to={`/groceryList/${groceryList.id}`}
-                            onClick={() => {
-                                if (groceryList.id) {
-                                    dispatch(fetchGetAGroceryList(groceryList.id));
-                                }
-                            }}
+                            label={t('toolsbar.groceriesList')}
+                            to={`/groceries`}
                             component={Link}
                         />
                         <BottomNavigationAction

@@ -6,8 +6,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import React, { FC, useState, useEffect } from 'react';
 import Container from '@material-ui/core/Container';
-// import { selectRecipes } from '../../slice/recipes/recipesSlice';
-// import { useSelector } from 'react-redux';
 import { Recipe } from '../../slice/recipes/recipesFetch';
 
 export type numberPartsRecipe = {

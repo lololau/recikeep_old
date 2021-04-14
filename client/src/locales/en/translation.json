@@ -4,7 +4,7 @@
   },
   "toolsbar": {
     "recipes": "Recipes",
-    "groceryList": "Grocery List",
+    "groceriesList": "Groceries Lists",
     "groups": "Groups",
     "profile": "Profile"
   },
@@ -78,6 +78,10 @@
   "update_recipe": {
     "title-page": "Update Recipe"
   },
+  "groceries": {
+    "title": "My Groceries Lists",
+    "name-beginning": "Done on "
+  },
   "groceryList": {
     "title-page": "Grocery List",
     "add-ingredient": "Ingredient"
@@ -119,6 +123,7 @@
   },
   "modal": {
     "delete-recipe": "Are you sure you want to delete this recipe?",
+    "delete-grocery": "Are you sure you want to delete this grocery list?",
     "delete-definitif": "No going back will be possible.",
     "delete-yes": "Yes",
     "delete-no": "No"

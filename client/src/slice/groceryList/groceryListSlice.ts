@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { getGroceryList, GroceryListInformation, getLatestGroceryList } from './groceryListFetch';
+import { fetchCheckTrueGroceryList, fetchCheckFalseGroceryList } from '../groceriesLists/groceriesListsSlice';
 
 export const fetchGetAGroceryList = createAsyncThunk(
     `/api/groceriesLists/:id`,
@@ -22,6 +23,8 @@ type GroceryList = {
 
 const initialState: GroceryList = {
     groceryList: {
+        id: 0,
+        name: '',
         ingredients: [],
     },
 };
@@ -38,6 +41,26 @@ const groceryListReducer = createSlice({
         // fetchGetLatestGroceryList
         builder.addCase(fetchGetLatestGroceryList.fulfilled, (state, action) => {
             state.groceryList = action.payload;
+        });
+        // fetchCheckTrueGroceryList
+        builder.addCase(fetchCheckTrueGroceryList.fulfilled, (state, action) => {
+            const ingredientId = action.payload.ingredientId;
+            state.groceryList.ingredients = state.groceryList.ingredients.map((ingredient) => {
+                if (ingredient.ingredient_id === ingredientId) {
+                    ingredient.checked = 1;
+                }
+                return ingredient;
+            });
+        });
+        // fetchCheckFalseGroceryList
+        builder.addCase(fetchCheckFalseGroceryList.fulfilled, (state, action) => {
+            const ingredientId = action.payload.ingredientId;
+            state.groceryList.ingredients = state.groceryList.ingredients.map((ingredient) => {
+                if (ingredient.ingredient_id === ingredientId) {
+                    ingredient.checked = 0;
+                }
+                return ingredient;
+            });
         });
     },
 });

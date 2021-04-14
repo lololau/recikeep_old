@@ -13,7 +13,7 @@ export interface Recipe {
 }
 
 interface IngredientsRecipe {
-    ingredient_id?: number;
+    ingredient_id: number;
     unity_id?: number;
     quantity?: number | null;
 }

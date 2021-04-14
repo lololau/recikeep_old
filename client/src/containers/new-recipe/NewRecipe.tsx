@@ -82,7 +82,7 @@ const IngredientsList = (props: IngredientsListProps): JSX.Element => {
 };
 
 interface IngredientRecipe {
-    ingredient_id?: number;
+    ingredient_id: number;
     ingredient: string;
     unity_id?: number;
     unity: string;
@@ -122,10 +122,10 @@ const NewRecipe = (): JSX.Element => {
 
     const [ingredientRecipe, setIngredientRecipe] = useState<IngredientRecipe>({
         ingredient: '',
-        ingredient_id: undefined,
+        ingredient_id: 0,
         unity: '',
-        unity_id: undefined,
-        quantity: undefined,
+        unity_id: 0,
+        quantity: 0,
     });
 
     const [error, setError] = useState<boolean>(false);
@@ -232,7 +232,7 @@ const NewRecipe = (): JSX.Element => {
                                 onSelect={(option) => {
                                     setIngredientRecipe({
                                         ...ingredientRecipe,
-                                        ingredient_id: option.id,
+                                        ingredient_id: option.id ? option.id : 0,
                                         ingredient: option.name,
                                     });
                                 }}
@@ -322,7 +322,7 @@ const NewRecipe = (): JSX.Element => {
                                     setIngredientRecipe({
                                         ...ingredientRecipe,
                                         ingredient: '',
-                                        ingredient_id: undefined,
+                                        ingredient_id: 0,
                                     });
                                 }}
                             >

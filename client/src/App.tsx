@@ -12,6 +12,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import ToolsBar from './containers/toolsbar/Toolsbar';
 import GroceryList from './containers/grocery-list/GroceryList';
+import Groceries from './containers/groceries-list/GroceriesList';
 import MyIngredients from './containers/my-ingredients/MyIngredients';
 import Paper from '@material-ui/core/Paper';
 import RecipesSelectionStepper from './containers/stepper/RecipesSelection';
@@ -21,7 +22,7 @@ import { fetchGetAllRecipes } from './slice/recipes/recipesSlice';
 import { fetchGetIngredients } from './slice/ingredients/ingredientsSlice';
 import { fetchGetUnities } from './slice/unity/unitySlice';
 import { isLogged, isCreated, loading, updateIdToken, fetchGetUser, updateFirebaseUser } from './slice/user/userSlice';
-import { fetchGetLatestGroceryList } from './slice/groceryList/groceryListSlice';
+import { fetchGetAllGroceries } from './slice/groceriesLists/groceriesListsSlice';
 import { selectNotification } from './slice/notification/notificationSlice';
 import firebase from 'firebase/app';
 import SignUp from './containers/create-user/CreateUser';
@@ -71,7 +72,7 @@ const App = (): JSX.Element => {
                     dispatch(fetchGetIngredients(idToken));
                     dispatch(fetchGetUnities(idToken));
                     dispatch(fetchGetAllRecipes(idToken));
-                    dispatch(fetchGetLatestGroceryList(idToken));
+                    dispatch(fetchGetAllGroceries(idToken));
                 })
                 .catch((error) => console.log(error));
         }
@@ -82,7 +83,7 @@ const App = (): JSX.Element => {
         if (window.screen.width < 600) {
             newMargin = 0;
         } else {
-            newMargin = 200;
+            newMargin = 230;
         }
         setMarginLeft(newMargin);
     };
@@ -116,9 +117,11 @@ const App = (): JSX.Element => {
                         <Route path="/" exact component={HomeRecipes} />
                         <Route path="/recipes" exact component={HomeRecipes} />
                         <Route path="/profile" exact component={Profile} />
+                        <Route path="/groceries" exact component={Groceries} />
                         <Route path={'/recipes/selection'} exact component={RecipesSelectionStepper} />
                         <Route path={'/profile/my_ingredients'} component={MyIngredients} />
                         <Route path={'/profile/my_unities'} component={MyUnities} />
+                        <Route path={'/recipes/new_recipe'} exact component={NewRecipe} />
                         <Route path="/recipes/update/:id" exact>
                             <UpdateRecipe />
                         </Route>
@@ -129,7 +132,6 @@ const App = (): JSX.Element => {
                         <Route path="/groceryList/:id">
                             <GroceryList />
                         </Route>
-                        <Route path={'/recipes/new_recipe'} exact component={NewRecipe} />
                     </div>
                     <Notification
                         message={notification.message}

@@ -68,6 +68,7 @@ export type ResponseGetIngredientsByRecipes = {
     unity: string;
     unity_id: number;
     quantity: number;
+    checked: number;
     recipe_id: number;
     recipe_number_parts: number;
 };

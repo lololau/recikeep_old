@@ -19,6 +19,7 @@ const loadingMiddleware: Middleware = (api) => (next) => (action) => {
         api.dispatch(loadingFinished());
         return next(action);
     } else if (action.type.match(isRejected)) {
+        api.dispatch(loadingFinished());
         console.log('error :', action.error);
         return next(action);
     }

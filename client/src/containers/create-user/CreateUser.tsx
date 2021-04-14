@@ -36,7 +36,6 @@ const SignUp = (): JSX.Element => {
             </div>
         );
     }
-
     return (
         <>
             <Container style={{ maxWidth: '500px' }}>

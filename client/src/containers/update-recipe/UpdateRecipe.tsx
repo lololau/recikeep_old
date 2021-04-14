@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { unwrapResult } from '@reduxjs/toolkit';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
@@ -25,7 +25,7 @@ import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../app/store';
 import { ingredients, fetchAddIngredient } from '../../slice/ingredients/ingredientsSlice';
 import { unities, fetchAddUnity } from '../../slice/unity/unitySlice';
-import { fetchUpdateRecipe, selectRecipe } from '../../slice/recipe/recipeSlice';
+import { fetchUpdateRecipe, fetchGetARecipe, selectRecipe } from '../../slice/recipe/recipeSlice';
 import { RecipeInformation, IngredientsRecipe } from '../../slice/recipe/recipeFetch';
 import { updateNotification } from '../../slice/notification/notificationSlice';
 
@@ -82,8 +82,14 @@ const IngredientsList = (props: IngredientsListProps): JSX.Element => {
     );
 };
 
+interface Params {
+    id: string;
+}
+
 const UpdateRecipe = (): JSX.Element => {
     const { t } = useTranslation();
+
+    const { id } = useParams<Params>();
 
     const dispatch = useAppDispatch();
     const history = useHistory();
@@ -98,10 +104,10 @@ const UpdateRecipe = (): JSX.Element => {
 
     const [ingredientRecipe, setIngredientRecipe] = useState<IngredientsRecipe>({
         ingredient: '',
-        ingredient_id: undefined,
+        ingredient_id: 0,
         unity: '',
-        unity_id: undefined,
-        quantity: undefined,
+        unity_id: 0,
+        quantity: 0,
     });
 
     const removeIngredientList = (elt: IngredientsRecipe, index: number) => {
@@ -114,6 +120,10 @@ const UpdateRecipe = (): JSX.Element => {
     useEffect(() => {
         setUpdateRecipe(recipe);
     }, [recipe]);
+
+    useEffect(() => {
+        dispatch(fetchGetARecipe(Number(id)));
+    }, []);
 
     return (
         <Container>
@@ -196,7 +206,7 @@ const UpdateRecipe = (): JSX.Element => {
                                     onSelect={(option) => {
                                         setIngredientRecipe({
                                             ...ingredientRecipe,
-                                            ingredient_id: option.id,
+                                            ingredient_id: option.id ? option.id : 0,
                                             ingredient: option.name,
                                         });
                                     }}
@@ -278,7 +288,7 @@ const UpdateRecipe = (): JSX.Element => {
                                             setIngredientRecipe({
                                                 ...ingredientRecipe,
                                                 ingredient: '',
-                                                ingredient_id: undefined,
+                                                ingredient_id: 0,
                                             });
                                         }
                                     }}
