@@ -123,7 +123,7 @@ groceriesLists.put('/updateTrue', verifyToken, verifyUser, async (req, res) => {
 // PUT - 'api/groceriesList/updateTrue' - update ingredient.checked to 0 by groceryListId and ingredientId
 groceriesLists.put('/updateFalse', verifyToken, verifyUser, async (req, res) => {
     const groceryListId = req.body.groceryListId;
-    const ingredientId = req.body.ingredientId;
+    const ingredientId = req.body.ingredient.ingredient_id;
     try {
         await checkFalseIngredientGroceryList(groceryListId, ingredientId);
         res.status(200).send();

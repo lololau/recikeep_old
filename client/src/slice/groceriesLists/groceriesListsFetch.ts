@@ -20,7 +20,7 @@ export interface RequestAddGroceryList {
     ingredients?: IngredientsGroceryList[];
 }
 
-// Fetch to addRecipe into user db
+// Fetch to add a grocery list to user database
 export const addGroceryList = async (idToken: string, req: RequestAddGroceryList): Promise<GroceryList> => {
     const myHeaders = new Headers({
         Authorization: idToken,

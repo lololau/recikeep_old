@@ -1,18 +1,17 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
+import { getAuthToken } from '../../app/auth';
 import { getGroceryList, GroceryListInformation, getLatestGroceryList } from './groceryListFetch';
 import { fetchCheckTrueGroceryList, fetchCheckFalseGroceryList } from '../groceriesLists/groceriesListsSlice';
 
-export const fetchGetAGroceryList = createAsyncThunk(
-    `/api/groceriesLists/:id`,
-    async (groceryListId: number, thunkAPI) => {
-        const state = thunkAPI.getState() as RootState;
-        const groceryList = await getGroceryList(state.user.idToken, groceryListId);
-        return groceryList;
-    },
-);
+export const fetchGetAGroceryList = createAsyncThunk(`/api/groceriesLists/:id`, async (groceryListId: number) => {
+    const idToken = await getAuthToken();
+    const groceryList = await getGroceryList(idToken, groceryListId);
+    return groceryList;
+});
 
-export const fetchGetLatestGroceryList = createAsyncThunk(`/api/groceriesLists/`, async (idToken: string) => {
+export const fetchGetLatestGroceryList = createAsyncThunk(`/api/groceriesLists/`, async () => {
+    const idToken = await getAuthToken();
     const groceryList = await getLatestGroceryList(idToken);
     return groceryList;
 });

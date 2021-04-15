@@ -1,29 +1,25 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
+import { getAuthToken } from '../../app/auth';
 import { Ingredient, RequestAddIngredient, getIngredients, addIngredient, deleteIngredient } from './ingredientsFetch';
 
-export const fetchGetIngredients = createAsyncThunk('/api/ingredients/getAll', async (idToken: string) => {
+export const fetchGetIngredients = createAsyncThunk('/api/ingredients/getAll', async () => {
+    const idToken = await getAuthToken();
     const ingredients = await getIngredients(idToken);
     return ingredients;
 });
 
-export const fetchAddIngredient = createAsyncThunk(
-    '/api/ingredients/add',
-    async (req: RequestAddIngredient, thunkAPI) => {
-        const state = thunkAPI.getState() as RootState;
-        const ingredient = await addIngredient(state.user.idToken, req);
-        return ingredient;
-    },
-);
+export const fetchAddIngredient = createAsyncThunk('/api/ingredients/add', async (req: RequestAddIngredient) => {
+    const idToken = await getAuthToken();
+    const ingredient = await addIngredient(idToken, req);
+    return ingredient;
+});
 
-export const fetchDeleteIngredient = createAsyncThunk(
-    '/api/ingredients/delete',
-    async (ingredientId: number, thunkAPI) => {
-        const state = thunkAPI.getState() as RootState;
-        await deleteIngredient(state.user.idToken, ingredientId);
-        return ingredientId;
-    },
-);
+export const fetchDeleteIngredient = createAsyncThunk('/api/ingredients/delete', async (ingredientId: number) => {
+    const idToken = await getAuthToken();
+    await deleteIngredient(idToken, ingredientId);
+    return ingredientId;
+});
 
 type IngredientsList = {
     ingredients: Ingredient[];

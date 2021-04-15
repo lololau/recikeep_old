@@ -1,22 +1,24 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { getAuthToken } from '../../app/auth';
 import { RootState } from '../../app/store';
 import { Unity, getUnities, addUnity, deleteUnity, RequestAddUnity } from './unityFetch';
 
 // Get all unities from initial state and by user
-export const fetchGetUnities = createAsyncThunk('/api/unities/getAll', async (idToken: string) => {
+export const fetchGetUnities = createAsyncThunk('/api/unities/getAll', async () => {
+    const idToken = await getAuthToken();
     const unities = await getUnities(idToken);
     return unities;
 });
 
-export const fetchAddUnity = createAsyncThunk('/api/unities/add', async (request: RequestAddUnity, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState;
-    const unity = await addUnity(state.user.idToken, request);
+export const fetchAddUnity = createAsyncThunk('/api/unities/add', async (request: RequestAddUnity) => {
+    const idToken = await getAuthToken();
+    const unity = await addUnity(idToken, request);
     return unity;
 });
 
-export const fetchDeleteUnity = createAsyncThunk('/api/unities/delete', async (unityId: number, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState;
-    await deleteUnity(state.user.idToken, unityId);
+export const fetchDeleteUnity = createAsyncThunk('/api/unities/delete', async (unityId: number) => {
+    const idToken = await getAuthToken();
+    await deleteUnity(idToken, unityId);
     return unityId;
 });
 

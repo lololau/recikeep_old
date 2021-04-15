@@ -1,21 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
+import { getAuthToken } from '../../app/auth';
 import { getOneRecipe, RecipeInformation, RequestUpdateRecipe, updateRecipe } from './recipeFetch';
 
-export const fetchGetARecipe = createAsyncThunk(`/api/recipes/:id`, async (recipeId: number, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState;
-    const recipe = await getOneRecipe(state.user.idToken, recipeId);
+export const fetchGetARecipe = createAsyncThunk(`/api/recipes/:id`, async (recipeId: number) => {
+    const idToken = await getAuthToken();
+    const recipe = await getOneRecipe(idToken, recipeId);
     return recipe;
 });
 
-export const fetchUpdateRecipe = createAsyncThunk(
-    `/api/recipes/update/:id`,
-    async (req: RequestUpdateRecipe, thunkAPI) => {
-        const state = thunkAPI.getState() as RootState;
-        const recipe = await updateRecipe(state.user.idToken, req);
-        return recipe;
-    },
-);
+export const fetchUpdateRecipe = createAsyncThunk(`/api/recipes/update/:id`, async (req: RequestUpdateRecipe) => {
+    const idToken = await getAuthToken();
+    const recipe = await updateRecipe(idToken, req);
+    return recipe;
+});
 
 type Recipe = {
     recipe: RecipeInformation;

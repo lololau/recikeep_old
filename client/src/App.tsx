@@ -21,7 +21,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchGetAllRecipes } from './slice/recipes/recipesSlice';
 import { fetchGetIngredients } from './slice/ingredients/ingredientsSlice';
 import { fetchGetUnities } from './slice/unity/unitySlice';
-import { isLogged, isCreated, loading, updateIdToken, fetchGetUser, updateFirebaseUser } from './slice/user/userSlice';
+import { isLogged, isCreated, loading, fetchGetUser, updateFirebaseUser } from './slice/user/userSlice';
 import { fetchGetAllGroceries } from './slice/groceriesLists/groceriesListsSlice';
 import { selectNotification } from './slice/notification/notificationSlice';
 import firebase from 'firebase/app';
@@ -61,20 +61,11 @@ const App = (): JSX.Element => {
             const newUser = { firebaseId: user.uid, email: user.email };
             console.log(user);
             dispatch(updateFirebaseUser(newUser));
-
-            user.getIdToken()
-                .then((idToken) => {
-                    dispatch(updateIdToken(idToken));
-                    return idToken;
-                })
-                .then((idToken) => {
-                    dispatch(fetchGetUser(idToken));
-                    dispatch(fetchGetIngredients(idToken));
-                    dispatch(fetchGetUnities(idToken));
-                    dispatch(fetchGetAllRecipes(idToken));
-                    dispatch(fetchGetAllGroceries(idToken));
-                })
-                .catch((error) => console.log(error));
+            dispatch(fetchGetUser());
+            dispatch(fetchGetIngredients());
+            dispatch(fetchGetUnities());
+            dispatch(fetchGetAllRecipes());
+            dispatch(fetchGetAllGroceries());
         }
     };
 
