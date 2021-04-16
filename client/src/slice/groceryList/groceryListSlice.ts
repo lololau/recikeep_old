@@ -25,6 +25,7 @@ const initialState: GroceryList = {
         id: 0,
         name: '',
         ingredients: [],
+        recipes: [],
     },
 };
 
@@ -43,9 +44,10 @@ const groceryListReducer = createSlice({
         });
         // fetchCheckTrueGroceryList
         builder.addCase(fetchCheckTrueGroceryList.fulfilled, (state, action) => {
+            const unityId = action.payload.unityId;
             const ingredientId = action.payload.ingredientId;
             state.groceryList.ingredients = state.groceryList.ingredients.map((ingredient) => {
-                if (ingredient.ingredient_id === ingredientId) {
+                if (ingredient.ingredient_id === ingredientId && ingredient.unity_id === unityId) {
                     ingredient.checked = 1;
                 }
                 return ingredient;
@@ -54,8 +56,9 @@ const groceryListReducer = createSlice({
         // fetchCheckFalseGroceryList
         builder.addCase(fetchCheckFalseGroceryList.fulfilled, (state, action) => {
             const ingredientId = action.payload.ingredientId;
+            const unityId = action.payload.unityId;
             state.groceryList.ingredients = state.groceryList.ingredients.map((ingredient) => {
-                if (ingredient.ingredient_id === ingredientId) {
+                if (ingredient.ingredient_id === ingredientId && ingredient.unity_id === unityId) {
                     ingredient.checked = 0;
                 }
                 return ingredient;

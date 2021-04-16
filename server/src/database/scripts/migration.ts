@@ -97,9 +97,11 @@ const unamed = placeholders();
         unity_id INTEGER,
         quantity INTEGER NOT NULL,
         checked INTEGER,
+        recipe_id INTEGER,
         FOREIGN KEY(ingredient_id) REFERENCES Ingredient(id),
         FOREIGN KEY(groceryList_id) REFERENCES GroceryList(id),
-        FOREIGN KEY(unity_id) REFERENCES Unity(id)
+        FOREIGN KEY(unity_id) REFERENCES Unity(id),
+        FOREIGN KEY(recipe_id) REFERENCES Recipe(id)
     )`);
 
     await db.run(`CREATE TABLE Tag (

@@ -4,10 +4,13 @@ const unamed = placeholders();
 
 // Add ingredients by recipe to the user database
 export interface IngredientsGroceryList {
+    recipe_id: number;
     ingredient_id: number;
     unity_id: number;
     quantity: number;
     checked: number;
+    recipe_name: string;
+    recipe_presentation: string;
 }
 
 export interface GroceryList {
@@ -43,45 +46,79 @@ export const addIngredientsGroceryList = async (
     req.forEach(async (ingredient) => {
         await db.run(
             ...unamed(
-                `INSERT INTO GroceryList_ingredient (groceryList_id, ingredient_id, unity_id, quantity, checked) 
-        VALUES (:groceryListId, :ingredientId, :unityId, :quantity, :checked)`,
+                `INSERT INTO GroceryList_ingredient (groceryList_id, ingredient_id, unity_id, quantity, checked, recipe_id) 
+        VALUES (:groceryListId, :ingredientId, :unityId, :quantity, :checked, :recipeId)`,
                 {
                     groceryListId: groceryListId,
                     ingredientId: ingredient.ingredient_id,
                     unityId: ingredient.unity_id,
                     quantity: ingredient.quantity,
                     checked: 0,
+                    recipeId: ingredient.recipe_id,
                 },
             ),
         );
     });
 };
 
-export const checkTrueIngredientGroceryList = async (groceryListId: number, ingredientId: number): Promise<void> => {
+export const checkTrueIngredientGroceryList = async (
+    groceryListId: number,
+    ingredientId: number,
+    unityId: number,
+): Promise<void> => {
     const db = await openDb();
 
     await db.run(
         ...unamed(
-            `UPDATE GroceryList_ingredient SET checked=:checked WHERE groceryList_id=:groceryListId AND ingredient_id=:ingredientId`,
+            `UPDATE GroceryList_ingredient SET checked=:checked WHERE groceryList_id=:groceryListId AND ingredient_id=:ingredientId AND unity_id=:unityId`,
             {
                 checked: 1,
                 groceryListId: groceryListId,
                 ingredientId: ingredientId,
+                unityId: unityId,
             },
         ),
     );
 };
 
-export const checkFalseIngredientGroceryList = async (groceryListId: number, ingredientId: number): Promise<void> => {
+export const checkFalseIngredientGroceryList = async (
+    groceryListId: number,
+    ingredientId: number,
+    unityId: number,
+): Promise<void> => {
     const db = await openDb();
 
     await db.run(
         ...unamed(
-            `UPDATE GroceryList_ingredient SET checked=:checked WHERE groceryList_id=:groceryListId AND ingredient_id=:ingredientId`,
+            `UPDATE GroceryList_ingredient SET checked=:checked WHERE groceryList_id=:groceryListId AND ingredient_id=:ingredientId AND unity_id=:unityId`,
             {
                 checked: 0,
                 groceryListId: groceryListId,
                 ingredientId: ingredientId,
+                unityId: unityId,
+            },
+        ),
+    );
+};
+
+type RequestCheckIngredient = {
+    groceryListId: number;
+    ingredientId: number;
+    unityId: number;
+    check: boolean;
+};
+
+export const checkIngredient = async (req: RequestCheckIngredient): Promise<void> => {
+    const db = await openDb();
+
+    await db.run(
+        ...unamed(
+            `UPDATE GroceryList_ingredient SET checked=:checked WHERE groceryList_id=:groceryListId AND ingredient_id=:ingredientId AND unity_id=:unityId`,
+            {
+                checked: Number(req.check),
+                groceryListId: req.groceryListId,
+                ingredientId: req.ingredientId,
+                unityId: req.unityId,
             },
         ),
     );
@@ -138,12 +175,14 @@ export const getIngredientsGroceryList = async (
 
     const ingredients = await db.all<IngredientsGroceryList>(
         ...unamed(
-            `SELECT Ingredient.name as ingredient, Unity.name as unity, GroceryList_ingredient.quantity as quantity, GroceryList_ingredient.ingredient_id as ingredient_id, GroceryList_ingredient.unity_id as unity_id, GroceryList_ingredient.checked as checked
+            `SELECT Ingredient.name as ingredient, Unity.name as unity, Recipe.name as recipe_name, Recipe.presentation as recipe_presentation, GroceryList_ingredient.quantity as quantity, GroceryList_ingredient.ingredient_id as ingredient_id, GroceryList_ingredient.unity_id as unity_id, GroceryList_ingredient.checked as checked, GroceryList_ingredient.recipe_id as recipe_id
                 FROM GroceryList_ingredient 
                 JOIN Ingredient
                 ON GroceryList_ingredient.ingredient_id = Ingredient.id
                 JOIN Unity
                 ON GroceryList_ingredient.unity_id = Unity.id
+                JOIN Recipe
+                ON GroceryList_ingredient.recipe_id = Recipe.id
                 JOIN GroceryList
                 ON GroceryList_ingredient.groceryList_id = GroceryList.id
                 WHERE GroceryList.id=:groceryListId  AND GroceryList.user_id=:userId`,

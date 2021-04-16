@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import Container from '@material-ui/core/Container';
+import { getAuthToken } from '../../app/auth';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useTranslation } from 'react-i18next';
 import List from '@material-ui/core/List';
@@ -11,7 +12,6 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Autosuggestion from '../../components/Autocomplete';
 import { useSelector } from 'react-redux';
-import { token } from '../../slice/user/userSlice';
 import { ingredients, fetchAddIngredient } from '../../slice/ingredients/ingredientsSlice';
 import { fetchGetIngredientsByRecipes } from '../../slice/ingredients/ingredientsFetch';
 import { unities, fetchAddUnity } from '../../slice/unity/unitySlice';
@@ -32,6 +32,7 @@ const CheckIngredientsList: FC<IngredientListProps> = (props) => {
     useEffect(() => {
         props.onValidateList(props.ingredients);
     }, [props.ingredients]);
+    console.log('props.ingredients', props.ingredients);
     return (
         <List>
             {props.ingredients.map((ingredient, index) => {
@@ -77,13 +78,13 @@ const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => 
 
     const allIngredients = useSelector(ingredients);
     const allUnities = useSelector(unities);
-    const idToken = useSelector(token);
 
     const [newIngredientsList, setNewIngredientsList] = useState<RequestAddGroceryList>({
         ingredients: [],
     });
 
     const [ingredientRecipe, setIngredientRecipe] = useState<IngredientsGroceryList>({
+        recipe_id: 0,
         ingredient: '',
         ingredient_id: 0,
         unity: '',
@@ -100,12 +101,16 @@ const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => 
     };
 
     useEffect(() => {
-        const getIngredients = fetchGetIngredientsByRecipes(idToken, props.numberPartsByRecipe);
-        const ingredientsList = async () => {
-            const list = await getIngredients;
-            setNewIngredientsList({ ...newIngredientsList, ingredients: list });
+        const token = async () => {
+            const idToken = await getAuthToken();
+            const getIngredients = fetchGetIngredientsByRecipes(idToken, props.numberPartsByRecipe);
+            const ingredientsList = async () => {
+                const list = await getIngredients;
+                setNewIngredientsList({ ...newIngredientsList, ingredients: list });
+            };
+            ingredientsList();
         };
-        ingredientsList();
+        token();
     }, []);
 
     return (
@@ -152,7 +157,7 @@ const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => 
                         onSelect={(option) => {
                             setIngredientRecipe({
                                 ...ingredientRecipe,
-                                unity_id: option.id,
+                                unity_id: option.id ? option.id : 0,
                                 unity: option.name,
                             });
                         }}

@@ -36,7 +36,7 @@ export const fetchDeleteRecipe = createAsyncThunk(`/api/groceriesLists/delete`, 
 });
 
 export const fetchCheckTrueGroceryList = createAsyncThunk(
-    `/api/groceriesLists/updateTrue`,
+    `/api/groceriesLists/update/true`,
     async (request: RequestCheckTrueGroceryList) => {
         const idToken = await getAuthToken();
         return await checkTrueGroceryList(idToken, request);
@@ -44,7 +44,7 @@ export const fetchCheckTrueGroceryList = createAsyncThunk(
 );
 
 export const fetchCheckFalseGroceryList = createAsyncThunk(
-    `/api/groceriesLists/updateFalse`,
+    `/api/groceriesLists/update/false`,
     async (request: RequestCheckFalseGroceryList) => {
         const idToken = await getAuthToken();
         return await checkFalseGroceryList(idToken, request);
