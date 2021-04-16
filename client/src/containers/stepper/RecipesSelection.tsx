@@ -1,5 +1,5 @@
 import MobileStepper from '@material-ui/core/MobileStepper';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import SelectionRecipes from './RecipesSelection1';
 import SelectionParts, { numberPartsRecipe } from './RecipesSelection2';
@@ -60,6 +60,13 @@ const RecipesSelectionStepper = (): JSX.Element => {
                     <AddMoreIngredients
                         numberPartsByRecipe={numberPartsByRecipe}
                         onValidation={(ingredientsList) => {
+                            recipesSelected.map((recipe) => {
+                                if (recipe.presentation) {
+                                    console.log('selec recipes :', recipe.name + ' ' + recipe.presentation);
+                                    return;
+                                }
+                                console.log('selec recipes :', recipe.name);
+                            });
                             console.log('ingredientsList: ', ingredientsList);
                             setIngredientsList(ingredientsList);
                         }}
@@ -70,13 +77,29 @@ const RecipesSelectionStepper = (): JSX.Element => {
         }
     };
 
+    const [marginLeft, setMarginLeft] = useState<number>(0);
+
+    const margin = () => {
+        let newMargin;
+        if (window.screen.width < 600) {
+            newMargin = 0;
+        } else {
+            newMargin = 230;
+        }
+        setMarginLeft(newMargin);
+    };
+
+    useEffect(() => {
+        margin();
+    }, [window.screen.width]);
+
     return (
         <Container>
             <Box>{getStepperComponent(activeStep)}</Box>
             <MobileStepper
                 variant="progress"
                 steps={3}
-                style={{ position: 'fixed', bottom: '57px' }}
+                style={{ position: 'fixed', bottom: '57px', marginLeft: marginLeft }}
                 activeStep={activeStep}
                 nextButton={
                     <Button

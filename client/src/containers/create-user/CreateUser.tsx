@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Button, TextField, Box, Paper, Grid, Container } from '@material-ui/core';
-import { fetchCreateUser, updateFirebaseUser, token, loading } from '../../slice/user/userSlice';
+import { fetchCreateUser, updateFirebaseUser, loading } from '../../slice/user/userSlice';
 import { fetchGetIngredients } from '../../slice/ingredients/ingredientsSlice';
 import { fetchGetUnities } from '../../slice/unity/unitySlice';
 import { fetchGetAllRecipes } from '../../slice/recipes/recipesSlice';
@@ -14,7 +14,6 @@ const SignUp = (): JSX.Element => {
 
     const dispatch = useDispatch();
 
-    const idToken = useSelector(token);
     const isLoading = useSelector(loading);
 
     const { t } = useTranslation();
@@ -66,9 +65,9 @@ const SignUp = (): JSX.Element => {
                                         style={{ fontSize: '12px' }}
                                         onClick={async () => {
                                             await dispatch(fetchCreateUser({ fullName: fullN }));
-                                            await dispatch(fetchGetIngredients(idToken));
-                                            await dispatch(fetchGetUnities(idToken));
-                                            await dispatch(fetchGetAllRecipes(idToken));
+                                            await dispatch(fetchGetIngredients());
+                                            await dispatch(fetchGetUnities());
+                                            await dispatch(fetchGetAllRecipes());
                                         }}
                                     >
                                         {t('firebase.create-user')}

@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom';
 import { fetchGetAGroceryList, selectGroceryList } from '../../slice/groceryList/groceryListSlice';
 import { IngredientsGroceryList } from '../../slice/groceriesLists/groceriesListsFetch';
 import { fetchCheckTrueGroceryList, fetchCheckFalseGroceryList } from '../../slice/groceriesLists/groceriesListsSlice';
+import { useTranslation } from 'react-i18next';
 
 type IngredientListProps = {
     ingredients: IngredientsGroceryList[];
@@ -54,6 +55,8 @@ interface Params {
 const GroceryList = (): JSX.Element => {
     const dispatch = useDispatch();
 
+    const { t } = useTranslation();
+
     const { id } = useParams<Params>();
     const groceryList = useSelector(selectGroceryList);
     console.log('groceryList: ', groceryList);
@@ -66,6 +69,16 @@ const GroceryList = (): JSX.Element => {
         <Container>
             <h1>{groceryList.name}</h1>
             <CheckIngredientsList groceryId={groceryList.id} ingredients={groceryList.ingredients} />
+            <List style={{ marginTop: '30px' }}>
+                <h4>{t('groceryList.recipes-selected')}</h4>
+                {groceryList.recipes.map((recipe, index) => {
+                    return (
+                        <ListItem divider={true} key={'RecipesSelected' + index}>
+                            <ListItemText primary={recipe.name} secondary={recipe.presentation} id={index.toString()} />
+                        </ListItem>
+                    );
+                })}
+            </List>
         </Container>
     );
 };

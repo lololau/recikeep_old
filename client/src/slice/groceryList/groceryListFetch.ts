@@ -1,18 +1,25 @@
 import { getApiUrl } from '../host';
 
 export interface IngredientsGroceryList {
+    recipe_id: number;
     ingredient_id: number;
     ingredient: string;
-    unity_id?: number;
+    unity_id: number;
     unity: string;
     quantity?: number;
     checked: number;
 }
 
+type recipesGroceryList = {
+    name: string;
+    presentation: string;
+};
+
 export interface GroceryListInformation {
     id: number;
     name: string;
     ingredients: IngredientsGroceryList[];
+    recipes: recipesGroceryList[];
 }
 
 // Fetch to get a recipe by recipeId

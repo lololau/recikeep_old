@@ -83,7 +83,8 @@
   },
   "groceryList": {
     "title-page": "Liste de Courses",
-    "add-ingredient": "Ingrédient"
+    "add-ingredient": "Ingrédient",
+    "recipes-selected": "Recette(s) sélectionnée(s) : "
   },
   "myIngredients": {
     "title-page": "Mes Ingrédients",

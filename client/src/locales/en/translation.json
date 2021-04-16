@@ -84,7 +84,8 @@
   },
   "groceryList": {
     "title-page": "Grocery List",
-    "add-ingredient": "Ingredient"
+    "add-ingredient": "Ingredient",
+    "recipes-selected": "Recipe(s) selected : "
   },
   "myIngredients": {
     "title-page": "My Ingredients",

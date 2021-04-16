@@ -1,9 +1,10 @@
 import { getApiUrl } from '../host';
 
 export interface IngredientsGroceryList {
+    recipe_id: number;
     ingredient_id: number;
     ingredient: string;
-    unity_id?: number;
+    unity_id: number;
     unity: string;
     quantity?: number;
     checked: number;
@@ -20,7 +21,7 @@ export interface RequestAddGroceryList {
     ingredients?: IngredientsGroceryList[];
 }
 
-// Fetch to addRecipe into user db
+// Fetch to add a grocery list to user database
 export const addGroceryList = async (idToken: string, req: RequestAddGroceryList): Promise<GroceryList> => {
     const myHeaders = new Headers({
         Authorization: idToken,
@@ -61,6 +62,7 @@ export interface RequestCheckTrueGroceryList {
 
 export interface ResponseCheckTrueGroceryList {
     ingredientId: number;
+    unityId: number;
 }
 
 //Fetch to update ingredient.checked to 1 by groceryListId and ingredientId
@@ -72,7 +74,7 @@ export const checkTrueGroceryList = async (
         Authorization: idToken,
         'content-type': 'application/json',
     });
-    const response = await fetch(getApiUrl(`api/groceriesLists/updateTrue`), {
+    const response = await fetch(getApiUrl(`api/groceriesLists/update/true`), {
         method: 'PUT',
         body: JSON.stringify(req),
         headers: myHeaders,
@@ -83,6 +85,7 @@ export const checkTrueGroceryList = async (
     }
     const ret = {
         ingredientId: req.ingredient.ingredient_id,
+        unityId: req.ingredient.unity_id,
     };
     return ret;
 };
@@ -94,6 +97,7 @@ export interface RequestCheckFalseGroceryList {
 
 export interface ResponseCheckFalseGroceryList {
     ingredientId: number;
+    unityId: number;
 }
 
 //Fetch to update ingredient.checked to 1 by groceryListId and ingredientId
@@ -105,7 +109,7 @@ export const checkFalseGroceryList = async (
         Authorization: idToken,
         'content-type': 'application/json',
     });
-    const response = await fetch(getApiUrl(`api/groceriesLists/updateFalse`), {
+    const response = await fetch(getApiUrl(`api/groceriesLists/update/false`), {
         method: 'PUT',
         body: JSON.stringify(req),
         headers: myHeaders,
@@ -116,6 +120,7 @@ export const checkFalseGroceryList = async (
     }
     const ret = {
         ingredientId: req.ingredient.ingredient_id,
+        unityId: req.ingredient.unity_id,
     };
     return ret;
 };

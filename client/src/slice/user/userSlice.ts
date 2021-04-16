@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
+import { getAuthToken } from '../../app/auth';
 import { GetUser, CreateUser, RequestCreateUser, UpdateUser, RequestUpdateUser } from './userFetch';
 
 export interface User {
@@ -21,20 +22,21 @@ const initialState: User = {
     isLoading: 0,
 };
 
-export const fetchGetUser = createAsyncThunk('/api/user/getUser', async (idToken: string) => {
+export const fetchGetUser = createAsyncThunk('/api/user/getUser', async () => {
+    const idToken = await getAuthToken();
     const user = await GetUser(idToken);
     return user;
 });
 
-export const fetchCreateUser = createAsyncThunk('/api/user/createUser', async (req: RequestCreateUser, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState;
-    const user = await CreateUser(state.user.idToken, req);
+export const fetchCreateUser = createAsyncThunk('/api/user/createUser', async (req: RequestCreateUser) => {
+    const idToken = await getAuthToken();
+    const user = await CreateUser(idToken, req);
     return user;
 });
 
-export const fetchUpdateUser = createAsyncThunk('/api/user/updateUser', async (req: RequestUpdateUser, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState;
-    const userUpdated = await UpdateUser(state.user.idToken, req);
+export const fetchUpdateUser = createAsyncThunk('/api/user/updateUser', async (req: RequestUpdateUser) => {
+    const idToken = await getAuthToken();
+    const userUpdated = await UpdateUser(idToken, req);
     return userUpdated;
 });
 
@@ -42,9 +44,6 @@ const userReducer = createSlice({
     name: 'user',
     initialState: initialState,
     reducers: {
-        updateIdToken: (state, action) => {
-            state.idToken = action.payload;
-        },
         updateFirebaseUser: (state, action) => {
             state.firebaseId = action.payload.firebaseId;
             state.email = action.payload.email;
@@ -83,7 +82,7 @@ const userReducer = createSlice({
     },
 });
 
-export const { updateIdToken, updateFirebaseUser, loadingStarted, loadingFinished } = userReducer.actions;
+export const { updateFirebaseUser, loadingStarted, loadingFinished } = userReducer.actions;
 
 export const selectUser = (state: RootState): User => state.user;
 export const isLogged = (state: RootState): boolean => state.user.firebaseId !== '';

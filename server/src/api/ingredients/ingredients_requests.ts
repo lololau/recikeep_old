@@ -22,6 +22,7 @@ ingredients.post('/getByRecipes', verifyToken, verifyUser, async (req, res) => {
             const p = requestGetIngredients.find((elt: numberPartsRecipe) => elt.recipe_id === ingredient.recipe_id);
             const newQuantity = Math.ceil((ingredient.quantity / ingredient.recipe_number_parts) * p.number_parts);
             return {
+                recipe_id: ingredient.recipe_id,
                 ingredient: ingredient.ingredient,
                 ingredient_id: ingredient.ingredient_id,
                 quantity: newQuantity,
