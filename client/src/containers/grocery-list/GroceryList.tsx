@@ -1,12 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Container from '@material-ui/core/Container';
 import List from '@material-ui/core/List';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItem from '@material-ui/core/ListItem';
 import Checkbox from '@material-ui/core/Checkbox';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import ShareIcon from '@material-ui/icons/Share';
+import Modal from '@material-ui/core/Modal';
 import ListItemText from '@material-ui/core/ListItemText';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { getApiUrl } from '../../slice/host';
 import { fetchGetAGroceryList, selectGroceryList } from '../../slice/groceryList/groceryListSlice';
 import { IngredientsGroceryList } from '../../slice/groceriesLists/groceriesListsFetch';
 import { fetchCheckTrueGroceryList, fetchCheckFalseGroceryList } from '../../slice/groceriesLists/groceriesListsSlice';
@@ -59,15 +65,81 @@ const GroceryList = (): JSX.Element => {
 
     const { id } = useParams<Params>();
     const groceryList = useSelector(selectGroceryList);
-    console.log('groceryList: ', groceryList);
+
+    const [modalOpen, setModalOpen] = useState(false);
+
+    const handleModalOpen = () => {
+        setModalOpen(true);
+    };
+
+    const handleClose = () => {
+        setModalOpen(false);
+    };
+
+    const bodyModal = (
+        <Grid
+            container
+            spacing={4}
+            style={{
+                marginTop: '25%',
+                maxWidth: 400,
+                marginRight: 'auto',
+                marginLeft: 'auto',
+                flexDirection: 'column',
+                backgroundColor: 'white',
+                alignItems: 'center',
+            }}
+        >
+            <Grid item>
+                <p>{getApiUrl(`groceryList/share/${groceryList.share_uid}`)}</p>
+            </Grid>
+            <Grid item>
+                <Button
+                    onClick={() => {
+                        navigator.clipboard.writeText(getApiUrl(`groceryList/share/${groceryList.share_uid}`));
+                        handleClose();
+                    }}
+                >
+                    {t('modal.copy-link')}
+                </Button>
+            </Grid>
+        </Grid>
+    );
 
     useEffect(() => {
-        dispatch(fetchGetAGroceryList(Number(id)));
+        const timer = setInterval(() => {
+            dispatch(fetchGetAGroceryList(Number(id)));
+        }, 2000);
+        return () => clearInterval(timer);
     }, []);
 
     return (
         <Container>
-            <h1>{groceryList.name}</h1>
+            <Grid
+                container
+                style={{
+                    alignItems: 'center',
+                    width: '100%',
+                }}
+            >
+                <Grid item>
+                    <h1>{groceryList.name}</h1>
+                </Grid>
+                <Grid item>
+                    <IconButton
+                        style={{
+                            float: 'right',
+                            position: 'absolute',
+                            marginRight: '12px',
+                            right: '-2px',
+                            top: '55px',
+                        }}
+                        onClick={() => handleModalOpen()}
+                    >
+                        <ShareIcon style={{ fontSize: 20 }} color="primary" />
+                    </IconButton>
+                </Grid>
+            </Grid>
             <CheckIngredientsList groceryId={groceryList.id} ingredients={groceryList.ingredients} />
             <List style={{ marginTop: '30px' }}>
                 <h4>{t('groceryList.recipes-selected')}</h4>
@@ -79,6 +151,10 @@ const GroceryList = (): JSX.Element => {
                     );
                 })}
             </List>
+
+            <Modal open={modalOpen} onClose={handleClose}>
+                {bodyModal}
+            </Modal>
         </Container>
     );
 };

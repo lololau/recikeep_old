@@ -1,11 +1,13 @@
 import openDb from '../db';
 import placeholders from 'named-placeholders';
+import { nanoid } from 'nanoid';
 const unamed = placeholders();
 
 export interface GroceryList {
     id: number;
     name: string;
     user_id: number;
+    share_uid: string;
 }
 
 export type RequestAddGroceryList = {
@@ -17,16 +19,36 @@ export const addGroceryList = async (userId: number, req: RequestAddGroceryList)
     const db = await openDb();
 
     const ret = await db.run(
-        ...unamed(`INSERT INTO GroceryList (user_id, name) VALUES (:user_id, :name)`, {
+        ...unamed(`INSERT INTO GroceryList (user_id, name, share_uid) VALUES (:user_id, :name, :share_uid)`, {
             user_id: userId,
             name: req.name,
+            share_uid: nanoid(10),
         }),
     );
 
     const groceryListId = ret.insertId;
 
     const groceryList = db.get<GroceryList>(
-        ...unamed(`SELECT id, name, user_id FROM GroceryList WHERE id=:id`, { id: groceryListId }),
+        ...unamed(`SELECT id, name, user_id FROM GroceryList WHERE id=:id`, {
+            id: groceryListId,
+        }),
+    );
+
+    return groceryList;
+};
+
+// Get share grocery list by share_uid
+export const getShareGroceryList = async (shareUid: string): Promise<GroceryList> => {
+    const db = await openDb();
+
+    const groceryList = await db.get<GroceryList>(
+        ...unamed(
+            `SELECT id, name, user_id 
+            FROM GroceryList WHERE share_uid=:share_uid`,
+            {
+                share_uid: shareUid,
+            },
+        ),
     );
 
     return groceryList;
@@ -51,7 +73,7 @@ export const getGroceryListInformations = async (userId: number, groceryListId: 
 
     const groceryList = await db.get<GroceryList>(
         ...unamed(
-            `SELECT id, name
+            `SELECT id, name, share_uid
             FROM GroceryList WHERE user_id=:userId AND id=:id`,
             {
                 userId: userId,

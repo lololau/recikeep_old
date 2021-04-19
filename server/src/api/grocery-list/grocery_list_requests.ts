@@ -7,6 +7,7 @@ import {
     deleteIngredientsGroceryList,
     checkIngredient,
     GroceryList,
+    getGroceryListIdByShareUid,
 } from '../../database/ingredients_groceryList/ingredientsGroceryList';
 import {
     addGroceryList,
@@ -14,6 +15,7 @@ import {
     getAllGroceriesList,
     RequestAddGroceryList,
     deleteGroceryList,
+    getShareGroceryList,
 } from '../../database/groceries/groceries';
 
 // Router and mounting
@@ -125,6 +127,27 @@ groceriesLists.get('/:id', verifyToken, verifyUser, async (req, res) => {
     }
 });
 
+//GET - /api/groceryList/share/:share_uid - get a grocery list by share_uid
+groceriesLists.get('/share/:share_uid', async (req, res) => {
+    const share_uid = req.params.share_uid;
+    console.log('shareUid:', share_uid);
+
+    try {
+        const groceryList = await getShareGroceryList(share_uid);
+
+        // get ingredients list from our grocery list
+        const ingredients = await getIngredientsGroceryList(groceryList.user_id, groceryList.id);
+
+        const finalGroceryList = getFinalGroceryList(groceryList, ingredients);
+
+        console.log('finalRecipesList update: ', finalGroceryList);
+        res.status(200).json({ groceryList: { ...groceryList, ...finalGroceryList } });
+    } catch (e) {
+        console.error(e);
+        return res.status(404).send(`Unable to get the grocery list with share_uid: ${share_uid}`);
+    }
+});
+
 // DELETE - '/api/groceryList/delete' - delete a grocery list from user database
 groceriesLists.delete('/delete/:groceryListId', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
@@ -139,10 +162,34 @@ groceriesLists.delete('/delete/:groceryListId', verifyToken, verifyUser, async (
     }
 });
 
-// PUT - 'api/groceriesList/updateTrue' - update ingredient.checked to 0 by groceryListId and ingredientId
+// PUT - 'api/groceriesList/update' - update ingredient.checked to 0 or 1 by groceryListId and ingredientId
 groceriesLists.put('/update/:check', verifyToken, verifyUser, async (req, res) => {
     const requestCheck = {
         groceryListId: req.body.groceryListId,
+        ingredientId: req.body.ingredient.ingredient_id,
+        unityId: req.body.ingredient.unity_id,
+        check: req.params.check.toLocaleLowerCase() === 'true',
+    };
+    try {
+        await checkIngredient(requestCheck);
+        res.status(200).send();
+    } catch (e) {
+        console.error(e);
+        res.status(404).send(
+            `Unable to uncheck ingredient with id: ${req.body.ingredient.ingredient_id} in groceryList with id: ${req.body.groceryListId}`,
+        );
+    }
+});
+
+// PUT - 'api/groceriesList/updateShare' - update ingredient.checked to 0 by groceryListId and ingredientId
+groceriesLists.put('/updateShare/:check', async (req, res) => {
+    const shareUid = req.body.groceryListShareUid;
+    console.log('shareUid: ', shareUid);
+    const groceryListId = await getGroceryListIdByShareUid(shareUid);
+    console.log('groceryListId: ', groceryListId);
+
+    const requestCheck = {
+        groceryListId: Number(groceryListId),
         ingredientId: req.body.ingredient.ingredient_id,
         unityId: req.body.ingredient.unity_id,
         check: req.params.check.toLocaleLowerCase() === 'true',

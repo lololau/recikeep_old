@@ -127,7 +127,8 @@
     "delete-grocery": "Are you sure you want to delete this grocery list?",
     "delete-definitif": "No going back will be possible.",
     "delete-yes": "Yes",
-    "delete-no": "No"
+    "delete-no": "No",
+    "copy-link": "Copy link"
   },
   "firebase": {
     "connect": "Access to your account",

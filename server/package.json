@@ -24,6 +24,7 @@
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "named-placeholders": "^1.1.2",
+    "nanoid": "^3.1.22",
     "prettier": "^2.2.1",
     "sqlite": "^4.0.19",
     "sqlite3": "^5.0.2",

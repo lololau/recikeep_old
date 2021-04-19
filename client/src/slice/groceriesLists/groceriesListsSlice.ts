@@ -11,6 +11,9 @@ import {
     checkTrueGroceryList,
     RequestCheckFalseGroceryList,
     checkFalseGroceryList,
+    RequestCheckShareGroceryList,
+    checkTrueShareGroceryList,
+    checkFalseShareGroceryList,
 } from './groceriesListsFetch';
 
 export const fetchAddGroceryList = createAsyncThunk(
@@ -48,6 +51,20 @@ export const fetchCheckFalseGroceryList = createAsyncThunk(
     async (request: RequestCheckFalseGroceryList) => {
         const idToken = await getAuthToken();
         return await checkFalseGroceryList(idToken, request);
+    },
+);
+
+export const fetchCheckTrueShareGroceryList = createAsyncThunk(
+    `/api/groceriesLists/updateShare/true`,
+    async (request: RequestCheckShareGroceryList) => {
+        return await checkTrueShareGroceryList(request);
+    },
+);
+
+export const fetchCheckFalseShareGroceryList = createAsyncThunk(
+    `/api/groceriesLists/updateShare/false`,
+    async (request: RequestCheckShareGroceryList) => {
+        return await checkFalseShareGroceryList(request);
     },
 );
 

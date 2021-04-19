@@ -196,6 +196,29 @@ export const getIngredientsGroceryList = async (
     return ingredients;
 };
 
+type ResponseGetShareGroceryList = {
+    groceryListId: number;
+};
+
+export const getGroceryListIdByShareUid = async (shareUid: string): Promise<number> => {
+    const db = await openDb();
+
+    const groceryListId = await db.get<ResponseGetShareGroceryList>(
+        ...unamed(
+            `SELECT GroceryList.id as groceryListId
+                FROM GroceryList_ingredient
+                JOIN GroceryList
+                ON GroceryList_ingredient.groceryList_id = GroceryList.id
+                WHERE GroceryList.share_uid=:shareUid LIMIT 1`,
+            {
+                shareUid: shareUid,
+            },
+        ),
+    );
+
+    return groceryListId.groceryListId;
+};
+
 // Delete ingredrients by groceryListId when a groceryList is deleted
 export const deleteIngredientsGroceryList = async (groceryListId: number): Promise<void> => {
     const db = await openDb();
