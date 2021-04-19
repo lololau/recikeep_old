@@ -85,6 +85,7 @@ const unamed = placeholders();
         id INTEGER UNIQUE AUTO_INCREMENT,
         name VARCHAR(255),
         user_id INTEGER,
+        share_uid VARCHAR(10),
         date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         date_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY(id),

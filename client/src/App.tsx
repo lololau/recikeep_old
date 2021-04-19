@@ -30,6 +30,8 @@ import MyUnities from './containers/my-unities/MyUnities';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { useTranslation } from 'react-i18next';
 import Notification from './components/Notification';
+import { matchPath } from 'react-router';
+import GroceryListShare from './containers/grocery-list/GroceryListShare';
 
 const theme = createMuiTheme({
     palette: {
@@ -78,6 +80,10 @@ const App = (): JSX.Element => {
         }
         setMarginLeft(newMargin);
     };
+
+    //TEST
+
+    //
 
     useEffect(() => {
         const subscriber = firebase.auth().onIdTokenChanged(onAuthStateChanged);
@@ -170,8 +176,33 @@ const App = (): JSX.Element => {
         );
     };
 
+    const shareGroceryList = (shareUid: string) => {
+        {
+            return (
+                <>
+                    <GroceryListShare uid={shareUid} />
+                </>
+            );
+        }
+    };
+
+    console.log('window pathname: ', window.location.pathname);
+
+    type MatchParam = {
+        uid: string;
+    };
+    // url share : '/groceryList/share/:uid'
+    const match = matchPath<MatchParam>(window.location.pathname, {
+        path: '/groceryList/share/:uid',
+        exact: true,
+        strict: false,
+    });
+    console.log('match: ', match?.params);
+
     let composant;
-    if (!logged) {
+    if (match) {
+        composant = shareGroceryList(match.params.uid);
+    } else if (!logged) {
         composant = logOut();
     } else if (logged && created) {
         composant = logIn();

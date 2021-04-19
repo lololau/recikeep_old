@@ -126,7 +126,8 @@
     "delete-grocery": "Êtes-vous sûr(e) de vouloir supprimer cette liste de course?",
     "delete-definitif": "Aucun retour en arrière ne sera possible.",
     "delete-yes": "Oui",
-    "delete-no": "Non"
+    "delete-no": "Non",
+    "copy-link": "Copier le lien"
   },
   "firebase": {
     "connect": "Accéder à votre compte",

@@ -125,6 +125,56 @@ export const checkFalseGroceryList = async (
     return ret;
 };
 
+export interface RequestCheckShareGroceryList {
+    groceryListShareUid: string;
+    ingredient: IngredientsGroceryList;
+}
+
+//Fetch to update ingredient.checked to 1 by groceryListId and ingredientId
+export const checkTrueShareGroceryList = async (
+    req: RequestCheckShareGroceryList,
+): Promise<ResponseCheckTrueGroceryList> => {
+    const myHeaders = new Headers({
+        'content-type': 'application/json',
+    });
+    const response = await fetch(getApiUrl(`api/groceriesLists/updateShare/true`), {
+        method: 'PUT',
+        body: JSON.stringify(req),
+        headers: myHeaders,
+    });
+    if (response.status < 200 || response.status >= 300) {
+        const err = await response.text();
+        throw new Error('Checked not updated' + err);
+    }
+    const ret = {
+        ingredientId: req.ingredient.ingredient_id,
+        unityId: req.ingredient.unity_id,
+    };
+    return ret;
+};
+
+export const checkFalseShareGroceryList = async (
+    req: RequestCheckShareGroceryList,
+): Promise<ResponseCheckFalseGroceryList> => {
+    const myHeaders = new Headers({
+        'content-type': 'application/json',
+    });
+    const response = await fetch(getApiUrl(`api/groceriesLists/updateShare/false`), {
+        method: 'PUT',
+        body: JSON.stringify(req),
+        headers: myHeaders,
+    });
+    if (response.status < 200 || response.status >= 300) {
+        const err = await response.text();
+        throw new Error('Checked not updated' + err);
+    }
+    const ret = {
+        ingredientId: req.ingredient.ingredient_id,
+        unityId: req.ingredient.unity_id,
+    };
+    return ret;
+};
+
 //Fetch to get all recipes by user
 export const getAllGroceries = async (idToken: string): Promise<GroceryList[]> => {
     const myHeaders = new Headers({

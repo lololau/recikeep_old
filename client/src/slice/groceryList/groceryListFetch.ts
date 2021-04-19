@@ -18,6 +18,7 @@ type recipesGroceryList = {
 export interface GroceryListInformation {
     id: number;
     name: string;
+    share_uid: string;
     ingredients: IngredientsGroceryList[];
     recipes: recipesGroceryList[];
 }
@@ -32,6 +33,16 @@ export const getGroceryList = async (idToken: string, groceryListId: number): Pr
     });
     if (response.status === 404) {
         throw new Error('GroceryList not found');
+    }
+    const jsonResponse = await response.json();
+    return jsonResponse.groceryList;
+};
+
+// Fetch to get a recipe by recipeId
+export const getShareGroceryList = async (shareUid: string): Promise<GroceryListInformation> => {
+    const response = await fetch(getApiUrl(`api/groceriesLists/share/${shareUid}`));
+    if (response.status === 404) {
+        throw new Error('GroceryListShare not found');
     }
     const jsonResponse = await response.json();
     return jsonResponse.groceryList;
