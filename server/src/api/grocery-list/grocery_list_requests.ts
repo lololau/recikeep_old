@@ -89,6 +89,9 @@ const getFinalGroceryList = (groceryList: GroceryList, ingredients: IngredientsG
     const sortByRecipeId: { [key: string]: { name: string; presentation: string } } = {};
     Object.keys(sortByIngredientId).forEach((ingredientIdList) => {
         sortByIngredientId[ingredientIdList].forEach((ing) => {
+            if (ing.recipe_id === null) {
+                return;
+            }
             if (!sortByRecipeId[ing.recipe_id]) {
                 sortByRecipeId[ing.recipe_id] = { name: ing.recipe_name, presentation: ing.recipe_presentation };
             }

@@ -54,7 +54,7 @@ export const addIngredientsGroceryList = async (
                     unityId: ingredient.unity_id,
                     quantity: ingredient.quantity,
                     checked: 0,
-                    recipeId: ingredient.recipe_id,
+                    recipeId: ingredient.recipe_id ? ingredient.recipe_id : null,
                 },
             ),
         );
@@ -182,7 +182,7 @@ export const getIngredientsGroceryList = async (
                 JOIN Unity
                 ON GroceryList_ingredient.unity_id = Unity.id
                 JOIN Recipe
-                ON GroceryList_ingredient.recipe_id = Recipe.id
+                ON (GroceryList_ingredient.recipe_id = Recipe.id OR GroceryList_ingredient.recipe_id IS NULL)
                 JOIN GroceryList
                 ON GroceryList_ingredient.groceryList_id = GroceryList.id
                 WHERE GroceryList.id=:groceryListId  AND GroceryList.user_id=:userId`,
