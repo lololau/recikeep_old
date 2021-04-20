@@ -136,6 +136,7 @@ const App = (): JSX.Element => {
                         severity={notification.severity}
                         id={notification.id}
                     />
+                    <CssBaseline />
                     <Paper elevation={1}>
                         <ToolsBar
                             style={{
