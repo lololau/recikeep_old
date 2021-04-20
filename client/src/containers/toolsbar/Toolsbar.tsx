@@ -16,11 +16,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Hidden from '@material-ui/core/Hidden';
 
-type ToolbarProps = {
-    style?: React.CSSProperties;
-};
-
-const ToolsBar = (props: ToolbarProps): JSX.Element => {
+const ToolsBar = (): JSX.Element => {
     const { t } = useTranslation();
     const [button, setButton] = React.useState(0);
 
@@ -106,7 +102,14 @@ const ToolsBar = (props: ToolbarProps): JSX.Element => {
                             setButton(newValue);
                         }}
                         showLabels
-                        style={props.style}
+                        style={{
+                            position: 'fixed',
+                            bottom: 0,
+                            zIndex: 1,
+                            width: '100%',
+                            borderTop: 'thin solid',
+                            background: '#b7e0e5',
+                        }}
                     >
                         <BottomNavigationAction
                             icon={<HomeIcon />}
