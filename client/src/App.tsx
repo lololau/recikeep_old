@@ -32,6 +32,7 @@ import { useTranslation } from 'react-i18next';
 import Notification from './components/Notification';
 import { matchPath } from 'react-router';
 import GroceryListShare from './containers/grocery-list/GroceryListShare';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 const theme = createMuiTheme({
     palette: {
@@ -73,7 +74,7 @@ const App = (): JSX.Element => {
 
     const margin = () => {
         let newMargin;
-        if (window.screen.width < 800) {
+        if (window.screen.width < 600) {
             newMargin = 0;
         } else {
             newMargin = 230;
@@ -155,7 +156,7 @@ const App = (): JSX.Element => {
     const pending = () => {
         return (
             <div>
-                <LinearProgress style={{ position: 'fixed', zIndex: 2 }} />
+                <LinearProgress style={{ top: 0, position: 'fixed', zIndex: 2, width: '100%' }} />
             </div>
         );
     };
