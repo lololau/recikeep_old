@@ -73,7 +73,7 @@ const App = (): JSX.Element => {
 
     const margin = () => {
         let newMargin;
-        if (window.screen.width < 600) {
+        if (window.screen.width < 800) {
             newMargin = 0;
         } else {
             newMargin = 230;
