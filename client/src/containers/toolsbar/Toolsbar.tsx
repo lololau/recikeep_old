@@ -29,7 +29,7 @@ const ToolsBar = (props: ToolbarProps): JSX.Element => {
     return (
         <div>
             <div>
-                <Hidden only={['xs', 'sm']}>
+                <Hidden only={['xs']}>
                     <Drawer variant="permanent" anchor="left">
                         <Divider />
                         <List
@@ -98,7 +98,7 @@ const ToolsBar = (props: ToolbarProps): JSX.Element => {
                     </Drawer>
                 </Hidden>
             </div>
-            <Hidden only={['md', 'lg', 'xl']}>
+            <Hidden only={['sm', 'md', 'lg', 'xl']}>
                 <Drawer variant="permanent" anchor="left">
                     <BottomNavigation
                         value={button}
