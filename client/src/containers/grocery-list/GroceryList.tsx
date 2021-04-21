@@ -134,7 +134,7 @@ const GroceryList = (): JSX.Element => {
                             position: 'absolute',
                             marginRight: '12px',
                             right: '-2px',
-                            top: '55px',
+                            top: '58px',
                         }}
                         onClick={() => handleModalOpen()}
                     >

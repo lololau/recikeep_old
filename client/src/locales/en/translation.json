@@ -14,7 +14,8 @@
     "tagList": "Tags",
     "types": "Types",
     "selectRecipes": "» New Grocery list",
-    "add-recipe": "Recipe"
+    "add-recipe": "Recipe",
+    "delete-impossible": "Cannot be deleted. This recipe is present in a grocery list. Delete the shopping list in order to delete the item."
   },
   "recipe": {
     "title": "Carbonara Pasta",
