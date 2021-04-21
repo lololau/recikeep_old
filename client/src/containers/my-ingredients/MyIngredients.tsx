@@ -1,24 +1,32 @@
+// Dependencies
 import React, { useState } from 'react';
-import Container from '@material-ui/core/Container';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Box } from '@material-ui/core';
-import SearchBar from '../../components/SearchBar';
-import ListComponent, { Element } from '../../components/List';
+// Slice
 import { Ingredient } from '../../slice/ingredients/ingredientsFetch';
 import { ingredients, fetchDeleteIngredient } from '../../slice/ingredients/ingredientsSlice';
-import { useSelector, useDispatch } from 'react-redux';
+// Component
+import SearchBar from '../../components/SearchBar';
+import ListComponent, { Element } from '../../components/List';
+// Material-ui
+import { Container, Box } from '@material-ui/core';
 
+// MyIngredients component
+//
+// Component which contains all ingredients register on the profil account connected
 const MyIngredients = (): JSX.Element => {
     const ingredientsList = useSelector(ingredients);
     const { t } = useTranslation();
 
     const dispatch = useDispatch();
 
+    // Method to select only ingredients register by the user account connected
     const selectIngredientsCustom = (ingredientsElements: Ingredient[]): Ingredient[] =>
         ingredientsElements.filter((ingredient) => {
             return ingredient.user_id !== null;
         });
 
+    // Method to delete a specific ingredient by id
     const deleteIngredient = (ingredient: Element) => {
         dispatch(fetchDeleteIngredient(ingredient.id));
     };
@@ -29,11 +37,6 @@ const MyIngredients = (): JSX.Element => {
         const newIngredients: Ingredient[] = ingredientsList.filter((ingredient) => {
             let resultat = false;
             for (let i = 0; i < ids.length; i++) {
-                if (!ingredient.id) {
-                    // @DEBUG: remove this
-                    console.warn('ingredient with id undefined', ingredient);
-                    continue;
-                }
                 if (ingredient.id.toString() === ids[i]) {
                     resultat = true;
                 }

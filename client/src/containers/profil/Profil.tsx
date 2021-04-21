@@ -1,19 +1,25 @@
+// Dependencies
+import React, { ChangeEvent, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useSelector, useDispatch } from 'react-redux';
 import '../../i18n';
 import i18n from '../../i18n';
-import React, { ChangeEvent, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
+// Slice
+import { selectUser, fetchUpdateUser } from '../../slice/user/userSlice';
+// Material-ui
+import { Button, Container, Box, Grid, IconButton, TextField } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import Container from '@material-ui/core/Container';
 import CheckIcon from '@material-ui/icons/Check';
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
-import { IconButton } from '@material-ui/core';
-import { selectUser, fetchUpdateUser } from '../../slice/user/userSlice';
-import { useSelector, useDispatch } from 'react-redux';
-import TextField from '@material-ui/core/TextField';
+
+// Profile component
+// Component which contains all profil account informations like :
+//
+// - username (can be updated by clicking on the EditIcon)
+// - email
+// - ingredients registered by clicling on 'My Ingredients' (en) or 'Mes Ingredients' (fr)
+// - unities registered by clicking on 'My Unities' or 'Mes Unités' (fr)
 
 const Profile = (): JSX.Element => {
     const changeLanguage = (lng: string) => {

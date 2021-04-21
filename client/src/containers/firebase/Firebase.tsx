@@ -1,16 +1,36 @@
+// Dependencies
 import React, { ChangeEvent, useState } from 'react';
-// Firebase
+import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
-import { Button, TextField, Grid, Container, Paper } from '@material-ui/core';
-import { useTranslation } from 'react-i18next';
+// Store - Slice
 import { updateNotification, selectNotification } from '../../slice/notification/notificationSlice';
 import { useAppDispatch } from '../../app/store';
+// Component
 import Notification from '../../components/Notification';
-import { useSelector } from 'react-redux';
+// Material-ui
+import { Button, TextField, Grid, Container, Paper } from '@material-ui/core';
 
-const Firebase = (): JSX.Element => {
+// signUpWithEmailPassword function made with createUserWithEmailAndPassword(email, password) method from firebase
+const signUpWithEmailPassword = (email: string, password: string) => {
+    return firebase.auth().createUserWithEmailAndPassword(email, password);
+};
+
+// signInWithEmailPassword function made with signInWithEmailAndPassword(email, password) method from firebase
+const signInWithEmailPassword = (email: string, password: string) => {
+    return firebase.auth().signInWithEmailAndPassword(email, password);
+};
+// Home Access component : Take an email and a password to have an account
+//
+// Features:
+// - Textfield for enter : email + password
+// - SignIn button (if user already created)
+// - SignUp button (if user not created)
+// - Errors display if user make a mistake by entering wrong data or by clicking on wrong button with <Notification />
+
+const HomeAccess = (): JSX.Element => {
     const dispatch = useAppDispatch();
 
     const notification = useSelector(selectNotification);
@@ -20,51 +40,42 @@ const Firebase = (): JSX.Element => {
 
     const { t } = useTranslation();
 
+    // HandleChange event - email
     const onChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
     };
+
+    // HandleChange event - password
     const onChangeEmail = (event: ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
     };
 
+    // SignUp method
     const onSignUp = () => {
-        signUpWithEmailPassword(email, password)
-            .then((userCredential) => {
-                console.log(userCredential);
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
+        signUpWithEmailPassword(email, password).catch((error) => {
+            const errorCode = error.code;
 
-                if (errorCode == 'auth/invalid-email') {
-                    dispatch(updateNotification({ message: t('firebase.bad-email'), severity: 'error' }));
-                } else if (errorCode == 'auth/weak-password') {
-                    dispatch(updateNotification({ message: t('firebase.bad-password'), severity: 'error' }));
-                } else if (errorCode == 'auth/email-already-in-use') {
-                    dispatch(updateNotification({ message: t('firebase.already-account'), severity: 'error' }));
-                }
-                console.log('Error: signUpWithEmailPassword, errorCode: ', errorCode);
-                console.log('Error: signUpWithEmailPassword, errorMessage: ', errorMessage);
-            });
+            if (errorCode == 'auth/invalid-email') {
+                dispatch(updateNotification({ message: t('firebase.bad-email'), severity: 'error' }));
+            } else if (errorCode == 'auth/weak-password') {
+                dispatch(updateNotification({ message: t('firebase.bad-password'), severity: 'error' }));
+            } else if (errorCode == 'auth/email-already-in-use') {
+                dispatch(updateNotification({ message: t('firebase.already-account'), severity: 'error' }));
+            }
+        });
     };
 
+    // SignIn method
     const onSignIn = () => {
-        signInWithEmailPassword(email, password)
-            .then((userCredential) => {
-                console.log(userCredential);
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                if (errorCode == 'auth/invalid-email') {
-                    dispatch(updateNotification({ message: t('firebase.bad-email'), severity: 'error' }));
-                }
-                if (errorCode == 'auth/wrong-password') {
-                    dispatch(updateNotification({ message: t('firebase.wrong-connection'), severity: 'error' }));
-                }
-                console.log('Error: signInWithEmailPassword, errorCode: ', errorCode);
-                console.log('Error: signInWithEmailPassword, errorMessage: ', errorMessage);
-            });
+        signInWithEmailPassword(email, password).catch((error) => {
+            const errorCode = error.code;
+            if (errorCode == 'auth/invalid-email') {
+                dispatch(updateNotification({ message: t('firebase.bad-email'), severity: 'error' }));
+            }
+            if (errorCode == 'auth/wrong-password') {
+                dispatch(updateNotification({ message: t('firebase.wrong-connection'), severity: 'error' }));
+            }
+        });
     };
 
     return (
@@ -123,14 +134,4 @@ const Firebase = (): JSX.Element => {
     );
 };
 
-export let firebaseId: string;
-
-const signUpWithEmailPassword = (email: string, password: string) => {
-    return firebase.auth().createUserWithEmailAndPassword(email, password);
-};
-
-const signInWithEmailPassword = (email: string, password: string) => {
-    return firebase.auth().signInWithEmailAndPassword(email, password);
-};
-
-export default Firebase;
+export default HomeAccess;

@@ -1,6 +1,7 @@
+// Dependencies
 import React from 'react';
-import List from '@material-ui/core/List';
-import { IconButton, ListItem, ListItemText, ListItemSecondaryAction } from '@material-ui/core';
+// Material-ui
+import { IconButton, ListItem, ListItemText, ListItemSecondaryAction, List } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 type onRemove = (elt: Element) => void;
@@ -14,6 +15,12 @@ export interface Element {
     name: string;
     id: number;
 }
+
+// List genereric component
+//
+// Display a element from a list by :
+// - Element name
+// - A delete icon at the end of the row
 
 const ListComponent = (props: ListProps): JSX.Element => (
     <List>

@@ -10,7 +10,7 @@ import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOut
 import { IconButton } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import Autosuggestion from '../../components/Autocomplete';
+import Autosuggestion from '../../components/AutoSuggestion';
 import { useSelector } from 'react-redux';
 import { ingredients, fetchAddIngredient } from '../../slice/ingredients/ingredientsSlice';
 import { fetchGetIngredientsByRecipes } from '../../slice/ingredients/ingredientsFetch';

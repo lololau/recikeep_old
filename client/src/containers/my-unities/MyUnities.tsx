@@ -1,12 +1,19 @@
+// Dependencies
 import React, { useState } from 'react';
-import { Container, Box } from '@material-ui/core';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import SearchBar from '../../components/SearchBar';
-import ListComponent, { Element } from '../../components/List';
+// Slice
 import { Unity } from '../../slice/unity/unityFetch';
 import { unities, fetchDeleteUnity } from '../../slice/unity/unitySlice';
-import { useSelector, useDispatch } from 'react-redux';
+// Component
+import SearchBar from '../../components/SearchBar';
+import ListComponent, { Element } from '../../components/List';
+// Material-ui
+import { Container, Box } from '@material-ui/core';
 
+// MyUnities component
+//
+// Component which contains all unities register on the profil account connected
 const MyUnities = (): JSX.Element => {
     const unitiesList = useSelector(unities);
     const { t } = useTranslation();
@@ -15,11 +22,13 @@ const MyUnities = (): JSX.Element => {
 
     const [unitiesCustomDisplay, setUnitiesCustomDisplay] = useState(unitiesList);
 
+    // Method to select only unities register by the user account connected
     const selectUnitiesCustom = (unitiesElements: Unity[]): Unity[] =>
         unitiesElements.filter((unity) => {
             return unity.user_id !== null;
         });
 
+    // Method to delete a specific unity by id
     const deleteUnity = (unity: Element) => {
         dispatch(fetchDeleteUnity(unity.id));
     };

@@ -1,26 +1,38 @@
-import '../../i18n';
-import { Link } from 'react-router-dom';
+// Dependencies
 import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Modal from '@material-ui/core/Modal';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import SearchBar from '../../components/SearchBar';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
+import { useSelector, useDispatch } from 'react-redux';
+import '../../i18n';
+import { Link } from 'react-router-dom';
+// Slice
 import { fetchDeleteRecipe, selectGroceriesList } from '../../slice/groceriesLists/groceriesListsSlice';
 import { fetchGetAGroceryList } from '../../slice/groceryList/groceryListSlice';
 import { GroceryList } from '../../slice/groceriesLists/groceriesListsFetch';
-import { useSelector, useDispatch } from 'react-redux';
-
+// Component
+import SearchBar from '../../components/SearchBar';
+// Material-ui
+import {
+    Button,
+    List,
+    ListItem,
+    Modal,
+    ListItemSecondaryAction,
+    ListItemText,
+    IconButton,
+    Container,
+    Grid,
+} from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
 export type GroceryListProps = {
     groceries: GroceryList[];
 };
+
+// GroceriesList component
+// Component which contains all grocery list register on the profil account connected.
+//
+// It is possible to :
+// - See the grocery list by clicking on the date which is the grocery list name;
+// - Delete the grocery list by clicking on the trush icon. (onClick : display a modal to confirm the deletion)
 
 export const GroceriesList = (props: GroceryListProps): JSX.Element => {
     const dispatch = useDispatch();
@@ -110,18 +122,15 @@ export const GroceriesList = (props: GroceryListProps): JSX.Element => {
     );
 };
 
-// Component which contains all recipes register on the profil account connected.
+// Groceries component
 //
 // It is possible to :
-// - See the recipe by clicking on the title;
-// - Add as favorite recipe by clicking on the heart icon;
-// - Edit by clicking on the pen icon;
-// - Share into a group by clicking on the arrow icon;
-// - Delete the recipe by clicking on the trush icon.
+// - Search a specific grocery list by name
+// - Start a new grocery list by clicking on button 'new grocery list'
+// - See all groceries lists with <GroceriesList /> component
 
 const Groceries = (): JSX.Element => {
     const groceriesList = useSelector(selectGroceriesList);
-    console.log('groceriesList :', groceriesList);
     const { t } = useTranslation();
 
     const [groceriesDisplay, setGroceriesDisplay] = useState(groceriesList);

@@ -15,8 +15,8 @@ import GroceryList from './containers/grocery-list/GroceryList';
 import Groceries from './containers/groceries-list/GroceriesList';
 import MyIngredients from './containers/my-ingredients/MyIngredients';
 import Paper from '@material-ui/core/Paper';
-import RecipesSelectionStepper from './containers/stepper/RecipesSelection';
-import Firebase from './containers/firebase/Firebase';
+import GroceryListStepper from './containers/stepper/RecipesSelection';
+import HomeAccess from './containers/firebase/Firebase';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchGetAllRecipes } from './slice/recipes/recipesSlice';
 import { fetchGetIngredients } from './slice/ingredients/ingredientsSlice';
@@ -95,7 +95,7 @@ const App = (): JSX.Element => {
                         <Route path="/recipes" exact component={HomeRecipes} />
                         <Route path="/profile" exact component={Profile} />
                         <Route path="/groceries" exact component={Groceries} />
-                        <Route path={'/recipes/selection'} exact component={RecipesSelectionStepper} />
+                        <Route path={'/recipes/selection'} exact component={GroceryListStepper} />
                         <Route path={'/profile/my_ingredients'} component={MyIngredients} />
                         <Route path={'/profile/my_unities'} component={MyUnities} />
                         <Route path={'/recipes/new_recipe'} exact component={NewRecipe} />
@@ -135,7 +135,7 @@ const App = (): JSX.Element => {
     const logOut = () => {
         return (
             <>
-                <Firebase />
+                <HomeAccess />
             </>
         );
     };

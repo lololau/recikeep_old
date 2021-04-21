@@ -1,32 +1,43 @@
+// Dependencies
 import { useTranslation } from 'react-i18next/';
 import '../../i18n';
 import { useHistory, useParams } from 'react-router-dom';
-import React, { FC, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Container from '@material-ui/core/Container';
-import EditIcon from '@material-ui/icons/Edit';
-import IconButton from '@material-ui/core/IconButton';
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
+// Slice
 import { selectRecipe, fetchGetARecipe } from '../../slice/recipe/recipeSlice';
 import { IngredientsRecipe } from '../../slice/recipe/recipeFetch';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+// Material-ui
+import {
+    Box,
+    Paper,
+    IconButton,
+    Container,
+    Grid,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+} from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit';
 
 type IngredientListProps = {
     ingredients: IngredientsRecipe[];
 };
 
-const IngredientsTable: FC<IngredientListProps> = (props) => {
+// IngredientsTable component
+//
+// Display all ingredients into a TableContainer with 3 rows :
+// - Ingredient
+// - Quantity
+// - Unity
+const IngredientsTable = (props: IngredientListProps) => {
     const { t } = useTranslation();
     return (
         <TableContainer component={Paper} style={{ maxWidth: 500 }}>
-            <Table aria-label="simple table">
+            <Table>
                 <TableHead>
                     <TableRow>
                         <TableCell style={{ fontWeight: 'bold', fontSize: 20 }}>
@@ -64,6 +75,16 @@ interface Params {
     id: string;
 }
 
+// MyRecipe component
+//
+// Component which contains all recipe informations :
+// - name
+// - short presentation of the recipe
+// - time of preparation
+// - time of cooking
+// - number of parts
+// - ingredients list display with <IngredientsTable /> component
+
 const MyRecipe = (): JSX.Element => {
     const { t } = useTranslation();
 
@@ -87,7 +108,7 @@ const MyRecipe = (): JSX.Element => {
                         width: '100%',
                     }}
                 >
-                    <Grid item className="title-page">
+                    <Grid item>
                         <h1>{recipe.name}</h1>
                     </Grid>
                     <Grid item>
@@ -109,10 +130,9 @@ const MyRecipe = (): JSX.Element => {
                     </Grid>
                 </Grid>
             </Box>
-            <Box className="image_and_time_table" style={{ width: '100%' }}>
+            <Box style={{ width: '100%' }}>
                 <p style={{ marginBottom: 60, marginTop: 0 }}>{recipe.presentation}</p>
                 <Box
-                    className="time_and_parts_table"
                     style={{
                         textAlign: 'center',
                         marginLeft: 'auto',

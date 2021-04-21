@@ -1,8 +1,10 @@
 /* eslint-disable no-use-before-define */
+// Dependencies
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+// Material-ui
 import TextField from '@material-ui/core/TextField';
 import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
-import { useTranslation } from 'react-i18next';
 
 interface OptionType {
     inputValue?: string;
@@ -20,6 +22,11 @@ type AutosuggestionProps = {
 };
 
 const filter = createFilterOptions<OptionType>();
+
+// Autosuggestion generic component
+// Features :
+// - select element from a list
+// - add an element into a list and select it
 
 const Autosuggestion = (Props: AutosuggestionProps): JSX.Element => {
     const { t } = useTranslation();
@@ -81,12 +88,10 @@ const Autosuggestion = (Props: AutosuggestionProps): JSX.Element => {
             getOptionLabel={(option) => {
                 // Value selected with enter, right from the input
                 if (typeof option === 'string') {
-                    console.log('string: ', option);
                     return option;
                 }
                 // Add "xxx" option created dynamically
                 if (option.inputValue) {
-                    console.log('option add: ', option);
                     return option.inputValue;
                 }
                 // Regular option

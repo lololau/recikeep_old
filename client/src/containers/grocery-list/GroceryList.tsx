@@ -1,28 +1,38 @@
+// Dependencies
 import React, { useEffect, useState } from 'react';
-import Container from '@material-ui/core/Container';
-import List from '@material-ui/core/List';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItem from '@material-ui/core/ListItem';
-import Checkbox from '@material-ui/core/Checkbox';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
-import ShareIcon from '@material-ui/icons/Share';
-import Modal from '@material-ui/core/Modal';
-import ListItemText from '@material-ui/core/ListItemText';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+// Slice
 import { getApiUrl } from '../../slice/host';
 import { fetchGetAGroceryList, selectGroceryList } from '../../slice/groceryList/groceryListSlice';
 import { IngredientsGroceryList } from '../../slice/groceriesLists/groceriesListsFetch';
 import { fetchCheckTrueGroceryList, fetchCheckFalseGroceryList } from '../../slice/groceriesLists/groceriesListsSlice';
-import { useTranslation } from 'react-i18next';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+// Material-ui
+import {
+    Container,
+    List,
+    ListItemIcon,
+    ListItem,
+    ListItemText,
+    Checkbox,
+    Button,
+    Grid,
+    IconButton,
+    Modal,
+} from '@material-ui/core';
+import ShareIcon from '@material-ui/icons/Share';
 
 type IngredientListProps = {
     ingredients: IngredientsGroceryList[];
     groceryId: number;
 };
+
+// CheckIngredientsList component
+//
+// It is possible to :
+// - Check / Uncheck an ingredient by verified if its ingredient.checked property
 
 const CheckIngredientsList = (props: IngredientListProps) => {
     const dispatch = useDispatch();
@@ -58,6 +68,13 @@ const CheckIngredientsList = (props: IngredientListProps) => {
 interface Params {
     id: string;
 }
+
+// GroceryList component
+//
+// It is possible to :
+// - Share the grocery list by clicking on the Sharing Icon
+// (onClick : open a modal with the link of the grocery list with the specifid share_uid grocery list property)
+// - See all ingredients in the grocery list with <CheckIngredientsList /> component
 
 const GroceryList = (): JSX.Element => {
     const dispatch = useDispatch();
@@ -107,6 +124,11 @@ const GroceryList = (): JSX.Element => {
             </Grid>
         </Grid>
     );
+
+    // Execute the effect every 2 seconds
+    //
+    // Allows to update the checked/unchecked boxes of the ingredient list
+    // if a user makes a modification using the shared link
 
     useEffect(() => {
         const timer = setInterval(() => {

@@ -1,13 +1,21 @@
+// Dependencies
 import React, { ChangeEvent, useState } from 'react';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { Button, TextField, Box, Paper, Grid, Container } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import firebase from 'firebase/app';
+// Slice
 import { fetchCreateUser, updateFirebaseUser, loading } from '../../slice/user/userSlice';
 import { fetchGetIngredients } from '../../slice/ingredients/ingredientsSlice';
 import { fetchGetUnities } from '../../slice/unity/unitySlice';
 import { fetchGetAllRecipes } from '../../slice/recipes/recipesSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import firebase from 'firebase/app';
-import { useTranslation } from 'react-i18next';
+// Material-ui
+import { Button, TextField, Box, Paper, Grid, Container, CircularProgress } from '@material-ui/core';
+
+// SignUp component if firebase user is not created by setting a username
+//
+// Features :
+// - Create user button : dispatch fetchCreateUser action with the username
+// - Disconnect button : allow the user to return to the access account home page
 
 const SignUp = (): JSX.Element => {
     const [fullN, setFullName] = useState('');

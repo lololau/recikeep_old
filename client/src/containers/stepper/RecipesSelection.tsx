@@ -1,21 +1,24 @@
-import MobileStepper from '@material-ui/core/MobileStepper';
+// Dependencies
 import React, { useState, useEffect } from 'react';
-import Button from '@material-ui/core/Button';
-import SelectionRecipes from './RecipesSelection1';
-import SelectionParts, { numberPartsRecipe } from './RecipesSelection2';
-import AddMoreIngredients from './RecipesSelection3';
-import Container from '@material-ui/core/Container';
-import Box from '@material-ui/core/Box';
-import { selectRecipes } from '../../slice/recipes/recipesSlice';
 import { useSelector } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { useHistory } from 'react-router-dom';
+// Slice - Store
+import { selectRecipes } from '../../slice/recipes/recipesSlice';
 import { Recipe } from '../../slice/recipes/recipesFetch';
 import { IngredientsGroceryList } from '../../slice/groceriesLists/groceriesListsFetch';
 import { fetchAddGroceryList } from '../../slice/groceriesLists/groceriesListsSlice';
-import { unwrapResult } from '@reduxjs/toolkit';
-import { useHistory } from 'react-router-dom';
 import { useAppDispatch } from '../../app/store';
+// Component
+import SelectionRecipes from './RecipesSelection1';
+import SelectionParts, { numberPartsRecipe } from './RecipesSelection2';
+import AddMoreIngredients from './RecipesSelection3';
+// Material-ui
+import { MobileStepper, Button, Container, Box } from '@material-ui/core';
 
-const RecipesSelectionStepper = (): JSX.Element => {
+// RecipesSelectionStepper component
+// Component which display a stepper to follow the differents steps for creating a new grocery list
+const GroceryListStepper = (): JSX.Element => {
     const [activeStep, setActiveStep] = useState(0);
     const [recipesSelected, setRecipesSelected] = useState<Recipe[]>([]);
     const [numberPartsByRecipe, setnumberPartsByRecipe] = useState<numberPartsRecipe[]>([]);
@@ -154,4 +157,4 @@ const RecipesSelectionStepper = (): JSX.Element => {
     );
 };
 
-export default RecipesSelectionStepper;
+export default GroceryListStepper;

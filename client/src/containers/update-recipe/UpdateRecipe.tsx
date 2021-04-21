@@ -19,7 +19,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Autosuggestion from '../../components/Autocomplete';
+import Autosuggestion from '../../components/AutoSuggestion';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../app/store';
