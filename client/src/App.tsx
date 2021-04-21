@@ -137,17 +137,8 @@ const App = (): JSX.Element => {
                         id={notification.id}
                     />
                     <CssBaseline />
-                    <Paper elevation={1}>
-                        <ToolsBar
-                            style={{
-                                position: 'fixed',
-                                bottom: 0,
-                                zIndex: 1,
-                                width: '100%',
-                                borderTop: 'thin solid',
-                                background: '#b7e0e5',
-                            }}
-                        />
+                    <Paper elevation={3}>
+                        <ToolsBar />
                     </Paper>
                 </Router>
             </div>

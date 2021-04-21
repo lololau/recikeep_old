@@ -17,6 +17,7 @@ import { fetchGetAGroceryList, selectGroceryList } from '../../slice/groceryList
 import { IngredientsGroceryList } from '../../slice/groceriesLists/groceriesListsFetch';
 import { fetchCheckTrueGroceryList, fetchCheckFalseGroceryList } from '../../slice/groceriesLists/groceriesListsSlice';
 import { useTranslation } from 'react-i18next';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 type IngredientListProps = {
     ingredients: IngredientsGroceryList[];
@@ -94,14 +95,15 @@ const GroceryList = (): JSX.Element => {
                 <p>{getApiUrl(`groceryList/share/${groceryList.share_uid}`)}</p>
             </Grid>
             <Grid item>
-                <Button
-                    onClick={() => {
-                        navigator.clipboard.writeText(getApiUrl(`groceryList/share/${groceryList.share_uid}`));
-                        handleClose();
-                    }}
-                >
-                    {t('modal.copy-link')}
-                </Button>
+                <CopyToClipboard text={getApiUrl(`groceryList/share/${groceryList.share_uid}`)}>
+                    <Button
+                        onClick={() => {
+                            handleClose();
+                        }}
+                    >
+                        {t('modal.copy-link')}
+                    </Button>
+                </CopyToClipboard>
             </Grid>
         </Grid>
     );
