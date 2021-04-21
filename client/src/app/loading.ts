@@ -1,6 +1,8 @@
 import { Middleware } from '@reduxjs/toolkit';
 import { loadingStarted, loadingFinished } from '../slice/user/userSlice';
 
+// Middleware to display a loading bar when an action is pending
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const loadingMiddleware: Middleware = (api) => (next) => (action) => {
     if (!action.type) {

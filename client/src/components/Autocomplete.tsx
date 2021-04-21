@@ -27,35 +27,40 @@ const Autosuggestion = (Props: AutosuggestionProps): JSX.Element => {
     const { onSelect, onAdd, options, label } = Props;
     const [value, setValue] = React.useState<OptionType | null>(null);
 
+    const onAutocompleChange = (
+        event: React.ChangeEvent<Record<string, unknown>>,
+        newValue: string | OptionType | null,
+    ) => {
+        if (typeof newValue === 'string') {
+            console.warn('have a string here...', newValue);
+            setValue({
+                name: newValue,
+                id: -1,
+            });
+        } else if (newValue == null) {
+            // empty field
+            setValue(newValue);
+        } else if (newValue.inputValue) {
+            // new value was added
+            const newOption = {
+                name: newValue.inputValue,
+            };
+            if (onAdd) {
+                onAdd(newOption);
+            }
+            setValue(newOption);
+        } else {
+            if (onSelect) {
+                onSelect(newValue);
+            }
+            setValue(newValue);
+        }
+    };
+
     return (
         <Autocomplete
             value={value}
-            onChange={(event, newValue) => {
-                if (typeof newValue === 'string') {
-                    console.warn('have a string here...', newValue);
-                    setValue({
-                        name: newValue,
-                        id: -1,
-                    });
-                } else if (newValue == null) {
-                    // empty field
-                    setValue(newValue);
-                } else if (newValue.inputValue) {
-                    // new value was added
-                    const newOption = {
-                        name: newValue.inputValue,
-                    };
-                    if (onAdd) {
-                        onAdd(newOption);
-                    }
-                    setValue(newOption);
-                } else {
-                    if (onSelect) {
-                        onSelect(newValue);
-                    }
-                    setValue(newValue);
-                }
-            }}
+            onChange={onAutocompleChange}
             filterOptions={(options, params) => {
                 const filtered = filter(options, params);
 

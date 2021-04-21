@@ -15,30 +15,28 @@ export interface Element {
     id: number;
 }
 
-const ListComponent = (props: ListProps): JSX.Element => {
-    return (
-        <List>
-            {props.listElements.map((eltList, index) => {
-                return (
-                    <ListItem divider={true} key={index}>
-                        <ListItemText primary={eltList.name} id={index.toString()} />
-                        <ListItemSecondaryAction>
-                            <IconButton
-                                edge="end"
-                                onClick={() => {
-                                    if (props.onRemoveElement) {
-                                        props.onRemoveElement(eltList);
-                                    }
-                                }}
-                            >
-                                <DeleteIcon style={{ fontSize: 15 }} color="primary" />
-                            </IconButton>
-                        </ListItemSecondaryAction>
-                    </ListItem>
-                );
-            })}
-        </List>
-    );
-};
+const ListComponent = (props: ListProps): JSX.Element => (
+    <List>
+        {props.listElements.map((eltList, index) => {
+            return (
+                <ListItem divider={true} key={index}>
+                    <ListItemText primary={eltList.name} id={index.toString()} />
+                    <ListItemSecondaryAction>
+                        <IconButton
+                            edge="end"
+                            onClick={() => {
+                                if (props.onRemoveElement) {
+                                    props.onRemoveElement(eltList);
+                                }
+                            }}
+                        >
+                            <DeleteIcon style={{ fontSize: 15 }} color="primary" />
+                        </IconButton>
+                    </ListItemSecondaryAction>
+                </ListItem>
+            );
+        })}
+    </List>
+);
 
 export default ListComponent;

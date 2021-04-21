@@ -6,3 +6,9 @@
 .App-link {
     color: black;
 }
+
+@media (min-width: 600px) {
+    .App {
+        margin-left: 230px;
+    }
+}

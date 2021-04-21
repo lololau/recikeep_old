@@ -5,7 +5,7 @@ import HomeRecipes from './containers/recipes/Recipes';
 import MyRecipe from './containers/recipe/Recipe';
 import NewRecipe from './containers/new-recipe/NewRecipe';
 import UpdateRecipe from './containers/update-recipe/UpdateRecipe';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -56,8 +56,6 @@ const App = (): JSX.Element => {
     const notification = useSelector(selectNotification);
     console.log(notification);
 
-    const [marginLeft, setMarginLeft] = useState<number>(0);
-
     const onAuthStateChanged = (user: firebase.User | null) => {
         console.log('On auth change: ', user);
         if (user) {
@@ -72,29 +70,10 @@ const App = (): JSX.Element => {
         }
     };
 
-    const margin = () => {
-        let newMargin;
-        if (window.screen.width < 600) {
-            newMargin = 0;
-        } else {
-            newMargin = 230;
-        }
-        setMarginLeft(newMargin);
-    };
-
-    //TEST
-
-    //
-
     useEffect(() => {
         const subscriber = firebase.auth().onIdTokenChanged(onAuthStateChanged);
         return subscriber; // unsubscribe on unmount
     }, []);
-
-    useEffect(() => {
-        margin();
-    }, [window.screen.width]);
-
     const logIn = () => {
         return (
             <div>
@@ -111,7 +90,7 @@ const App = (): JSX.Element => {
                     </Button>
                 </Box>
                 <Router>
-                    <div className="App" style={{ marginLeft: marginLeft }}>
+                    <div className="App">
                         <Route path="/" exact component={HomeRecipes} />
                         <Route path="/recipes" exact component={HomeRecipes} />
                         <Route path="/profile" exact component={Profile} />

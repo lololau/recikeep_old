@@ -11,6 +11,7 @@ import groceryListReducer from '../slice/groceryList/groceryListSlice';
 import notificationReducer from '../slice/notification/notificationSlice';
 import loadingMiddleware from './loading';
 
+// Redux store
 const store = configureStore({
     reducer: {
         recipes: recipesReducer,
@@ -26,9 +27,13 @@ const store = configureStore({
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(loadingMiddleware),
 });
 
+// Type RootState and AppDispatch from store itself
+// Able to update correctly type when we add more state slice or update middleware settings
 export type RootState = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;
+
+// Adding a pre-typed useDispatch hook to don't forget to import AppDispatch where it's needed.
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 
