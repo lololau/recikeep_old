@@ -95,42 +95,40 @@ const ToolsBar = (): JSX.Element => {
                 </Hidden>
             </div>
             <Hidden only={['sm', 'md', 'lg', 'xl']}>
-                <Drawer variant="permanent" anchor="left">
-                    <BottomNavigation
-                        value={button}
-                        onChange={(event, newValue) => {
-                            setButton(newValue);
-                        }}
-                        showLabels
-                        style={{
-                            position: 'fixed',
-                            bottom: 0,
-                            zIndex: 1,
-                            width: '100%',
-                            borderTop: 'thin solid',
-                            background: '#b7e0e5',
-                        }}
-                    >
-                        <BottomNavigationAction
-                            icon={<HomeIcon />}
-                            label={t('toolsbar.recipes')}
-                            to={'/recipes'}
-                            component={Link}
-                        />
-                        <BottomNavigationAction
-                            icon={<ListIcon />}
-                            label={t('toolsbar.groceriesList')}
-                            to={`/groceries`}
-                            component={Link}
-                        />
-                        <BottomNavigationAction
-                            icon={<AccountCircleIcon />}
-                            label={t('toolsbar.profile')}
-                            to={'/profile'}
-                            component={Link}
-                        />
-                    </BottomNavigation>
-                </Drawer>
+                <BottomNavigation
+                    value={button}
+                    onChange={(event, newValue) => {
+                        setButton(newValue);
+                    }}
+                    showLabels
+                    style={{
+                        position: 'fixed',
+                        bottom: 0,
+                        zIndex: 1,
+                        width: '100%',
+                        borderTop: 'thin solid',
+                        background: '#b7e0e5',
+                    }}
+                >
+                    <BottomNavigationAction
+                        icon={<HomeIcon />}
+                        label={t('toolsbar.recipes')}
+                        to={'/recipes'}
+                        component={Link}
+                    />
+                    <BottomNavigationAction
+                        icon={<ListIcon />}
+                        label={t('toolsbar.groceriesList')}
+                        to={`/groceries`}
+                        component={Link}
+                    />
+                    <BottomNavigationAction
+                        icon={<AccountCircleIcon />}
+                        label={t('toolsbar.profile')}
+                        to={'/profile'}
+                        component={Link}
+                    />
+                </BottomNavigation>
             </Hidden>
         </div>
     );
