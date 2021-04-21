@@ -90,7 +90,9 @@ const Profile = (): JSX.Element => {
                     >
                         <Grid container style={{ alignItems: 'center' }}>
                             <Grid item>
-                                <ArrowRightIcon />
+                                <IconButton style={{ color: 'rgb(158, 189, 216)' }}>
+                                    <ArrowRightIcon />
+                                </IconButton>
                             </Grid>
                             <Grid item>
                                 <p>{t('myIngredients.title-page')}</p>
@@ -99,9 +101,11 @@ const Profile = (): JSX.Element => {
                     </Link>
 
                     <Link to="/profile/my_unities" style={{ textDecoration: 'none', color: 'black' }}>
-                        <Grid container style={{ alignItems: 'center' }}>
+                        <Grid container style={{ alignItems: 'center', width: '100%' }}>
                             <Grid item>
-                                <ArrowRightIcon />
+                                <IconButton style={{ color: 'rgb(158, 189, 216)' }}>
+                                    <ArrowRightIcon />
+                                </IconButton>
                             </Grid>
                             <Grid item>
                                 <p>{t('myUnities.title-page')}</p>
@@ -109,7 +113,7 @@ const Profile = (): JSX.Element => {
                         </Grid>
                     </Link>
                 </Box>
-                <Box style={{ marginTop: '70px', textAlign: 'center' }}>
+                <Box style={{ marginTop: '60px', textAlign: 'center' }}>
                     <Button onClick={() => changeLanguage('en')}>English</Button>
                     <Button onClick={() => changeLanguage('fr')}>Français</Button>
                 </Box>

@@ -97,7 +97,7 @@ const MyRecipe = (): JSX.Element => {
                                 position: 'absolute',
                                 marginRight: '12px',
                                 right: '-2px',
-                                top: '55px',
+                                top: '60px',
                             }}
                             onClick={() => {
                                 history.push(`/recipes/update/${id}`);

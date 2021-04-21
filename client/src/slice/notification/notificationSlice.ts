@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { fetchUpdateRecipe } from '../recipe/recipeSlice';
+import { fetchDeleteRecipe } from '../recipes/recipesSlice';
 import { fetchDeleteIngredient } from '../ingredients/ingredientsSlice';
 import { fetchDeleteUnity } from '../unity/unitySlice';
 import i18n from '../../i18n';
@@ -45,6 +46,12 @@ const notificationReducer = createSlice({
         builder.addCase(fetchDeleteUnity.rejected, (state) => {
             state.severity = 'error';
             state.message = i18n.t('myUnities.delete-impossible');
+            state.id++;
+        });
+        // fetchDeleteRecipe
+        builder.addCase(fetchDeleteRecipe.rejected, (state) => {
+            state.severity = 'error';
+            state.message = i18n.t('recipes.delete-impossible');
             state.id++;
         });
     },

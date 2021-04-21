@@ -13,7 +13,8 @@
     "search": "Recheche...",
     "tagList": "Tag(s)",
     "selectRecipes": "» nouvelle liste de course",
-    "add-recipe": "Recette"
+    "add-recipe": "Recette",
+    "delete-impossible": "Suppression impossible. Cette recette est présente dans une liste de course. Supprimez la liste de course en question afin de pouvoir supprimer l'élément."
   }, 
   "recipe": {
     "title": "Pâtes Carbonara",

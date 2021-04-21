@@ -106,8 +106,7 @@ const ToolsBar = (): JSX.Element => {
                         bottom: 0,
                         zIndex: 1,
                         width: '100%',
-                        borderTop: 'thin solid',
-                        background: '#b7e0e5',
+                        background: 'rgb(174, 204, 230)',
                     }}
                 >
                     <BottomNavigationAction
