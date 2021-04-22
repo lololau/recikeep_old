@@ -1,29 +1,43 @@
+// Dependencies
 import '../../i18n';
 import { Link, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Modal from '@material-ui/core/Modal';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
+import { useSelector, useDispatch } from 'react-redux';
+// Slice
+import { deleteRecipe, selectRecipes } from '../../slice/recipes/recipesSlice';
+import { getRecipe } from '../../slice/recipe/recipeSlice';
+import { Recipe } from '../../slice/recipes/recipesFetch';
+// Component
 import SearchBar from '../../components/SearchBar';
-import IconButton from '@material-ui/core/IconButton';
+// Material-ui
+import {
+    Box,
+    Container,
+    Grid,
+    Button,
+    List,
+    ListItem,
+    Modal,
+    ListItemSecondaryAction,
+    ListItemText,
+    IconButton,
+} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import { fetchDeleteRecipe, selectRecipes } from '../../slice/recipes/recipesSlice';
-import { fetchGetARecipe } from '../../slice/recipe/recipeSlice';
-import { Recipe } from '../../slice/recipes/recipesFetch';
-import { useSelector, useDispatch } from 'react-redux';
-import { Box } from '@material-ui/core';
 
 export type RecipesListProps = {
     recipes: Recipe[];
 };
+
+// RecipesList component
+// Component which contains all recipes registered on the profil account connected.
+//
+// It is possible to :
+// - See the recipe by clicking on the name.
+// - Edit the recipe by clicking on the sharing icon.
+// - Delete the recipe by clicking on the trush icon. (onClick : display a modal to confirm the deletion)
 
 export const RecipesList = (props: RecipesListProps): JSX.Element => {
     const dispatch = useDispatch();
@@ -65,7 +79,7 @@ export const RecipesList = (props: RecipesListProps): JSX.Element => {
                     <Grid item xs={6}>
                         <Button
                             onClick={() => {
-                                dispatch(fetchDeleteRecipe(toDeleteId));
+                                dispatch(deleteRecipe(toDeleteId));
                                 handleClose();
                             }}
                         >
@@ -88,7 +102,7 @@ export const RecipesList = (props: RecipesListProps): JSX.Element => {
                         <ListItem divider={true} key={'RecipesList' + index}>
                             <Link to={'/recipe/' + recipe.id} style={{ textDecoration: 'none', color: 'black' }}>
                                 <ListItemText
-                                    onClick={() => dispatch(fetchGetARecipe(recipe.id))}
+                                    onClick={() => dispatch(getRecipe(recipe.id))}
                                     primary={recipe.name}
                                     id={index.toString()}
                                 />
@@ -97,7 +111,6 @@ export const RecipesList = (props: RecipesListProps): JSX.Element => {
                                 <IconButton
                                     onClick={() => {
                                         history.push(`/recipes/update/${recipe.id}`);
-                                        console.log(recipe);
                                     }}
                                 >
                                     <EditIcon style={{ fontSize: 15 }} color="primary" />
@@ -122,18 +135,15 @@ export const RecipesList = (props: RecipesListProps): JSX.Element => {
     );
 };
 
-// Component which contains all recipes register on the profil account connected.
+// HomeRecipes component
 //
 // It is possible to :
-// - See the recipe by clicking on the title;
-// - Add as favorite recipe by clicking on the heart icon;
-// - Edit by clicking on the pen icon;
-// - Share into a group by clicking on the arrow icon;
-// - Delete the recipe by clicking on the trush icon.
+// - Search a specific recipe by name
+// - Start a new recipe by clicking on the circle button
+// - See all recipes with <RecipesList /> component
 
 const HomeRecipes = (): JSX.Element => {
     const recipes = useSelector(selectRecipes);
-    console.log(recipes);
     const { t } = useTranslation();
 
     const [recipesDisplay, setRecipesDisplay] = useState(recipes);

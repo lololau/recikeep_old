@@ -1,11 +1,14 @@
+// Dependencies
 import express from 'express';
+// Authentication
 import { verifyToken } from '../../app-config/firebase-config';
+// Database
 import { getUserByFirebaseID, createUser, updateUser } from '../../database/user/user';
 
 // Router and mounting
 const user = express.Router();
 
-// GET - /api/user/getUser - get a user by firebaseId
+// GET - /api/user/getUser - get a user by firebase's id
 user.get('/getUser', verifyToken, async (req, res) => {
     const firebaseId = res.locals.decodedToken.uid;
     try {
@@ -16,7 +19,7 @@ user.get('/getUser', verifyToken, async (req, res) => {
     }
 });
 
-// POST - /api/user/createUser - create a user and select it
+// POST - /api/user/createUser - create a user by firebase's id and username
 user.post('/createUser', verifyToken, async (req, res) => {
     const firebaseId = res.locals.decodedToken.uid;
     const fullName = req.body.fullName;
@@ -33,7 +36,7 @@ user.post('/createUser', verifyToken, async (req, res) => {
     }
 });
 
-// PUT - /api/user/updateUser - update a user by userId
+// PUT - /api/user/updateUser - update a user by firebase's id and new username
 user.put('/updateUser', verifyToken, async (req, res) => {
     const firebaseId = res.locals.decodedToken.uid;
     const fullName = req.body.fullName;

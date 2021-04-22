@@ -1,20 +1,30 @@
+// Dependencies
 import '../../i18n';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import React from 'react';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+// Material-ui
+import {
+    BottomNavigation,
+    BottomNavigationAction,
+    Divider,
+    Drawer,
+    List,
+    Grid,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    Hidden,
+} from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import ListIcon from '@material-ui/icons/List';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import Grid from '@material-ui/core/Grid';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Hidden from '@material-ui/core/Hidden';
+
+// ToolsBar component
+// Component which display the menu in 2 ways :
+//
+// On screen size > '600px' : Drawer menu
+// On mobile phone : Bottom navigation
 
 const ToolsBar = (): JSX.Element => {
     const { t } = useTranslation();

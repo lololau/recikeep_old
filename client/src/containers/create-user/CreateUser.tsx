@@ -1,13 +1,20 @@
+// Dependencies
 import React, { ChangeEvent, useState } from 'react';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { Button, TextField, Box, Paper, Grid, Container } from '@material-ui/core';
-import { fetchCreateUser, updateFirebaseUser, loading } from '../../slice/user/userSlice';
-import { fetchGetIngredients } from '../../slice/ingredients/ingredientsSlice';
-import { fetchGetUnities } from '../../slice/unity/unitySlice';
-import { fetchGetAllRecipes } from '../../slice/recipes/recipesSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import firebase from 'firebase/app';
 import { useTranslation } from 'react-i18next';
+import firebase from 'firebase/app';
+// Slice
+import { createUser, updateFirebaseUser, loading } from '../../slice/user/userSlice';
+import { getAllIngredients } from '../../slice/ingredients/ingredientsSlice';
+import { getAllUnities } from '../../slice/unity/unitySlice';
+// Material-ui
+import { Button, TextField, Box, Paper, Grid, Container, CircularProgress } from '@material-ui/core';
+
+// SignUp component if firebase user is not created by setting a username
+//
+// Features :
+// - Create user button : dispatch fetchCreateUser action with the username
+// - Disconnect button : allow the user to return to the access account home page
 
 const SignUp = (): JSX.Element => {
     const [fullN, setFullName] = useState('');
@@ -64,10 +71,9 @@ const SignUp = (): JSX.Element => {
                                     <Button
                                         style={{ fontSize: '12px' }}
                                         onClick={async () => {
-                                            await dispatch(fetchCreateUser({ fullName: fullN }));
-                                            await dispatch(fetchGetIngredients());
-                                            await dispatch(fetchGetUnities());
-                                            await dispatch(fetchGetAllRecipes());
+                                            await dispatch(createUser({ fullName: fullN }));
+                                            await dispatch(getAllIngredients());
+                                            await dispatch(getAllUnities());
                                         }}
                                     >
                                         {t('firebase.create-user')}

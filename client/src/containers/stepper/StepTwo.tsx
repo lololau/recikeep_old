@@ -20,6 +20,12 @@ interface SelectionPartsRecipeProps {
     onPartsSelected: onPartsSelected;
 }
 
+// SelectionPartsRecipes component
+// Component that allows you to enter a number of parts for each recipes selected on the previous step
+//
+// It is possible to enter a number part by :
+// - setting a number part for all selected recipes on the top
+// - setting a number part for each recipes into the field on the same row
 const SelectionPartsRecipes: FC<SelectionPartsRecipeProps> = (props) => {
     const { t } = useTranslation();
 
@@ -104,6 +110,7 @@ interface SelectionPartsProps {
     onValidateNumberParts: onPartsSelected;
 }
 
+// SelectionParts component : Second step of <GroceryListStepper />
 const SelectionParts: FC<SelectionPartsProps> = (props): JSX.Element => {
     const { t } = useTranslation();
 

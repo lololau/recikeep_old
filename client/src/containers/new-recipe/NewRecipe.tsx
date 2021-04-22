@@ -1,32 +1,37 @@
+// Dependencies
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { unwrapResult } from '@reduxjs/toolkit';
-import Container from '@material-ui/core/Container';
-import { useTranslation } from 'react-i18next';
-import TextField from '@material-ui/core/TextField';
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import CheckIcon from '@material-ui/icons/Check';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
-import Autosuggestion from '../../components/Autocomplete';
 import { useSelector } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { useTranslation } from 'react-i18next';
+// Slice - Store
+import Autosuggestion from '../../components/AutoSuggestion';
 import { useAppDispatch } from '../../app/store';
-import { ingredients, fetchAddIngredient } from '../../slice/ingredients/ingredientsSlice';
-import { unities, fetchAddUnity } from '../../slice/unity/unitySlice';
-import { fetchAddRecipe } from '../../slice/recipes/recipesSlice';
+import { ingredients, addIngredient } from '../../slice/ingredients/ingredientsSlice';
+import { unities, addUnity } from '../../slice/unity/unitySlice';
+import { addRecipe } from '../../slice/recipes/recipesSlice';
 import { updateNotification } from '../../slice/notification/notificationSlice';
+// Material-ui
+import {
+    TextField,
+    Box,
+    FormControl,
+    IconButton,
+    Container,
+    Grid,
+    Input,
+    InputLabel,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+} from '@material-ui/core';
+import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
+import DeleteIcon from '@material-ui/icons/Delete';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import CheckIcon from '@material-ui/icons/Check';
 
 type onRemove = (ingredient: IngredientRecipe, index: number) => void;
 
@@ -35,11 +40,17 @@ type IngredientsListProps = {
     onRemoveIngredient: onRemove;
 };
 
+// IngredientsList component
+//
+// Display all ingredients added to the recipe into a TableContainer with 3 rows :
+// - Ingredient
+// - Quantity
+// - Unity
 const IngredientsList = (props: IngredientsListProps): JSX.Element => {
     return (
         <>
             <TableContainer style={{ width: '100%' }}>
-                <Table aria-label="simple table">
+                <Table>
                     <TableHead>
                         <TableRow>
                             <TableCell style={{ fontWeight: 'bold', fontSize: 20 }}></TableCell>
@@ -84,11 +95,12 @@ const IngredientsList = (props: IngredientsListProps): JSX.Element => {
 interface IngredientRecipe {
     ingredient_id: number;
     ingredient: string;
-    unity_id?: number;
+    unity_id: number;
     unity: string;
-    quantity?: number;
+    quantity: number;
 }
 
+// Required fiels : name, number_parts
 interface RequestAddRecipe {
     name: string;
     presentation?: string;
@@ -99,6 +111,21 @@ interface RequestAddRecipe {
     recipe_description_id?: number;
     ingredients?: IngredientRecipe[];
 }
+
+// NewRecipe component
+// Component that allows to create a new recipe on the profil account connected.
+//
+// It is possible using <Textfield /> or <Autosuggestion /> components to enter:
+// - name
+// - short presentation of the recipe (example: 'Recipe found in Book 'Recipes' p.130)
+// - time of preparation
+// - time of cooking
+// - number of parts
+// - ingredients list
+//
+// Comments :
+// (1) - Impossible to enter a recipe without enter its title
+// (2) - Impossible to enter an ingredient if the ingredient, the quantity or the unity is missing
 
 const NewRecipe = (): JSX.Element => {
     const { t } = useTranslation();
@@ -139,17 +166,16 @@ const NewRecipe = (): JSX.Element => {
     };
 
     const onSubmit = async () => {
+        // Display error notification if name is missing
         if (newRecipe.name == '') {
             setRequiredField(t('new_recipe.field-missing'));
             setError(true);
-            dispatch(updateNotification({ message: t('new_recipe.field-missing'), severity: 'error' }));
-            return false;
+            dispatch(updateNotification({ message: t('new_recipe.error'), severity: 'error' }));
+            return;
         }
         try {
-            console.log('fetch add recipe');
-            const action = await dispatch(fetchAddRecipe(newRecipe));
+            const action = await dispatch(addRecipe(newRecipe));
             const result = unwrapResult(action);
-            console.log('result: ', result);
             history.push(`/recipe/${result.id}`);
         } catch (e) {
             return console.error('add recipe error:', e);
@@ -237,7 +263,7 @@ const NewRecipe = (): JSX.Element => {
                                     });
                                 }}
                                 onAdd={async (option) => {
-                                    const ingredient = await dispatch(fetchAddIngredient(option));
+                                    const ingredient = await dispatch(addIngredient(option));
                                     const result = unwrapResult(ingredient);
                                     setIngredientRecipe({
                                         ...ingredientRecipe,
@@ -254,9 +280,16 @@ const NewRecipe = (): JSX.Element => {
                                 label={t('new_recipe.add-quantity')}
                                 variant="outlined"
                                 onChange={(event) => {
-                                    if (Number(event.currentTarget.value) === NaN) {
-                                        alert(t('new_recipe.quantity-typeof'));
-                                        return false;
+                                    // Display error notification if type of quantity is not a number
+                                    const val = Number(event.currentTarget.value);
+                                    if (isNaN(val)) {
+                                        dispatch(
+                                            updateNotification({
+                                                message: t('new_recipe.quantity-typeof'),
+                                                severity: 'error',
+                                            }),
+                                        );
+                                        return;
                                     }
                                     setIngredientRecipe({
                                         ...ingredientRecipe,
@@ -271,12 +304,12 @@ const NewRecipe = (): JSX.Element => {
                                 onSelect={(option) => {
                                     setIngredientRecipe({
                                         ...ingredientRecipe,
-                                        unity_id: option.id,
+                                        unity_id: option.id ? option.id : 0,
                                         unity: option.name,
                                     });
                                 }}
                                 onAdd={async (option) => {
-                                    const unity = await dispatch(fetchAddUnity(option));
+                                    const unity = await dispatch(addUnity(option));
                                     const result = unwrapResult(unity);
                                     setIngredientRecipe({
                                         ...ingredientRecipe,
@@ -290,6 +323,7 @@ const NewRecipe = (): JSX.Element => {
                         <Grid item xs={6} sm={3} style={{ textAlign: 'center' }}>
                             <IconButton
                                 onClick={() => {
+                                    // Display error notification if ingredient, quantity or unity is missing
                                     if (
                                         !ingredientRecipe.ingredient ||
                                         !ingredientRecipe.quantity ||
@@ -306,7 +340,7 @@ const NewRecipe = (): JSX.Element => {
                                     const sameIngredient = ingredientsRow.find(
                                         (ing) => ing.ingredient_id === ingredientRecipe.ingredient_id,
                                     );
-                                    console.log('sameIngredient: ', sameIngredient);
+                                    // Display error notification if the ingredient is already added to the list
                                     if (sameIngredient) {
                                         dispatch(
                                             updateNotification({

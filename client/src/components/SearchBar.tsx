@@ -1,5 +1,7 @@
+// Dependencies
 import React, { ChangeEvent, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+// Material-ui
 import { TextField, Box } from '@material-ui/core';
 
 interface Element {
@@ -15,12 +17,6 @@ type SearchBarProps = {
     elements: Element[];
 };
 
-export const filterSearchBar = (elts: Element[], filter: string[]): Element[] => {
-    return elts.filter((elt) => {
-        return filter.includes(elt.id.toString());
-    });
-};
-
 const SearchBar = (props: SearchBarProps): JSX.Element => {
     const { elements } = props;
     const { t } = useTranslation();
@@ -29,13 +25,16 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
     const filterElements = (elements: Element[], value: string) => {
         const idList = elements
             .filter((item) => {
+                // Check if element has an id
                 if (!item.id) {
                     console.warn('error item got id undefined', item);
                     return false;
                 }
+                // Filter the list - checks if the search value belongs to each item in the list
                 if (value) {
                     return item.name.toLowerCase().includes(value.toLowerCase());
                 }
+                // Return the filtered list
                 return true;
             })
             .map((elt) => {
@@ -45,12 +44,14 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
         props.onchange(idList);
     };
 
+    // SearchBar handle change value
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const newValue = event.currentTarget.value;
         setSearchTerm(newValue);
         filterElements(elements, newValue);
     };
 
+    // Execute the effect if elements has been modified
     useEffect(() => {
         filterElements(elements, searchTerm);
     }, [elements]);
@@ -59,7 +60,7 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
         <Box>
             <TextField
                 value={searchTerm}
-                label={t('groups.searchBar')}
+                label={t('searchBar.label')}
                 variant="outlined"
                 style={{ width: props.width }}
                 onChange={handleChange}

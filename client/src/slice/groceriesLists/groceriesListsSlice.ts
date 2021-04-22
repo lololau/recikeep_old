@@ -1,70 +1,70 @@
-import { getAuthToken } from '../../app/auth';
+// Dependencies
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+// Authentication
+import { getAuthToken } from '../../app/auth';
+// Fetch - Store
 import { RootState } from '../../app/store';
 import {
-    addGroceryList,
+    fetchAddGroceryList,
     GroceryList,
     RequestAddGroceryList,
-    getAllGroceries,
-    deleteGroceryList,
+    fetchGetAllGroceries,
+    fetchDeleteGroceryList,
     RequestCheckTrueGroceryList,
-    checkTrueGroceryList,
+    fetchCheckTrueGroceryList,
     RequestCheckFalseGroceryList,
-    checkFalseGroceryList,
+    fetchCheckFalseGroceryList,
     RequestCheckShareGroceryList,
-    checkTrueShareGroceryList,
-    checkFalseShareGroceryList,
+    fetchCheckTrueShareGroceryList,
+    fetchCheckFalseShareGroceryList,
 } from './groceriesListsFetch';
 
-export const fetchAddGroceryList = createAsyncThunk(
-    '/api/groceriesLists/add',
-    async (request: RequestAddGroceryList) => {
-        const idToken = await getAuthToken();
-        const groceryList = await addGroceryList(idToken, request);
-        console.log('Grocery list: ', groceryList);
-        return groceryList;
-    },
-);
-
-export const fetchGetAllGroceries = createAsyncThunk('/api/groceriesLists/getAll', async () => {
+export const addGroceryList = createAsyncThunk('/api/groceriesLists/add', async (request: RequestAddGroceryList) => {
     const idToken = await getAuthToken();
-    const groceriesLists = await getAllGroceries(idToken);
+    const groceryList = await fetchAddGroceryList(idToken, request);
+    console.log('Grocery list: ', groceryList);
+    return groceryList;
+});
+
+export const getAllGroceries = createAsyncThunk('/api/groceriesLists/getAll', async () => {
+    const idToken = await getAuthToken();
+    const groceriesLists = await fetchGetAllGroceries(idToken);
     return groceriesLists;
 });
 
-export const fetchDeleteRecipe = createAsyncThunk(`/api/groceriesLists/delete`, async (groceryListId: number) => {
+export const deleteGroceryList = createAsyncThunk(`/api/groceriesLists/delete`, async (groceryListId: number) => {
     const idToken = await getAuthToken();
-    await deleteGroceryList(idToken, groceryListId);
+    await fetchDeleteGroceryList(idToken, groceryListId);
     return groceryListId;
 });
 
-export const fetchCheckTrueGroceryList = createAsyncThunk(
+export const checkTrueGroceryList = createAsyncThunk(
     `/api/groceriesLists/update/true`,
     async (request: RequestCheckTrueGroceryList) => {
         const idToken = await getAuthToken();
-        return await checkTrueGroceryList(idToken, request);
+        return await fetchCheckTrueGroceryList(idToken, request);
     },
 );
 
-export const fetchCheckFalseGroceryList = createAsyncThunk(
+export const checkFalseGroceryList = createAsyncThunk(
     `/api/groceriesLists/update/false`,
     async (request: RequestCheckFalseGroceryList) => {
         const idToken = await getAuthToken();
-        return await checkFalseGroceryList(idToken, request);
+        return await fetchCheckFalseGroceryList(idToken, request);
     },
 );
 
-export const fetchCheckTrueShareGroceryList = createAsyncThunk(
+export const checkTrueShareGroceryList = createAsyncThunk(
     `/api/groceriesLists/updateShare/true`,
     async (request: RequestCheckShareGroceryList) => {
-        return await checkTrueShareGroceryList(request);
+        return await fetchCheckTrueShareGroceryList(request);
     },
 );
 
-export const fetchCheckFalseShareGroceryList = createAsyncThunk(
+export const checkFalseShareGroceryList = createAsyncThunk(
     `/api/groceriesLists/updateShare/false`,
     async (request: RequestCheckShareGroceryList) => {
-        return await checkFalseShareGroceryList(request);
+        return await fetchCheckFalseShareGroceryList(request);
     },
 );
 
@@ -82,18 +82,18 @@ const groceriesListsReducer = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         // fetchGetRecipes
-        builder.addCase(fetchAddGroceryList.fulfilled, (state, action) => {
+        builder.addCase(addGroceryList.fulfilled, (state, action) => {
             state.groceriesLists.push(action.payload);
         });
         // fetchGetRecipes
-        builder.addCase(fetchGetAllGroceries.fulfilled, (state, action) => {
+        builder.addCase(getAllGroceries.fulfilled, (state, action) => {
             state.groceriesLists = action.payload;
         });
-        builder.addCase(fetchGetAllGroceries.rejected, (state) => {
+        builder.addCase(getAllGroceries.rejected, (state) => {
             state.groceriesLists = [];
         });
         // fetchDeleteRecipe
-        builder.addCase(fetchDeleteRecipe.fulfilled, (state, action) => {
+        builder.addCase(deleteGroceryList.fulfilled, (state, action) => {
             state.groceriesLists = state.groceriesLists.filter((groceryList) => groceryList.id !== action.payload);
         });
     },

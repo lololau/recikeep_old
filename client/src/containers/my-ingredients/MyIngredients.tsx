@@ -1,26 +1,34 @@
+// Dependencies
 import React, { useState } from 'react';
-import Container from '@material-ui/core/Container';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Box } from '@material-ui/core';
+// Slice
+import { Ingredient } from '../../slice/ingredients/ingredientsFetch';
+import { ingredients, deleteIngredient } from '../../slice/ingredients/ingredientsSlice';
+// Component
 import SearchBar from '../../components/SearchBar';
 import ListComponent, { Element } from '../../components/List';
-import { Ingredient } from '../../slice/ingredients/ingredientsFetch';
-import { ingredients, fetchDeleteIngredient } from '../../slice/ingredients/ingredientsSlice';
-import { useSelector, useDispatch } from 'react-redux';
+// Material-ui
+import { Container, Box } from '@material-ui/core';
 
+// MyIngredients component
+//
+// Component which contains all ingredients register on the profil account connected
 const MyIngredients = (): JSX.Element => {
     const ingredientsList = useSelector(ingredients);
     const { t } = useTranslation();
 
     const dispatch = useDispatch();
 
+    // Method to select only ingredients register by the user account connected
     const selectIngredientsCustom = (ingredientsElements: Ingredient[]): Ingredient[] =>
         ingredientsElements.filter((ingredient) => {
             return ingredient.user_id !== null;
         });
 
-    const deleteIngredient = (ingredient: Element) => {
-        dispatch(fetchDeleteIngredient(ingredient.id));
+    // Method to delete a specific ingredient by id
+    const removeIngredient = (ingredient: Element) => {
+        dispatch(deleteIngredient(ingredient.id));
     };
 
     const [ingredientsDisplay, setIngredientsDisplay] = useState(ingredientsList);
@@ -29,11 +37,6 @@ const MyIngredients = (): JSX.Element => {
         const newIngredients: Ingredient[] = ingredientsList.filter((ingredient) => {
             let resultat = false;
             for (let i = 0; i < ids.length; i++) {
-                if (!ingredient.id) {
-                    // @DEBUG: remove this
-                    console.warn('ingredient with id undefined', ingredient);
-                    continue;
-                }
                 if (ingredient.id.toString() === ids[i]) {
                     resultat = true;
                 }
@@ -51,7 +54,7 @@ const MyIngredients = (): JSX.Element => {
             </Box>
             <ListComponent
                 listElements={selectIngredientsCustom(ingredientsDisplay)}
-                onRemoveElement={deleteIngredient}
+                onRemoveElement={removeIngredient}
             />
         </Container>
     );

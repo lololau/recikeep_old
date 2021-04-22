@@ -1,3 +1,5 @@
+// Default french ingredients
+
 export default [
     'Angélique',
     'Chou de Savoie',

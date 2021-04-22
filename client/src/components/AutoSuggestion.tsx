@@ -1,8 +1,10 @@
 /* eslint-disable no-use-before-define */
+// Dependencies
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+// Material-ui
 import TextField from '@material-ui/core/TextField';
 import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
-import { useTranslation } from 'react-i18next';
 
 interface OptionType {
     inputValue?: string;
@@ -21,41 +23,51 @@ type AutosuggestionProps = {
 
 const filter = createFilterOptions<OptionType>();
 
+// Autosuggestion generic component
+// Features :
+// - select element from a list
+// - add an element into a list and select it
+
 const Autosuggestion = (Props: AutosuggestionProps): JSX.Element => {
     const { t } = useTranslation();
 
     const { onSelect, onAdd, options, label } = Props;
     const [value, setValue] = React.useState<OptionType | null>(null);
 
+    const onAutocompleChange = (
+        event: React.ChangeEvent<Record<string, unknown>>,
+        newValue: string | OptionType | null,
+    ) => {
+        if (typeof newValue === 'string') {
+            console.warn('have a string here...', newValue);
+            setValue({
+                name: newValue,
+                id: -1,
+            });
+        } else if (newValue == null) {
+            // empty field
+            setValue(newValue);
+        } else if (newValue.inputValue) {
+            // new value was added
+            const newOption = {
+                name: newValue.inputValue,
+            };
+            if (onAdd) {
+                onAdd(newOption);
+            }
+            setValue(newOption);
+        } else {
+            if (onSelect) {
+                onSelect(newValue);
+            }
+            setValue(newValue);
+        }
+    };
+
     return (
         <Autocomplete
             value={value}
-            onChange={(event, newValue) => {
-                if (typeof newValue === 'string') {
-                    console.warn('have a string here...', newValue);
-                    setValue({
-                        name: newValue,
-                        id: -1,
-                    });
-                } else if (newValue == null) {
-                    // empty field
-                    setValue(newValue);
-                } else if (newValue.inputValue) {
-                    // new value was added
-                    const newOption = {
-                        name: newValue.inputValue,
-                    };
-                    if (onAdd) {
-                        onAdd(newOption);
-                    }
-                    setValue(newOption);
-                } else {
-                    if (onSelect) {
-                        onSelect(newValue);
-                    }
-                    setValue(newValue);
-                }
-            }}
+            onChange={onAutocompleChange}
             filterOptions={(options, params) => {
                 const filtered = filter(options, params);
 
@@ -76,12 +88,10 @@ const Autosuggestion = (Props: AutosuggestionProps): JSX.Element => {
             getOptionLabel={(option) => {
                 // Value selected with enter, right from the input
                 if (typeof option === 'string') {
-                    console.log('string: ', option);
                     return option;
                 }
                 // Add "xxx" option created dynamically
                 if (option.inputValue) {
-                    console.log('option add: ', option);
                     return option.inputValue;
                 }
                 // Regular option

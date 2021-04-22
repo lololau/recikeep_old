@@ -1,5 +1,9 @@
 import { Middleware } from '@reduxjs/toolkit';
+
+// Slice
 import { loadingStarted, loadingFinished } from '../slice/user/userSlice';
+
+// Middleware to display a loading bar when an action is pending
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const loadingMiddleware: Middleware = (api) => (next) => (action) => {
@@ -11,16 +15,13 @@ const loadingMiddleware: Middleware = (api) => (next) => (action) => {
     const isRejected = new RegExp(`rejected$`, 'g');
 
     if (action.type.match(isPending)) {
-        console.log('action loading: ', action.type);
         api.dispatch(loadingStarted());
         return next(action);
     } else if (action.type.match(isFulfilled)) {
-        console.log('action fulfilled: ', action.type);
         api.dispatch(loadingFinished());
         return next(action);
     } else if (action.type.match(isRejected)) {
         api.dispatch(loadingFinished());
-        console.log('error :', action.error);
         return next(action);
     }
     return next(action);

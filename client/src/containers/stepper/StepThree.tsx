@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Container from '@material-ui/core/Container';
 import { getAuthToken } from '../../app/auth';
 import { unwrapResult } from '@reduxjs/toolkit';
@@ -10,14 +10,14 @@ import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOut
 import { IconButton } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import Autosuggestion from '../../components/Autocomplete';
+import Autosuggestion from '../../components/AutoSuggestion';
 import { useSelector } from 'react-redux';
-import { ingredients, fetchAddIngredient } from '../../slice/ingredients/ingredientsSlice';
+import { ingredients, addIngredient } from '../../slice/ingredients/ingredientsSlice';
 import { fetchGetIngredientsByRecipes } from '../../slice/ingredients/ingredientsFetch';
-import { unities, fetchAddUnity } from '../../slice/unity/unitySlice';
-import { IngredientsGroceryList } from '../../slice/groceriesLists/groceriesListsFetch';
+import { unities, addUnity } from '../../slice/unity/unitySlice';
+import { IngredientsGroceryList } from '../../slice/groceryList/groceryListFetch';
 import { useAppDispatch } from '../../app/store';
-import { numberPartsRecipe } from './RecipesSelection2';
+import { numberPartsRecipe } from './StepTwo';
 
 type onRemove = (ingredient: IngredientsGroceryList, index: number) => void;
 type onValidateIngredientsList = (ingredientsList: IngredientsGroceryList[]) => void;
@@ -28,7 +28,12 @@ type IngredientListProps = {
     onValidateList: onValidateIngredientsList;
 };
 
-const CheckIngredientsList: FC<IngredientListProps> = (props) => {
+// IngredientsList component
+// Component that display all ingredients from recipes selected into a list
+//
+// It is possible to delete an ingredient by clicking on the EditIcon in the same row
+
+const IngredientsList = (props: IngredientListProps) => {
     useEffect(() => {
         props.onValidateList(props.ingredients);
     }, [props.ingredients]);
@@ -71,7 +76,9 @@ interface AddMoreIngredientsProps {
     onValidation: onValidateIngredientsList;
 }
 
-const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => {
+// AddMoreIngredients component : Third and last step of <GroceryListStepper />
+// Component which allows you to add more ingredient to the final grocery list
+const AddMoreIngredients = (props: AddMoreIngredientsProps): JSX.Element => {
     const { t } = useTranslation();
 
     const dispatch = useAppDispatch();
@@ -100,6 +107,7 @@ const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => 
         }
     };
 
+    // Execute the effect when the component is mounting
     useEffect(() => {
         const token = async () => {
             const idToken = await getAuthToken();
@@ -128,7 +136,7 @@ const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => 
                             });
                         }}
                         onAdd={async (option) => {
-                            const ingredient = await dispatch(fetchAddIngredient(option));
+                            const ingredient = await dispatch(addIngredient(option));
                             const result = unwrapResult(ingredient);
                             setIngredientRecipe({
                                 ...ingredientRecipe,
@@ -162,7 +170,7 @@ const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => 
                             });
                         }}
                         onAdd={async (option) => {
-                            const unity = await dispatch(fetchAddUnity(option));
+                            const unity = await dispatch(addUnity(option));
                             const result = unwrapResult(unity);
                             setIngredientRecipe({
                                 ...ingredientRecipe,
@@ -190,7 +198,7 @@ const AddMoreIngredients: FC<AddMoreIngredientsProps> = (props): JSX.Element => 
                 </Grid>
             </Grid>
             <Box style={{ paddingBottom: '30px' }}>
-                <CheckIngredientsList
+                <IngredientsList
                     ingredients={newIngredientsList.ingredients}
                     onValidateList={(ingredientsList) => {
                         if (props.onValidation) {

@@ -1,5 +1,7 @@
+// Database
 import openDb from '../db';
 import placeholders from 'named-placeholders';
+
 const unamed = placeholders();
 
 export interface Recipe {
@@ -20,7 +22,8 @@ export type RequestAddRecipe = {
     time_cooking?: string;
 };
 
-// Add a recipe to the user database
+// SQL request - Add a recipe to user connected database by user's id
+// Return : recipe created
 export const addRecipe = async (userId: number, req: RequestAddRecipe): Promise<Recipe> => {
     const db = await openDb();
 
@@ -51,7 +54,8 @@ export const addRecipe = async (userId: number, req: RequestAddRecipe): Promise<
     return recipe;
 };
 
-// Get all recipes from user database
+// SQL request - Get all recipes of connected user by user's id
+// Return : list of recipes
 export const getAllRecipes = async (userId: number): Promise<Recipe[]> => {
     const db = await openDb();
 
@@ -64,7 +68,8 @@ export const getAllRecipes = async (userId: number): Promise<Recipe[]> => {
     return recipes;
 };
 
-// Get one recipe by recipeId from user database
+// SQL request - Get a recipe of connected user by user's id and recipe's id
+// Return : recipe
 export const getRecipeInformations = async (userId: number, recipeId: number): Promise<Recipe> => {
     const db = await openDb();
 
@@ -90,7 +95,8 @@ export type RequestUpdateRecipe = {
     time_cooking?: string;
 };
 
-// Add a recipe to the user database
+// SQL request - Update a recipe of connected user by user's id and recipe's id
+// Return : recipe update
 export const updateRecipe = async (userId: number, recipeId: number, req: RequestUpdateRecipe): Promise<Recipe> => {
     const db = await openDb();
 
@@ -120,7 +126,8 @@ export const updateRecipe = async (userId: number, recipeId: number, req: Reques
     return recipe;
 };
 
-// Delete a recipe to the user database
+// SQL request - Delete a recipe from connected user database by user's id and recipe's id
+// Return : list of recipes without the deleted one
 export const deleteRecipe = async (userId: number, recipeId: number): Promise<Recipe[]> => {
     const db = await openDb();
 

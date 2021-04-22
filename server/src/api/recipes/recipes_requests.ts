@@ -1,4 +1,8 @@
+// Dependencies
 import express from 'express';
+// Authentication
+import { verifyToken, verifyUser } from '../../app-config/firebase-config';
+// Database
 import {
     getAllRecipes,
     getRecipeInformations,
@@ -14,12 +18,11 @@ import {
     deleteIngredientsRecipe,
     IngredientsRecipe,
 } from '../../database/ingredient_recipe/ingredientsRecipe';
-import { verifyToken, verifyUser } from '../../app-config/firebase-config';
 
 // Router and mounting
 const recipes = express.Router();
 
-//POST - /api/recipes/add - add a recipe to user database
+//POST - /api/recipes/add - add a recipe to user database by user's id
 recipes.post('/add', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
     const recipeRequest: RequestAddRecipe = {
@@ -40,7 +43,7 @@ recipes.post('/add', verifyToken, verifyUser, async (req, res) => {
     }
 });
 
-//GET - /api/recipes/getAll - get all recipes by userID
+//GET - /api/recipes/getAll - get all recipes by user's id
 recipes.get('/getAll', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
     try {
@@ -51,7 +54,7 @@ recipes.get('/getAll', verifyToken, verifyUser, async (req, res) => {
     }
 });
 
-//GET - /api/recipes/:id - get a recipe by userID and recipeId
+//GET - /api/recipes/:id - get a recipe by user's id and recipe's id
 recipes.get('/:id', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
     const recipeId = Number(req.params.id);
@@ -64,12 +67,11 @@ recipes.get('/:id', verifyToken, verifyUser, async (req, res) => {
     }
 });
 
-//PUT - /api/recipes/update/:id - update a recipe by recipeId and userId
+//PUT - /api/recipes/update/:id - update a recipe by recipe's id and user's id
 recipes.put('/update/:id', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
     const recipeId = Number(req.params.id);
-    console.log('recipeId:', recipeId);
-    console.log('userId:', userId);
+
     const recipeRequest: RequestAddRecipe = {
         name: req.body.name,
         presentation: req.body.presentation,
@@ -77,13 +79,13 @@ recipes.put('/update/:id', verifyToken, verifyUser, async (req, res) => {
         time_preparation: req.body.time_preparation,
         time_cooking: req.body.time_cooking,
     };
-    console.log('recipeRequest:', recipeRequest);
+
     const ingredients: IngredientsRecipe[] = req.body.ingredients;
 
-    console.log('ingredients:', ingredients);
     try {
         const recipe = await updateRecipe(userId, recipeId, recipeRequest);
         await updateIngredientsRecipe(recipeId, ingredients);
+
         res.status(200).json({ recipe: { ...recipe, ingredients } });
     } catch (e) {
         console.error(e);
@@ -91,7 +93,7 @@ recipes.put('/update/:id', verifyToken, verifyUser, async (req, res) => {
     }
 });
 
-// DELETE - '/api/recipes/delete' - delete an ingredient from user database
+// DELETE - '/api/recipes/delete/:id' - delete a recipe from user database by user's id and recipe's id
 recipes.delete('/delete/:recipeId', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
     const recipeId = Number(req.params.recipeId);

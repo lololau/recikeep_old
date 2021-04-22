@@ -14,8 +14,8 @@ export interface Recipe {
 
 interface IngredientsRecipe {
     ingredient_id: number;
-    unity_id?: number;
-    quantity?: number | null;
+    unity_id: number;
+    quantity: number | null;
 }
 
 export type RequestAddRecipe = {
@@ -29,8 +29,8 @@ export type RequestAddRecipe = {
     ingredients?: IngredientsRecipe[];
 };
 
-// Fetch to addRecipe into user db
-export const addRecipe = async (idToken: string, req: RequestAddRecipe): Promise<Recipe> => {
+// Fetch request to add a recipe into user database
+export const fetchAddRecipe = async (idToken: string, req: RequestAddRecipe): Promise<Recipe> => {
     const myHeaders = new Headers({
         Authorization: idToken,
         'content-type': 'application/json',
@@ -48,7 +48,8 @@ export const addRecipe = async (idToken: string, req: RequestAddRecipe): Promise
     return recipe.recipe;
 };
 
-export const deleteRecipe = async (idToken: string, recipeId: number): Promise<void> => {
+// Fetch request to delete a recipe from user database
+export const fetchDeleteRecipe = async (idToken: string, recipeId: number): Promise<void> => {
     const myHeaders = new Headers({
         Authorization: idToken,
         'content-type': 'application/json',
@@ -63,8 +64,8 @@ export const deleteRecipe = async (idToken: string, recipeId: number): Promise<v
     }
 };
 
-//Fetch to get all recipes by user
-export const getAllRecipes = async (idToken: string): Promise<Recipe[]> => {
+// Fetch request to get all recipes by user connected
+export const fetchGetAllRecipes = async (idToken: string): Promise<Recipe[]> => {
     const myHeaders = new Headers({
         Authorization: idToken,
     });

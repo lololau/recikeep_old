@@ -1,7 +1,10 @@
+// Dependencies
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { RootState } from '../../app/store';
+// Authentication
 import { getAuthToken } from '../../app/auth';
-import { GetUser, CreateUser, RequestCreateUser, UpdateUser, RequestUpdateUser } from './userFetch';
+// Feth - Store
+import { RootState } from '../../app/store';
+import { fetchGetUser, fetchCreateUser, RequestCreateUser, fetchUpdateUser, RequestUpdateUser } from './userFetch';
 
 export interface User {
     id: number;
@@ -22,21 +25,24 @@ const initialState: User = {
     isLoading: 0,
 };
 
-export const fetchGetUser = createAsyncThunk('/api/user/getUser', async () => {
+// Thunk - get a user
+export const getUser = createAsyncThunk('/api/user/getUser', async () => {
     const idToken = await getAuthToken();
-    const user = await GetUser(idToken);
+    const user = await fetchGetUser(idToken);
     return user;
 });
 
-export const fetchCreateUser = createAsyncThunk('/api/user/createUser', async (req: RequestCreateUser) => {
+// Thunk - create a user
+export const createUser = createAsyncThunk('/api/user/createUser', async (req: RequestCreateUser) => {
     const idToken = await getAuthToken();
-    const user = await CreateUser(idToken, req);
+    const user = await fetchCreateUser(idToken, req);
     return user;
 });
 
-export const fetchUpdateUser = createAsyncThunk('/api/user/updateUser', async (req: RequestUpdateUser) => {
+// Thunk - update a user
+export const updateUser = createAsyncThunk('/api/user/updateUser', async (req: RequestUpdateUser) => {
     const idToken = await getAuthToken();
-    const userUpdated = await UpdateUser(idToken, req);
+    const userUpdated = await fetchUpdateUser(idToken, req);
     return userUpdated;
 });
 
@@ -44,38 +50,43 @@ const userReducer = createSlice({
     name: 'user',
     initialState: initialState,
     reducers: {
+        // action - update firebase user
         updateFirebaseUser: (state, action) => {
             state.firebaseId = action.payload.firebaseId;
             state.email = action.payload.email;
         },
+        // action - loading started
         loadingStarted: (state) => {
             state.isLoading++;
         },
+        // action - loading finished
         loadingFinished: (state) => {
             state.isLoading--;
         },
     },
     extraReducers: (builder) => {
-        // fetchGetUser
-        builder.addCase(fetchGetUser.fulfilled, (state, action) => {
+        // getUser - fulfilled
+        builder.addCase(getUser.fulfilled, (state, action) => {
             console.log(action.payload);
             state.fullName = action.payload.full_name;
         });
-        builder.addCase(fetchGetUser.rejected, (state) => {
+        // getUser - rejected
+        builder.addCase(getUser.rejected, (state) => {
             state.fullName = '';
         });
 
-        // fetchCreateUser
-        builder.addCase(fetchCreateUser.fulfilled, (state, action) => {
+        // createUser - fulfilled
+        builder.addCase(createUser.fulfilled, (state, action) => {
             console.log(action.payload);
             state.fullName = action.payload.user.full_name;
         });
-        builder.addCase(fetchCreateUser.rejected, (state) => {
+        // createUser - rejected
+        builder.addCase(createUser.rejected, (state) => {
             state.fullName = '';
         });
 
-        // fetchUpdateUser
-        builder.addCase(fetchUpdateUser.fulfilled, (state, action) => {
+        // updateUser - fulfilled
+        builder.addCase(updateUser.fulfilled, (state, action) => {
             console.log(action.payload);
             state.fullName = action.payload.user.full_name;
         });

@@ -1,9 +1,7 @@
+// Dependencies
 import mysql from 'mysql';
-// import sqlite3 from 'sqlite3';
-// import { Database, open } from 'sqlite';
 
-// sqlite3.verbose();
-
+// MySQL configuration
 const config = {
     host: process.env.MYSQL_HOST,
     user: process.env.MYSQL_USER,
@@ -11,9 +9,8 @@ const config = {
     database: process.env.MYSQL_DATABASE,
 };
 
-console.log(config);
-
 // from https://codeburst.io/node-js-mysql-and-promises-4c3be599909b
+
 class Database {
     connection: mysql.Connection;
 

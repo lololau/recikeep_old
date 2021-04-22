@@ -1,33 +1,32 @@
+// Dependencies
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { RootState } from '../../app/store';
+// Authentication
 import { getAuthToken } from '../../app/auth';
-import { getGroceryList, GroceryListInformation, getLatestGroceryList, getShareGroceryList } from './groceryListFetch';
+// Fetch - Slice - Store
+import { RootState } from '../../app/store';
+import { fetchGetGroceryList, GroceryListInformation, fetchGetShareGroceryList } from './groceryListFetch';
 import {
-    fetchCheckTrueGroceryList,
-    fetchCheckFalseGroceryList,
-    fetchCheckTrueShareGroceryList,
-    fetchCheckFalseShareGroceryList,
+    checkTrueGroceryList,
+    checkFalseGroceryList,
+    checkTrueShareGroceryList,
+    checkFalseShareGroceryList,
 } from '../groceriesLists/groceriesListsSlice';
 
-export const fetchGetAGroceryList = createAsyncThunk(`/api/groceriesLists/:id`, async (groceryListId: number) => {
+// Thunk - get a grocery list
+export const getGroceryList = createAsyncThunk(`/api/groceriesLists/:id`, async (groceryListId: number) => {
     const idToken = await getAuthToken();
-    const groceryList = await getGroceryList(idToken, groceryListId);
+    const groceryList = await fetchGetGroceryList(idToken, groceryListId);
     return groceryList;
 });
 
-export const fetchGetShareGroceryList = createAsyncThunk(
+// Thunk - get a shared grocery list
+export const getShareGroceryList = createAsyncThunk(
     `/api/groceriesLists/share/:share_uid`,
     async (shareUid: string) => {
-        const groceryList = await getShareGroceryList(shareUid);
+        const groceryList = await fetchGetShareGroceryList(shareUid);
         return groceryList;
     },
 );
-
-export const fetchGetLatestGroceryList = createAsyncThunk(`/api/groceriesLists/`, async () => {
-    const idToken = await getAuthToken();
-    const groceryList = await getLatestGroceryList(idToken);
-    return groceryList;
-});
 
 type GroceryList = {
     groceryList: GroceryListInformation;
@@ -48,16 +47,12 @@ const groceryListReducer = createSlice({
     initialState: initialState,
     reducers: {},
     extraReducers: (builder) => {
-        // fetchGetGroceryList
-        builder.addCase(fetchGetAGroceryList.fulfilled, (state, action) => {
+        // getGroceryList - fulfilled
+        builder.addCase(getGroceryList.fulfilled, (state, action) => {
             state.groceryList = action.payload;
         });
-        // fetchGetLatestGroceryList
-        builder.addCase(fetchGetLatestGroceryList.fulfilled, (state, action) => {
-            state.groceryList = action.payload;
-        });
-        // fetchCheckTrueGroceryList
-        builder.addCase(fetchCheckTrueGroceryList.fulfilled, (state, action) => {
+        // checkTrueGroceryList - fulfilled
+        builder.addCase(checkTrueGroceryList.fulfilled, (state, action) => {
             const unityId = action.payload.unityId;
             const ingredientId = action.payload.ingredientId;
             state.groceryList.ingredients = state.groceryList.ingredients.map((ingredient) => {
@@ -67,8 +62,8 @@ const groceryListReducer = createSlice({
                 return ingredient;
             });
         });
-        // fetchCheckFalseGroceryList
-        builder.addCase(fetchCheckFalseGroceryList.fulfilled, (state, action) => {
+        // checkFalseGroceryList - fulfilled
+        builder.addCase(checkFalseGroceryList.fulfilled, (state, action) => {
             const ingredientId = action.payload.ingredientId;
             const unityId = action.payload.unityId;
             state.groceryList.ingredients = state.groceryList.ingredients.map((ingredient) => {
@@ -78,12 +73,12 @@ const groceryListReducer = createSlice({
                 return ingredient;
             });
         });
-        // fetchGetShareGroceryList
-        builder.addCase(fetchGetShareGroceryList.fulfilled, (state, action) => {
+        // getShareGroceryList - fulfilled
+        builder.addCase(getShareGroceryList.fulfilled, (state, action) => {
             state.groceryList = action.payload;
         });
-        // fetchCheckTrueShareGroceryList
-        builder.addCase(fetchCheckTrueShareGroceryList.fulfilled, (state, action) => {
+        // checkTrueShareGroceryList - fulfilled
+        builder.addCase(checkTrueShareGroceryList.fulfilled, (state, action) => {
             const unityId = action.payload.unityId;
             const ingredientId = action.payload.ingredientId;
             state.groceryList.ingredients = state.groceryList.ingredients.map((ingredient) => {
@@ -94,8 +89,8 @@ const groceryListReducer = createSlice({
             });
         });
 
-        // fetchCheckFalseShareGroceryList
-        builder.addCase(fetchCheckFalseShareGroceryList.fulfilled, (state, action) => {
+        // checkFalseShareGroceryList - fulfilled
+        builder.addCase(checkFalseShareGroceryList.fulfilled, (state, action) => {
             const unityId = action.payload.unityId;
             const ingredientId = action.payload.ingredientId;
             state.groceryList.ingredients = state.groceryList.ingredients.map((ingredient) => {

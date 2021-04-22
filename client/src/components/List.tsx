@@ -1,6 +1,7 @@
+// Dependencies
 import React from 'react';
-import List from '@material-ui/core/List';
-import { IconButton, ListItem, ListItemText, ListItemSecondaryAction } from '@material-ui/core';
+// Material-ui
+import { IconButton, ListItem, ListItemText, ListItemSecondaryAction, List } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 type onRemove = (elt: Element) => void;
@@ -15,30 +16,34 @@ export interface Element {
     id: number;
 }
 
-const ListComponent = (props: ListProps): JSX.Element => {
-    return (
-        <List>
-            {props.listElements.map((eltList, index) => {
-                return (
-                    <ListItem divider={true} key={index}>
-                        <ListItemText primary={eltList.name} id={index.toString()} />
-                        <ListItemSecondaryAction>
-                            <IconButton
-                                edge="end"
-                                onClick={() => {
-                                    if (props.onRemoveElement) {
-                                        props.onRemoveElement(eltList);
-                                    }
-                                }}
-                            >
-                                <DeleteIcon style={{ fontSize: 15 }} color="primary" />
-                            </IconButton>
-                        </ListItemSecondaryAction>
-                    </ListItem>
-                );
-            })}
-        </List>
-    );
-};
+// List genereric component
+//
+// Display a element from a list by :
+// - Element name
+// - A delete icon at the end of the row
+
+const ListComponent = (props: ListProps): JSX.Element => (
+    <List>
+        {props.listElements.map((eltList, index) => {
+            return (
+                <ListItem divider={true} key={index}>
+                    <ListItemText primary={eltList.name} id={index.toString()} />
+                    <ListItemSecondaryAction>
+                        <IconButton
+                            edge="end"
+                            onClick={() => {
+                                if (props.onRemoveElement) {
+                                    props.onRemoveElement(eltList);
+                                }
+                            }}
+                        >
+                            <DeleteIcon style={{ fontSize: 15 }} color="primary" />
+                        </IconButton>
+                    </ListItemSecondaryAction>
+                </ListItem>
+            );
+        })}
+    </List>
+);
 
 export default ListComponent;

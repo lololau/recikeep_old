@@ -5,39 +5,21 @@
   "toolsbar": {
     "recipes": "Recettes",
     "groceriesList": "Courses",
-    "groups": "Groupes",
     "profile": "Profil"
+  },
+  "searchBar": {
+    "label": "Recherche..."
   },
   "recipes": {
     "title": "Recettes",
-    "search": "Recheche...",
-    "tagList": "Tag(s)",
     "selectRecipes": "» nouvelle liste de course",
-    "add-recipe": "Recette",
     "delete-impossible": "Suppression impossible. Cette recette est présente dans une liste de course. Supprimez la liste de course en question afin de pouvoir supprimer l'élément."
   }, 
   "recipe": {
-    "title": "Pâtes Carbonara",
-    "searchBar": "Recherche...",
-    "tag": "Tag(s)",
     "preparation-time": "Préparation",
     "cooking-time": "Cuisson",
-    "ingredients-list": "Ingrédients",
-    "cooking-instructions": "Description de la Recette",
     "for": "Pour",
     "peoples": "personne(s)"
-  },
-  "tags": {
-    "vegetables": "Légumes",
-    "meat": "Viande",
-    "fish": "Poisson",
-    "fruits": "Fruits",
-    "appetizer": "Apéritif",
-    "starter": "Entrée",
-    "lunch": "Déjeuner",
-    "dinner": "Diner",
-    "dessert": "Dessert",
-    "sides": "Accompagnement"
   },
   "parts": {
     "add": "Nombre de personne(s)"
@@ -49,14 +31,8 @@
     "title-page": "Nouvelle Recette",
     "title": "Titre de la recette",
     "add-title": "Ajouter un titre",
-    "image": "Image",
-    "add-image": "Ajouter une image",
     "presentation": "Présentation",
     "add-presentation": "Ajouter une présentation de la recette",
-    "description": "Description",
-    "add-description": "Ajouter une description de la recette",
-    "tag": "Balise(s)",
-    "type": "Type",
     "parts": "Nombre de personne(s)",
     "parts_add": "Part(s)",
     "preparation-time": "Temps de préparation",
@@ -67,11 +43,10 @@
     "add-ingredient": "Ingrédient",
     "add-unity": "Unité",
     "add-quantity": "Quantité",
-    "add": "Ajouter",
     "name-missing": "Le nom de la recette doit être",
     "quantity-typeof": "Les quantités doivent être des nombres",
     "field-missing": "Champ obligatoire",
-    "error": "Veuillez renseigner les champs obligatoires",
+    "error": "Veuillez renseigner les champs obligatoires.",
     "same-ingredient": "Impossible d'ajouter le même ingrédient plusieurs fois dans la liste.",
     "bad-ingredients": "Pour ajouter un ingrédient vous devez renseigner les cases 'Ingrédient', 'Quantité' et 'Unité'."
   },
@@ -79,18 +54,15 @@
     "title-page": "Recette en cours de modification(s)"
   },
   "groceries": {
-    "title": "Mes Listes de Courses",
-    "name-beginning": "Fait le "
+    "title-page": "Mes Listes de Courses",
+    "name-beginning": "Liste faite le "
   },
   "groceryList": {
     "title-page": "Liste de Courses",
-    "add-ingredient": "Ingrédient",
     "recipes-selected": "Recette(s) sélectionnée(s) : "
   },
   "myIngredients": {
     "title-page": "Mes Ingrédients",
-    "add-ingredient": "Nouvel Ingrédient",
-    "textField": "Ingrédient...",
     "delete-impossible": "Suppression impossible. Cet ingrédient est présent dans une liste de course ou dans une recette. Supprimez la liste de course ou éditez la recette en question afin de pouvoir supprimer l'élément."
   },
   "myUnities": {
@@ -99,23 +71,14 @@
   
   },
   "profile": {
-    "title-page": "Mon Profil",
-    "username": "Nom Utilisateur",
-    "update-image": "Modifier l'image",
-    "name": "Laulau",
-    "favorite": "Recettes Favorites"
+    "title-page": "Mon Profil"
   },
   "stepper": {
     "title-selection": "Quelles recettes voulez-vous cuisiner ?",
     "title-part": "Pour combien de personnes ?",
     "title-ingredientsList": "Une modification à faire ?",
     "start-number-parts": "Je cuisine pour ",
-    "end-number-parts": "personne(s)",
-    "add-ing": "Ajouter un ingrédient"
-  },
-  "groups": {
-    "title-page": "Groupes",
-    "searchBar": "Recherche..."
+    "end-number-parts": "personne(s)"
   },
   "ingredients": {
     "ingredients": "Ingrédients",
