@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import recipesReducer from '../slice/recipes/recipesSlice';
 import ingredientsReducer from '../slice/ingredients/ingredientsSlice';
 import userReducer from '../slice/user/userSlice';
-import groupsReducer from '../slice/groups/groupsSlice';
 import unitiesReducer from '../slice/unity/unitySlice';
 import recipeReducer from '../slice/recipe/recipeSlice';
 import groceriesListsReducer from '../slice/groceriesLists/groceriesListsSlice';
@@ -19,7 +18,6 @@ const store = configureStore({
         ingredients: ingredientsReducer,
         unities: unitiesReducer,
         user: userReducer,
-        groups: groupsReducer,
         groceriesLists: groceriesListsReducer,
         groceryList: groceryListReducer,
         notification: notificationReducer,

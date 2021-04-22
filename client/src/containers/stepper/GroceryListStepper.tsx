@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 // Slice - Store
 import { selectRecipes } from '../../slice/recipes/recipesSlice';
 import { Recipe } from '../../slice/recipes/recipesFetch';
-import { IngredientsGroceryList } from '../../slice/groceriesLists/groceriesListsFetch';
+import { IngredientsGroceryList } from '../../slice/groceryList/groceryListFetch';
 import { addGroceryList } from '../../slice/groceriesLists/groceriesListsSlice';
 import { useAppDispatch } from '../../app/store';
 // Component

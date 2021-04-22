@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 // Slice
 import { getShareGroceryList, selectGroceryList } from '../../slice/groceryList/groceryListSlice';
-import { IngredientsGroceryList } from '../../slice/groceriesLists/groceriesListsFetch';
+import { IngredientsGroceryList } from '../../slice/groceryList/groceryListFetch';
 import { checkTrueShareGroceryList, checkFalseShareGroceryList } from '../../slice/groceriesLists/groceriesListsSlice';
 // Material-ui
 import { Container, List, ListItemIcon, ListItem, Checkbox, ListItemText } from '@material-ui/core';
