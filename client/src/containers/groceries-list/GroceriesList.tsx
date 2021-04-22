@@ -5,8 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import '../../i18n';
 import { Link } from 'react-router-dom';
 // Slice
-import { fetchDeleteRecipe, selectGroceriesList } from '../../slice/groceriesLists/groceriesListsSlice';
-import { fetchGetAGroceryList } from '../../slice/groceryList/groceryListSlice';
+import { deleteGroceryList, selectGroceriesList } from '../../slice/groceriesLists/groceriesListsSlice';
+import { getGroceryList } from '../../slice/groceryList/groceryListSlice';
 import { GroceryList } from '../../slice/groceriesLists/groceriesListsFetch';
 // Component
 import SearchBar from '../../components/SearchBar';
@@ -73,7 +73,7 @@ export const GroceriesList = (props: GroceryListProps): JSX.Element => {
                     <Grid item xs={6}>
                         <Button
                             onClick={() => {
-                                dispatch(fetchDeleteRecipe(toDeleteId));
+                                dispatch(deleteGroceryList(toDeleteId));
                                 handleClose();
                             }}
                         >
@@ -96,7 +96,7 @@ export const GroceriesList = (props: GroceryListProps): JSX.Element => {
                         <ListItem divider={true} key={'GroceriesList' + index}>
                             <Link to={'/groceryList/' + grocery.id} style={{ textDecoration: 'none', color: 'black' }}>
                                 <ListItemText
-                                    onClick={() => dispatch(fetchGetAGroceryList(grocery.id))}
+                                    onClick={() => dispatch(getGroceryList(grocery.id))}
                                     primary={t('groceries.name-beginning') + grocery.name}
                                     id={index.toString()}
                                 />

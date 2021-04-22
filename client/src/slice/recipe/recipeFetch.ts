@@ -3,9 +3,9 @@ import { getApiUrl } from '../host';
 export interface IngredientsRecipe {
     ingredient_id: number;
     ingredient: string;
-    unity_id?: number;
+    unity_id: number;
     unity: string;
-    quantity?: number;
+    quantity: number;
 }
 
 export interface RecipeInformation {
@@ -20,8 +20,8 @@ export interface RecipeInformation {
     ingredients: IngredientsRecipe[];
 }
 
-// Fetch to get a recipe by recipeId
-export const getOneRecipe = async (idToken: string, recipeId: number): Promise<RecipeInformation> => {
+// Fetch request to get a recipe by recipeId from user connected
+export const fetchGetOneRecipe = async (idToken: string, recipeId: number): Promise<RecipeInformation> => {
     const myHeaders = new Headers({
         Authorization: idToken,
     });
@@ -39,8 +39,8 @@ export type RequestUpdateRecipe = {
     recipe: RecipeInformation;
 };
 
-// Fetch to update a recipe by recipeId
-export const updateRecipe = async (idToken: string, req: RequestUpdateRecipe): Promise<RecipeInformation> => {
+// Fetch request to update a recipe by recipeId from user connected
+export const fetchUpdateRecipe = async (idToken: string, req: RequestUpdateRecipe): Promise<RecipeInformation> => {
     const myHeaders = new Headers({
         Authorization: idToken,
         'content-type': 'application/json',

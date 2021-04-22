@@ -5,7 +5,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 // Slice
-import { selectRecipe, fetchGetARecipe } from '../../slice/recipe/recipeSlice';
+import { selectRecipe, getRecipe } from '../../slice/recipe/recipeSlice';
 import { IngredientsRecipe } from '../../slice/recipe/recipeFetch';
 // Material-ui
 import {
@@ -95,7 +95,7 @@ const MyRecipe = (): JSX.Element => {
     const recipe = useSelector(selectRecipe);
 
     useEffect(() => {
-        dispatch(fetchGetARecipe(Number(id)));
+        dispatch(getRecipe(Number(id)));
     }, []);
 
     return (

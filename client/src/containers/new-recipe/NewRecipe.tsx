@@ -7,9 +7,9 @@ import { useTranslation } from 'react-i18next';
 // Slice - Store
 import Autosuggestion from '../../components/AutoSuggestion';
 import { useAppDispatch } from '../../app/store';
-import { ingredients, fetchAddIngredient } from '../../slice/ingredients/ingredientsSlice';
-import { unities, fetchAddUnity } from '../../slice/unity/unitySlice';
-import { fetchAddRecipe } from '../../slice/recipes/recipesSlice';
+import { ingredients, addIngredient } from '../../slice/ingredients/ingredientsSlice';
+import { unities, addUnity } from '../../slice/unity/unitySlice';
+import { addRecipe } from '../../slice/recipes/recipesSlice';
 import { updateNotification } from '../../slice/notification/notificationSlice';
 // Material-ui
 import {
@@ -174,7 +174,7 @@ const NewRecipe = (): JSX.Element => {
             return;
         }
         try {
-            const action = await dispatch(fetchAddRecipe(newRecipe));
+            const action = await dispatch(addRecipe(newRecipe));
             const result = unwrapResult(action);
             history.push(`/recipe/${result.id}`);
         } catch (e) {
@@ -263,7 +263,7 @@ const NewRecipe = (): JSX.Element => {
                                     });
                                 }}
                                 onAdd={async (option) => {
-                                    const ingredient = await dispatch(fetchAddIngredient(option));
+                                    const ingredient = await dispatch(addIngredient(option));
                                     const result = unwrapResult(ingredient);
                                     setIngredientRecipe({
                                         ...ingredientRecipe,
@@ -309,7 +309,7 @@ const NewRecipe = (): JSX.Element => {
                                     });
                                 }}
                                 onAdd={async (option) => {
-                                    const unity = await dispatch(fetchAddUnity(option));
+                                    const unity = await dispatch(addUnity(option));
                                     const result = unwrapResult(unity);
                                     setIngredientRecipe({
                                         ...ingredientRecipe,

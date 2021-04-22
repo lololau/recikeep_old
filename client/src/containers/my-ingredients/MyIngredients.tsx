@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 // Slice
 import { Ingredient } from '../../slice/ingredients/ingredientsFetch';
-import { ingredients, fetchDeleteIngredient } from '../../slice/ingredients/ingredientsSlice';
+import { ingredients, deleteIngredient } from '../../slice/ingredients/ingredientsSlice';
 // Component
 import SearchBar from '../../components/SearchBar';
 import ListComponent, { Element } from '../../components/List';
@@ -27,8 +27,8 @@ const MyIngredients = (): JSX.Element => {
         });
 
     // Method to delete a specific ingredient by id
-    const deleteIngredient = (ingredient: Element) => {
-        dispatch(fetchDeleteIngredient(ingredient.id));
+    const removeIngredient = (ingredient: Element) => {
+        dispatch(deleteIngredient(ingredient.id));
     };
 
     const [ingredientsDisplay, setIngredientsDisplay] = useState(ingredientsList);
@@ -54,7 +54,7 @@ const MyIngredients = (): JSX.Element => {
             </Box>
             <ListComponent
                 listElements={selectIngredientsCustom(ingredientsDisplay)}
-                onRemoveElement={deleteIngredient}
+                onRemoveElement={removeIngredient}
             />
         </Container>
     );

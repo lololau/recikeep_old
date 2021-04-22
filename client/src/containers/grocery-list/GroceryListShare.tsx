@@ -3,12 +3,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 // Slice
-import { fetchGetShareGroceryList, selectGroceryList } from '../../slice/groceryList/groceryListSlice';
+import { getShareGroceryList, selectGroceryList } from '../../slice/groceryList/groceryListSlice';
 import { IngredientsGroceryList } from '../../slice/groceriesLists/groceriesListsFetch';
-import {
-    fetchCheckTrueShareGroceryList,
-    fetchCheckFalseShareGroceryList,
-} from '../../slice/groceriesLists/groceriesListsSlice';
+import { checkTrueShareGroceryList, checkFalseShareGroceryList } from '../../slice/groceriesLists/groceriesListsSlice';
 // Material-ui
 import { Container, List, ListItemIcon, ListItem, Checkbox, ListItemText } from '@material-ui/core';
 
@@ -27,7 +24,7 @@ const CheckIngredientsList = (props: IngredientListProps) => {
     const handleCheck = (ingredient: IngredientsGroceryList) => () => {
         if (!ingredient.checked) {
             dispatch(
-                fetchCheckTrueShareGroceryList({
+                checkTrueShareGroceryList({
                     groceryListShareUid: props.groceryListShareUid,
                     ingredient: ingredient,
                 }),
@@ -35,7 +32,7 @@ const CheckIngredientsList = (props: IngredientListProps) => {
             return;
         }
         dispatch(
-            fetchCheckFalseShareGroceryList({ groceryListShareUid: props.groceryListShareUid, ingredient: ingredient }),
+            checkFalseShareGroceryList({ groceryListShareUid: props.groceryListShareUid, ingredient: ingredient }),
         );
     };
 
@@ -77,7 +74,7 @@ const GroceryListShare = (props: GroceryListShareProps): JSX.Element => {
 
     useEffect(() => {
         const timer = setInterval(() => {
-            dispatch(fetchGetShareGroceryList(props.uid));
+            dispatch(getShareGroceryList(props.uid));
         }, 2000);
         return () => clearInterval(timer);
     }, []);

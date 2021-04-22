@@ -1,10 +1,12 @@
+// Dependencies
 import { createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../../app/store';
-import { fetchUpdateRecipe } from '../recipe/recipeSlice';
-import { fetchDeleteRecipe } from '../recipes/recipesSlice';
-import { fetchDeleteIngredient } from '../ingredients/ingredientsSlice';
-import { fetchDeleteUnity } from '../unity/unitySlice';
 import i18n from '../../i18n';
+// Slice - Store
+import { RootState } from '../../app/store';
+import { updateARecipe } from '../recipe/recipeSlice';
+import { deleteRecipe } from '../recipes/recipesSlice';
+import { deleteIngredient } from '../ingredients/ingredientsSlice';
+import { deleteUnity } from '../unity/unitySlice';
 
 type TypeSeverity = 'success' | 'error' | 'warning' | 'info';
 
@@ -23,6 +25,7 @@ const notificationReducer = createSlice({
     name: 'notification',
     initialState: initialState,
     reducers: {
+        // action - update notification
         updateNotification: (state, action) => {
             state.message = action.payload.message;
             state.severity = action.payload.severity;
@@ -30,26 +33,26 @@ const notificationReducer = createSlice({
         },
     },
     extraReducers: (builder) => {
-        // fetchUpdateRecipe
-        builder.addCase(fetchUpdateRecipe.fulfilled, (state) => {
+        // updateARecipe - fulfilled
+        builder.addCase(updateARecipe.fulfilled, (state) => {
             state.severity = 'success';
             state.message = 'Recipe updated!';
             state.id++;
         });
-        // fetchDeleteIngredient
-        builder.addCase(fetchDeleteIngredient.rejected, (state) => {
+        // deleteIngredient - rejected
+        builder.addCase(deleteIngredient.rejected, (state) => {
             state.severity = 'error';
             state.message = i18n.t('myIngredients.delete-impossible');
             state.id++;
         });
-        // fetchDeleteUnity
-        builder.addCase(fetchDeleteUnity.rejected, (state) => {
+        // deleteUnity - rejected
+        builder.addCase(deleteUnity.rejected, (state) => {
             state.severity = 'error';
             state.message = i18n.t('myUnities.delete-impossible');
             state.id++;
         });
-        // fetchDeleteRecipe
-        builder.addCase(fetchDeleteRecipe.rejected, (state) => {
+        // deleteRecipe - rejected
+        builder.addCase(deleteRecipe.rejected, (state) => {
             state.severity = 'error';
             state.message = i18n.t('recipes.delete-impossible');
             state.id++;

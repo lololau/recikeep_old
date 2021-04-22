@@ -10,7 +10,8 @@ export type ResponseGetUser = {
     user: User;
 };
 
-export const GetUser = async (idToken: string): Promise<User> => {
+// Fetch request to get user from firebase
+export const fetchGetUser = async (idToken: string): Promise<User> => {
     const myHeaders = new Headers({
         Authorization: idToken,
     });
@@ -30,7 +31,8 @@ export type ResponseCreateUser = {
     user: User;
 };
 
-export const CreateUser = async (idToken: string, request: RequestCreateUser): Promise<ResponseCreateUser> => {
+// Fetch request to create a user into database
+export const fetchCreateUser = async (idToken: string, request: RequestCreateUser): Promise<ResponseCreateUser> => {
     const myHeaders = new Headers({
         Authorization: idToken,
         'content-type': 'application/json',
@@ -58,7 +60,8 @@ export type ResponseUpdateUser = {
     user: User;
 };
 
-export const UpdateUser = async (idToken: string, request: RequestUpdateUser): Promise<ResponseUpdateUser> => {
+// Fetch request to update user
+export const fetchUpdateUser = async (idToken: string, request: RequestUpdateUser): Promise<ResponseUpdateUser> => {
     const myHeaders = new Headers({
         Authorization: idToken,
         'content-type': 'application/json',

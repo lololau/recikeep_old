@@ -1,23 +1,35 @@
+// Dependencies
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+// Authentication
 import { RootState } from '../../app/store';
+// Fetch - Store
 import { getAuthToken } from '../../app/auth';
-import { Ingredient, RequestAddIngredient, getIngredients, addIngredient, deleteIngredient } from './ingredientsFetch';
+import {
+    Ingredient,
+    RequestAddIngredient,
+    fetchGetIngredients,
+    fetchAddIngredient,
+    fetchDeleteIngredient,
+} from './ingredientsFetch';
 
-export const fetchGetIngredients = createAsyncThunk('/api/ingredients/getAll', async () => {
+// Thunk - get all ingredients
+export const getAllIngredients = createAsyncThunk('/api/ingredients/getAll', async () => {
     const idToken = await getAuthToken();
-    const ingredients = await getIngredients(idToken);
+    const ingredients = await fetchGetIngredients(idToken);
     return ingredients;
 });
 
-export const fetchAddIngredient = createAsyncThunk('/api/ingredients/add', async (req: RequestAddIngredient) => {
+// Thunk - add an ingredient
+export const addIngredient = createAsyncThunk('/api/ingredients/add', async (req: RequestAddIngredient) => {
     const idToken = await getAuthToken();
-    const ingredient = await addIngredient(idToken, req);
+    const ingredient = await fetchAddIngredient(idToken, req);
     return ingredient;
 });
 
-export const fetchDeleteIngredient = createAsyncThunk('/api/ingredients/delete', async (ingredientId: number) => {
+// Thunk - delete an ingredient
+export const deleteIngredient = createAsyncThunk('/api/ingredients/delete', async (ingredientId: number) => {
     const idToken = await getAuthToken();
-    await deleteIngredient(idToken, ingredientId);
+    await fetchDeleteIngredient(idToken, ingredientId);
     return ingredientId;
 });
 
@@ -34,19 +46,20 @@ const ingredientsReducer = createSlice({
     initialState: initialState,
     reducers: {},
     extraReducers: (builder) => {
-        // fetchGetIngredients
-        builder.addCase(fetchGetIngredients.fulfilled, (state, action) => {
+        // getAllIngredients - fulfilled
+        builder.addCase(getAllIngredients.fulfilled, (state, action) => {
             state.ingredients = action.payload;
         });
-        builder.addCase(fetchGetIngredients.rejected, (state) => {
+        // getAllIngredients - rejected
+        builder.addCase(getAllIngredients.rejected, (state) => {
             state.ingredients = [];
         });
-        // fetchAddIngredient
-        builder.addCase(fetchAddIngredient.fulfilled, (state, action) => {
+        // addIngredient - fulfilled
+        builder.addCase(addIngredient.fulfilled, (state, action) => {
             state.ingredients.push(action.payload);
         });
-        // fetchDeleteIngredient
-        builder.addCase(fetchDeleteIngredient.fulfilled, (state, action) => {
+        // deleteIngredient - fulfilled
+        builder.addCase(deleteIngredient.fulfilled, (state, action) => {
             state.ingredients = state.ingredients.filter((ingredient) => ingredient.id !== action.payload);
         });
     },

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 // Slice
 import { Unity } from '../../slice/unity/unityFetch';
-import { unities, fetchDeleteUnity } from '../../slice/unity/unitySlice';
+import { unities, deleteUnity } from '../../slice/unity/unitySlice';
 // Component
 import SearchBar from '../../components/SearchBar';
 import ListComponent, { Element } from '../../components/List';
@@ -29,8 +29,8 @@ const MyUnities = (): JSX.Element => {
         });
 
     // Method to delete a specific unity by id
-    const deleteUnity = (unity: Element) => {
-        dispatch(fetchDeleteUnity(unity.id));
+    const removeUnity = (unity: Element) => {
+        dispatch(deleteUnity(unity.id));
     };
 
     const onChange = (ids: string[]) => {
@@ -52,7 +52,7 @@ const MyUnities = (): JSX.Element => {
             <Box style={{ marginTop: 30, marginBottom: 20 }}>
                 <SearchBar elements={unitiesList} onchange={onChange} width="100%" />
             </Box>
-            <ListComponent onRemoveElement={deleteUnity} listElements={selectUnitiesCustom(unitiesCustomDisplay)} />
+            <ListComponent onRemoveElement={removeUnity} listElements={selectUnitiesCustom(unitiesCustomDisplay)} />
         </Container>
     );
 };

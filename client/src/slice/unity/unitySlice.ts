@@ -1,24 +1,29 @@
+// Dependencies
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+// Authentication
 import { getAuthToken } from '../../app/auth';
+// Fetch - Store
 import { RootState } from '../../app/store';
-import { Unity, getUnities, addUnity, deleteUnity, RequestAddUnity } from './unityFetch';
+import { Unity, fetchGetAllUnities, fetchAddUnity, fetchDeleteUnity, RequestAddUnity } from './unityFetch';
 
-// Get all unities from initial state and by user
-export const fetchGetUnities = createAsyncThunk('/api/unities/getAll', async () => {
+// Thunk - get all unities
+export const getAllUnities = createAsyncThunk('/api/unities/getAll', async () => {
     const idToken = await getAuthToken();
-    const unities = await getUnities(idToken);
+    const unities = await fetchGetAllUnities(idToken);
     return unities;
 });
 
-export const fetchAddUnity = createAsyncThunk('/api/unities/add', async (request: RequestAddUnity) => {
+// Thunk - add a unity
+export const addUnity = createAsyncThunk('/api/unities/add', async (request: RequestAddUnity) => {
     const idToken = await getAuthToken();
-    const unity = await addUnity(idToken, request);
+    const unity = await fetchAddUnity(idToken, request);
     return unity;
 });
 
-export const fetchDeleteUnity = createAsyncThunk('/api/unities/delete', async (unityId: number) => {
+// Thunk - delete a unity
+export const deleteUnity = createAsyncThunk('/api/unities/delete', async (unityId: number) => {
     const idToken = await getAuthToken();
-    await deleteUnity(idToken, unityId);
+    await fetchDeleteUnity(idToken, unityId);
     return unityId;
 });
 
@@ -35,19 +40,20 @@ const unitiesReducer = createSlice({
     initialState: initialState,
     reducers: {},
     extraReducers: (builder) => {
-        // fetchGetUnities
-        builder.addCase(fetchGetUnities.fulfilled, (state, action) => {
+        // getAllUnities - fulfilled
+        builder.addCase(getAllUnities.fulfilled, (state, action) => {
             state.unities = action.payload;
         });
-        builder.addCase(fetchGetUnities.rejected, (state) => {
+        // getAllUnities - rejected
+        builder.addCase(getAllUnities.rejected, (state) => {
             state.unities = [];
         });
-        // fetchAddUnity
-        builder.addCase(fetchAddUnity.fulfilled, (state, action) => {
+        // addUnity - fulfilled
+        builder.addCase(addUnity.fulfilled, (state, action) => {
             state.unities.push(action.payload);
         });
-        // fetchDeleteUnity
-        builder.addCase(fetchDeleteUnity.fulfilled, (state, action) => {
+        // deleteUnity - fulfilled
+        builder.addCase(deleteUnity.fulfilled, (state, action) => {
             state.unities = state.unities.filter((unity) => unity.id !== action.payload);
         });
     },

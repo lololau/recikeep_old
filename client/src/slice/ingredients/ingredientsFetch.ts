@@ -6,8 +6,8 @@ export interface Ingredient {
     user_id?: number;
 }
 
-// Charge all ingredients in redux when a user is connected
-export const getIngredients = async (idToken: string): Promise<Ingredient[]> => {
+// Fetch request to get all ingredients from user connected
+export const fetchGetIngredients = async (idToken: string): Promise<Ingredient[]> => {
     const myHeaders = new Headers({
         Authorization: idToken,
     });
@@ -23,8 +23,8 @@ export type RequestAddIngredient = {
     name: string;
 };
 
-// Add an ingredient into db when a user is creating a recipe
-export const addIngredient = async (idToken: string, request: RequestAddIngredient): Promise<Ingredient> => {
+// Fetch request to add an ingredient to user database when a recipe is created
+export const fetchAddIngredient = async (idToken: string, request: RequestAddIngredient): Promise<Ingredient> => {
     const myHeaders = new Headers({
         Authorization: idToken,
         'content-type': 'application/json',
@@ -42,7 +42,8 @@ export const addIngredient = async (idToken: string, request: RequestAddIngredie
     return ingredient.ingredient;
 };
 
-export const deleteIngredient = async (idToken: string, ingredientId: number): Promise<void> => {
+// Fetch request to delete an ingredient from user database
+export const fetchDeleteIngredient = async (idToken: string, ingredientId: number): Promise<void> => {
     const myHeaders = new Headers({
         Authorization: idToken,
         'content-type': 'application/json',
@@ -73,7 +74,7 @@ export type ResponseGetIngredientsByRecipes = {
     recipe_number_parts: number;
 };
 
-// Fetch to get a recipe by recipeId
+// Fetch request to get the ingredients by recipeId
 export const fetchGetIngredientsByRecipes = async (
     idToken: string,
     request: RequestGetIngredientsByRecipes[],

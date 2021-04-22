@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import '../../i18n';
 import i18n from '../../i18n';
 // Slice
-import { selectUser, fetchUpdateUser } from '../../slice/user/userSlice';
+import { selectUser, updateUser } from '../../slice/user/userSlice';
 // Material-ui
 import { Button, Container, Box, Grid, IconButton, TextField } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
@@ -55,7 +55,7 @@ const Profile = (): JSX.Element => {
             <>
                 <IconButton
                     onClick={() => {
-                        dispatch(fetchUpdateUser({ fullName: newName }));
+                        dispatch(updateUser({ fullName: newName }));
                         setCanUpdate(false);
                     }}
                 >

@@ -1,14 +1,5 @@
 import { getApiUrl } from '../host';
-
-export interface IngredientsGroceryList {
-    recipe_id: number;
-    ingredient_id: number;
-    ingredient: string;
-    unity_id: number;
-    unity: string;
-    quantity?: number;
-    checked: number;
-}
+import { IngredientsGroceryList } from '../groceryList/groceryListFetch';
 
 export interface GroceryList {
     id: number;
@@ -18,11 +9,11 @@ export interface GroceryList {
 
 export interface RequestAddGroceryList {
     name: string;
-    ingredients?: IngredientsGroceryList[];
+    ingredients: IngredientsGroceryList[];
 }
 
-// Fetch to add a grocery list to user database
-export const addGroceryList = async (idToken: string, req: RequestAddGroceryList): Promise<GroceryList> => {
+// Fetch request to add a grocery list to user database
+export const fetchAddGroceryList = async (idToken: string, req: RequestAddGroceryList): Promise<GroceryList> => {
     const myHeaders = new Headers({
         Authorization: idToken,
         'content-type': 'application/json',
@@ -40,7 +31,8 @@ export const addGroceryList = async (idToken: string, req: RequestAddGroceryList
     return jsonResponse.groceryList;
 };
 
-export const deleteGroceryList = async (idToken: string, groceryListId: number): Promise<void> => {
+// Fetch request to delete a grocery list from user database
+export const fetchDeleteGroceryList = async (idToken: string, groceryListId: number): Promise<void> => {
     const myHeaders = new Headers({
         Authorization: idToken,
         'content-type': 'application/json',
@@ -65,8 +57,8 @@ export interface ResponseCheckTrueGroceryList {
     unityId: number;
 }
 
-//Fetch to update ingredient.checked to 1 by groceryListId and ingredientId
-export const checkTrueGroceryList = async (
+//Fetch request to update ingredient.checked to 1 by groceryListId and ingredientId
+export const fetchCheckTrueGroceryList = async (
     idToken: string,
     req: RequestCheckTrueGroceryList,
 ): Promise<ResponseCheckTrueGroceryList> => {
@@ -100,8 +92,8 @@ export interface ResponseCheckFalseGroceryList {
     unityId: number;
 }
 
-//Fetch to update ingredient.checked to 1 by groceryListId and ingredientId
-export const checkFalseGroceryList = async (
+//Fetch to update ingredient.checked to 0 by groceryListId and ingredientId
+export const fetchCheckFalseGroceryList = async (
     idToken: string,
     req: RequestCheckFalseGroceryList,
 ): Promise<ResponseCheckFalseGroceryList> => {
@@ -130,8 +122,8 @@ export interface RequestCheckShareGroceryList {
     ingredient: IngredientsGroceryList;
 }
 
-//Fetch to update ingredient.checked to 1 by groceryListId and ingredientId
-export const checkTrueShareGroceryList = async (
+//Fetch to update ingredient.checked to 1 by groceryListShareUid and ingredientId
+export const fetchCheckTrueShareGroceryList = async (
     req: RequestCheckShareGroceryList,
 ): Promise<ResponseCheckTrueGroceryList> => {
     const myHeaders = new Headers({
@@ -153,7 +145,8 @@ export const checkTrueShareGroceryList = async (
     return ret;
 };
 
-export const checkFalseShareGroceryList = async (
+//Fetch to update ingredient.checked to 0 by groceryListShareUid and ingredientId
+export const fetchCheckFalseShareGroceryList = async (
     req: RequestCheckShareGroceryList,
 ): Promise<ResponseCheckFalseGroceryList> => {
     const myHeaders = new Headers({
@@ -175,8 +168,8 @@ export const checkFalseShareGroceryList = async (
     return ret;
 };
 
-//Fetch to get all recipes by user
-export const getAllGroceries = async (idToken: string): Promise<GroceryList[]> => {
+//Fetch to get all groceries lists by user connected
+export const fetchGetAllGroceries = async (idToken: string): Promise<GroceryList[]> => {
     const myHeaders = new Headers({
         Authorization: idToken,
     });

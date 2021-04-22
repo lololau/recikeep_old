@@ -6,9 +6,9 @@ import { useParams } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 // Slice
 import { getApiUrl } from '../../slice/host';
-import { fetchGetAGroceryList, selectGroceryList } from '../../slice/groceryList/groceryListSlice';
-import { IngredientsGroceryList } from '../../slice/groceriesLists/groceriesListsFetch';
-import { fetchCheckTrueGroceryList, fetchCheckFalseGroceryList } from '../../slice/groceriesLists/groceriesListsSlice';
+import { getGroceryList, selectGroceryList } from '../../slice/groceryList/groceryListSlice';
+import { IngredientsGroceryList } from '../../slice/groceryList/groceryListFetch';
+import { checkTrueGroceryList, checkFalseGroceryList } from '../../slice/groceriesLists/groceriesListsSlice';
 // Material-ui
 import {
     Container,
@@ -39,10 +39,10 @@ const CheckIngredientsList = (props: IngredientListProps) => {
 
     const handleCheck = (ingredient: IngredientsGroceryList) => () => {
         if (!ingredient.checked) {
-            dispatch(fetchCheckTrueGroceryList({ groceryListId: props.groceryId, ingredient: ingredient }));
+            dispatch(checkTrueGroceryList({ groceryListId: props.groceryId, ingredient: ingredient }));
             return;
         }
-        dispatch(fetchCheckFalseGroceryList({ groceryListId: props.groceryId, ingredient: ingredient }));
+        dispatch(checkFalseGroceryList({ groceryListId: props.groceryId, ingredient: ingredient }));
     };
 
     return (
@@ -132,7 +132,7 @@ const GroceryList = (): JSX.Element => {
 
     useEffect(() => {
         const timer = setInterval(() => {
-            dispatch(fetchGetAGroceryList(Number(id)));
+            dispatch(getGroceryList(Number(id)));
         }, 2000);
         return () => clearInterval(timer);
     }, []);

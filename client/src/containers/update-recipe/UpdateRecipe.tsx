@@ -5,9 +5,9 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 // Slice - Store
 import { useAppDispatch } from '../../app/store';
-import { ingredients, fetchAddIngredient } from '../../slice/ingredients/ingredientsSlice';
-import { unities, fetchAddUnity } from '../../slice/unity/unitySlice';
-import { fetchUpdateRecipe, fetchGetARecipe, selectRecipe } from '../../slice/recipe/recipeSlice';
+import { ingredients, addIngredient } from '../../slice/ingredients/ingredientsSlice';
+import { unities, addUnity } from '../../slice/unity/unitySlice';
+import { updateARecipe, getRecipe, selectRecipe } from '../../slice/recipe/recipeSlice';
 import { RecipeInformation, IngredientsRecipe } from '../../slice/recipe/recipeFetch';
 import { updateNotification } from '../../slice/notification/notificationSlice';
 // Component
@@ -148,7 +148,7 @@ const UpdateRecipe = (): JSX.Element => {
     }, [recipe]);
 
     useEffect(() => {
-        dispatch(fetchGetARecipe(Number(id)));
+        dispatch(getRecipe(Number(id)));
     }, []);
 
     return (
@@ -237,7 +237,7 @@ const UpdateRecipe = (): JSX.Element => {
                                         });
                                     }}
                                     onAdd={async (option) => {
-                                        const ingredient = await dispatch(fetchAddIngredient(option));
+                                        const ingredient = await dispatch(addIngredient(option));
                                         const result = unwrapResult(ingredient);
                                         setIngredientRecipe({
                                             ...ingredientRecipe,
@@ -277,11 +277,11 @@ const UpdateRecipe = (): JSX.Element => {
                                     onSelect={(option) => {
                                         setIngredientRecipe({
                                             ...ingredientRecipe,
-                                            unity_id: option.id,
+                                            unity_id: option.id ? option.id : 0,
                                             unity: option.name,
                                         });
                                     }}
-                                    onAdd={(option) => dispatch(fetchAddUnity(option))}
+                                    onAdd={(option) => dispatch(addUnity(option))}
                                     options={allUnities}
                                 />
                             </Grid>
@@ -351,7 +351,7 @@ const UpdateRecipe = (): JSX.Element => {
                                     return;
                                 }
                                 dispatch(
-                                    fetchUpdateRecipe({
+                                    updateARecipe({
                                         recipe: updateRecipe,
                                     }),
                                 )

@@ -12,10 +12,10 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Autosuggestion from '../../components/AutoSuggestion';
 import { useSelector } from 'react-redux';
-import { ingredients, fetchAddIngredient } from '../../slice/ingredients/ingredientsSlice';
+import { ingredients, addIngredient } from '../../slice/ingredients/ingredientsSlice';
 import { fetchGetIngredientsByRecipes } from '../../slice/ingredients/ingredientsFetch';
-import { unities, fetchAddUnity } from '../../slice/unity/unitySlice';
-import { IngredientsGroceryList } from '../../slice/groceriesLists/groceriesListsFetch';
+import { unities, addUnity } from '../../slice/unity/unitySlice';
+import { IngredientsGroceryList } from '../../slice/groceryList/groceryListFetch';
 import { useAppDispatch } from '../../app/store';
 import { numberPartsRecipe } from './StepTwo';
 
@@ -136,7 +136,7 @@ const AddMoreIngredients = (props: AddMoreIngredientsProps): JSX.Element => {
                             });
                         }}
                         onAdd={async (option) => {
-                            const ingredient = await dispatch(fetchAddIngredient(option));
+                            const ingredient = await dispatch(addIngredient(option));
                             const result = unwrapResult(ingredient);
                             setIngredientRecipe({
                                 ...ingredientRecipe,
@@ -170,7 +170,7 @@ const AddMoreIngredients = (props: AddMoreIngredientsProps): JSX.Element => {
                             });
                         }}
                         onAdd={async (option) => {
-                            const unity = await dispatch(fetchAddUnity(option));
+                            const unity = await dispatch(addUnity(option));
                             const result = unwrapResult(unity);
                             setIngredientRecipe({
                                 ...ingredientRecipe,

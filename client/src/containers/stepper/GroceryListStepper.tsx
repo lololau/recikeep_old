@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 import { selectRecipes } from '../../slice/recipes/recipesSlice';
 import { Recipe } from '../../slice/recipes/recipesFetch';
 import { IngredientsGroceryList } from '../../slice/groceriesLists/groceriesListsFetch';
-import { fetchAddGroceryList } from '../../slice/groceriesLists/groceriesListsSlice';
+import { addGroceryList } from '../../slice/groceriesLists/groceriesListsSlice';
 import { useAppDispatch } from '../../app/store';
 // Component
 import './GroceryListStepper.css';
@@ -107,7 +107,7 @@ const GroceryListStepper = (): JSX.Element => {
                                 const dateTime = date + '  ' + time;
 
                                 const action = await dispatch(
-                                    fetchAddGroceryList({
+                                    addGroceryList({
                                         ingredients: ingredientsList,
                                         name: dateTime,
                                     }),

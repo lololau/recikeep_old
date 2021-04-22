@@ -4,10 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import firebase from 'firebase/app';
 // Slice
-import { fetchCreateUser, updateFirebaseUser, loading } from '../../slice/user/userSlice';
-import { fetchGetIngredients } from '../../slice/ingredients/ingredientsSlice';
-import { fetchGetUnities } from '../../slice/unity/unitySlice';
-import { fetchGetAllRecipes } from '../../slice/recipes/recipesSlice';
+import { createUser, updateFirebaseUser, loading } from '../../slice/user/userSlice';
+import { getAllIngredients } from '../../slice/ingredients/ingredientsSlice';
+import { getAllUnities } from '../../slice/unity/unitySlice';
 // Material-ui
 import { Button, TextField, Box, Paper, Grid, Container, CircularProgress } from '@material-ui/core';
 
@@ -72,10 +71,9 @@ const SignUp = (): JSX.Element => {
                                     <Button
                                         style={{ fontSize: '12px' }}
                                         onClick={async () => {
-                                            await dispatch(fetchCreateUser({ fullName: fullN }));
-                                            await dispatch(fetchGetIngredients());
-                                            await dispatch(fetchGetUnities());
-                                            await dispatch(fetchGetAllRecipes());
+                                            await dispatch(createUser({ fullName: fullN }));
+                                            await dispatch(getAllIngredients());
+                                            await dispatch(getAllUnities());
                                         }}
                                     >
                                         {t('firebase.create-user')}

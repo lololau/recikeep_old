@@ -1,38 +1,37 @@
-import './App.css';
+// Dependencies
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { matchPath } from 'react-router';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import firebase from 'firebase/app';
+import { useTranslation } from 'react-i18next';
+// Slice
+import { getAllRecipes } from './slice/recipes/recipesSlice';
+import { getAllIngredients } from './slice/ingredients/ingredientsSlice';
+import { getAllUnities } from './slice/unity/unitySlice';
+import { isLogged, isCreated, loading, getUser, updateFirebaseUser } from './slice/user/userSlice';
+import { getAllGroceries } from './slice/groceriesLists/groceriesListsSlice';
+import { selectNotification } from './slice/notification/notificationSlice';
+// Containers - Components
 import Profile from './containers/profil/Profil';
 import HomeRecipes from './containers/recipes/Recipes';
 import MyRecipe from './containers/recipe/Recipe';
 import NewRecipe from './containers/new-recipe/NewRecipe';
 import UpdateRecipe from './containers/update-recipe/UpdateRecipe';
-import React, { useEffect } from 'react';
-import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
-import { ThemeProvider } from '@material-ui/core/styles';
-import { createMuiTheme } from '@material-ui/core/styles';
 import ToolsBar from './containers/toolsbar/Toolsbar';
 import GroceryList from './containers/grocery-list/GroceryList';
 import Groceries from './containers/groceries-list/GroceriesList';
+import GroceryListShare from './containers/grocery-list/GroceryListShare';
 import MyIngredients from './containers/my-ingredients/MyIngredients';
-import Paper from '@material-ui/core/Paper';
 import GroceryListStepper from './containers/stepper/GroceryListStepper';
 import HomeAccess from './containers/firebase/Firebase';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchGetAllRecipes } from './slice/recipes/recipesSlice';
-import { fetchGetIngredients } from './slice/ingredients/ingredientsSlice';
-import { fetchGetUnities } from './slice/unity/unitySlice';
-import { isLogged, isCreated, loading, fetchGetUser, updateFirebaseUser } from './slice/user/userSlice';
-import { fetchGetAllGroceries } from './slice/groceriesLists/groceriesListsSlice';
-import { selectNotification } from './slice/notification/notificationSlice';
-import firebase from 'firebase/app';
 import SignUp from './containers/create-user/CreateUser';
 import MyUnities from './containers/my-unities/MyUnities';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import { useTranslation } from 'react-i18next';
 import Notification from './components/Notification';
-import { matchPath } from 'react-router';
-import GroceryListShare from './containers/grocery-list/GroceryListShare';
-import CssBaseline from '@material-ui/core/CssBaseline';
+// Material-ui - Style
+import './App.css';
+import { Button, Box, Paper, LinearProgress, CssBaseline } from '@material-ui/core';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
     palette: {
@@ -45,6 +44,13 @@ const theme = createMuiTheme({
     },
 });
 
+// App component
+// Global component of the application that groups all the containers with react-router
+//
+// It allows to :
+// - Charge all user's database when connecting
+// - Display the right component depending on the state of several variables
+
 const App = (): JSX.Element => {
     const dispatch = useDispatch();
 
@@ -54,26 +60,28 @@ const App = (): JSX.Element => {
     const logged = useSelector(isLogged);
     const created = useSelector(isCreated);
     const notification = useSelector(selectNotification);
-    console.log(notification);
 
+    // Method that dispatchs several actions to load the user's database when connecting or reloading the page
     const onAuthStateChanged = (user: firebase.User | null) => {
-        console.log('On auth change: ', user);
         if (user) {
             const newUser = { firebaseId: user.uid, email: user.email };
-            console.log(user);
+
             dispatch(updateFirebaseUser(newUser));
-            dispatch(fetchGetUser());
-            dispatch(fetchGetIngredients());
-            dispatch(fetchGetUnities());
-            dispatch(fetchGetAllRecipes());
-            dispatch(fetchGetAllGroceries());
+            dispatch(getUser());
+            dispatch(getAllIngredients());
+            dispatch(getAllUnities());
+            dispatch(getAllRecipes());
+            dispatch(getAllGroceries());
         }
     };
 
+    //
     useEffect(() => {
         const subscriber = firebase.auth().onIdTokenChanged(onAuthStateChanged);
         return subscriber; // unsubscribe on unmount
     }, []);
+
+    // What displays when a user is created and logged
     const logIn = () => {
         return (
             <div>
@@ -124,6 +132,7 @@ const App = (): JSX.Element => {
         );
     };
 
+    // Component that displays a loading bar fixed at the top of the screen when a thunk action is 'pending'
     const pending = () => {
         return (
             <div>
@@ -132,6 +141,7 @@ const App = (): JSX.Element => {
         );
     };
 
+    // Component displayed when no one is connected
     const logOut = () => {
         return (
             <>
@@ -140,6 +150,7 @@ const App = (): JSX.Element => {
         );
     };
 
+    // Component displayed when a user has a firebase id but not created into database
     const createUser = () => {
         return (
             <>
@@ -148,6 +159,7 @@ const App = (): JSX.Element => {
         );
     };
 
+    // Component that displays of a shared grocery list
     const shareGroceryList = (shareUid: string) => {
         {
             return (
@@ -158,19 +170,18 @@ const App = (): JSX.Element => {
         }
     };
 
-    console.log('window pathname: ', window.location.pathname);
-
     type MatchParam = {
         uid: string;
     };
+
     // url share : '/groceryList/share/:uid'
     const match = matchPath<MatchParam>(window.location.pathname, {
         path: '/groceryList/share/:uid',
         exact: true,
         strict: false,
     });
-    console.log('match: ', match?.params);
 
+    // composant : check the conditions to display the right component
     let composant;
     if (match) {
         composant = shareGroceryList(match.params.uid);

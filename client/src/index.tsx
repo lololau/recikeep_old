@@ -1,14 +1,18 @@
+// Dependencies
 import * as React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import './index.css';
-import reportWebVitals from './reportWebVitals';
-import './i18n';
-import './app/config';
-
-// REDUX
 import { Provider } from 'react-redux';
+import ReactDOM from 'react-dom';
+import reportWebVitals from './reportWebVitals';
+// Store
 import store from './app/store';
+// Component
+import App from './App';
+// Authentication
+import './app/config';
+// Translation
+import './i18n';
+// Style
+import './index.css';
 
 ReactDOM.render(
     <Provider store={store}>

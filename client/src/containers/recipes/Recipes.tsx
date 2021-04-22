@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 // Slice
-import { fetchDeleteRecipe, selectRecipes } from '../../slice/recipes/recipesSlice';
-import { fetchGetARecipe } from '../../slice/recipe/recipeSlice';
+import { deleteRecipe, selectRecipes } from '../../slice/recipes/recipesSlice';
+import { getRecipe } from '../../slice/recipe/recipeSlice';
 import { Recipe } from '../../slice/recipes/recipesFetch';
 // Component
 import SearchBar from '../../components/SearchBar';
@@ -79,7 +79,7 @@ export const RecipesList = (props: RecipesListProps): JSX.Element => {
                     <Grid item xs={6}>
                         <Button
                             onClick={() => {
-                                dispatch(fetchDeleteRecipe(toDeleteId));
+                                dispatch(deleteRecipe(toDeleteId));
                                 handleClose();
                             }}
                         >
@@ -102,7 +102,7 @@ export const RecipesList = (props: RecipesListProps): JSX.Element => {
                         <ListItem divider={true} key={'RecipesList' + index}>
                             <Link to={'/recipe/' + recipe.id} style={{ textDecoration: 'none', color: 'black' }}>
                                 <ListItemText
-                                    onClick={() => dispatch(fetchGetARecipe(recipe.id))}
+                                    onClick={() => dispatch(getRecipe(recipe.id))}
                                     primary={recipe.name}
                                     id={index.toString()}
                                 />

@@ -10,8 +10,8 @@ export interface Unity {
     user_id: number;
 }
 
-// Charge all unities in redux when a user is connected
-export const getUnities = async (idToken: string): Promise<Unity[]> => {
+// Fetch request to get all unities from user connected
+export const fetchGetAllUnities = async (idToken: string): Promise<Unity[]> => {
     const myHeaders = new Headers({
         Authorization: idToken,
     });
@@ -27,7 +27,8 @@ export type RequestAddUnity = {
     name: string;
 };
 
-export const addUnity = async (idToken: string, request: RequestAddUnity): Promise<Unity> => {
+// Fetch request to add a unity to user database
+export const fetchAddUnity = async (idToken: string, request: RequestAddUnity): Promise<Unity> => {
     const myHeaders = new Headers({
         Authorization: idToken,
         'content-type': 'application/json',
@@ -49,7 +50,8 @@ export type RequestDeleteUnity = {
     id: number;
 };
 
-export const deleteUnity = async (idToken: string, unityId: number): Promise<void> => {
+// Fetch request to delete a unity from user database
+export const fetchDeleteUnity = async (idToken: string, unityId: number): Promise<void> => {
     const myHeaders = new Headers({
         Authorization: idToken,
         'content-type': 'application/json',

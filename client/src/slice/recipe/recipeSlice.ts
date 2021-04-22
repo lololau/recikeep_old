@@ -1,17 +1,22 @@
+// Dependencies
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { RootState } from '../../app/store';
+// Authentication
 import { getAuthToken } from '../../app/auth';
-import { getOneRecipe, RecipeInformation, RequestUpdateRecipe, updateRecipe } from './recipeFetch';
+// Fetch - Store
+import { RootState } from '../../app/store';
+import { fetchGetOneRecipe, RecipeInformation, RequestUpdateRecipe, fetchUpdateRecipe } from './recipeFetch';
 
-export const fetchGetARecipe = createAsyncThunk(`/api/recipes/:id`, async (recipeId: number) => {
+// Thunk - get a recipe
+export const getRecipe = createAsyncThunk(`/api/recipes/:id`, async (recipeId: number) => {
     const idToken = await getAuthToken();
-    const recipe = await getOneRecipe(idToken, recipeId);
+    const recipe = await fetchGetOneRecipe(idToken, recipeId);
     return recipe;
 });
 
-export const fetchUpdateRecipe = createAsyncThunk(`/api/recipes/update/:id`, async (req: RequestUpdateRecipe) => {
+// Thunk - update a recipe
+export const updateARecipe = createAsyncThunk(`/api/recipes/update/:id`, async (req: RequestUpdateRecipe) => {
     const idToken = await getAuthToken();
-    const recipe = await updateRecipe(idToken, req);
+    const recipe = await fetchUpdateRecipe(idToken, req);
     return recipe;
 });
 
@@ -32,12 +37,12 @@ const recipeReducer = createSlice({
     initialState: initialState,
     reducers: {},
     extraReducers: (builder) => {
-        // fetchGetRecipes
-        builder.addCase(fetchGetARecipe.fulfilled, (state, action) => {
+        // getRecipe - fulfilled
+        builder.addCase(getRecipe.fulfilled, (state, action) => {
             state.recipe = action.payload;
         });
-        // fetchUpdateRecipe
-        builder.addCase(fetchUpdateRecipe.fulfilled, (state, action) => {
+        // updateARecipe - fulfilled
+        builder.addCase(updateARecipe.fulfilled, (state, action) => {
             state.recipe = action.payload;
         });
     },

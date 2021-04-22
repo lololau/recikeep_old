@@ -1,24 +1,30 @@
+// Dependencies
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { RootState } from '../../app/store';
+// Authentication
 import { getAuthToken } from '../../app/auth';
-import { Recipe, RequestAddRecipe, addRecipe, deleteRecipe, getAllRecipes } from './recipesFetch';
+// Fetch - Store
+import { RootState } from '../../app/store';
+import { Recipe, RequestAddRecipe, fetchAddRecipe, fetchDeleteRecipe, fetchGetAllRecipes } from './recipesFetch';
 
-export const fetchAddRecipe = createAsyncThunk('/api/recipes/add', async (request: RequestAddRecipe) => {
+// Thunk - add a recipe
+export const addRecipe = createAsyncThunk('/api/recipes/add', async (request: RequestAddRecipe) => {
     const idToken = await getAuthToken();
-    const recipe = await addRecipe(idToken, request);
+    const recipe = await fetchAddRecipe(idToken, request);
     console.log('recipe: ', recipe);
     return recipe;
 });
 
-export const fetchGetAllRecipes = createAsyncThunk('/api/recipes/getAll', async () => {
+// Thunk - get all recipes
+export const getAllRecipes = createAsyncThunk('/api/recipes/getAll', async () => {
     const idToken = await getAuthToken();
-    const recipes = await getAllRecipes(idToken);
+    const recipes = await fetchGetAllRecipes(idToken);
     return recipes;
 });
 
-export const fetchDeleteRecipe = createAsyncThunk(`/api/recipes/delete`, async (recipeId: number) => {
+// Thunk - delete a recipe
+export const deleteRecipe = createAsyncThunk(`/api/recipes/delete`, async (recipeId: number) => {
     const idToken = await getAuthToken();
-    await deleteRecipe(idToken, recipeId);
+    await fetchDeleteRecipe(idToken, recipeId);
     return recipeId;
 });
 
@@ -35,19 +41,20 @@ const recipesReducer = createSlice({
     initialState: initialState,
     reducers: {},
     extraReducers: (builder) => {
-        // fetchGetRecipes
-        builder.addCase(fetchGetAllRecipes.fulfilled, (state, action) => {
+        // getAllRecipes - fulfilled
+        builder.addCase(getAllRecipes.fulfilled, (state, action) => {
             state.recipes = action.payload;
         });
-        builder.addCase(fetchGetAllRecipes.rejected, (state) => {
+        // getAllRecipes - rejected
+        builder.addCase(getAllRecipes.rejected, (state) => {
             state.recipes = [];
         });
-        // fetchAddRecipe
-        builder.addCase(fetchAddRecipe.fulfilled, (state, action) => {
+        // addRecipe - fulfilled
+        builder.addCase(addRecipe.fulfilled, (state, action) => {
             state.recipes.push(action.payload);
         });
-        // fetchDeleteRecipe
-        builder.addCase(fetchDeleteRecipe.fulfilled, (state, action) => {
+        // deleteRecipe - fulfilled
+        builder.addCase(deleteRecipe.fulfilled, (state, action) => {
             state.recipes = state.recipes.filter((recipe) => recipe.id !== action.payload);
         });
     },
