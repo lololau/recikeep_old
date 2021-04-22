@@ -1,14 +1,17 @@
+// Database
 import openDb from '../db';
 import placeholders from 'named-placeholders';
+
 const unamed = placeholders();
 
-// Add ingredients by recipe to the user database
 export interface IngredientsRecipe {
     ingredient_id: number;
     unity_id: number;
     quantity: number;
 }
 
+// SQL request - Add ingredients by recipe's id to user connected database
+// No return
 export const addIngredientsRecipe = async (recipeId: number, req: IngredientsRecipe[]): Promise<void> => {
     const db = await openDb();
 
@@ -28,7 +31,8 @@ export const addIngredientsRecipe = async (recipeId: number, req: IngredientsRec
     });
 };
 
-// Update ingredients by recipeId
+// SQL request - Update recipe's ingredients by recipe's id from user connected
+// No return
 export const updateIngredientsRecipe = async (recipeId: number, req: IngredientsRecipe[]): Promise<void> => {
     const db = await openDb();
 
@@ -36,7 +40,8 @@ export const updateIngredientsRecipe = async (recipeId: number, req: Ingredients
     await addIngredientsRecipe(recipeId, req);
 };
 
-// Get ingredients by recipeId and userId
+// SQL request - Get recipe's ingredients from user connected by recipe's id and user's id
+// Return : list of ingredients
 export const getIngredientsRecipe = async (userId: number, recipeId: number): Promise<IngredientsRecipe[]> => {
     const db = await openDb();
 
@@ -61,7 +66,8 @@ export const getIngredientsRecipe = async (userId: number, recipeId: number): Pr
     return ingredients;
 };
 
-// Delete ingredrients by recipeId when a recipe is deleted
+// SQL request - Delete recipe's ingredrients from user connected when a recipe is deleted by recipe's id
+// No return
 export const deleteIngredientsRecipe = async (recipeId: number): Promise<void> => {
     const db = await openDb();
 
@@ -83,7 +89,8 @@ export type ResponseGetIngredientsByRecipes = {
     recipe_number_parts: number;
 };
 
-// Get all ingredients for differents recipeId
+// SQL request - Get all ingredients from selected recipes by user's id, recipes id and recipes number of parts
+// Return : list of ingredients
 export const getIngredientsByRecipes = async (
     userId: number,
     numberPartsByRecipe: numberPartsRecipe[],

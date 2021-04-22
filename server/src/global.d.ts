@@ -1,3 +1,5 @@
+// 'named-placeholders' module declaration
+
 declare module 'named-placeholders' {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     export type placeholders = { [key: string]: any };

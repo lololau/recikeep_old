@@ -1,4 +1,6 @@
+// Dependencies
 import dotenv from 'dotenv';
+// Dotenv is a zero-dependency module that loads environment variables from a .env file into process.env
 dotenv.config();
 
 import errorHandler from 'errorhandler';
@@ -6,15 +8,14 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+// Router
 import api from './router';
+// Authentication
 import './app-config/firebase-config';
 
 // Server creation
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-/* app.use('/static', express.static(__dirname + '/../../client/build/static'));
-app.use('/', express.static(__dirname + '/../../client/build')); */
 
 // Middlewares
 app.use(cors());

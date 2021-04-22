@@ -1,5 +1,7 @@
+// Database
 import openDb from '../db';
 import placeholders from 'named-placeholders';
+
 const unamed = placeholders();
 
 type User = {
@@ -8,7 +10,8 @@ type User = {
     full_name: string;
 };
 
-// Get all property from User by firebaseId
+// SQL request - Get user by firebase's id
+// Return : user
 export const getUserByFirebaseID = async (fbid: string): Promise<User> => {
     const db = await openDb();
     const ret = await db.get<User>(
@@ -26,7 +29,8 @@ export const getUserByFirebaseID = async (fbid: string): Promise<User> => {
     return user;
 };
 
-// Create User by firebaseId, firstName and lastName.
+// SQL request - Create a user by firebase's id and username
+// Return : user
 export const createUser = async (fbid: string, fullN: string): Promise<User> => {
     const db = await openDb();
 
@@ -41,7 +45,8 @@ export const createUser = async (fbid: string, fullN: string): Promise<User> => 
     return user;
 };
 
-// Get UserId by firebaseId
+// SQL request - Get user's id by firebase's id
+// Return : user'id
 export const getUserIdByFirebaseID = async (fbid: string): Promise<number> => {
     const db = await openDb();
 
@@ -54,7 +59,8 @@ export const getUserIdByFirebaseID = async (fbid: string): Promise<number> => {
     return ret.id;
 };
 
-// Create User by firebaseId, firstName and lastName.
+// SQL request - Update a user by firebase's id and username
+// Return : user
 export const updateUser = async (fbid: string, fullN: string): Promise<User> => {
     const db = await openDb();
 

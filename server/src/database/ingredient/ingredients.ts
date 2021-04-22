@@ -1,14 +1,17 @@
+// Database
 import openDb from '../db';
 import placeholders from 'named-placeholders';
+
 const unamed = placeholders();
 
 export interface Ingredient {
-    id?: number;
+    id: number;
     name: string;
     user_id?: number;
 }
 
-//Get all base ingredients and by userId
+// SQL request - Get all ingredients from user connected by user's id
+// Return : list of ingredients
 export const getAllIngredients = async (userId: number): Promise<Ingredient[]> => {
     const db = await openDb();
 
@@ -24,7 +27,8 @@ export const getAllIngredients = async (userId: number): Promise<Ingredient[]> =
     return ingredients;
 };
 
-//Add an ingredient into user database;
+// SQL request - Add an ingredient to user connected database by user's id and ingredient's name
+// Return : ingredient
 export const addIngredient = async (userId: number, ingredientName: string): Promise<Ingredient> => {
     const db = await openDb();
 
@@ -47,7 +51,8 @@ export const addIngredient = async (userId: number, ingredientName: string): Pro
     return ingredient;
 };
 
-//Delete an ingredient from user database
+// SQL request - Delete an ingredient from user connected database by user's id and ingredient's id
+// Return : list of ingredients without the deleted one
 export const deleteIngredient = async (userId: number, ingredientId: number): Promise<Ingredient[]> => {
     const db = await openDb();
 
@@ -58,27 +63,12 @@ export const deleteIngredient = async (userId: number, ingredientId: number): Pr
         }),
     );
 
-    const unities = getAllIngredients(userId);
-    return unities;
-};
-
-// Search ingredients by searchTerm
-export const searchIngredients = async (userId: number, searchTerm: string): Promise<string[]> => {
-    const db = await openDb();
-
-    const ingredients: string[] = await db.all<string>(
-        ...unamed(
-            `SELECT name FROM Ingredient WHERE name LIKE '%${searchTerm}%' AND (user_id IS NULL OR user_id=:userId)`,
-            {
-                userId: userId,
-            },
-        ),
-    );
-
+    const ingredients = getAllIngredients(userId);
     return ingredients;
 };
 
-// Get an ingredient by IngredientId
+// SQL request - Get an ingredient by ingredient's id
+// Return : ingredient
 export const getIngredientById = async (ingredientId: number): Promise<Ingredient> => {
     const db = await openDb();
 

@@ -1,3 +1,5 @@
+// Default english ingredients
+
 export default [
     'Angelica',
     'Savoy cabbage',

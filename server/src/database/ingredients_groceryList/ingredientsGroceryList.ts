@@ -1,8 +1,9 @@
+// Database
 import openDb from '../db';
 import placeholders from 'named-placeholders';
+
 const unamed = placeholders();
 
-// Add ingredients by recipe to the user database
 export interface IngredientsGroceryList {
     recipe_id: number;
     ingredient_id: number;
@@ -19,24 +20,8 @@ export interface GroceryList {
     user_id: number;
 }
 
-/* export const addGroceryList = async (userId: number): Promise<GroceryList> => {
-    const db = await openDb();
-
-    const ret = await db.run(
-        ...unamed(`INSERT INTO GroceryList (user_id) VALUES (:user_id)`, {
-            user_id: userId,
-        }),
-    );
-
-    const groceryListId = ret.insertId;
-
-    const groceryList = db.get<GroceryList>(
-        ...unamed(`SELECT id, user_id FROM GroceryList WHERE id=:id`, { id: groceryListId }),
-    );
-
-    return groceryList;
-};
- */
+// SQL request - Add ingredients to a  grocery list by groceryList'id
+// No return
 export const addIngredientsGroceryList = async (
     groceryListId: number,
     req: IngredientsGroceryList[],
@@ -61,46 +46,6 @@ export const addIngredientsGroceryList = async (
     });
 };
 
-export const checkTrueIngredientGroceryList = async (
-    groceryListId: number,
-    ingredientId: number,
-    unityId: number,
-): Promise<void> => {
-    const db = await openDb();
-
-    await db.run(
-        ...unamed(
-            `UPDATE GroceryList_ingredient SET checked=:checked WHERE groceryList_id=:groceryListId AND ingredient_id=:ingredientId AND unity_id=:unityId`,
-            {
-                checked: 1,
-                groceryListId: groceryListId,
-                ingredientId: ingredientId,
-                unityId: unityId,
-            },
-        ),
-    );
-};
-
-export const checkFalseIngredientGroceryList = async (
-    groceryListId: number,
-    ingredientId: number,
-    unityId: number,
-): Promise<void> => {
-    const db = await openDb();
-
-    await db.run(
-        ...unamed(
-            `UPDATE GroceryList_ingredient SET checked=:checked WHERE groceryList_id=:groceryListId AND ingredient_id=:ingredientId AND unity_id=:unityId`,
-            {
-                checked: 0,
-                groceryListId: groceryListId,
-                ingredientId: ingredientId,
-                unityId: unityId,
-            },
-        ),
-    );
-};
-
 type RequestCheckIngredient = {
     groceryListId: number;
     ingredientId: number;
@@ -108,6 +53,8 @@ type RequestCheckIngredient = {
     check: boolean;
 };
 
+// SQL request - Update checked property of a groceryList's ingredient by groceryList's id, ingredient's id and unity's id
+// No return
 export const checkIngredient = async (req: RequestCheckIngredient): Promise<void> => {
     const db = await openDb();
 
@@ -124,34 +71,8 @@ export const checkIngredient = async (req: RequestCheckIngredient): Promise<void
     );
 };
 
-/* // Get one recipe by recipeId from user database
-export const getGroceryListById = async (userId: number, groceryListId: number): Promise<GroceryList> => {
-    const db = await openDb();
-
-    const groceryList = await db.get<GroceryList>(
-        ...unamed(`SELECT id FROM GroceryList WHERE user_id=:userId AND id=:id`, {
-            userId: userId,
-            id: groceryListId,
-        }),
-    );
-
-    return groceryList;
-};
-
-// Get one recipe by recipeId from user database
-export const getMostRecentGroceryList = async (userId: number): Promise<GroceryList> => {
-    const db = await openDb();
-
-    const groceryList = await db.get<GroceryList>(
-        ...unamed(`SELECT id FROM GroceryList WHERE user_id=:userId ORDER BY date_creation DESC LIMIT 1`, {
-            userId: userId,
-        }),
-    );
-
-    return groceryList;
-}; */
-
-// Update ingredients by recipeId
+// SQL request - Update ingredients of a grocery list by groceryList's id
+// No return
 export const updateIngredientsGroceryList = async (
     groceryListId: number,
     req: IngredientsGroceryList[],
@@ -166,7 +87,8 @@ export const updateIngredientsGroceryList = async (
     await addIngredientsGroceryList(groceryListId, req);
 };
 
-// Get ingredients by recipeId and userId
+// SQL request - Get ingredients from a grocery list by groceryList's id and user's id
+// Return : list of ingredients
 export const getIngredientsGroceryList = async (
     userId: number,
     groceryListId: number,
@@ -200,10 +122,12 @@ type ResponseGetShareGroceryList = {
     groceryListId: number;
 };
 
+// SQL request - Get ingredients from a shared grocery list groceryList's shareUid
+// Return : grocerylist's id
 export const getGroceryListIdByShareUid = async (shareUid: string): Promise<number> => {
     const db = await openDb();
 
-    const groceryListId = await db.get<ResponseGetShareGroceryList>(
+    const groceryList = await db.get<ResponseGetShareGroceryList>(
         ...unamed(
             `SELECT GroceryList.id as groceryListId
                 FROM GroceryList_ingredient
@@ -216,10 +140,10 @@ export const getGroceryListIdByShareUid = async (shareUid: string): Promise<numb
         ),
     );
 
-    return groceryListId.groceryListId;
+    return groceryList.groceryListId;
 };
-
-// Delete ingredrients by groceryListId when a groceryList is deleted
+// SQL request - Delete groceryList's ingredrients from user connected when a grocery list is deleted by groceryList's id
+// No return
 export const deleteIngredientsGroceryList = async (groceryListId: number): Promise<void> => {
     const db = await openDb();
 

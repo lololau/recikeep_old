@@ -1,5 +1,7 @@
+// Database
 import openDb from '../db';
 import placeholders from 'named-placeholders';
+
 const unamed = placeholders();
 
 export interface Unity {
@@ -8,7 +10,8 @@ export interface Unity {
     user_id: number;
 }
 
-//Get all unities and by userId
+// SQL request - Get all unities of connected user by user's id
+// Return : list of unities
 export const getAllUnities = async (userId: number): Promise<Unity[]> => {
     const db = await openDb();
 
@@ -21,7 +24,8 @@ export const getAllUnities = async (userId: number): Promise<Unity[]> => {
     return unities;
 };
 
-//Get all base unities and by userId
+// SQL request - Add a unity to user connected database by user's id and unity's name
+// Return : unity created
 export const addUnity = async (userId: number, unityName: string): Promise<Unity> => {
     const db = await openDb();
 
@@ -39,7 +43,8 @@ export const addUnity = async (userId: number, unityName: string): Promise<Unity
     return unity;
 };
 
-//Get all base unities and by userId
+// SQL request - Delete a unity from user connected database by user's id and unity's id
+// Return : list of unities without the deleted one
 export const deleteUnity = async (userId: number, unityId: number): Promise<Unity[]> => {
     const db = await openDb();
 
