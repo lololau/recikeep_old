@@ -1,5 +1,8 @@
+// Dependencies
 import express from 'express';
+// Authentication
 import { verifyToken, verifyUser } from '../../app-config/firebase-config';
+// Database
 import {
     addIngredientsGroceryList,
     IngredientsGroceryList,
@@ -21,11 +24,10 @@ import {
 // Router and mounting
 const groceriesLists = express.Router();
 
-//POST - /api/groceryList/add - add a groceryList to user database
+// POST - /api/groceriesLists/add - add a groceryList to user database by user's id, ingredients list and grocerylist's name
 groceriesLists.post('/add', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
     const ingredientsList: IngredientsGroceryList[] = req.body.ingredients;
-    console.log('ingredientsList: ', ingredientsList);
     const groceryListRequest: RequestAddGroceryList = {
         name: req.body.name,
     };
@@ -39,7 +41,7 @@ groceriesLists.post('/add', verifyToken, verifyUser, async (req, res) => {
     }
 });
 
-//GET - /api/groceryList/getAll - get all groceries lists by userID
+// GET - /api/groceriesLists/getAll - get all groceries lists by user's id
 groceriesLists.get('/getAll', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
     try {
@@ -51,6 +53,7 @@ groceriesLists.get('/getAll', verifyToken, verifyUser, async (req, res) => {
     }
 });
 
+// Method to get the final grocery list after making number-parts calculs
 const getFinalGroceryList = (groceryList: GroceryList, ingredients: IngredientsGroceryList[]) => {
     // group all ingredients by id
     const sortByIngredientId: { [key: string]: IngredientsGroceryList[] } = {};
@@ -60,13 +63,12 @@ const getFinalGroceryList = (groceryList: GroceryList, ingredients: IngredientsG
         }
         sortByIngredientId[elt.ingredient_id].push(elt);
     });
-    console.log('sortByIngredientId: ', sortByIngredientId);
 
     // merge ingredients by unityId to create final ingredients list
     const finalIngredientsList: IngredientsGroceryList[] = [];
     Object.keys(sortByIngredientId).forEach((ingredientIdList) => {
         const sortByUnitId: { [key: string]: IngredientsGroceryList[] } = {};
-        // group by unity Id
+        // group by unit's id
         sortByIngredientId[ingredientIdList].forEach((ing) => {
             if (!sortByUnitId[ing.unity_id]) {
                 sortByUnitId[ing.unity_id] = [];
@@ -84,9 +86,11 @@ const getFinalGroceryList = (groceryList: GroceryList, ingredients: IngredientsG
         });
     });
 
-    // merge recipeId to create final recipes list
+    // merge recipe's id to create final recipes list
     const finalRecipesList: { name: string; presentation: string }[] = [];
+
     const sortByRecipeId: { [key: string]: { name: string; presentation: string } } = {};
+
     Object.keys(sortByIngredientId).forEach((ingredientIdList) => {
         sortByIngredientId[ingredientIdList].forEach((ing) => {
             if (ing.recipe_id === null) {
@@ -96,8 +100,6 @@ const getFinalGroceryList = (groceryList: GroceryList, ingredients: IngredientsG
                 sortByRecipeId[ing.recipe_id] = { name: ing.recipe_name, presentation: ing.recipe_presentation };
             }
         });
-
-        console.log('sortByRecipeId: ', sortByRecipeId);
     });
 
     // Convert object into list
@@ -109,20 +111,21 @@ const getFinalGroceryList = (groceryList: GroceryList, ingredients: IngredientsG
     return { recipes: finalRecipesList, ingredients: finalIngredientsList };
 };
 
-//GET - /api/groceryList/:id - get a groceryList by userID and groceryListId
+// GET - /api/groceriesLists/:id - get a groceryList by user's id and groceryList's id
 groceriesLists.get('/:id', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
     const groceryListId = Number(req.params.id);
 
     try {
+        // get groceryList informations : id, name, share_uid and user_id
         const groceryList = await getGroceryListInformations(userId, groceryListId);
 
         // get ingredients list from our grocery list
         const ingredients = await getIngredientsGroceryList(userId, groceryListId);
 
+        // get finale grocery list
         const finalGroceryList = getFinalGroceryList(groceryList, ingredients);
 
-        console.log('finalRecipesList update: ', finalGroceryList);
         res.status(200).json({ groceryList: { ...groceryList, ...finalGroceryList } });
     } catch (e) {
         console.error(e);
@@ -130,10 +133,9 @@ groceriesLists.get('/:id', verifyToken, verifyUser, async (req, res) => {
     }
 });
 
-//GET - /api/groceryList/share/:share_uid - get a grocery list by share_uid
+//GET - /api/groceriesLists/share/:share_uid - get a grocery list by groceryList's share_uid
 groceriesLists.get('/share/:share_uid', async (req, res) => {
     const share_uid = req.params.share_uid;
-    console.log('shareUid:', share_uid);
 
     try {
         const groceryList = await getShareGroceryList(share_uid);
@@ -151,7 +153,7 @@ groceriesLists.get('/share/:share_uid', async (req, res) => {
     }
 });
 
-// DELETE - '/api/groceryList/delete' - delete a grocery list from user database
+// DELETE - '/api/groceriesLists/delete' - delete a grocery list by user's id and grocerylist's id
 groceriesLists.delete('/delete/:groceryListId', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
     const groceryListId = Number(req.params.groceryListId);
@@ -165,7 +167,7 @@ groceriesLists.delete('/delete/:groceryListId', verifyToken, verifyUser, async (
     }
 });
 
-// PUT - 'api/groceriesList/update' - update ingredient.checked to 0 or 1 by groceryListId and ingredientId
+// PUT - 'api/groceriesLists/update' - update ingredient.checked to 0 or 1 by groceryList's id, ingredient's id and unit's id
 groceriesLists.put('/update/:check', verifyToken, verifyUser, async (req, res) => {
     const requestCheck = {
         groceryListId: req.body.groceryListId,
@@ -184,12 +186,10 @@ groceriesLists.put('/update/:check', verifyToken, verifyUser, async (req, res) =
     }
 });
 
-// PUT - 'api/groceriesList/updateShare' - update ingredient.checked to 0 by groceryListId and ingredientId
+// PUT - 'api/groceriesLists/updateShare' - update ingredient.checked to 0 or 1 of a shared grocery list by groceryList's id, ingredient's id and unit's id
 groceriesLists.put('/updateShare/:check', async (req, res) => {
     const shareUid = req.body.groceryListShareUid;
-    console.log('shareUid: ', shareUid);
     const groceryListId = await getGroceryListIdByShareUid(shareUid);
-    console.log('groceryListId: ', groceryListId);
 
     const requestCheck = {
         groceryListId: Number(groceryListId),

@@ -1,26 +1,26 @@
+// Dependencies
 import express from 'express';
+// Authentication
 import { verifyToken, verifyUser } from '../../app-config/firebase-config';
-import {
-    getAllIngredients,
-    searchIngredients,
-    addIngredient,
-    deleteIngredient,
-} from '../../database/ingredient/ingredients';
+// Database
+import { getAllIngredients, addIngredient, deleteIngredient } from '../../database/ingredient/ingredients';
 import { getIngredientsByRecipes, numberPartsRecipe } from '../../database/ingredient_recipe/ingredientsRecipe';
 
 // Router and mounting
 const ingredients = express.Router();
 
-//GET - /api/ingredients/getByRecipes - get all ingredients for differents recipes by userId;
+//POST - /api/ingredients/getByRecipes - add an ingredients list from selected recipes with quantities updated by user's id;
 ingredients.post('/getByRecipes', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
     const requestGetIngredients = req.body;
     try {
         const ingredients = await getIngredientsByRecipes(userId, requestGetIngredients);
-        console.log('ingredients api:', ingredients);
+
+        // Method to update ingredient's quantity with the new 'number of parts' enterred
         const ingredientsList = ingredients.map((ingredient) => {
             const p = requestGetIngredients.find((elt: numberPartsRecipe) => elt.recipe_id === ingredient.recipe_id);
             const newQuantity = Math.ceil((ingredient.quantity / ingredient.recipe_number_parts) * p.number_parts);
+
             return {
                 recipe_id: ingredient.recipe_id,
                 ingredient: ingredient.ingredient,
@@ -37,7 +37,7 @@ ingredients.post('/getByRecipes', verifyToken, verifyUser, async (req, res) => {
     }
 });
 
-//GET - /api/ingredients/getAll - get all base ingredients and ingredients by userId;
+//GET - /api/ingredients/getAll - get all ingredients by user's id;
 ingredients.get('/getAll', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
     try {
@@ -49,7 +49,7 @@ ingredients.get('/getAll', verifyToken, verifyUser, async (req, res) => {
     }
 });
 
-//POST - /api/ingredients/add - add an ingredient into user database;
+//POST - /api/ingredients/add - add an ingredient into user database by user's id and ingredient's name;
 ingredients.post('/add', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
     const ingredientName = req.body.name;
@@ -62,7 +62,7 @@ ingredients.post('/add', verifyToken, verifyUser, async (req, res) => {
     }
 });
 
-// DELETE - '/api/ingredients/delete' - delete an ingredient from user database
+// DELETE - '/api/ingredients/delete' - delete an ingredient from user database by user's id and ingredient's id
 ingredients.delete('/delete/:ingredientId', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
     const ingredientId = Number(req.params.ingredientId);
@@ -72,19 +72,6 @@ ingredients.delete('/delete/:ingredientId', verifyToken, verifyUser, async (req,
     } catch (e) {
         console.error(e);
         res.status(404).send('Unable to delete the ingredient');
-    }
-});
-
-//GET - /api/ingredients/search - search ingredients with searchTerm;
-ingredients.get('/search/:searchTerm', verifyToken, verifyUser, async (req, res) => {
-    const userId = res.locals.userId;
-    const searchTerm = req.params.searchTerm;
-    try {
-        const ingredients = await searchIngredients(userId, searchTerm);
-        res.status(200).json({ ingredients: ingredients });
-    } catch (e) {
-        console.error(e);
-        return res.status(404).send('Unable to get the ingredients');
     }
 });
 

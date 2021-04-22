@@ -1,11 +1,14 @@
+// Dependencies
 import express from 'express';
+// Authentication
 import { verifyToken, verifyUser } from '../../app-config/firebase-config';
+// Database
 import { addUnity, deleteUnity, getAllUnities } from '../../database/unity/unities';
 
 // Router and mounting
 const unities = express.Router();
 
-// GET - '/api/unities/getAll' - get all unities from initial state and by user
+// GET - '/api/unities/getAll' - get all unities from user's database by user's id
 unities.get('/getAll', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
     try {
@@ -18,7 +21,7 @@ unities.get('/getAll', verifyToken, verifyUser, async (req, res) => {
     }
 });
 
-// POST - '/api/unities/add' - add an unity into user database
+// POST - '/api/unities/add' - add an unit into user database by user's id and unit's name
 unities.post('/add', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
     const unityName = req.body.name;
@@ -31,7 +34,7 @@ unities.post('/add', verifyToken, verifyUser, async (req, res) => {
     }
 });
 
-// DELETE - '/api/unities/delete' - delete an unity from user database
+// DELETE - '/api/unities/delete/:id' - delete an unity from user database by user's id and unit's id
 unities.delete('/delete/:unityId', verifyToken, verifyUser, async (req, res) => {
     const userId = res.locals.userId;
     const unityId = Number(req.params.unityId);
