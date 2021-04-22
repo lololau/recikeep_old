@@ -30,6 +30,7 @@ import {
 } from '@material-ui/core';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import CheckIcon from '@material-ui/icons/Check';
 
 type onRemove = (ingredient: IngredientRecipe, index: number) => void;
@@ -155,6 +156,7 @@ const NewRecipe = (): JSX.Element => {
     });
 
     const [error, setError] = useState<boolean>(false);
+    const [requiredField, setRequiredField] = useState<string>('');
 
     const removeIngredientList = (elt: IngredientRecipe, index: number) => {
         if (ingredientsRow[index]) {
@@ -166,9 +168,10 @@ const NewRecipe = (): JSX.Element => {
     const onSubmit = async () => {
         // Display error notification if name is missing
         if (newRecipe.name == '') {
+            setRequiredField(t('new_recipe.field-missing'));
             setError(true);
-            dispatch(updateNotification({ message: t('new_recipe.field-missing'), severity: 'error' }));
-            return false;
+            dispatch(updateNotification({ message: t('new_recipe.error'), severity: 'error' }));
+            return;
         }
         try {
             const action = await dispatch(fetchAddRecipe(newRecipe));
@@ -194,6 +197,7 @@ const NewRecipe = (): JSX.Element => {
                                 setRecipe({ ...newRecipe, name: event.currentTarget.value });
                             }}
                         />
+                        <FormHelperText id="component-error-text">{requiredField}</FormHelperText>
                     </FormControl>
                 </Box>
                 <Box style={{ marginBottom: 40 }}>
@@ -276,10 +280,16 @@ const NewRecipe = (): JSX.Element => {
                                 label={t('new_recipe.add-quantity')}
                                 variant="outlined"
                                 onChange={(event) => {
-                                    // Alert displaying if quantity type is not a number
-                                    if (Number(event.currentTarget.value) === NaN) {
-                                        alert(t('new_recipe.quantity-typeof'));
-                                        return false;
+                                    // Display error notification if type of quantity is not a number
+                                    const val = Number(event.currentTarget.value);
+                                    if (isNaN(val)) {
+                                        dispatch(
+                                            updateNotification({
+                                                message: t('new_recipe.quantity-typeof'),
+                                                severity: 'error',
+                                            }),
+                                        );
+                                        return;
                                     }
                                     setIngredientRecipe({
                                         ...ingredientRecipe,

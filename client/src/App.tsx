@@ -15,7 +15,7 @@ import GroceryList from './containers/grocery-list/GroceryList';
 import Groceries from './containers/groceries-list/GroceriesList';
 import MyIngredients from './containers/my-ingredients/MyIngredients';
 import Paper from '@material-ui/core/Paper';
-import GroceryListStepper from './containers/stepper/RecipesSelection';
+import GroceryListStepper from './containers/stepper/GroceryListStepper';
 import HomeAccess from './containers/firebase/Firebase';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchGetAllRecipes } from './slice/recipes/recipesSlice';

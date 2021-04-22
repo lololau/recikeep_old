@@ -151,7 +151,7 @@ const Groceries = (): JSX.Element => {
     return (
         <Container>
             <div className="groceries" style={{ marginBottom: 20 }}>
-                <h1 style={{ marginBottom: 20 }}>{t('groceries.title')}</h1>
+                <h1 style={{ marginBottom: 20 }}>{t('groceries.title-page')}</h1>
                 <Grid container spacing={1} style={{ alignItems: 'center' }}>
                     <Grid item xs={6} sm={6}>
                         <SearchBar elements={groceriesList} onchange={onChange} width="100%" />

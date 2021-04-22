@@ -32,7 +32,7 @@ export type RecipesListProps = {
 };
 
 // RecipesList component
-// Component which contains all recipes register on the profil account connected.
+// Component which contains all recipes registered on the profil account connected.
 //
 // It is possible to :
 // - See the recipe by clicking on the name.

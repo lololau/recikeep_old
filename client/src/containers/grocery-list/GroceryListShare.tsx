@@ -84,7 +84,8 @@ const GroceryListShare = (props: GroceryListShareProps): JSX.Element => {
 
     return (
         <Container>
-            <h1>{groceryList.name}</h1>
+            <h1>{t('groceryList.title-page')}</h1>
+            <h2>{groceryList.name}</h2>
             <CheckIngredientsList groceryListShareUid={props.uid} ingredients={groceryList.ingredients} />
             <List style={{ marginTop: '30px' }}>
                 <h4>{t('groceryList.recipes-selected')}</h4>

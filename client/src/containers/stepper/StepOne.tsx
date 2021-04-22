@@ -1,15 +1,12 @@
-import { useState } from 'react';
+// Dependencies
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Checkbox from '@material-ui/core/Checkbox';
-import ListItemText from '@material-ui/core/ListItemText';
-import React from 'react';
-import Container from '@material-ui/core/Container';
-import SearchBar from '../../components/SearchBar';
+// Slice
 import { Recipe } from '../../slice/recipes/recipesFetch';
-import { Box } from '@material-ui/core';
+// Component
+import SearchBar from '../../components/SearchBar';
+// Material-ui
+import { Box, List, ListItem, ListItemIcon, ListItemText, Checkbox, Container } from '@material-ui/core';
 
 type onChange = (recipes: Recipe[]) => void;
 
@@ -18,6 +15,8 @@ interface SelectionRecipesListProps {
     onChange: onChange;
 }
 
+// SelectionRecipesList component
+// Component that allows you to check recipes to be added to the grocery list
 const SelectionRecipesList = (props: SelectionRecipesListProps) => {
     const [checked, setChecked] = React.useState([-1]);
 
@@ -67,6 +66,7 @@ interface SelectionRecipesProps {
     onSelected?: onSelected;
 }
 
+// SelectionRecipes component : First step of <GroceryListStepper />
 const SelectionRecipes = (props: SelectionRecipesProps): JSX.Element => {
     const { t } = useTranslation();
 

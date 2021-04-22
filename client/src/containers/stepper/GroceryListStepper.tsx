@@ -1,5 +1,5 @@
 // Dependencies
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useHistory } from 'react-router-dom';
@@ -10,14 +10,20 @@ import { IngredientsGroceryList } from '../../slice/groceriesLists/groceriesList
 import { fetchAddGroceryList } from '../../slice/groceriesLists/groceriesListsSlice';
 import { useAppDispatch } from '../../app/store';
 // Component
-import SelectionRecipes from './RecipesSelection1';
-import SelectionParts, { numberPartsRecipe } from './RecipesSelection2';
-import AddMoreIngredients from './RecipesSelection3';
+import './GroceryListStepper.css';
+import SelectionRecipes from './StepOne';
+import SelectionParts, { numberPartsRecipe } from './StepTwo';
+import AddMoreIngredients from './StepThree';
 // Material-ui
 import { MobileStepper, Button, Container, Box } from '@material-ui/core';
 
 // RecipesSelectionStepper component
-// Component which display a stepper to follow the differents steps for creating a new grocery list
+//
+// Component which display a stepper to follow the differents steps for creating a new grocery list.
+// Step 1 : Recipes to select
+// Step 2 : Set the number of parts by recipe selected
+// Step 3 : Update grocery list by adding or deleting ingredient(s)
+
 const GroceryListStepper = (): JSX.Element => {
     const [activeStep, setActiveStep] = useState(0);
     const [recipesSelected, setRecipesSelected] = useState<Recipe[]>([]);
@@ -43,7 +49,6 @@ const GroceryListStepper = (): JSX.Element => {
                     <SelectionRecipes
                         recipes={recipes}
                         onSelected={(recipesSelect) => {
-                            console.log('select: ', recipesSelect);
                             setRecipesSelected(recipesSelect);
                         }}
                     />
@@ -53,7 +58,6 @@ const GroceryListStepper = (): JSX.Element => {
                     <SelectionParts
                         recipes={recipesSelected}
                         onValidateNumberParts={(numberPartsByRecipe) => {
-                            console.log('numberPartsByRecipe: ', numberPartsByRecipe);
                             setnumberPartsByRecipe(numberPartsByRecipe);
                         }}
                     />
@@ -65,12 +69,9 @@ const GroceryListStepper = (): JSX.Element => {
                         onValidation={(ingredientsList) => {
                             recipesSelected.map((recipe) => {
                                 if (recipe.presentation) {
-                                    console.log('selec recipes :', recipe.name + ' ' + recipe.presentation);
                                     return;
                                 }
-                                console.log('selec recipes :', recipe.name);
                             });
-                            console.log('ingredientsList: ', ingredientsList);
                             setIngredientsList(ingredientsList);
                         }}
                     />
@@ -80,29 +81,14 @@ const GroceryListStepper = (): JSX.Element => {
         }
     };
 
-    const [marginLeft, setMarginLeft] = useState<number>(0);
-
-    const margin = () => {
-        let newMargin;
-        if (window.screen.width < 600) {
-            newMargin = 0;
-        } else {
-            newMargin = 230;
-        }
-        setMarginLeft(newMargin);
-    };
-
-    useEffect(() => {
-        margin();
-    }, [window.screen.width]);
-
     return (
         <Container>
             <Box>{getStepperComponent(activeStep)}</Box>
             <MobileStepper
+                className="GroceryListStepper"
                 variant="progress"
                 steps={3}
-                style={{ position: 'fixed', bottom: '57px', marginLeft: marginLeft }}
+                style={{ position: 'fixed', bottom: '57px' }}
                 activeStep={activeStep}
                 nextButton={
                     <Button
@@ -119,16 +105,6 @@ const GroceryListStepper = (): JSX.Element => {
                                 const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
                                 const time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
                                 const dateTime = date + '  ' + time;
-
-                                const recipesComment = recipesSelected.map((recipe) => {
-                                    if (recipe.presentation) {
-                                        return recipe.name + ' - ' + recipe.presentation;
-                                    } else {
-                                        return recipe.name;
-                                    }
-                                });
-
-                                console.log('recipesComment', recipesComment);
 
                                 const action = await dispatch(
                                     fetchAddGroceryList({

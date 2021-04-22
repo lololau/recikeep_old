@@ -5,40 +5,21 @@
   "toolsbar": {
     "recipes": "Recipes",
     "groceriesList": "Groceries Lists",
-    "groups": "Groups",
     "profile": "Profile"
+  },
+  "searchBar": {
+    "label": "Search..."
   },
   "recipes": {
     "title": "Recipes",
-    "search": "Search...",
-    "tagList": "Tags",
-    "types": "Types",
     "selectRecipes": "» New Grocery list",
-    "add-recipe": "Recipe",
     "delete-impossible": "Cannot be deleted. This recipe is present in a grocery list. Delete the shopping list in order to delete the item."
   },
   "recipe": {
-    "title": "Carbonara Pasta",
-    "searchBar": "Search...",
-    "tag": "Tag(s)",
     "preparation-time": "Preparation",
     "cooking-time": "Baking",
-    "ingredients-list": "Ingredients List",
-    "cooking-instructions": "Cooking Instructions",
     "for": "For",
     "peoples": "peoples"
-  },
-  "tags": {
-    "vegetables": "Vegetables",
-    "meat": "Meat",
-    "fish": "Fish",
-    "fruits": "Fruits",
-    "appetizer": "Appetizer",
-    "starter": "Starter",
-    "lunch": "Lunch Meal",
-    "dinner": "Dinner",
-    "dessert": "Dessert",
-    "sides": "Sides"
   },
   "parts": {
     "add": "Part(s)"
@@ -50,14 +31,8 @@
     "title-page": "New Recipe",
     "title": "Title",
     "add-title": "Add a title",
-    "image": "Image",
-    "add-image": "Add an image",
     "presentation": "Presentation",
     "add-presentation": "Add a recipe presentation",
-    "description": "Description",
-    "add-description": "Add a recipe description",
-    "tag": "Tag(s)",
-    "type": "Type",
     "parts": "Number of part(s)",
     "parts_add": "Part(s)",
     "preparation-time": "Preparation time",
@@ -68,24 +43,22 @@
     "add-ingredient": "Add ingredient",
     "add-unity": "Add unity",
     "add-quantity": "Add quantity",
-    "unitsBox": "Unit",
-    "unitsBox-quantity": "Quantity",
-    "add": "Add",
     "name-missing": "Name must be filled out",
     "quantity-typeof": "Type of quantity must be a number",
     "field-missing": "Required field",
-    "error": "Some fields are missing !"
+    "error": "Some fields required are missing.",
+    "same-ingredient": "Impossible to add the same ingredient several times in the list.",
+    "bad-ingredients": "To add an ingredient you must fill in the boxes 'Ingredient', 'Quantity' and 'Unit'.."
   },
   "update_recipe": {
     "title-page": "Update Recipe"
   },
   "groceries": {
-    "title": "My Groceries Lists",
+    "title-page": "My Groceries Lists",
     "name-beginning": "Done on "
   },
   "groceryList": {
     "title-page": "Grocery List",
-    "add-ingredient": "Ingredient",
     "recipes-selected": "Recipe(s) selected : "
   },
   "myIngredients": {

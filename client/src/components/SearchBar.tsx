@@ -60,7 +60,7 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
         <Box>
             <TextField
                 value={searchTerm}
-                label={t('groups.searchBar')}
+                label={t('searchBar.label')}
                 variant="outlined"
                 style={{ width: props.width }}
                 onChange={handleChange}

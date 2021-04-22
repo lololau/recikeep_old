@@ -147,7 +147,8 @@ const GroceryList = (): JSX.Element => {
                 }}
             >
                 <Grid item>
-                    <h1>{groceryList.name}</h1>
+                    <h1>{t('groceryList.title-page')}</h1>
+                    <h2>{groceryList.name}</h2>
                 </Grid>
                 <Grid item>
                     <IconButton
