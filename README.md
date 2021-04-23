@@ -101,9 +101,7 @@ $ npm install
 3. You can update the grocery list by adding or deleting an ingredient
 
 <img src="asset/GroceryList-recipesSelected.png" alt="drawing" width="200px"/>
-
 <img src="asset/GroceryList-numberParts.png" alt="drawing" width="200px"/>
-
 <img src="asset/GroceryList-change.png" alt="drawing" width="200px"/>
 
 ---
@@ -116,9 +114,7 @@ $ npm install
 2. Give that link to others
 
 <img src="asset/GroceryList-template.png" alt="drawing" width="200px"/>
-
 <img src="asset/GroceryList-link.png" alt="drawing" width="200px"/>
-
 <img src="asset/GroceryList-shared.png" alt="drawing" width="200px"/>
 
 ## Project structure
