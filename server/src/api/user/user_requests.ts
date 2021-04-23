@@ -1,7 +1,7 @@
 // Dependencies
 import express from 'express';
 // Authentication
-import { verifyToken } from '../../app-config/firebase-config';
+import { verifyToken } from '../../middlewares';
 // Database
 import { getUserByFirebaseID, createUser, updateUser } from '../../database/user/user';
 
