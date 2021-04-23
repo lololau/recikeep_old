@@ -54,8 +54,9 @@ $ git clone https://github.com/lololau/recikeep.git
 
 3. Fulfilled all .env files :
 
-   - client / .env : with firebase configuration
+   - `client/.env` : with firebase configuration
 
+```
    REACT_APP_API_KEY=
    REACT_APP_AUTH_DOMAIN=
    REACT_APP_PROJECT_ID=
@@ -65,14 +66,17 @@ $ git clone https://github.com/lololau/recikeep.git
    REACT_APP_MEASUREMENT_ID=
    REACT_APP_DATABASE_URL=
    REACT_APP_API_ENDPOINT=
+```
 
-   - server / .env : with MySQL configuration
+   - `server/.env` : with MySQL configuration
 
+```
    GOOGLE_APPLICATION_CREDENTIALS=
    MYSQL_USER=
    MYSQL_PASSWORD=
    MYSQL_HOST=
    MYSQL_DATABASE=
+```
 
 4. Install NPM packages
 
