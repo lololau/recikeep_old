@@ -84,13 +84,13 @@ $ npm install
 
 **Home page** - Recipes list registered by user account
 
-<img src="https://i.imgur.com/IQUYK7r.png" alt="drawing" style="width:200px;"/>
+<img src="asset/HomePage.png" alt="drawing" width="200px"/>
 
 ---
 
 **Recipe template**
 
-<img src="https://i.imgur.com/cRZ9RHp.png" alt="drawing" style="width:200px;"/>
+<img src="asset/Recipe-template.png" alt="drawing" width="200px"/>
 
 ---
 
@@ -100,11 +100,11 @@ $ npm install
 2. You have to enter a number of parts by recipe
 3. You can update the grocery list by adding or deleting an ingredient
 
-<img src="https://i.imgur.com/VGtZs6a.png" alt="drawing" style="width:200px;"/>
+<img src="asset/GroceryList-recipesSelected.png" alt="drawing" width="200px"/>
 
-<img src="https://i.imgur.com/dbHClWr.png" alt="drawing" style="width:200px;"/>
+<img src="asset/GroceryList-numberParts.png" alt="drawing" width="200px"/>
 
-<img src="https://i.imgur.com/lFX56LS.png" alt="drawing" style="width:200px;"/>
+<img src="asset/GroceryList-change.png" alt="drawing" width="200px"/>
 
 ---
 
@@ -115,11 +115,11 @@ $ npm install
 1. You have to clink on the share icon and then click on the 'copy link' button on the modal appeared
 2. Give that link to others
 
-<img src="https://i.imgur.com/uzEsC82.png" alt="drawing" style="width:200px;"/>
+<img src="asset/GroceryList-template.png" alt="drawing" width="200px"/>
 
-<img src="https://i.imgur.com/RIrr9R7.png" alt="drawing" style="width:200px;"/>
+<img src="asset/GroceryList-link.png" alt="drawing" width="200px"/>
 
-<img src="https://i.imgur.com/Hnjh062.png" alt="drawing" style="width:200px;"/>
+<img src="asset/GroceryList-shared.png" alt="drawing" width="200px"/>
 
 ## Project structure
 
