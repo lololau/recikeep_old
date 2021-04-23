@@ -100,10 +100,11 @@ $ npm install
 2. You have to enter a number of parts by recipe
 3. You can update the grocery list by adding or deleting an ingredient
 
+<div>
 <img src="asset/GroceryList-recipesSelected.png" alt="drawing" width="200px"/>
 <img src="asset/GroceryList-numberParts.png" alt="drawing" width="200px"/>
 <img src="asset/GroceryList-change.png" alt="drawing" width="200px"/>
-
+</div>
 ---
 
 **Grocery list**
@@ -113,9 +114,11 @@ $ npm install
 1. You have to clink on the share icon and then click on the 'copy link' button on the modal appeared
 2. Give that link to others
 
+<div>
 <img src="asset/GroceryList-template.png" alt="drawing" width="200px"/>
 <img src="asset/GroceryList-link.png" alt="drawing" width="200px"/>
 <img src="asset/GroceryList-shared.png" alt="drawing" width="200px"/>
+</div>
 
 ## Project structure
 
