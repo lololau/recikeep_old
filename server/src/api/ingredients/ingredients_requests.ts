@@ -1,7 +1,7 @@
 // Dependencies
 import express from 'express';
 // Authentication
-import { verifyToken, verifyUser } from '../../app-config/firebase-config';
+import { verifyToken, verifyUser } from '../../middlewares';
 // Database
 import { getAllIngredients, addIngredient, deleteIngredient } from '../../database/ingredient/ingredients';
 import { getIngredientsByRecipes, numberPartsRecipe } from '../../database/ingredient_recipe/ingredientsRecipe';

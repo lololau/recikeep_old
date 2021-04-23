@@ -11,7 +11,7 @@ import bodyParser from 'body-parser';
 // Router
 import api from './router';
 // Authentication
-import './app-config/firebase-config';
+import './middlewares';
 
 // Server creation
 const app = express();
