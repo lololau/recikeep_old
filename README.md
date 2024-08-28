@@ -2,8 +2,6 @@
 
 Recikeep helps you to manage recipes and generate grocery lists.
 
-[recikeep.fr](https://recikeep.fr)
-
 ## About the project
 
 The idea and the desire to make this application came to me during the health crisis.
